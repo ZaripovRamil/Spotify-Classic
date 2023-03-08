@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using SpotifyAPI.Models.AppDbContext;
+using SpotifyAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 

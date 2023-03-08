@@ -1,4 +1,4 @@
-﻿namespace SpotifyAPI.Models;
+﻿namespace Models;
 
 public class User
 {
