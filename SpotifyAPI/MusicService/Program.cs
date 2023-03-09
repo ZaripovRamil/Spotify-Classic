@@ -9,7 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // can't decide if it is singleton or scoped
-builder.Services.AddSingleton<IFileProvider, FileProvider>();
+builder.Services.AddScoped<IFileProvider, FileProvider>();
 
 var app = builder.Build();
 
