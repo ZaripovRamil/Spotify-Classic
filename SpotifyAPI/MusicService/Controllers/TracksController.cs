@@ -17,7 +17,7 @@ public class TracksController : Controller
     [HttpGet("{id}")]
     public IActionResult GetById(string id)
     {
-        var track = _fileProvider.GetFileAsStream($"{id}.mp3");
+        var track = _fileProvider.GetFileAsStream($"Assets/{id}.mp3");
         if (track is null) return NotFound();
         return File(track, "application/octet-stream", $"{id}.mp3");
     }

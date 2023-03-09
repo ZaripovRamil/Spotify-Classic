@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import ReactPlayer from "react-player/lazy";
 
 
-const urls = ['https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3'];
+// const urls = ['https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3'];
+const urls = ['https://localhost:7022/api/tracks/1', 'https://localhost:7022/api/tracks/2', 'https://localhost:7022/api/tracks/3'];
 
 const Player = () => {
     const [playerConfig, setPlayerCongig] = useState({
@@ -41,7 +42,7 @@ const Player = () => {
                 url={urls[playerConfig.urlId]}
                 style={{ display: "None" }}
             />
-            {`playing track${playerConfig.urlId}`}
+            {`playing track #${playerConfig.urlId+1}`}
             <div className="player-controls">
                 <input type='button' value='play/stop' onClick={() => changeConfig('playing', !playerConfig.playing)} />
                 <input type='button' value='volume+' onClick={() => changeConfig('volume', +(playerConfig.volume + 0.1).toPrecision(2))} />
