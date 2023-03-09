@@ -22,6 +22,7 @@ const Player = () => {
     // changeConfig("urlId", (playerConfig.urlId + 1) % urls.length)
     const playNext = () => {
         playerConfig.urlId = (playerConfig.urlId + 1) % urls.length;
+        playerConfig.volume = Math.max(0, Math.min(1, playerConfig.volume));
         setPlayerCongig({ ...playerConfig });
     }
 
