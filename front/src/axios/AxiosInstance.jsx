@@ -1,5 +1,6 @@
 import axios from "axios";
 
-export const instance = axios.create({
+// care of http/https
+export const fetcher = axios.create({
     baseURL: 'https://localhost:7022/api/'
 });

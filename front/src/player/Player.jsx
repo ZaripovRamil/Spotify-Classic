@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player/lazy";
-import { instance } from "../axios/AxiosInstance";
+import { fetcher } from "../axios/AxiosInstance";
 
+// care of http/https
 const prefix = "https://localhost:7022/api/";
 
 const Player = () => {
+    // TODO: add animation logic until tracks have been fetched
     const [tracks, setTracks] = useState([{
         url: "",
         name: ""
     }]);
     useEffect(() => {
-        instance.get('tracks').then((data) => setTracks(data.data));
+        // TODO: add .catch()?
+        fetcher.get('tracks').then((data) => setTracks(data.data));
     }, [])
 
     const [playerConfig, setPlayerCongig] = useState({
         "controls": false,
-        "urlId": 0,
+        "trackId": 0,
         "playing": false,
         "volume": 0.8,
         "playbackRate": 1.0,
@@ -23,19 +26,20 @@ const Player = () => {
 
     const changeConfig = (configName, configValue) => {
         playerConfig[configName] = configValue;
-        setPlayerCongig({ ...playerConfig });
-    };
-
-    // these functions may be replaced with
-    // changeConfig("urlId", (playerConfig.urlId + 1) % tracks.length)
-    const playNext = () => {
-        playerConfig.urlId = (playerConfig.urlId + 1) % tracks.length;
+        // to keep volume level in (0, 1) range. otherwise player falls
         playerConfig.volume = Math.max(0, Math.min(1, playerConfig.volume));
         setPlayerCongig({ ...playerConfig });
     };
 
+    // these functions may be replaced with, but should they?
+    // changeConfig("trackId", (playerConfig.trackId + 1) % tracks.length)
+    const playNext = () => {
+        playerConfig.trackId = (playerConfig.trackId + 1) % tracks.length;
+        setPlayerCongig({ ...playerConfig });
+    };
+
     const playPrevious = () => {
-        playerConfig.urlId = (playerConfig.urlId - 1 + tracks.length) % tracks.length;
+        playerConfig.trackId = (playerConfig.trackId - 1 + tracks.length) % tracks.length;
         setPlayerCongig({ ...playerConfig });
     };
 
@@ -59,15 +63,15 @@ const Player = () => {
                 playing={playerConfig.playing}
                 playbackRate={playerConfig.playbackRate}
                 volume={playerConfig.volume}
-                url={prefix + tracks[playerConfig.urlId].url}
-                style={{ display: "None" }}
+                url={prefix + tracks[playerConfig.trackId].url}
                 onDuration={(duration) => updateTrackInfo('duration', duration.toFixed(2))}
                 onProgress={(state) => {
                     updateTrackInfo('played', state.played.toFixed(4));
                     updateTrackInfo('loaded', state.loaded.toFixed(4));
                 }}
+                style={{ display: "None" }}
             />
-            {`playing track ${tracks[playerConfig.urlId].name}`}
+            {`playing track ${tracks[playerConfig.trackId].name}`}
             <div className="player-controls">
                 <input type='button' value='play/stop' onClick={() => changeConfig('playing', !playerConfig.playing)} />
                 <input type='button' value='volume+' onClick={() => changeConfig('volume', (playerConfig.volume + 0.1).toFixed(2))} />
@@ -79,8 +83,8 @@ const Player = () => {
             </div>
             <br />
             {`duration is ${trackInfo.duration}s
-            loaded ${trackInfo.loaded * 100}%
-            played ${trackInfo.played * 100}%`}
+            loaded ${(trackInfo.loaded * 100).toFixed(2)}%
+            played ${(trackInfo.played * 100).toFixed(2)}%`}
         </>
     )
 }
