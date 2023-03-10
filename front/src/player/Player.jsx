@@ -28,6 +28,7 @@ const Player = () => {
         playerConfig[configName] = configValue;
         // to keep volume level in (0, 1) range. otherwise player falls
         playerConfig.volume = Math.max(0, Math.min(1, playerConfig.volume));
+        playerConfig.playbackRate = Math.max(0.1, Math.min(2, playerConfig.playbackRate));
         setPlayerCongig({ ...playerConfig });
     };
 
@@ -66,18 +67,18 @@ const Player = () => {
                 url={prefix + tracks[playerConfig.trackId].url}
                 onDuration={(duration) => updateTrackInfo('duration', duration.toFixed(2))}
                 onProgress={(state) => {
-                    updateTrackInfo('played', state.played.toFixed(4));
-                    updateTrackInfo('loaded', state.loaded.toFixed(4));
+                    updateTrackInfo('played', +state.played.toFixed(4));
+                    updateTrackInfo('loaded', +state.loaded.toFixed(4));
                 }}
                 style={{ display: "None" }}
             />
             {`playing track ${tracks[playerConfig.trackId].name}`}
             <div className="player-controls">
                 <input type='button' value='play/stop' onClick={() => changeConfig('playing', !playerConfig.playing)} />
-                <input type='button' value='volume+' onClick={() => changeConfig('volume', (playerConfig.volume + 0.1).toFixed(2))} />
-                <input type='button' value='volume-' onClick={() => changeConfig('volume', (playerConfig.volume - 0.1).toFixed(2))} />
-                <input type='button' value='speed+' onClick={() => changeConfig('playbackRate', (playerConfig.playbackRate + 0.1).toFixed(2))} />
-                <input type='button' value='speed-' onClick={() => changeConfig('playbackRate', (playerConfig.playbackRate - 0.1).toFixed(2))} />
+                <input type='button' value='volume+' onClick={() => changeConfig('volume', +(playerConfig.volume + 0.1).toFixed(2))} />
+                <input type='button' value='volume-' onClick={() => changeConfig('volume', +(playerConfig.volume - 0.1).toFixed(2))} />
+                <input type='button' value='speed+' onClick={() => changeConfig('playbackRate', +(playerConfig.playbackRate + 0.1).toFixed(2))} />
+                <input type='button' value='speed-' onClick={() => changeConfig('playbackRate', +(playerConfig.playbackRate - 0.1).toFixed(2))} />
                 <input type='button' value='next' onClick={() => playNext()} />
                 <input type='button' value='previous' onClick={() => playPrevious()} />
             </div>
