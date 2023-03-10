@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player/lazy";
+import { instance } from "../axios/AxiosInstance";
 
-
-// const urls = ['https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3'];
-const urls = ['https://localhost:7022/api/tracks/1', 'https://localhost:7022/api/tracks/2', 'https://localhost:7022/api/tracks/3'];
+const prefix = "https://localhost:7022/api/";
 
 const Player = () => {
+    const [tracks, setTracks] = useState([{
+        url: "",
+        name: ""
+    }]);
+    useEffect(() => {
+        instance.get('tracks').then((data) => setTracks(data.data));
+    }, [])
+
     const [playerConfig, setPlayerCongig] = useState({
         "controls": false,
         "urlId": 0,
@@ -20,23 +27,23 @@ const Player = () => {
     };
 
     // these functions may be replaced with
-    // changeConfig("urlId", (playerConfig.urlId + 1) % urls.length)
+    // changeConfig("urlId", (playerConfig.urlId + 1) % tracks.length)
     const playNext = () => {
-        playerConfig.urlId = (playerConfig.urlId + 1) % urls.length;
+        playerConfig.urlId = (playerConfig.urlId + 1) % tracks.length;
         playerConfig.volume = Math.max(0, Math.min(1, playerConfig.volume));
         setPlayerCongig({ ...playerConfig });
     };
 
     const playPrevious = () => {
-        playerConfig.urlId = (playerConfig.urlId - 1 + urls.length) % urls.length;
+        playerConfig.urlId = (playerConfig.urlId - 1 + tracks.length) % tracks.length;
         setPlayerCongig({ ...playerConfig });
     };
 
     // duration is the track duration in seconds
-    // passed and loaded are in range(0, 1) from 0 progress to 100% progress
+    // played and loaded are in range(0, 1) from 0 progress to 100% progress
     const [trackInfo, setTrackInfo] = useState({
         "duration": 0.0,
-        "passed": 0.0,
+        "played": 0.0,
         "loaded": 0.0
     });
 
@@ -52,15 +59,15 @@ const Player = () => {
                 playing={playerConfig.playing}
                 playbackRate={playerConfig.playbackRate}
                 volume={playerConfig.volume}
-                url={urls[playerConfig.urlId]}
+                url={prefix + tracks[playerConfig.urlId].url}
                 style={{ display: "None" }}
                 onDuration={(duration) => updateTrackInfo('duration', duration.toFixed(2))}
                 onProgress={(state) => {
-                    updateTrackInfo('passed', state.played.toFixed(4));
+                    updateTrackInfo('played', state.played.toFixed(4));
                     updateTrackInfo('loaded', state.loaded.toFixed(4));
                 }}
             />
-            {`playing track #${playerConfig.urlId + 1}`}
+            {`playing track ${tracks[playerConfig.urlId].name}`}
             <div className="player-controls">
                 <input type='button' value='play/stop' onClick={() => changeConfig('playing', !playerConfig.playing)} />
                 <input type='button' value='volume+' onClick={() => changeConfig('volume', (playerConfig.volume + 0.1).toFixed(2))} />
@@ -70,10 +77,10 @@ const Player = () => {
                 <input type='button' value='next' onClick={() => playNext()} />
                 <input type='button' value='previous' onClick={() => playPrevious()} />
             </div>
-            <br/>
+            <br />
             {`duration is ${trackInfo.duration}s
-            loaded ${trackInfo.loaded*100}%
-            played ${trackInfo.passed*100}%`}
+            loaded ${trackInfo.loaded * 100}%
+            played ${trackInfo.played * 100}%`}
         </>
     )
 }

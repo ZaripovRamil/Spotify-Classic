@@ -9,16 +9,35 @@ public class TracksController : Controller
 {
     private readonly IFileProvider _fileProvider;
 
+    private readonly Track[] _tracks =
+    {
+        new() { Url = "tracks/1", Name = "Lacrimosa" },
+        new() { Url = "tracks/2", Name = "you've been rickrolled" },
+        new() { Url = "tracks/3", Name = "Hungarian Rhapsody" }
+    };
+
     public TracksController(IFileProvider fp)
     {
         _fileProvider = fp;
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetById(string id)
+    public IActionResult DownloadById(string id)
     {
         var track = _fileProvider.GetFileAsStream($"Assets/{id}.mp3");
         if (track is null) return NotFound();
         return File(track, "application/octet-stream", $"{id}.mp3");
     }
+
+    [HttpGet]
+    public JsonResult GetAll()
+    {
+        return new JsonResult(_tracks);
+    }
+}
+
+public class Track
+{
+    public string Url { get; set; }
+    public string Name { get; set; }
 }
