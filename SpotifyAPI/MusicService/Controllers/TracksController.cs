@@ -8,6 +8,7 @@ namespace MusicService.Controllers;
 public class TracksController : Controller
 {
     private readonly IFileProvider _fileProvider;
+    private readonly HttpClient _client = new();
 
     private readonly Track[] _tracks =
     {
@@ -32,6 +33,8 @@ public class TracksController : Controller
     [HttpGet]
     public JsonResult GetAll()
     {
+        // TODO: uncomment this when db controller will be ready
+        // return new JsonResult(await _client.GetFromJsonAsync<IEnumerable<Track>>("[url to db request here]"));
         return new JsonResult(_tracks);
     }
 }
