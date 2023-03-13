@@ -3,13 +3,14 @@ import ReactPlayer from "react-player/lazy";
 import { fetcher } from "../axios/AxiosInstance";
 
 // care of http/https
-const prefix = "https://localhost:7022/api/";
+const prefix = "https://localhost:7022/api/tracks/";
 
 const Player = () => {
     // TODO: add animation logic until tracks have been fetched
     const [tracks, setTracks] = useState([{
-        url: "",
-        name: ""
+        id: "",
+        name: "",
+        preview: "",
     }]);
     useEffect(() => {
         // TODO: add .catch()?
@@ -64,7 +65,7 @@ const Player = () => {
                 playing={playerConfig.playing}
                 playbackRate={playerConfig.playbackRate}
                 volume={playerConfig.volume}
-                url={prefix + tracks[playerConfig.trackId].url}
+                url={prefix + tracks[playerConfig.trackId].id}
                 onDuration={(duration) => updateTrackInfo('duration', duration.toFixed(2))}
                 onProgress={(state) => {
                     updateTrackInfo('played', +state.played.toFixed(4));

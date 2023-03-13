@@ -12,9 +12,9 @@ public class TracksController : Controller
 
     private readonly Track[] _tracks =
     {
-        new() { Url = "tracks/1", Name = "Lacrimosa" },
-        new() { Url = "tracks/2", Name = "you've been rickrolled" },
-        new() { Url = "tracks/3", Name = "Hungarian Rhapsody" }
+        new() { Id = 1, Name = "Lacrimosa", PreviewId = 1},
+        new() { Id = 2, Name = "you've been rickrolled", PreviewId = 2},
+        new() { Id = 3, Name = "Hungarian Rhapsody", PreviewId = 3}
     };
 
     public TracksController(IFileProvider fp)
@@ -41,6 +41,7 @@ public class TracksController : Controller
 
 public class Track
 {
-    public string Url { get; set; }
+    public int Id { get; set; }
     public string Name { get; set; }
+    public int PreviewId { get; set; }
 }
