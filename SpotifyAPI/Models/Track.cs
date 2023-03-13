@@ -7,5 +7,5 @@ public class Track
     public Album Album { get; set; }
     public List<Playlist> InPlaylists { get; set; }
     public List<Genre> Genres { get; set; }
-    public List<User> Histiry { get; set; }
+    public List<User> History { get; set; }
 }

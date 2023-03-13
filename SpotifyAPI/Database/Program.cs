@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options => 
-    options.UseSqlServer(builder.Configuration.GetConnectionString("OurDatabase")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Spotify")));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
