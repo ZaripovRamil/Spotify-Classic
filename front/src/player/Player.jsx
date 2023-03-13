@@ -63,6 +63,7 @@ const Player = () => {
         trackInfo[parameter] = value;
         setTrackInfo({ ...trackInfo });
     }
+    ReactPlayer.removeCustomPlayers();
 
     return (
         <>
@@ -121,7 +122,9 @@ const Player = () => {
                                 step="any"
                                 value={trackInfo.played}
                                 onChange={(e) => {
-                                    player.current.seekTo(parseFloat(e.target.value), 'fraction')
+                                    const a = parseFloat(e.target.value)
+                                    player.current.seekTo(a, 'fraction');
+                                    console.log(e.target.value);
                                 }} />
 
                             <div className="track-time">

@@ -26,6 +26,8 @@ public class TracksController : Controller
     public IActionResult DownloadById(string id)
     {
         var track = _fileProvider.GetFileAsStream($"Assets/{id}.mp3");
+        Response.ContentLength = _fileProvider.GetFileLength($"Assets/{id}.mp3");
+        Response.Headers.AcceptRanges = "bytes";
         if (track is null) return NotFound();
         return File(track, "application/octet-stream", $"{id}.mp3");
     }
