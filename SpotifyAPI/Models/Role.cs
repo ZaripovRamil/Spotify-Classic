@@ -2,5 +2,5 @@
 
 public enum Role
 {
-    Free, Premium, Admin
+    Free, Premium, Artist, Admin
 }

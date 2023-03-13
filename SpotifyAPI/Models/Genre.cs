@@ -1,5 +1,8 @@
-﻿namespace Models;
+﻿using Microsoft.EntityFrameworkCore;
 
+namespace Models;
+
+[PrimaryKey("Id")]
 public class Genre
 {
     public string Id = Guid.NewGuid().ToString();
