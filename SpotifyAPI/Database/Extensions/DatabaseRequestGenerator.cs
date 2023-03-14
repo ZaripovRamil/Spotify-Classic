@@ -1,7 +1,6 @@
 ﻿using System.Text.Json;
-using Models;
 
-namespace Database.Services;
+namespace Database.Extensions;
 
 public static class DatabaseRequestGenerator
 {
