@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Models;
 
-namespace SpotifyAPI;
+namespace Database;
 
 public class AppDbContext: DbContext
 {
