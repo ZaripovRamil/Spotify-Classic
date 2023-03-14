@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using Models.DTO;
@@ -11,20 +10,22 @@ namespace Database.Controllers;
 public class UserController
 {
     private readonly AppDbContext _dbContext;
+    private readonly IUserFactory _userFactory;
     private async Task<User?> UserByLogin(string login)=>
         await _dbContext.Users.FirstOrDefaultAsync(u => u.Login == login);
     private async Task<User?> UserByEmail(string email) => 
         await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
-    public UserController(AppDbContext dbContext)
+    public UserController(AppDbContext dbContext, IUserFactory factory)
     {
         _dbContext = dbContext;
+        _userFactory = factory;
     }
 
     [HttpPost]
     [Route("Add")]
     public async void Add([FromBody]RegistrationData rData)
     {
-        await _dbContext.Users.AddAsync(new User(rData));
+        await _dbContext.Users.AddAsync(_userFactory.Create(rData));
         await _dbContext.SaveChangesAsync();
     }
 

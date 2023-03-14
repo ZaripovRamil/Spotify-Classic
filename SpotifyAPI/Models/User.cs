@@ -16,20 +16,16 @@ public class User
     public string Salt { get; set; }
     public string Password { get; set; }
 
-    public User(string login, string email, string password)
+    public User(string login, string email, string salt, string password)
     {
+        History = new List<Track>();
         Id = Guid.NewGuid().ToString();
         Login = login;
         Email = email;
         Role = Role.Free;
-        Salt = HashingService.GenerateSalt();
-        Password = HashingService.GenerateHash(password, Salt);
+        Salt = salt;
+        Password = password;
     }
-
-    public User(RegistrationData rData) : this(rData.Login, rData.Email, rData.Password)
-    {
-    }
-
     public User()
     {
     }
