@@ -5,7 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
-        <RootNamespace>SpotifyAPI</RootNamespace>
+        <RootNamespace>Database</RootNamespace>
         <UserSecretsId>5ec45f5f-5bb4-4ce9-be67-bdbe0114ec55</UserSecretsId>
     </PropertyGroup>
 

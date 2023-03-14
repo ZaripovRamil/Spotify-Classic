@@ -8,7 +8,7 @@ namespace Models;
 
 public class User
 {
-    public string Id = Guid.NewGuid().ToString();
+    public string Id { get; set; }
     public List<Track> History { get; set; }
     public string Login { get; set; }
     public string Email { get; set; }
@@ -18,6 +18,7 @@ public class User
 
     public User(string login, string email, string password)
     {
+        Id = Guid.NewGuid().ToString();
         Login = login;
         Email = email;
         Role = Role.Free;
@@ -26,6 +27,10 @@ public class User
     }
 
     public User(RegistrationData rData) : this(rData.Login, rData.Email, rData.Password)
+    {
+    }
+
+    public User()
     {
     }
 
