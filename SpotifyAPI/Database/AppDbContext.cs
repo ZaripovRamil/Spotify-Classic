@@ -6,7 +6,6 @@ namespace Database;
 public class AppDbContext: DbContext
 {
     public DbSet<Track> Genres { get; set; }
-    public DbSet<Album> Albums { get; set; }
     public DbSet<Track> Tracks { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<Playlist> Playlists { get; set; }

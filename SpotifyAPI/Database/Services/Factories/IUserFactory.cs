@@ -1,6 +1,7 @@
-﻿using Models.DTO;
+﻿using Models;
+using Models.DTO;
 
-namespace Models;
+namespace Database.Services.Factories;
 
 public interface IUserFactory
 {

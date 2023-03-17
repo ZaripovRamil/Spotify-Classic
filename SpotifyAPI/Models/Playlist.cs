@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Models.DTO;
 
 namespace Models;
 
@@ -8,5 +9,17 @@ public class Playlist
     public string Id = Guid.NewGuid().ToString();
     public string Name { get; set; }
     public User Owner { get; set; }
-    public List<Track> Tracks = new List<Track>();
+    public PlaylistType Type { get; set; }
+    public List<Track> Tracks = new();
+
+    public Playlist(string name, User owner, PlaylistType type)
+    {
+        Name = name;
+        Owner = owner;
+        Type = type;
+    }
+
+    public Playlist()
+    {
+    }
 }
