@@ -1,7 +1,8 @@
-﻿using Models.DTO;
+﻿using Models;
+using Models.DTO;
 using Models.Services;
 
-namespace Models;
+namespace Database.Services.Factories;
 
 public class UserFactory : IUserFactory
 {
