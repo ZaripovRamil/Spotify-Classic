@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Database.Controllers.Accessors;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using Models.DTO;
@@ -9,37 +10,40 @@ namespace Database.Controllers;
 [Route("[controller]")]
 public class UserController
 {
-    private readonly AppDbContext _dbContext;
     private readonly IUserFactory _userFactory;
-    private async Task<User?> UserByLogin(string login)=>
-        await _dbContext.Users.FirstOrDefaultAsync(u => u.Login == login);
-    private async Task<User?> UserByEmail(string email) => 
-        await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
-    public UserController(AppDbContext dbContext, IUserFactory factory)
+    private readonly IDbUserAccessor _dbUserAccessor;
+
+    public UserController(IUserFactory factory, IDbUserAccessor dbUserAccessor)
     {
-        _dbContext = dbContext;
         _userFactory = factory;
+        _dbUserAccessor = dbUserAccessor;
     }
 
     [HttpPost]
     [Route("Add")]
-    public async void Add([FromBody]RegistrationData rData)
+    public async void Add([FromBody] RegistrationData rData)
     {
-        await _dbContext.Users.AddAsync(_userFactory.Create(rData));
-        await _dbContext.SaveChangesAsync();
+        await _dbUserAccessor.AddUser(_userFactory.Create(rData));
     }
 
     [HttpGet]
     [Route("get/login/{login}")]
     public async Task<IActionResult> GetByLogin(string login)
     {
-        return new JsonResult(await UserByLogin(login));
+        return new JsonResult(await _dbUserAccessor.UserByLogin(login));
     }
 
     [HttpGet]
     [Route("get/email/{email}")]
     public async Task<IActionResult> GetByEmail(string email)
     {
-        return new JsonResult(await UserByEmail(email));
+        return new JsonResult(await _dbUserAccessor.UserByEmail(email));
+    }
+
+    [HttpGet]
+    [Route("get/id/{id}")]
+    public async Task<IActionResult> GetById(string id)
+    {
+        return new JsonResult(await _dbUserAccessor.UserById(id));
     }
 }
