@@ -1,6 +1,6 @@
 ﻿using Models;
 
-namespace Database.Controllers.Accessors;
+namespace Database.Services.Accessors;
 
 public interface IDbUserAccessor
 {

@@ -1,8 +1,6 @@
-﻿using Database.Controllers.Accessors;
+﻿using Database.Services.Accessors;
 using Database.Services.Factories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Models;
 using Models.DTO;
 
 namespace Database.Controllers;

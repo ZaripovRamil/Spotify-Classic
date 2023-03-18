@@ -1,4 +1,4 @@
-﻿using Database.Controllers.Accessors;
+﻿using Database.Services.Accessors;
 using Database.Services.Factories;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO;
@@ -23,6 +23,6 @@ public class AlbumController
     {
         var playlist = await _playlistFactory.Create(pData);
         if (playlist != null)
-            await _playlistAccessor.AddPlaylist(playlist);
+            await _playlistAccessor.Add(playlist);
     }
 }

@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Models.DTO;
-using Models.Services;
 
 namespace Models;
 

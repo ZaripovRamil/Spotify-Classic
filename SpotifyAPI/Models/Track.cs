@@ -5,7 +5,19 @@ namespace Models;
 [PrimaryKey("Id")]
 public class Track
 {
-    public string Id = Guid.NewGuid().ToString();
+    public string Id { get; set; } = Guid.NewGuid().ToString();
+
+    public Track(string name, Playlist album, List<Genre?> genres)
+    {
+        Name = name;
+        Album = album;
+        Genres = genres;
+    }
+
+    public Track()
+    {
+    }
+
     public string Name { get; set; }
     public Playlist Album { get; set; }
     public List<Playlist> InPlaylists { get; set; }

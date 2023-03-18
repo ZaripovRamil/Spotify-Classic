@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Database;
-using Database.Controllers.Accessors;
+using Database.Services.Accessors;
 using Database.Services.Factories;
-using Models;
 using Models.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,7 +18,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Spotify")));
 builder.Services.AddScoped<IDbUserAccessor, DbUserAccessor>();
 builder.Services.AddScoped<IDbPlaylistAccessor, DbPlaylistAccessor>();
+builder.Services.AddScoped<IDbGenreAccessor, DbGenreAccessor>();
+builder.Services.AddScoped<IDbTrackAccessor, DbTrackAccessor>();
 builder.Services.AddScoped<IPlaylistFactory, PlaylistFactory>();
+builder.Services.AddScoped<ITrackFactory, TrackFactory>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

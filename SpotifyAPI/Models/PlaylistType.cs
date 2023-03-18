@@ -1,8 +1,6 @@
-﻿using Models.DTO;
-
-namespace Models;
+﻿namespace Models;
 
 public enum PlaylistType
 {
-    Playlist, AlbumCreationData,Single
+    Playlist, Album,Single
 }
