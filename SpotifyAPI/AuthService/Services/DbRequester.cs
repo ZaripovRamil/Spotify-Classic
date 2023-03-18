@@ -11,6 +11,7 @@ public  class DbRequester:IDbRequester
 
     public async Task<User?> GetUserByLogin(string login) =>
         await Client.GetDataAsync<User?>($"User/get/login/{login}");
+    
     public async Task<User?> GetUserByEmail(string email) =>
         await Client.GetDataAsync<User?>($"User/get/email/{email}");
 

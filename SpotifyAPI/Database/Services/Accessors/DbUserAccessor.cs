@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Models;
 
-namespace Database.Controllers.Accessors;
+namespace Database.Services.Accessors;
 
 public class DbUserAccessor :DbAccessor, IDbUserAccessor
 {

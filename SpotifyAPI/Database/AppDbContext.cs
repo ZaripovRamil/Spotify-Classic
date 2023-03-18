@@ -5,7 +5,7 @@ namespace Database;
 
 public class AppDbContext: DbContext
 {
-    public DbSet<Track> Genres { get; set; }
+    public DbSet<Genre> Genres { get; set; }
     public DbSet<Track> Tracks { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<Playlist> Playlists { get; set; }
@@ -20,6 +20,9 @@ public class AppDbContext: DbContext
     {
         modelBuilder.Entity<User>()
             .HasIndex(p => new { p.Login, p.Email })
+            .IsUnique();
+        modelBuilder.Entity<Genre>()
+            .HasIndex(g => g.Name)
             .IsUnique();
     }
 }

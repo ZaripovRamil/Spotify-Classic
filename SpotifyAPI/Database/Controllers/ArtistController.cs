@@ -1,4 +1,4 @@
-﻿using Database.Controllers.Accessors;
+﻿using Database.Services.Accessors;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.DTO;

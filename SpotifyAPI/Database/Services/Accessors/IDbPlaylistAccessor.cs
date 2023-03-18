@@ -1,8 +1,9 @@
 ﻿using Models;
 
-namespace Database.Controllers.Accessors;
+namespace Database.Services.Accessors;
 
 public interface IDbPlaylistAccessor
 {
-    public Task AddPlaylist(Playlist? playlist);
+    public Task Add(Playlist playlist);
+    public Task<Playlist?> Get(string id);
 }
