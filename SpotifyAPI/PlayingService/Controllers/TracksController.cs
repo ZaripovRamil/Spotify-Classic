@@ -13,9 +13,24 @@ public class TracksController : Controller
 
     private readonly TrackLight[] _tracks =
     {
-        new() { Id = "1", Name = "Lacrimosa", PreviewId = "1", Album = {Id = "1", Name = "Best of Mozart"}, Author = {Id = "1", Name = "Mozart"}},
-        new() { Id = "2", Name = "you've been rickrolled", PreviewId = "2", Album = {Id = "2", Name = "Best of today"}, Author = {Id = "2", Name = "Rick Astley"}},
-        new() { Id = "3", Name = "Hungarian Rhapsody", PreviewId = "3", Album = {Id = "3", Name = "Best of Liszt"}, Author = {Id = "3", Name = "Liszt"}}
+        new()
+        {
+            Id = "1", Name = "Lacrimosa", PreviewId = "1",
+            Album = new AlbumLight { Id = "1", Name = "Best of Mozart" },
+            Author = new AuthorLight { Id = "1", Name = "Mozart" }
+        },
+        new()
+        {
+            Id = "2", Name = "you've been rickrolled", PreviewId = "2",
+            Album = new AlbumLight { Id = "2", Name = "Best of today" },
+            Author = new AuthorLight { Id = "2", Name = "Rick Astley" }
+        },
+        new()
+        {
+            Id = "3", Name = "Hungarian Rhapsody", PreviewId = "3",
+            Album = new AlbumLight { Id = "3", Name = "Best of Liszt" },
+            Author = new AuthorLight { Id = "3", Name = "Liszt" }
+        }
     };
 
     public TracksController(IFileProvider fp)
