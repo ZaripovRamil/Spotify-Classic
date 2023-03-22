@@ -25,18 +25,19 @@ public class TracksController : Controller
     [HttpGet("{id}")]
     public IActionResult DownloadById(string id)
     {
-        var track = _fileProvider.GetFileAsStream($"Assets/{id}.mp3");
-        Response.ContentLength = _fileProvider.GetFileLength($"Assets/{id}.mp3");
-        Response.Headers.AcceptRanges = "bytes";
+        var track = _fileProvider.GetFileAsStream($"Assets/Tracks/{id}.mp3");
+        Response.ContentLength = _fileProvider.GetFileLength($"Assets/Tracks/{id}.mp3");
+        // TODO: implement the below logic (server can send byte ranges)
+        Response.Headers.AcceptRanges = "bytes"; // server can't (now)actually do it. here just for the reason.
         if (track is null) return NotFound();
         return File(track, "application/octet-stream", $"{id}.mp3");
     }
 
     [HttpGet]
-    public JsonResult GetAll()
+    public async Task<IActionResult> GetAllAsync()
     {
         // TODO: uncomment this when db controller will be ready
-        // return new JsonResult(await _client.GetFromJsonAsync<IEnumerable<Track>>("[url to db request here]"));
+        // return new JsonResult(await _client.GetFromJsonAsync<IEnumerable<Track>>("https://localhost:7093/track/get"));
         return new JsonResult(_tracks);
     }
 }

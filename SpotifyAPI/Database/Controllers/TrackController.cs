@@ -2,16 +2,16 @@
 using Database.Services.Factories;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO;
+using Models.DTO.BackToFront;
 
 namespace Database.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-
 public class TrackController
 {
-    private ITrackFactory _trackFactory;
-    private IDbTrackAccessor _trackAccessor;
+    private readonly ITrackFactory _trackFactory;
+    private readonly IDbTrackAccessor _trackAccessor;
 
     public TrackController(ITrackFactory trackFactory, IDbTrackAccessor trackAccessor)
     {
@@ -32,6 +32,22 @@ public class TrackController
     [Route("Get")]
     public async Task<IActionResult> GetAll()
     {
-        return new JsonResult(_trackAccessor.GetAll());
+        // TODO: may be extract this logic to separate data mapper?
+        return new JsonResult(_trackAccessor.GetAll().Select(track => new TrackLight
+        {
+            Id = track.Id,
+            Name = track.Name,
+            PreviewId = track.Id, // TODO: change this to PreviewId when will be ready
+            Author = new AuthorLight
+            {
+                Id = track.Album.Owner.Id,
+                Name = track.Album.Owner.Login // TODO: change this to name when will be ready
+            },
+            Album = new AlbumLight
+            {
+                Id = track.Album.Id,
+                Name = track.Album.Name
+            }
+        }));
     } 
 }
