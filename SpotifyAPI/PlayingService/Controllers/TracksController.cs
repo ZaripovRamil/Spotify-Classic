@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Models.DTO.BackToFront;
 using PlayingService.Services;
 
 namespace PlayingService.Controllers;
@@ -10,11 +11,11 @@ public class TracksController : Controller
     private readonly IFileProvider _fileProvider;
     private readonly HttpClient _client = new();
 
-    private readonly Track[] _tracks =
+    private readonly TrackLight[] _tracks =
     {
-        new() { Id = 1, Name = "Lacrimosa", PreviewId = 1},
-        new() { Id = 2, Name = "you've been rickrolled", PreviewId = 2},
-        new() { Id = 3, Name = "Hungarian Rhapsody", PreviewId = 3}
+        new() { Id = "1", Name = "Lacrimosa", PreviewId = "1", Album = {Id = "1", Name = "Best of Mozart"}, Author = {Id = "1", Name = "Mozart"}},
+        new() { Id = "2", Name = "you've been rickrolled", PreviewId = "2", Album = {Id = "2", Name = "Best of today"}, Author = {Id = "2", Name = "Rick Astley"}},
+        new() { Id = "3", Name = "Hungarian Rhapsody", PreviewId = "3", Album = {Id = "3", Name = "Best of Liszt"}, Author = {Id = "3", Name = "Liszt"}}
     };
 
     public TracksController(IFileProvider fp)
@@ -40,11 +41,4 @@ public class TracksController : Controller
         // return new JsonResult(await _client.GetFromJsonAsync<IEnumerable<Track>>("https://localhost:7093/track/get"));
         return new JsonResult(_tracks);
     }
-}
-
-public class Track
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public int PreviewId { get; set; }
 }
