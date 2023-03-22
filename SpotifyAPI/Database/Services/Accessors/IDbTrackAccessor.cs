@@ -7,5 +7,5 @@ public interface IDbTrackAccessor
 {
     public Task Add(Track track);
     public Task<Track?> Get(string id);
-    public string[] GetAll();
+    public IEnumerable<Track> GetAll();
 }

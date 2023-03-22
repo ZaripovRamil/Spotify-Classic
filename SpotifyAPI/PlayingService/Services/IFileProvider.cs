@@ -1,4 +1,4 @@
-namespace MusicService.Services;
+namespace PlayingService.Services;
 
 public interface IFileProvider
 {

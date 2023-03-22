@@ -6,8 +6,8 @@ namespace Database.Services.Factories;
 
 public class TrackFactory:ITrackFactory
 {
-    private IDbPlaylistAccessor _playlistAccessor;
-    private IDbGenreAccessor _genreAccessor;
+    private readonly IDbPlaylistAccessor _playlistAccessor;
+    private readonly IDbGenreAccessor _genreAccessor;
 
     public TrackFactory(IDbPlaylistAccessor playlistAccessor, IDbGenreAccessor genreAccessor)
     {

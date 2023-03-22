@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Models;
 
 namespace Database.Services.Accessors;
@@ -21,8 +20,8 @@ public class DbTrackAccessor : DbAccessor, IDbTrackAccessor
         return await DbContext.Tracks.FirstOrDefaultAsync(track => track.Id == id);
     }
 
-    public string[] GetAll()
+    public IEnumerable<Track> GetAll()
     {
-        return  DbContext.Tracks.Select(t => t.Id).ToArray();
+        return DbContext.Tracks; // is it ok? TODO: review this
     }
 }

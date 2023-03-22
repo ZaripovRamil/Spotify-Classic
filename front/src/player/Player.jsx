@@ -6,14 +6,22 @@ import "./PlayerStyles.css"
 import volume from "./PlayerImages/volume.svg"
 
 // care of http/https
-const prefix = "https://localhost:7022/api/tracks/";
+const prefix = "https://localhost:7022/api/";
 
 const Player = () => {
     // TODO: add animation logic until tracks have been fetched
     const [tracks, setTracks] = useState([{
         id: "",
         name: "",
-        preview: "",
+        previewId: "",
+        album: {
+            id: "",
+            name: ""
+        },
+        author: {
+            id: "",
+            name: ""
+        }
     }]);
     const player = useRef(null);
     useEffect(() => {
@@ -73,7 +81,7 @@ const Player = () => {
                 playing={playerConfig.playing}
                 playbackRate={playerConfig.playbackRate}
                 volume={playerConfig.volume}
-                url={prefix + tracks[playerConfig.trackId].id}
+                url={prefix + "tracks/" + tracks[playerConfig.trackId].id}
                 onDuration={(duration) => updateTrackInfo('duration', duration.toFixed(2))}
                 onProgress={(state) => {
                     updateTrackInfo('played', +state.played.toFixed(4));
@@ -96,14 +104,13 @@ const Player = () => {
                     </div>
                     <div className="player-track">
                         <div className="track-img" style={{ width: "77px", height: "74px", backgroundColor: "#FCFCFC" }}>
-                            {/* picture is missing here */}
+                            {tracks.id !== "" && <img src={prefix + `previews/${tracks[playerConfig.trackId].previewId}`} width={"100%"} />}
                         </div>
 
                         <div className="track-control">
                             <div className="track-info">
                                 <div>{tracks[playerConfig.trackId].name}
-                                    <div className="track-auth">The XX</div>
-                                    {/* author is missing here */}
+                                    {tracks.id !== "" && <div className="track-auth">{tracks[playerConfig.trackId].author.name}</div> }
                                 </div>
 
                                 <div className="track-btns">
