@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Databa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{956E98A8-1C57-492D-816F-40FBC7767B21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicService", "MusicService\MusicService.csproj", "{AF9011BE-DDDC-4ECB-B321-C5BBF8EC3A2F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayingService", "PlayingService\PlayingService.csproj", "{AF9011BE-DDDC-4ECB-B321-C5BBF8EC3A2F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService", "AuthService\AuthService.csproj", "{62A709B5-03E5-43B1-9C09-C04DC510F69C}"
 EndProject

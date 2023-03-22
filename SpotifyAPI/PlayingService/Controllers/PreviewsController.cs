@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using MusicService.Services;
+using PlayingService.Services;
 
-namespace MusicService.Controllers;
+namespace PlayingService.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

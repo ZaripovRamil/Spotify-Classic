@@ -1,4 +1,4 @@
-using MusicService.Services;
+using PlayingService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
