@@ -104,16 +104,13 @@ const Player = () => {
                     </div>
                     <div className="player-track">
                         <div className="track-img" style={{ width: "77px", height: "74px", backgroundColor: "#FCFCFC" }}>
-                            {/* picture is missing here */}
-                            {tracks.id !== "" && <img src={prefix + `previews/${tracks[playerConfig.trackId].previewId}`} width={75} />}
+                            {tracks.id !== "" && <img src={prefix + `previews/${tracks[playerConfig.trackId].previewId}`} width={"100%"} />}
                         </div>
 
                         <div className="track-control">
                             <div className="track-info">
                                 <div>{tracks[playerConfig.trackId].name}
-                                    <div className="track-auth">The XX</div>
-                                    {/* author is missing here */}
-                                    {tracks.id !== "" && tracks[playerConfig.trackId].author.name}
+                                    {tracks.id !== "" && <div className="track-auth">{tracks[playerConfig.trackId].author.name}</div> }
                                 </div>
 
                                 <div className="track-btns">
