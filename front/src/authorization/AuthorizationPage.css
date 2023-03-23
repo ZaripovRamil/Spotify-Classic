@@ -24,25 +24,25 @@ main {
 }
 
 .circle {
-    filter: blur(20px);
-    position: absolute;
+    filter: blur(200px);
+    position: fixed;
     overflow: auto;
 }
 
 .circle#first {
-    width: 3346px;
-    height: 2251px;
-    left: -1793px;
-    top: -565px;
+    width: 1200px;
+    height: 1200px;
+    left: -400px;
+    top: -100px;
 
-    background: radial-gradient(29.56% 29.66% at 49.97% 47.03%, #F76205 0%, rgba(247, 144, 5, 0) 100%);
+    background: radial-gradient(circle at center, #F76205 0, rgba(247, 144, 5, 0) 75%);
 }
 
 .circle#second {
-    width: 1410px;
-    height: 1442px;
-    left: 848px;
-    top: 384px;
+    width: 600px;
+    height: 600px;
+    right: -280px;
+    bottom: -280px;
 
-    background: radial-gradient(29.56% 29.66% at 49.97% 47.03%, #F77905 0%, rgba(247, 144, 5, 0) 100%);
+    background: radial-gradient(circle at center, #F77905 0%, rgba(247, 144, 5, 0) 75%);
 }
