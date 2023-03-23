@@ -1,0 +1,78 @@
+::placeholder {
+    color: #FECB6899;
+}
+
+.auth-form {
+    background: rgba(19, 19, 22, 0.3);
+    border-radius: 7px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    left: calc(50% - 100px);
+    top: calc(50% - 400px);
+    max-height: 600px;
+
+    font-family: "Libre Baskerville";
+    color: #FECB6899;
+    font-style: normal;
+}
+
+.auth-header {
+    font-weight: 700px;
+    font-size: 50px;
+    line-height: 39px;
+    text-align: center;
+    letter-spacing: 0.035em;
+    padding: 70px;
+}
+
+.credentials-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.auth-form input {
+    background: rgba(72, 72, 79, 0.78);
+    border: 1px solid #FECB68;
+    border-radius: 7px;
+    height: 30px;
+    margin: 30px 10px;
+
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 16px;
+    letter-spacing: 0.035em;
+
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+    transition-duration: .4s;
+}
+
+.remember-me-span {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 16px;
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.035em;
+}
+
+.submit-btn input[type="submit"] {
+    color: #FECB6899;
+    height: 50px;
+    border: none;
+    width: 100px;
+}
+
+.auth-form input:hover {
+    background: rgba(87, 87, 94, 0.78);
+}
+
+.auth-form input:focus {
+    outline: none;
+}
