@@ -1,0 +1,48 @@
+* {
+    margin: 0;
+}
+
+html {
+    height: 100vh;
+}
+
+body {
+    background: #1E1E23;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#root {
+    height: 100%;
+}
+
+main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.circle {
+    filter: blur(200px);
+    position: fixed;
+    overflow: auto;
+}
+
+.circle#first {
+    width: 1200px;
+    height: 1200px;
+    left: -400px;
+    top: -100px;
+
+    background: radial-gradient(circle at center, #F76205 0, rgba(247, 144, 5, 0) 75%);
+}
+
+.circle#second {
+    width: 600px;
+    height: 600px;
+    right: -280px;
+    bottom: -280px;
+
+    background: radial-gradient(circle at center, #F77905 0%, rgba(247, 144, 5, 0) 75%);
+}
