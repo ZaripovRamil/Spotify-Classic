@@ -6,8 +6,8 @@ import Player from "./player/Player";
 function App() {
     return (
         <>
-            {/* <Player /> */}
-            <AuthorizationPage />
+            <Player />
+            {/* <AuthorizationPage /> */}
         </>
     );
 }
