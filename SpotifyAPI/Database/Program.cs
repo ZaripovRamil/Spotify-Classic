@@ -13,7 +13,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IHashingService, HashingService>();
-builder.Services.AddSingleton<IUserFactory, UserFactory>();
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseNpgsql(builder.Configuration.GetConnectionString("Spotify")));
 builder.Services.AddScoped<IDbUserAccessor, DbUserAccessor>();

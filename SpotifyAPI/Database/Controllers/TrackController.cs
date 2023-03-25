@@ -37,11 +37,11 @@ public class TrackController
         {
             Id = track.Id,
             Name = track.Name,
-            PreviewId = track.Id, // TODO: change this to PreviewId when will be ready
+            PreviewId = track.Id, 
             Author = new AuthorLight
             {
                 Id = track.Album.Owner.Id,
-                Name = track.Album.Owner.Login // TODO: change this to name when will be ready
+                Name = track.Album.Owner.Name 
             },
             Album = new AlbumLight
             {

@@ -9,11 +9,11 @@ public class DbUserAccessor :DbAccessor, IDbUserAccessor
     {
     }
     
-    public async Task<User?> UserById(string id) =>
+    public async Task<User?> GetById(string id) =>
         await DbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
 
-    public async Task<User?> UserByLogin(string login) =>
-        await DbContext.Users.FirstOrDefaultAsync(u => u.Login == login);
+    public async Task<User?> GetByUsername(string username) =>
+        await DbContext.Users.FirstOrDefaultAsync(u => u.UserName == username);
 
     public async Task<User?> UserByEmail(string email) =>
         await DbContext.Users.FirstOrDefaultAsync(u => u.Email == email);

@@ -9,27 +9,19 @@ namespace Database.Controllers;
 [Route("[controller]")]
 public class UserController
 {
-    private readonly IUserFactory _userFactory;
+   
     private readonly IDbUserAccessor _dbUserAccessor;
 
-    public UserController(IUserFactory factory, IDbUserAccessor dbUserAccessor)
+    public UserController(IDbUserAccessor dbUserAccessor)
     {
-        _userFactory = factory;
         _dbUserAccessor = dbUserAccessor;
-    }
-
-    [HttpPost]
-    [Route("Add")]
-    public async void Add([FromBody] RegistrationData rData)
-    {
-        await _dbUserAccessor.AddUser(_userFactory.Create(rData));
     }
 
     [HttpGet]
     [Route("get/login/{login}")]
     public async Task<IActionResult> GetByLogin(string login)
     {
-        return new JsonResult(await _dbUserAccessor.UserByLogin(login));
+        return new JsonResult(await _dbUserAccessor.GetByUsername(login));
     }
 
     [HttpGet]
@@ -43,6 +35,6 @@ public class UserController
     [Route("get/id/{id}")]
     public async Task<IActionResult> GetById(string id)
     {
-        return new JsonResult(await _dbUserAccessor.UserById(id));
+        return new JsonResult(await _dbUserAccessor.GetById(id));
     }
 }

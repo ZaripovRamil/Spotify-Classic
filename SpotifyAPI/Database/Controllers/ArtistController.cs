@@ -19,7 +19,7 @@ public class ArtistController
     [Route("create")]
     public async Task<IActionResult> Create([FromBody]string userId)
     {
-        var user = await _dbUserAccessor.UserById(userId);
+        var user = await _dbUserAccessor.GetById(userId);
         if (user == null) return new JsonResult(ArtistCreationCode.NoSuchUser);
         await _dbUserAccessor.SetRole(user, Role.Artist);
         return new JsonResult(ArtistCreationCode.Successful);
