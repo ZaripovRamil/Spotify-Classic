@@ -5,7 +5,7 @@ namespace Models;
 
 [PrimaryKey("Id")]
 
-public class User:IdentityUser
+public class User:IdentityUser//TODO:return author as inheritor with Albums property
 {
     public List<Track> History { get; set; }
     public string Name { get; set; }

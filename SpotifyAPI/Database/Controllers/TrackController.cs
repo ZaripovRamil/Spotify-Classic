@@ -3,6 +3,7 @@ using Database.Services.Factories;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO;
 using Models.DTO.BackToFront;
+using Models.DTO.BackToFront.Light;
 
 namespace Database.Controllers;
 
@@ -32,22 +33,6 @@ public class TrackController
     [Route("Get")]
     public async Task<IActionResult> GetAll()
     {
-        // TODO: may be extract this logic to separate data mapper?
-        return new JsonResult(_trackAccessor.GetAll().Select(track => new TrackLight
-        {
-            Id = track.Id,
-            Name = track.Name,
-            PreviewId = track.Id, 
-            Author = new AuthorLight
-            {
-                Id = track.Album.Owner.Id,
-                Name = track.Album.Owner.Name 
-            },
-            Album = new AlbumLight
-            {
-                Id = track.Album.Id,
-                Name = track.Album.Name
-            }
-        }));
+        return new JsonResult(_trackAccessor.GetAll().Select(track => new TrackLight(track)));
     } 
 }
