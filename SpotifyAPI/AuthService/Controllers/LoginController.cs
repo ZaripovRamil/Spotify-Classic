@@ -1,32 +1,29 @@
 ﻿using AuthService.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using Models.DTO;
 using Models.Services;
 namespace AuthService.Controllers;
 
 [ApiController]
-[Route("login")]
-public class LoginController
+[Route("[controller]/[action]")]
+public class AuthController
 {
-    private IHashingService HashingService { get; }
+    private readonly SignInManager<User> _signInManager;
     private IDbRequester Requester { get; }
-    public LoginController(IHashingService hashingService, IDbRequester requester)
+
+    public AuthController(SignInManager<User> signInManager,  IDbRequester requester)
     {
-        HashingService = hashingService;
+        _signInManager = signInManager;
         Requester = requester;
     }
 
     [HttpPost]
-    public async Task<IActionResult> ValidateLogin(LoginData lData)
+    public async Task<IActionResult> Login(LoginData lData)
     {
-        var user = await Requester.GetUserByLogin(lData.Identifier) ?? await Requester.GetUserByEmail(lData.Identifier);
-        if (user != null && IsValidPassword(lData.Password, user.Salt, user.Password))
-            return new JsonResult(user);
-        return new JsonResult(null);
-    }
-
-    private bool IsValidPassword(string attemptedPassword, string userSalt, string hashedPassword)
-    {
-        return HashingService.GenerateHash(attemptedPassword, userSalt) == hashedPassword;
+        var loginResult = await _signInManager
+            .PasswordSignInAsync(lData.Identifier, lData.Password, false, false);
+        return loginResult.Succeeded ? new JsonResult(await Requester.GetUserByLogin(lData.Identifier)) : new JsonResult("Wrong credentials");
     }
 }

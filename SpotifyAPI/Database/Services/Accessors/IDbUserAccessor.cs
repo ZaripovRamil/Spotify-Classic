@@ -4,9 +4,9 @@ namespace Database.Services.Accessors;
 
 public interface IDbUserAccessor
 {
-    public Task<User?> UserByLogin(string login);
+    public Task<User?> GetByUsername(string login);
 
-    public Task<User?> UserById(string id);
+    public Task<User?> GetById(string id);
 
     public Task<User?> UserByEmail(string email);
     public Task AddUser(User user);

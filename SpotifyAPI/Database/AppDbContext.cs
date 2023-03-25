@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Models;
 
 namespace Database;
 
-public class AppDbContext: DbContext
+public class AppDbContext: IdentityDbContext<User>
 {
     public DbSet<Genre> Genres { get; set; }
     public DbSet<Track> Tracks { get; set; }
@@ -18,8 +19,9 @@ public class AppDbContext: DbContext
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<User>()
-            .HasIndex(p => new { p.Login, p.Email })
+            .HasIndex(p => new { p.UserName, p.Email })
             .IsUnique();
         modelBuilder.Entity<Genre>()
             .HasIndex(g => g.Name)

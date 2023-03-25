@@ -5,5 +5,6 @@ public enum RegistrationCode
     Successful,
     LoginTaken,
     EmailTaken,
-    WeakPassword
+    WeakPassword,
+    UnknownError
 }

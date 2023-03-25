@@ -1,32 +1,34 @@
-﻿
-using AuthService.Services;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using Models.DTO;
 
 
 namespace AuthService.Controllers;
 
 [ApiController]
-[Route("register")]
+[Route("[controller]/[action]")]
 public class RegistrationController
 {
-    private IDbRequester Requester { get; }
+    private readonly UserManager<User> _userManager; 
 
-    public RegistrationController(IDbRequester requester)
+    public RegistrationController(UserManager<User> userManager)
     {
-        this.Requester = requester;
+        _userManager = userManager;
     }
 
     [HttpPost]
     public async Task<IActionResult> Add([FromBody]RegistrationData rData)
     {
-        if (await Requester.GetUserByLogin(rData.Login) != null)
-            return new JsonResult(RegistrationCode.LoginTaken);
-        if (await Requester.GetUserByEmail(rData.Email) != null)
+        if (await _userManager.FindByEmailAsync(rData.Email) != null)
             return new JsonResult(RegistrationCode.EmailTaken);
+        if (await _userManager.FindByNameAsync(rData.Login) != null)
+            return new JsonResult(RegistrationCode.LoginTaken);
         if (rData.Password.Length < 8)
-            return new JsonResult(RegistrationCode.WeakPassword); 
-        Requester.AddUserToDb(rData);
-        return new JsonResult(RegistrationCode.Successful);
+            return new JsonResult(RegistrationCode.WeakPassword);
+        var regResult = await _userManager.CreateAsync(new User {UserName = rData.Login, Email = rData.Email, Name = rData.Name, Role = Role.Free}, rData.Password);
+        if(regResult.Succeeded)
+            return new JsonResult(RegistrationCode.Successful);
+        return new JsonResult(RegistrationCode.UnknownError);
     }
 }
