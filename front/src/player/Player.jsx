@@ -91,7 +91,7 @@ const Player = () => {
             />
             <div className="player">
                 <div className="player-controls">
-                    <div className="player-btns">
+                    <div className="switch-btns player-btns">
 
                         <input type='button' className="player-btn buttonPrevious" onClick={() => playPrevious()} />
 
@@ -103,8 +103,8 @@ const Player = () => {
 
                     </div>
                     <div className="player-track">
-                        <div className="track-img" style={{ width: "77px", height: "74px", backgroundColor: "#FCFCFC" }}>
-                            {tracks.id !== "" && <img src={prefix + `previews/${tracks[playerConfig.trackId].previewId}`} width={"100%"} />}
+                        <div className="track-img" >
+                            {tracks.id !== "" && <img style={{width:"70px"}} src={prefix + `Previews/${tracks[playerConfig.trackId].previewId}`} width={"100%"} />}
                         </div>
 
                         <div className="track-control">
@@ -113,7 +113,7 @@ const Player = () => {
                                     {tracks.id !== "" && <div className="track-auth">{tracks[playerConfig.trackId].author.name}</div> }
                                 </div>
 
-                                <div className="track-btns">
+                                <div className="player-btns track-btns">
                                     {/*TODO: logic of this buttons */}
                                     <input type='button' className="player-btn buttonRepeat" />
                                     <input type='button' className="player-btn buttonMix" />
@@ -135,7 +135,7 @@ const Player = () => {
                                 }} />
 
                             <div className="track-time">
-                                <div>{moment(1000 * trackInfo.played * trackInfo.duration).format('mm:ss')}</div>
+                                <div >{moment(1000 * trackInfo.played * trackInfo.duration).format('mm:ss')}</div>
                                 <div>{moment(1000 * trackInfo.duration).format('mm:ss')}</div>
                             </div>
                         </div>

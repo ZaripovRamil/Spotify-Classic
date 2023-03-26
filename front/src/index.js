@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import './fonts/PP-Hatton/PP-Hatton-Medium-500.otf';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
