@@ -1,13 +1,22 @@
 import "./App.css";
 import React from "react";
-import AuthorizationPage from "./authorization/AuthorizationPage";
 import Player from "./player/Player";
+import { Header } from "./components/Header/Header";
+import { Footer } from "./components/Footer/Footer";
+import { AuthorizationPage } from "./authorization/AuthorizationPage";
+import { RegistrationPage } from "./authorization/RegistrationPage";
 
 function App() {
     return (
         <>
-            <Player />
-            {/* <AuthorizationPage /> */}
+            <Header/>
+                <div className="content">
+                    {/* <Player /> */}
+                    {/* <AuthorizationPage/> */}
+                    <RegistrationPage/>
+                
+                </div>
+            <Footer/>
         </>
     );
 }

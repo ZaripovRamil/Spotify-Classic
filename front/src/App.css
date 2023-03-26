@@ -1,1 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&family=Libre+Baskerville:wght@400;700&display=swap');
+@font-face {
+    font-family: 'PP-Hatton';
+    src: local('PP-Hatton'),
+      url('./fonts/PP-Hatton/PP-Hatton-Medium-500.otf') format('truetype');
+    font-weight:500;
+  }
+
+* {
+  margin: 0;
+}
+html,body {
+    background: #1E1E23;
+    height: 100%;
+}
+#root{
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+.content {
+  flex: 1 0 auto;
+}
+.footer {
+  flex: 0 0 auto;
+}
