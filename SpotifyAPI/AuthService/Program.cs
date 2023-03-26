@@ -33,13 +33,6 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
     })
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("user", pb => pb
-        .RequireClaim("level", "user", "admin"));
-    options.AddPolicy("admin", pb => pb
-        .RequireClaim("level", "admin"));
-});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
