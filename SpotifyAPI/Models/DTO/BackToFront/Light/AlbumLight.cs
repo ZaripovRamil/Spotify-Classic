@@ -5,12 +5,12 @@ public class AlbumLight//TODO: Join with playlistLight?
     public string Id { get; set; }
     public string Name { get; set; }
     
-    public UserLight Author { get; set; }
+    public AuthorLight Author { get; set; }
 
-    public AlbumLight(Playlist album)
+    public AlbumLight(Album album)
     {
         Id = album.Id;
         Name = album.Name;
-        Author = new UserLight(album.Owner);
+        Author = new AuthorLight(album.Author);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Models;
 using Models.DTO;
+using Models.DTO.FrontToBack.EntityCreationData;
 
 namespace AuthService.Services;
 

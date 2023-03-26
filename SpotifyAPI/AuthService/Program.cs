@@ -3,7 +3,6 @@ using Database;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Models;
-using Models.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

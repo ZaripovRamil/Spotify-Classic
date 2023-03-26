@@ -1,28 +1,27 @@
-﻿using Database.Services.Accessors;
-using Database.Services.Factories;
+﻿using Database.Services.Accessors.Interfaces;
+using Database.Services.Factories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Models.DTO;
+using Models.DTO.FrontToBack.EntityCreationData;
 
 namespace Database.Controllers;
 [ApiController]
 [Route("[controller]")]
 public class AlbumController
 {
-    private readonly IDbPlaylistAccessor _playlistAccessor;
-    private readonly IPlaylistFactory _playlistFactory;
+    private readonly IDbAlbumAccessor _albumAccessor;
+    private readonly IAlbumFactory _albumFactory;
 
-    public AlbumController(IDbPlaylistAccessor playlistAccessor, IPlaylistFactory playlistFactory)
+    public AlbumController(IDbAlbumAccessor albumAccessor, IAlbumFactory albumFactory)
     {
-        _playlistAccessor = playlistAccessor;
-        _playlistFactory = playlistFactory;
+        _albumAccessor = albumAccessor;
+        _albumFactory = albumFactory;
     }
-
     [HttpPost]
     [Route("Add")]
-    public async Task Add([FromBody] PlaylistCreationData pData)
+    public async Task Add([FromBody] AlbumCreationData pData)
     {
-        var playlist = await _playlistFactory.Create(pData);
-        if (playlist != null)
-            await _playlistAccessor.Add(playlist);
+        var album = await _albumFactory.Create(pData);
+        if (album != null)
+            await _albumAccessor.Add(album);
     }
 }
