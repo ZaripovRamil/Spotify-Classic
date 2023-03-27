@@ -7,7 +7,8 @@ namespace Models;
 
 public class User:IdentityUser//TODO:return author as inheritor with Albums property
 {
-    public List<Track> History { get; set; }
+    public List<Track> History { get; set; } = new();
+    public List<Playlist> Playlists { get; set; } = new();
     public string Name { get; set; }
     public Role Role{ get; set; }
     public User()

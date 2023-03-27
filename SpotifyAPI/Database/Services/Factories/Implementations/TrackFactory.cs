@@ -20,7 +20,7 @@ public class TrackFactory:ITrackFactory
     
     public async  Task<Track?> Create(TrackCreationData tData)
     {
-        var album = await _albumAccessor.Get(tData.AlbumId);
+        var album = await _albumAccessor.GetById(tData.AlbumId);
         if (album is null) return null;
         var genres = new List<Genre?>();
         foreach (var gId in tData.GenreIds)

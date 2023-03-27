@@ -10,8 +10,8 @@ public  class DbRequester:IDbRequester
 {
     private static readonly HttpClient Client = new();
 
-    public async Task<User?> GetUserByLogin(string login) =>
-        await Client.GetDataAsync<User?>($"User/get/login/{login}");
+    public async Task<User?> GetUserByUsername(string username) =>
+        await Client.GetDataAsync<User?>($"User/get/username/{username}");
     
     public async Task<User?> GetUserByEmail(string email) =>
         await Client.GetDataAsync<User?>($"User/get/email/{email}");

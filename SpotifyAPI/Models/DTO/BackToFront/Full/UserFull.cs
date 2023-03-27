@@ -6,7 +6,9 @@ public class UserFull
 {
     public UserFull(User user)
     {
-        ///TODO 
+        Id = user.Id;
+        Name = user.Name;
+        Playlists = user.Playlists.Select(p=>new PlaylistLight(p)).ToList();
     }
 
     public string Id { get; set; }

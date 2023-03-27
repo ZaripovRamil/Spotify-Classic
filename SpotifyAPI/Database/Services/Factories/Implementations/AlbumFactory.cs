@@ -16,7 +16,7 @@ public class AlbumFactory:IAlbumFactory
 
     public async Task<Album?> Create(AlbumCreationData aData)
     {
-        var author = await _authorAccessor.Get(aData.AuthorId);
+        var author = await _authorAccessor.GetById(aData.AuthorId);
         return author == null ? null : new Album(aData.Name, author, aData.AlbumType, aData.ReleaseDate);
     }
 }

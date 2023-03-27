@@ -15,7 +15,17 @@ public class DbAlbumAccessor:DbAccessor, IDbAlbumAccessor
         await DbContext.Albums.AddAsync(album);
         await DbContext.SaveChangesAsync();
     }
+    
+    public async Task<Album?> GetByName(string name)=>
+        await DbContext.Albums
+            .Include(a=>a.Author)
+            .Include(a=>a.Tracks)
+            .FirstOrDefaultAsync(a => a.Name == name);
+    
 
-    public async Task<Album?> Get(string id) =>
-        await DbContext.Albums.Include(a=>a.Author).FirstOrDefaultAsync(a => a.Id == id);
+    public async Task<Album?> GetById(string id) =>
+        await DbContext.Albums
+            .Include(a=>a.Author)
+            .Include(a=>a.Tracks)
+            .FirstOrDefaultAsync(a => a.Id == id);
 }

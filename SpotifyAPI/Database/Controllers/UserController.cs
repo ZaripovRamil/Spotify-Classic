@@ -20,23 +20,26 @@ public class UserController
     }
 
     [HttpGet]
-    [Route("get/login/{login}")]
-    public async Task<IActionResult> GetByLogin(string login)
+    [Route("get/username/{username}")]
+    public async Task<IActionResult> GetByUsername(string username)
     {
-        return new JsonResult(await _dbUserAccessor.GetByUsername(login));
+        var user =  await _dbUserAccessor.GetByUsername(username);
+        return new JsonResult(user == null ? null : new UserFull(user));
     }
 
     [HttpGet]
     [Route("get/email/{email}")]
     public async Task<IActionResult> GetByEmail(string email)
     {
-        return new JsonResult(await _dbUserAccessor.UserByEmail(email));
+        var user =  await _dbUserAccessor.GetByEmail(email);
+        return new JsonResult(user == null ? null : new UserFull(user));
     }
 
     [HttpGet]
     [Route("get/id/{id}")]
     public async Task<IActionResult> GetById(string id)
     {
-        return new JsonResult(await _dbUserAccessor.GetById(id));
+        var user =  await _dbUserAccessor.GetById(id);
+        return new JsonResult(user == null ? null : new UserFull(user));
     }
 }

@@ -6,5 +6,6 @@ namespace Database.Services.Accessors.Interfaces;
 public interface IDbAuthorAccessor
 {
     public Task Add(Author author);
-    public Task<Author?> Get(string id);
+    Task<Author?> GetById(string id);
+    Task<Author?> GetByName(string name);
 }

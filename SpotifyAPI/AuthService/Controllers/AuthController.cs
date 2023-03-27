@@ -24,7 +24,7 @@ public class AuthController
         var loginResult = await _signInManager
             .PasswordSignInAsync(lData.Identifier, lData.Password, false, false);
         return loginResult.Succeeded ? 
-            new JsonResult(await Requester.GetUserByLogin(lData.Identifier)) 
+            new JsonResult(await Requester.GetUserByUsername(lData.Identifier)) 
             : new JsonResult("Wrong credentials");
     }
 }

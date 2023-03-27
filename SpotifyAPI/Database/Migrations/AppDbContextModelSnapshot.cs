@@ -453,7 +453,7 @@ namespace Database.Migrations
             modelBuilder.Entity("Models.Playlist", b =>
                 {
                     b.HasOne("Models.User", "Owner")
-                        .WithMany()
+                        .WithMany("Playlists")
                         .HasForeignKey("OwnerId");
 
                     b.Navigation("Owner");
@@ -508,6 +508,11 @@ namespace Database.Migrations
             modelBuilder.Entity("Models.Entities.Author", b =>
                 {
                     b.Navigation("Albums");
+                });
+
+            modelBuilder.Entity("Models.User", b =>
+                {
+                    b.Navigation("Playlists");
                 });
 #pragma warning restore 612, 618
         }

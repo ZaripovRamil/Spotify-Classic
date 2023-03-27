@@ -8,7 +8,7 @@ public interface IDbUserAccessor
 
     public Task<User?> GetById(string id);
 
-    public Task<User?> UserByEmail(string email);
+    public Task<User?> GetByEmail(string email);
     public Task AddUser(User user);
     public Task SetRole(User user, Role role);
 }

@@ -17,6 +17,17 @@ public class DbAuthorAccessor:DbAccessor, IDbAuthorAccessor
         await DbContext.SaveChangesAsync();
     }
 
-    public async Task<Author?> Get(string id) =>
-        await DbContext.Authors.FirstOrDefaultAsync(a => a.Id == id);
+    public async Task<Author?> GetById(string id)
+    {
+        return await DbContext.Authors
+            .Include(a=>a.Albums)
+            .FirstOrDefaultAsync(a => a.Id == id);
+    }
+
+    public async Task<Author?> GetByName(string name)
+    {
+        return await DbContext.Authors
+            .Include(a=>a.Albums)
+            .FirstOrDefaultAsync(a => a.Name == name);
+    }
 }

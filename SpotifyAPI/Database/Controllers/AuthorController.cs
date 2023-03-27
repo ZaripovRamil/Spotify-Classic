@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.DTO;
 using Models.DTO.BackToFront.EntityCreationResult;
+using Models.DTO.BackToFront.Full;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.Entities;
 
@@ -21,7 +22,7 @@ public class AuthorController
     }
 
     [HttpPost]
-    [Route("create")]
+    [Route("Add")]
     public async Task<IActionResult> Create([FromBody]AuthorCreationData aData)
     {
         var user = await _dbUserAccessor.GetById(aData.UserId);
@@ -29,5 +30,20 @@ public class AuthorController
         await _dbAuthorAccessor.Add(new Author(aData.Name, aData.UserId));
         return new JsonResult(AuthorCreationCode.Successful);
     }
-    //TODO:GetByName|Id
+    
+    [HttpGet]
+    [Route("get/id/{id}")]
+    public async Task<IActionResult> GetById(string id)
+    {
+        var author =  await _dbAuthorAccessor.GetById(id);
+        return new JsonResult(author == null ? null : new AuthorFull(author));
+    }
+    
+    [HttpGet]
+    [Route("get/name/{name}")]
+    public async Task<IActionResult> GetByName(string name)
+    {
+        var author =  await _dbAuthorAccessor.GetByName(name);
+        return new JsonResult(author == null ? null : new AuthorFull(author));
+    }
 }

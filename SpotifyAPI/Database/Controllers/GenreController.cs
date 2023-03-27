@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.DTO;
 using Models.DTO.BackToFront.EntityCreationResult;
+using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack.EntityCreationData;
 
 namespace Database.Controllers;
@@ -33,13 +34,15 @@ public class GenreController
     [Route("get/id/{id}")]
     public async Task<IActionResult> GetById(string id)
     {
-        return new JsonResult(await _genreAccessor.GetById(id));
+        var genre =  await _genreAccessor.GetById(id);
+        return new JsonResult(genre == null ? null : new GenreLight(genre));
     }
     
     [HttpGet]
     [Route("get/name/{name}")]
-    public async Task<IActionResult> GetByLogin(string name)
+    public async Task<IActionResult> GetByName(string name)
     {
-        return new JsonResult(await _genreAccessor.GetByName(name));
+        var genre =  await _genreAccessor.GetById(name);
+        return new JsonResult(genre == null ? null : new GenreLight(genre));
     }
 }
