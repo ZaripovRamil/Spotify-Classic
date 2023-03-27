@@ -1,11 +1,13 @@
-.auth-form ::placeholder, .register-form ::placeholder {
+.auth-form ::placeholder,
+.register-form ::placeholder {
     color: #FECB6899;
     font-size: 14px;
     font-weight: 600;
     font-family: "Libre Baskerville";
 }
 
-.auth-form, .register-form{
+.auth-form,
+.register-form {
     z-index: 1;
     width: 480px;
     height: 540px;
@@ -14,9 +16,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-     /* position: relative; 
-    left: calc(45% - 100px);
-    top: calc(60% - 400px); */
 
     font-family: "Libre Baskerville";
     color: #FECB6899;
@@ -24,7 +23,12 @@
     letter-spacing: 0.035em;
 }
 
-.auth-header, .register-header {
+.register-form {
+    height: 620px;
+}
+
+.auth-header,
+.register-header {
     font-size: 40px;
     padding: 65px 0px 40px;
 }
@@ -33,24 +37,29 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
 }
 
-.error-text{
-    color: rgba(255, 69, 69, 0.9);;
+.error-text {
+    color: rgba(255, 69, 69, 0.9);
+    ;
     padding: 5px;
-     
+
 }
-.error-nickname{
-    opacity: 1; 
+
+.error-nickname {
+    opacity: 1;
 }
-.error-email{
-    opacity: 1; 
+
+.error-email {
+    opacity: 1;
 }
-.error-password{
-    opacity: 1; 
+
+.error-password {
+    opacity: 1;
 }
-.auth-form input, .register-form input {
+
+.auth-form input,
+.register-form input {
     background: rgba(72, 72, 79, 0.78);
     width: 250px;
     border: 1px solid #FECB68;
@@ -59,13 +68,14 @@
     margin: 10px 0;
     font-size: 16px;
     padding: 8px 15px;
-    /*transition-duration: .4s; ???*/
 }
-#remember-me{
+
+#remember-me {
     width: 20px;
-    margin:20px 10px;
+    margin: 20px 10px;
     accent-color: #FECB6899;
 }
+
 .remember-me-span {
     font-size: 16px;
     display: flex;
@@ -79,10 +89,12 @@
     width: 100px;
 }
 
-.auth-form input:hover, .register-form input:hover {
+.auth-form input:hover,
+.register-form input:hover {
     background: rgba(87, 87, 94, 0.78);
 }
 
-.auth-form input:focus, .register-form input:focus{
+.auth-form input:focus,
+.register-form input:focus {
     outline: none;
 }

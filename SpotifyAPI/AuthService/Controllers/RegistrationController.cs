@@ -7,7 +7,7 @@ using Models.DTO;
 namespace AuthService.Controllers;
 
 [ApiController]
-[Route("[controller]/[action]")]
+[Route("api/[controller]/[action]")]
 public class RegistrationController
 {
     private readonly UserManager<User> _userManager; 
