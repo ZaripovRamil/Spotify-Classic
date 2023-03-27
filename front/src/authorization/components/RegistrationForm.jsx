@@ -2,17 +2,13 @@ import "./Authorization.css";
 import React, { useState } from "react";
 import { getFetcher } from "../../axios/AxiosInstance";
 import Ports from '../../constants/Ports';
-
-// TODO: may be move this to ../../constants/ ?
-const needMoreCharacters = (chars) => `Enter at least ${chars} characters`;
-const wrongEmailFormat = "Enter correct email";
-const emailIsAlreadyTaken = "This email is already taken";
-const loginIsAlreadyTaken = "This login is already taken";
-const incorrectName = "Only latin and cyrillic characters are allowed";
+import AuthorizationErrors from "../../constants/AuthorizationErrors";
+import { useNavigate } from "react-router";
 
 const fetcher = getFetcher(Ports.AuthService);
 
 export const RegisterForm = () => {
+    const navigate = useNavigate();
     const [credentials, setCredentials] = useState({
         login: "",
         name: "",
@@ -32,7 +28,8 @@ export const RegisterForm = () => {
         // console.log('here'); // this bitch displays when errors were set by validateCredentials and yet it returned true
         fetcher.post("registration/add", credentials)
             .then(res => handleRegistrationInfo(res.data))
-            .catch(res => console.log);
+            .catch(err => console.log(err));
+        navigate('/main');
     };
 
     const handleRegistrationInfo = (info) => {
@@ -41,13 +38,13 @@ export const RegisterForm = () => {
                 console.log('ok');
                 break;
             case 1:
-                setLoginError(loginIsAlreadyTaken);
+                setLoginError(AuthorizationErrors.loginIsAlreadyTaken);
                 break;
             case 2:
-                setEmailError(emailIsAlreadyTaken);
+                setEmailError(AuthorizationErrors.emailIsAlreadyTaken);
                 break;
             case 3:
-                setPasswordError(needMoreCharacters(8));
+                setPasswordError(AuthorizationErrors.needMoreCharacters(8));
                 break;
             default:
                 console.log('watta fuck');
@@ -64,24 +61,24 @@ export const RegisterForm = () => {
     // returns false if at least one of credentials is wrong
     const validateCredentials = () => {
         if (credentials.name.length < 4) {
-            setNameError(needMoreCharacters(4));
+            setNameError(AuthorizationErrors.needMoreCharacters(4));
         } else if (!/^[A-Za-zа-яА-Я]+$/.test(credentials.name)) {
-            setNameError(incorrectName);
+            setNameError(AuthorizationErrors.incorrectName);
         } else {
             setNameError();
         }
         if (credentials.password.length < 8) {
-            setPasswordError(needMoreCharacters(8));
+            setPasswordError(AuthorizationErrors.needMoreCharacters(8));
         } else {
             setPasswordError();
         }
         if (credentials.login.length < 4) {
-            setLoginError(needMoreCharacters(4));
+            setLoginError(AuthorizationErrors.needMoreCharacters(4));
         } else {
             setLoginError();
         }
         if (credentials.email.length < 5) {
-            setEmailError(needMoreCharacters(5));
+            setEmailError(AuthorizationErrors.needMoreCharacters(5));
         } else {
             setEmailError();
         }
@@ -96,7 +93,7 @@ export const RegisterForm = () => {
             </div>
             <div className="credentials-input">
                 <div>
-                    <div className="error-text error-nickname">{loginError}</div>
+                    <div className="error-text error-login">{loginError}</div>
                     <input type="text" placeholder="login" onChange={e => updateCredentials("login", e.target.value)} />
                 </div>
                 <div>

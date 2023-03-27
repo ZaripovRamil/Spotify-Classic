@@ -46,7 +46,11 @@
 
 }
 
-.error-nickname {
+.error-name {
+    opacity: 1;
+}
+
+.error-login {
     opacity: 1;
 }
 
