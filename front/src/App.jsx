@@ -1,22 +1,21 @@
 import "./App.css";
 import React from "react";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Player from "./player/Player";
-import { Header } from "./components/Header/Header";
-import { Footer } from "./components/Footer/Footer";
 import { AuthorizationPage } from "./authorization/AuthorizationPage";
 import { RegistrationPage } from "./authorization/RegistrationPage";
+import { PageBuilder } from "./page_builder/PageBuilder";
 
 function App() {
     return (
         <>
-            <Header/>
-                <div className="content">
-                    {/* <Player /> */}
-                    {/* <AuthorizationPage/> */}
-                    <RegistrationPage/>
-                
-                </div>
-            <Footer/>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="*" element={<PageBuilder component={<AuthorizationPage />} />} />
+                    <Route path="/register" element={<PageBuilder component={<RegistrationPage />} />} />
+                    <Route path="/player" element={<PageBuilder component={<Player />} />} />
+                </Routes>
+            </BrowserRouter>
         </>
     );
 }

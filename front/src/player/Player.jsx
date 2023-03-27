@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import moment from "moment/moment";
 import ReactPlayer from "react-player/lazy";
-import { fetcher } from "../axios/AxiosInstance";
-import "./PlayerStyles.css"
-import volume from "./PlayerImages/volume.svg"
+import { getFetcher } from "../axios/AxiosInstance";
+import "./PlayerStyles.css";
+import volume from "./PlayerImages/volume.svg";
+import Ports from '../constants/Ports';
 
 // care of http/https
 const prefix = "https://localhost:7022/api/";
+const fetcher = getFetcher(Ports.MusicService);
 
 const Player = () => {
     // TODO: add animation logic until tracks have been fetched
@@ -104,13 +106,13 @@ const Player = () => {
                     </div>
                     <div className="player-track">
                         <div className="track-img" >
-                            {tracks.id !== "" && <img style={{width:"70px"}} src={prefix + `Previews/${tracks[playerConfig.trackId].previewId}`} width={"100%"} />}
+                            {tracks.id !== "" && <img style={{ width: "70px" }} src={prefix + `Previews/${tracks[playerConfig.trackId].previewId}`} width={"100%"} />}
                         </div>
 
                         <div className="track-control">
                             <div className="track-info">
                                 <div>{tracks[playerConfig.trackId].name}
-                                    {tracks.id !== "" && <div className="track-auth">{tracks[playerConfig.trackId].author.name}</div> }
+                                    {tracks.id !== "" && <div className="track-auth">{tracks[playerConfig.trackId].author.name}</div>}
                                 </div>
 
                                 <div className="player-btns track-btns">
@@ -146,10 +148,6 @@ const Player = () => {
                         <input type="range" min="0" max="1" step="0.1" onChange={(e) =>
                             playerConfig.volume = +e.target.value} />
                     </div>
-
-                    {/* <p>loaded {(trackInfo.loaded * 100).toFixed(2)}%</p> */}
-                    {/* <input type='button' value='speed+' onClick={() => changeConfig('playbackRate', +(playerConfig.playbackRate + 0.1).toFixed(2))} />
-                    <input type='button' value='speed-' onClick={() => changeConfig('playbackRate', +(playerConfig.playbackRate - 0.1).toFixed(2))} />     */}
                 </div>
             </div>
         </>
