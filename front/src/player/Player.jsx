@@ -6,9 +6,9 @@ import "./PlayerStyles.css"
 import volume from "./PlayerImages/volume.svg"
 
 // care of http/https
-const prefix = "https://localhost:7022/api/";
+const prefix = "http://localhost:7022/api/";
 
-const Player = () => {
+const Player = ({playerConfig, setPlayerConfig, changeConfig}) => {
     // TODO: add animation logic until tracks have been fetched
     const [tracks, setTracks] = useState([{
         id: "",
@@ -30,33 +30,26 @@ const Player = () => {
     }, [])
 
 
-    const [playerConfig, setPlayerCongig] = useState({
-        "controls": false,
-        "trackId": 0,
-        "playing": false,
-        "volume": 0.8,
-        "playbackRate": 1.0,
-        "seeking": false
-    });
+    // const [playerConfig, setPlayerCongig] = useState(sentPlayerConfig);
 
-    const changeConfig = (configName, configValue) => {
-        playerConfig[configName] = configValue;
-        // to keep volume level in (0, 1) range. otherwise player falls
-        playerConfig.volume = Math.max(0, Math.min(1, playerConfig.volume));
-        playerConfig.playbackRate = Math.max(0.1, Math.min(2, playerConfig.playbackRate));
-        setPlayerCongig({ ...playerConfig });
-    };
+    // const changeConfig = (configName, configValue) => {
+    //     playerConfig[configName] = configValue;
+    //     // to keep volume level in (0, 1) range. otherwise player falls
+    //     playerConfig.volume = Math.max(0, Math.min(1, playerConfig.volume));
+    //     playerConfig.playbackRate = Math.max(0.1, Math.min(2, playerConfig.playbackRate));
+    //     setPlayerCongig({ ...playerConfig });
+    // };
 
     // these functions may be replaced with, but should they?
     // changeConfig("trackId", (playerConfig.trackId + 1) % tracks.length)
     const playNext = () => {
         playerConfig.trackId = (playerConfig.trackId + 1) % tracks.length;
-        setPlayerCongig({ ...playerConfig });
+        setPlayerConfig({ ...playerConfig });
     };
 
     const playPrevious = () => {
         playerConfig.trackId = (playerConfig.trackId - 1 + tracks.length) % tracks.length;
-        setPlayerCongig({ ...playerConfig });
+        setPlayerConfig({ ...playerConfig });
     };
 
     // duration is the track duration in seconds
@@ -81,7 +74,8 @@ const Player = () => {
                 playing={playerConfig.playing}
                 playbackRate={playerConfig.playbackRate}
                 volume={playerConfig.volume}
-                url={prefix + "tracks/" + tracks[playerConfig.trackId].id}
+                // url={prefix + "tracks/" + tracks[playerConfig.trackId].id}
+                url="https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3"
                 onDuration={(duration) => updateTrackInfo('duration', duration.toFixed(2))}
                 onProgress={(state) => {
                     updateTrackInfo('played', +state.played.toFixed(4));

@@ -1,4 +1,5 @@
 .player{
+    z-index: 1000;
     width: 100%;
     height: 90px;
     background-color: rgba(21, 21, 25, 0.5);
@@ -6,6 +7,9 @@
     font-family: "Inter";
     font-size: 14px;
     font-weight: normal;
+    position: fixed;
+    left: 0;
+    bottom: 0;
 }
 .player-controls{
     display: flex;
