@@ -6,7 +6,7 @@ import wheel from "./media/playing_record_wheel.png";
 export const RegistrationPage = () => {
     return (
         <>
-            <main>
+            <main className="main-auth">
                 <div className="circle" id="first" /> 
                 <div className="circle" id="second" />
                 <div className="wheel-container" >

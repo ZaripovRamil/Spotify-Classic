@@ -1,0 +1,276 @@
+.main-page {
+  width: calc(100% - 60px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0px 30px;
+}
+
+.main-circle {
+  filter: blur(100px);
+  position: fixed;
+  overflow: auto;
+}
+
+.main-circle#first {
+  z-index: 0;
+  width: 1400px;
+  height: 600px;
+  left: -850px;
+  top: -250px;
+
+  background: radial-gradient(
+    circle at center,
+    #f72205 0%,
+    rgba(247, 144, 5, 0) 100%
+  );
+}
+
+.main-circle#second {
+  width: 800px;
+  height: 800px;
+  right: -500px;
+  /* left: 589px; */
+  top: 200px;
+
+  background: radial-gradient(
+    circle at center,
+    #f77905 0%,
+    rgba(247, 144, 5, 0) 100%
+  );
+}
+
+.main-wheel-img {
+  object-fit: cover;
+  filter: contrast(0.9);
+}
+
+@media (max-width: 1000px) {
+  .circle#first {
+    width: 700px;
+    height: 700px;
+  }
+  .wheel-container {
+    left: -250px;
+    top: 100px;
+  }
+  .main-wheel-img {
+    width: 500px;
+  }
+}
+
+@media (max-width: 805px) {
+  .circle#first {
+    width: 400px;
+    height: 400px;
+  }
+  .circle#second {
+    width: 300px;
+    height: 300px;
+  }
+  .wheel-container {
+    display: none;
+  }
+}
+
+h1 {
+  position: relative;
+  z-index: 2;
+
+  font-family: "PP Hatton";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15em;
+  line-height: 100%;
+
+  letter-spacing: 0.035em;
+
+  color: rgba(255, 197, 84, 0.88);
+  mix-blend-mode: normal;
+  margin-right: 50px;
+}
+
+h2 {
+  font-family: "PP Hatton";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 80px;
+  line-height: 100%;
+
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.035em;
+
+  color: rgba(255, 197, 84, 0.88);
+
+  mix-blend-mode: normal;
+  margin-bottom: 30px;
+}
+
+.main_section {
+  width: 100%;
+  min-height: 100%;
+  padding-bottom: 7em;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.playlists-section {
+  min-height: 100%;
+  padding-bottom: 10em;
+  z-index: 1;
+}
+
+.back-img {
+  position: relative;
+  height: 500px;
+  width: 340px;
+  top: 0;
+  background-blend-mode: color-burn;
+  transform: matrix(-1, 0, 0, 1, 0, 0);
+}
+
+.wheel-div {
+  position: absolute;
+  z-index: 1;
+  width: 400px;
+  height: 400px;
+  left: 30px;
+  top: 140px;
+  text-align: center;
+  transform: matrix(-1, 0, 0, 1, 0, 0);
+}
+
+.main-wheel-img {
+  width: 400px;
+  height: 400px;
+}
+
+.wheel-img-rotate {
+  -webkit-animation: spin 10s linear infinite;
+  -moz-animation: spin 10s linear infinite;
+  animation: spin 10s linear infinite;
+}
+@-moz-keyframes spin {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.klipartz-img {
+  position: absolute;
+  z-index: 2;
+  width: 150px;
+  height: 250px;
+  left: 0px;
+  top: 0px;
+
+  backdrop-filter: blur(2px);
+}
+
+.polygon-img {
+  position: absolute;
+  z-index: 3;
+  width: 90px;
+  height: 90px;
+  left: calc(50% - 45px);
+  top: calc(50% - 45px);
+  transform: rotate(180deg);
+  background-color: transparent;
+  border: none;
+}
+
+.wheel-klipartz-container {
+  position: relative;
+  width: 100%;
+  max-width: 450px;
+  height: 550px;
+}
+
+img {
+  display: block;
+}
+
+.buttonWheelStop {
+  width: 90px;
+  height: 90px;
+  background-repeat: no-repeat;
+  background-size: 90px 90px;
+  background-image: url(./media/ButtonStop.svg);
+}
+
+.buttonWheelPlay {
+  width: 90px;
+  height: 90px;
+  left: calc(50% - 55px);
+  background-repeat: no-repeat;
+  background-size: 90px 90px;
+  background-image: url(./media/ButtonPlay.svg);
+}
+
+.playlists {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 20px;
+  width: calc(100% - 40px);
+  overflow: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.playlists::-webkit-scrollbar {
+  display: none;
+}
+
+.playlist-card {
+  display: flex;
+  flex-direction: column;
+  margin-right: 40px;
+}
+
+.playlist-img {
+  width: 300px;
+  height: 300px;
+  border-radius: 7px;
+  margin-bottom: 10px;
+}
+
+.playlist-title {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 25px;
+  line-height: 20px;
+
+  display: flex;
+  align-items: center;
+
+  color: #fcfcfc;
+  margin-bottom: 10px;
+}
+
+.playlist-author {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 20px;
+
+  display: flex;
+  align-items: center;
+
+  color: rgba(252, 252, 252, 0.65);
+}

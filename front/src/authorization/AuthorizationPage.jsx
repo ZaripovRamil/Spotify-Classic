@@ -6,7 +6,7 @@ import wheel from "./media/playing_record_wheel.png";
 export const AuthorizationPage = () => {
     return (
         <>
-            <main>
+            <main className="main-auth">
                 {/* maybe move to separate components?
                 * also, this is not even a bit adaptive... */}
                 <div className="circle" id="first" />
