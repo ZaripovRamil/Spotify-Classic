@@ -23,6 +23,8 @@ public class DbTrackAccessor : DbAccessor, IDbTrackAccessor
 
     public IEnumerable<Track> GetAll()
     {
-        return DbContext.Tracks; // is it ok? TODO: review this
+        return DbContext.Tracks.Include(t=>t.Album)
+            .Include(t=>t.Album.Author)
+            .Include(t=>t.Genres); 
     }
 }

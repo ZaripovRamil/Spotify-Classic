@@ -17,5 +17,5 @@ public class DbAlbumAccessor:DbAccessor, IDbAlbumAccessor
     }
 
     public async Task<Album?> Get(string id) =>
-        await DbContext.Albums.FirstOrDefaultAsync(a => a.Id == id);
+        await DbContext.Albums.Include(a=>a.Author).FirstOrDefaultAsync(a => a.Id == id);
 }

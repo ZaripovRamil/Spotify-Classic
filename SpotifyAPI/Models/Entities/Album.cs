@@ -1,4 +1,5 @@
-﻿using Models.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using Models.Entities;
 
 namespace Models;
 
@@ -9,5 +10,22 @@ public class Album
     public Author Author { get; set; }
     public int ReleaseYear { get; set; }
     public AlbumType Type { get; set; }
-    public List<Track> Tracks { get; set; }
+    public List<Track> Tracks { get; set; } 
+    
+    public Album(string name, Author author, AlbumType albumType, int releaseYear):this(name,author,albumType)
+    {
+        ReleaseYear = releaseYear;
+    }
+    
+    public Album(string name, Author author, AlbumType albumType)
+    {
+        Name = name;
+        Author = author;
+        Type = albumType;
+        ReleaseYear = DateTime.Now.Year;
+    }
+
+    public Album()
+    {
+    }
 }

@@ -14,13 +14,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options => 
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Spotify")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Spotify")).EnableThreadSafetyChecks());
 builder.Services.AddScoped<IDbUserAccessor, DbUserAccessor>();
 builder.Services.AddScoped<IDbAlbumAccessor, DbAlbumAccessor>();
 builder.Services.AddScoped<IDbAuthorAccessor, DbAuthorAccessor>();
 builder.Services.AddScoped<IDbPlaylistAccessor, DbPlaylistAccessor>();
 builder.Services.AddScoped<IDbGenreAccessor, DbGenreAccessor>();
 builder.Services.AddScoped<IDbTrackAccessor, DbTrackAccessor>();
+builder.Services.AddScoped<IAlbumFactory, AlbumFactory>();
+builder.Services.AddScoped<IAuthorFactory, AuthorFactory>();
 builder.Services.AddScoped<IPlaylistFactory, PlaylistFactory>();
 builder.Services.AddScoped<ITrackFactory, TrackFactory>();
 var app = builder.Build();

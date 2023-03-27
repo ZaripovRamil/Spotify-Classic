@@ -30,12 +30,15 @@ public class TrackController
         var playlist = await _trackFactory.Create(pData);
         if (playlist != null)
             await _trackAccessor.Add(playlist);
+        //TODO:Add some response
     }
 
     [HttpGet]
     [Route("Get")]
     public async Task<IActionResult> GetAll()
     {
-        return new JsonResult(_trackAccessor.GetAll().Select(track => new TrackLight(track)));
+        return new JsonResult(_trackAccessor
+            .GetAll()
+            .Select(track => new TrackLight(track)));
     } 
 }

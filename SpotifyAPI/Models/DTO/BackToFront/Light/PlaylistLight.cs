@@ -4,6 +4,7 @@ public class PlaylistLight
 {
     public string Id { get; set; } 
     public string Name { get; set; }
+    public User Owner { get; set; }
     public int TrackCount { get; set; }
 
     public PlaylistLight(Playlist playlist)

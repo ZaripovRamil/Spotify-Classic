@@ -7,7 +7,7 @@ public class Track
 {
     public string Id { get; set; } = Guid.NewGuid().ToString();
 
-    public Track(string name, Album album, List<Genre?> genres)
+    public Track(string name, Album album, List<Genre> genres)
     {
         Name = name;
         Album = album;

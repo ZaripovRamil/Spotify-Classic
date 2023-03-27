@@ -18,10 +18,11 @@ public class AlbumController
     }
     [HttpPost]
     [Route("Add")]
-    public async Task Add([FromBody] AlbumCreationData pData)
+    public async Task Add([FromBody] AlbumCreationData aData)
     {
-        var album = await _albumFactory.Create(pData);
+        var album = await _albumFactory.Create(aData);
         if (album != null)
             await _albumAccessor.Add(album);
     }
+    //TODO:GetByName|Id
 }

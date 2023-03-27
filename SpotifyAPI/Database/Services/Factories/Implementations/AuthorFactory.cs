@@ -1,6 +1,5 @@
 ﻿using Database.Services.Accessors.Interfaces;
 using Database.Services.Factories.Interfaces;
-using Models;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.Entities;
 
@@ -15,9 +14,9 @@ public class AuthorFactory:IAuthorFactory
         _userAccessor = userAccessor;
     }
 
-    public async Task<Author?> Create(AuthorCreationData pData)
+    public async Task<Author?> Create(AuthorCreationData aData)
     {
-        var owner = await _userAccessor.GetById(pData.UserId);
-        return owner == null ? null : new Author();
+        var owner = await _userAccessor.GetById(aData.UserId);
+        return owner == null ? null : new Author(aData.Name, aData.UserId);
     }
 }
