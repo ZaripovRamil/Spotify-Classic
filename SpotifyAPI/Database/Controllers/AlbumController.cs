@@ -1,7 +1,7 @@
-﻿using Database.Services.Accessors.Interfaces;
+﻿using Database.Services;
+using Database.Services.Accessors.Interfaces;
 using Database.Services.Factories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Models.DTO.BackToFront.Full;
 using Models.DTO.FrontToBack.EntityCreationData;
 
 namespace Database.Controllers;
@@ -11,11 +11,13 @@ public class AlbumController
 {
     private readonly IDbAlbumAccessor _albumAccessor;
     private readonly IAlbumFactory _albumFactory;
+    private readonly IDtoCreator _dtoCreator;
 
-    public AlbumController(IDbAlbumAccessor albumAccessor, IAlbumFactory albumFactory)
+    public AlbumController(IDbAlbumAccessor albumAccessor, IAlbumFactory albumFactory, IDtoCreator dtoCreator)
     {
         _albumAccessor = albumAccessor;
         _albumFactory = albumFactory;
+        _dtoCreator = dtoCreator;
     }
     [HttpPost]
     [Route("Add")]
@@ -30,16 +32,14 @@ public class AlbumController
     [Route("get/id/{id}")]
     public async Task<IActionResult> GetById(string id)
     {
-        var album =  await _albumAccessor.GetById(id);
-        return new JsonResult(album == null ? null : new AlbumFull(album));
+        return new JsonResult(_dtoCreator.CreateFull(await _albumAccessor.GetById(id)));
     }
     
     [HttpGet]
     [Route("get/name/{name}")]
     public async Task<IActionResult> GetByName(string name)
     {
-        var album =  await _albumAccessor.GetByName(name);
-        return new JsonResult(album == null ? null : new AlbumFull(album));
+        return new JsonResult(_dtoCreator.CreateFull(await _albumAccessor.GetByName(name)));
     }
     //TODO:GetByName|Id
 }

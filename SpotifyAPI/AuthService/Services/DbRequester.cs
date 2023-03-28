@@ -1,8 +1,7 @@
 ﻿
 using Database.Extensions;
-using Models;
-using Models.DTO;
 using Models.DTO.FrontToBack.EntityCreationData;
+using Models.Entities;
 
 namespace AuthService.Services;
 

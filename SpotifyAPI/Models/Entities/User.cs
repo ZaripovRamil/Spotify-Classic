@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Models.Entities.Enums;
 
-namespace Models;
+namespace Models.Entities;
 
 [PrimaryKey("Id")]
 

@@ -1,8 +1,8 @@
-﻿using Database;
-using Database.Services.Accessors;
-using Database.Services.Accessors.Interfaces;
+﻿using Database.Services.Accessors.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Models;
+using Models.Entities;
+
+namespace Database.Services.Accessors.Implementations;
 
 public class DbAlbumAccessor:DbAccessor, IDbAlbumAccessor
 {

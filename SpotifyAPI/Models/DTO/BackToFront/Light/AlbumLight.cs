@@ -1,3 +1,5 @@
+using Models.Entities;
+
 namespace Models.DTO.BackToFront.Light;
 
 public class AlbumLight

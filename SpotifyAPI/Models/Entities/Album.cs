@@ -1,7 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Models.Entities;
+﻿using Models.Entities.Enums;
 
-namespace Models;
+namespace Models.Entities;
 
 public class Album
 {

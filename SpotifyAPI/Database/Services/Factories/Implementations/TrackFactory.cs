@@ -1,8 +1,7 @@
 ﻿using Database.Services.Accessors.Interfaces;
 using Database.Services.Factories.Interfaces;
-using Models;
-using Models.DTO;
 using Models.DTO.FrontToBack.EntityCreationData;
+using Models.Entities;
 
 namespace Database.Services.Factories.Implementations;
 
@@ -25,6 +24,6 @@ public class TrackFactory:ITrackFactory
         var genres = new List<Genre?>();
         foreach (var gId in tData.GenreIds)
             genres.Add( await _genreAccessor.GetById(gId));
-        return genres.Any(genre => genre == null) ? null : new Track(tData.Name, album, genres);
+        return genres.Any(genre => genre == null) ? null : new Track(tData.Name, album, genres!);
     }
 }

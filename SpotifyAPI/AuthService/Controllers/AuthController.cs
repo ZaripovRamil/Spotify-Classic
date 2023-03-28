@@ -1,11 +1,9 @@
 ﻿using AuthService.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Models;
 using Models.DTO;
 using Models.DTO.BackToFront;
-using Models.DTO.BackToFront.Full;
-using Models.DTO.BackToFront.Light;
+using Models.Entities;
 
 namespace AuthService.Controllers;
 

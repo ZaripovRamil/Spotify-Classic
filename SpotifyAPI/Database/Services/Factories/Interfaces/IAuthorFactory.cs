@@ -1,5 +1,4 @@
-﻿using Models;
-using Models.DTO.FrontToBack.EntityCreationData;
+﻿using Models.DTO.FrontToBack.EntityCreationData;
 using Models.Entities;
 
 namespace Database.Services.Factories.Interfaces;

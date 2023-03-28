@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Models;
+namespace Models.Entities;
 
 [PrimaryKey("Id")]
 public class Track

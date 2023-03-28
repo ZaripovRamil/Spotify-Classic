@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Models;
-using Models.DTO.BackToFront;
-using Models.DTO.BackToFront.Light;
+using Models.Entities;
 using PlayingService.Services;
 
 namespace PlayingService.Controllers;

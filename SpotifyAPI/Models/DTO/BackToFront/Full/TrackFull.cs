@@ -1,4 +1,5 @@
 ﻿using Models.DTO.BackToFront.Light;
+using Models.Entities;
 
 namespace Models.DTO.BackToFront.Full;
 

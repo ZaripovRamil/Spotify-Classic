@@ -1,8 +1,7 @@
 ﻿using Database.Services.Accessors.Interfaces;
 using Database.Services.Factories.Interfaces;
-using Models;
-using Models.DTO;
 using Models.DTO.FrontToBack.EntityCreationData;
+using Models.Entities;
 
 namespace Database.Services.Factories.Implementations;
 

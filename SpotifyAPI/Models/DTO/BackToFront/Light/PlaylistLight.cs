@@ -1,4 +1,6 @@
-﻿namespace Models.DTO.BackToFront.Light;
+﻿using Models.Entities;
+
+namespace Models.DTO.BackToFront.Light;
 
 public class PlaylistLight
 {

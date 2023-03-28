@@ -1,6 +1,5 @@
 ﻿using Database.Services.Accessors.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Models;
 using Models.Entities;
 
 namespace Database.Services.Accessors.Implementations;

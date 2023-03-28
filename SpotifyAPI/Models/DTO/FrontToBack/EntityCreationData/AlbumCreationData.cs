@@ -1,4 +1,6 @@
-﻿namespace Models.DTO.FrontToBack.EntityCreationData;
+﻿using Models.Entities.Enums;
+
+namespace Models.DTO.FrontToBack.EntityCreationData;
 
 public class AlbumCreationData
 {

@@ -1,6 +1,6 @@
 ﻿using Database.Services.Accessors.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Models;
+using Models.Entities;
 
 namespace Database.Services.Accessors.Implementations;
 
@@ -16,7 +16,7 @@ public class DbTrackAccessor : DbAccessor, IDbTrackAccessor
         await DbContext.SaveChangesAsync();
     }
 
-    public async Task<Track?> Get(string id)
+    public async Task<Track?> GetById(string id)
     {
         return await DbContext.Tracks
             .Include(t=>t.Album)

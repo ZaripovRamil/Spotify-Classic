@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Database;
+using Database.Services;
 using Database.Services.Accessors.Implementations;
 using Database.Services.Accessors.Interfaces;
 using Database.Services.Factories.Implementations;
@@ -15,6 +16,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseNpgsql(builder.Configuration.GetConnectionString("Spotify")).EnableThreadSafetyChecks());
+builder.Services.AddSingleton<IDtoCreator, DtoCreator>();
 builder.Services.AddScoped<IDbUserAccessor, DbUserAccessor>();
 builder.Services.AddScoped<IDbAlbumAccessor, DbAlbumAccessor>();
 builder.Services.AddScoped<IDbAuthorAccessor, DbAuthorAccessor>();

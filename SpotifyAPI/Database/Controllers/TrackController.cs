@@ -1,12 +1,8 @@
-﻿using Database.Services.Accessors;
+﻿using Database.Services;
 using Database.Services.Accessors.Interfaces;
-using Database.Services.Factories;
 using Database.Services.Factories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Models.DTO;
-using Models.DTO.BackToFront;
 using Models.DTO.BackToFront.EntityCreationResult;
-using Models.DTO.BackToFront.Full;
 using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack.EntityCreationData;
 
@@ -18,11 +14,13 @@ public class TrackController
 {
     private readonly ITrackFactory _trackFactory;
     private readonly IDbTrackAccessor _trackAccessor;
+    private readonly IDtoCreator _dtoCreator;
 
-    public TrackController(ITrackFactory trackFactory, IDbTrackAccessor trackAccessor)
+    public TrackController(ITrackFactory trackFactory, IDbTrackAccessor trackAccessor, IDtoCreator dtoCreator)
     {
         _trackFactory = trackFactory;
         _trackAccessor = trackAccessor;
+        _dtoCreator = dtoCreator;
     }
 
     [HttpPost]
@@ -37,18 +35,17 @@ public class TrackController
 
     [HttpGet]
     [Route("Get")]
-    public async Task<IActionResult> GetAll()
+    public Task<IActionResult> GetAll()
     {
-        return new JsonResult(_trackAccessor
+        return Task.FromResult<IActionResult>(new JsonResult(_trackAccessor
             .GetAll()
-            .Select(track => new TrackLight(track)));
+            .Select(track => new TrackLight(track))));
     }
 
     [HttpGet]
     [Route("Get/id/{id}")]
     public async Task<IActionResult> Get(string id)
     {
-        var track = await _trackAccessor.Get(id);
-        return new JsonResult(track == null ? null : new TrackFull(track));
+        return new JsonResult(_dtoCreator.CreateFull(await _trackAccessor.GetById(id)));
     }
 }

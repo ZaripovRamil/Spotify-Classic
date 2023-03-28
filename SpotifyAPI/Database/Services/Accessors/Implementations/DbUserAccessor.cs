@@ -1,6 +1,7 @@
 ﻿using Database.Services.Accessors.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Models;
+using Models.Entities;
+using Models.Entities.Enums;
 
 namespace Database.Services.Accessors.Implementations;
 

@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using Models.Entities;
+using Models.Entities.Enums;
 
 namespace Database.Services.Accessors.Interfaces;
 
