@@ -9,6 +9,7 @@ public class UserFull
         Id = user.Id;
         Name = user.Name;
         Playlists = user.Playlists.Select(p=>new PlaylistLight(p)).ToList();
+        History = user.History.Select(t => new TrackLight(t)).ToList();
     }
 
     public string Id { get; set; }
