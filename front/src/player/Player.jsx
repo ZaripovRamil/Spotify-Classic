@@ -1,15 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
 import moment from "moment/moment";
 import ReactPlayer from "react-player/lazy";
-import { fetcher } from "../axios/AxiosInstance";
-import "./PlayerStyles.css"
-import volume from "./PlayerImages/volume.svg"
+import { getFetcher } from "../axios/AxiosInstance";
+import "./PlayerStyles.css";
+import volume from "./PlayerImages/volume.svg";
+import Ports from '../constants/Ports';
 
 // care of http/https
 const prefix = "https://localhost:7022/api/";
+const fetcher = getFetcher(Ports.MusicService);
+export var isPlaying = false;
 
 const Player = () => {
-    // TODO: add animation logic until tracks have been fetched
     const [tracks, setTracks] = useState([{
         id: "",
         name: "",
@@ -38,6 +40,8 @@ const Player = () => {
         "playbackRate": 1.0,
         "seeking": false
     });
+
+    isPlaying = playerConfig.playing;
 
     const changeConfig = (configName, configValue) => {
         playerConfig[configName] = configValue;
@@ -91,7 +95,7 @@ const Player = () => {
             />
             <div className="player">
                 <div className="player-controls">
-                    <div className="player-btns">
+                    <div className="switch-btns player-btns">
 
                         <input type='button' className="player-btn buttonPrevious" onClick={() => playPrevious()} />
 
@@ -103,17 +107,17 @@ const Player = () => {
 
                     </div>
                     <div className="player-track">
-                        <div className="track-img" style={{ width: "77px", height: "74px", backgroundColor: "#FCFCFC" }}>
-                            {tracks.id !== "" && <img src={prefix + `previews/${tracks[playerConfig.trackId].previewId}`} width={"100%"} />}
+                        <div className="track-img" >
+                            {tracks.id !== "" && <img style={{ width: "70px" }} src={prefix + `Previews/${tracks[playerConfig.trackId].previewId}`} width={"100%"} />}
                         </div>
 
                         <div className="track-control">
                             <div className="track-info">
                                 <div>{tracks[playerConfig.trackId].name}
-                                    {tracks.id !== "" && <div className="track-auth">{tracks[playerConfig.trackId].author.name}</div> }
+                                    {tracks.id !== "" && <div className="track-auth">{tracks[playerConfig.trackId].author.name}</div>}
                                 </div>
 
-                                <div className="track-btns">
+                                <div className="player-btns track-btns">
                                     {/*TODO: logic of this buttons */}
                                     <input type='button' className="player-btn buttonRepeat" />
                                     <input type='button' className="player-btn buttonMix" />
@@ -129,13 +133,11 @@ const Player = () => {
                                 step="any"
                                 value={trackInfo.played}
                                 onChange={(e) => {
-                                    const a = parseFloat(e.target.value)
-                                    player.current.seekTo(a, 'fraction');
-                                    console.log(e.target.value);
+                                    player.current.seekTo(parseFloat(e.target.value), 'fraction');
                                 }} />
 
                             <div className="track-time">
-                                <div>{moment(1000 * trackInfo.played * trackInfo.duration).format('mm:ss')}</div>
+                                <div >{moment(1000 * trackInfo.played * trackInfo.duration).format('mm:ss')}</div>
                                 <div>{moment(1000 * trackInfo.duration).format('mm:ss')}</div>
                             </div>
                         </div>
@@ -146,10 +148,6 @@ const Player = () => {
                         <input type="range" min="0" max="1" step="0.1" onChange={(e) =>
                             playerConfig.volume = +e.target.value} />
                     </div>
-
-                    {/* <p>loaded {(trackInfo.loaded * 100).toFixed(2)}%</p> */}
-                    {/* <input type='button' value='speed+' onClick={() => changeConfig('playbackRate', +(playerConfig.playbackRate + 0.1).toFixed(2))} />
-                    <input type='button' value='speed-' onClick={() => changeConfig('playbackRate', +(playerConfig.playbackRate - 0.1).toFixed(2))} />     */}
                 </div>
             </div>
         </>

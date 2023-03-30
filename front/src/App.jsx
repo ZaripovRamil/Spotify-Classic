@@ -1,15 +1,27 @@
 import "./App.css";
 import React from "react";
-import AuthorizationPage from "./authorization/AuthorizationPage";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Player from "./player/Player";
+import { AuthorizationPage } from "./authorization/AuthorizationPage";
+import { RegistrationPage } from "./authorization/RegistrationPage";
+import { PageBuilder } from "./page_builder/PageBuilder";
+import { MainPageSection } from "./mainPage/MainPageSection";
+
 
 function App() {
-    return (
-        <>
-            {/* <Player /> */}
-            <AuthorizationPage />
-        </>
-    );
-}
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="*" element={<PageBuilder component={<AuthorizationPage />} />} />
+          <Route path="/register" element={<PageBuilder component={<RegistrationPage />} />} />
+          <Route path="/player" element={<PageBuilder component={<Player />} />} />
+          <Route path="/main" element={<PageBuilder component={<MainPageSection />} />} />
+
+        </Routes>
+      </BrowserRouter>
+    </>
+  );
+};
 
 export default App;

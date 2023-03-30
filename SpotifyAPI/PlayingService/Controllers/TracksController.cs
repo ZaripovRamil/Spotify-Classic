@@ -18,14 +18,15 @@ public class TracksController : Controller
     }
 
     [HttpGet("{id}")]
-    public IActionResult DownloadById(string id)
+    public async Task<FileStreamResult> DownloadByIdAsync (string id)
     {
         var track = _fileProvider.GetFileAsStream($"Assets/Tracks/{id}.mp3");
-        Response.ContentLength = _fileProvider.GetFileLength($"Assets/Tracks/{id}.mp3");
-        // TODO: implement the below logic (server can send byte ranges)
-        Response.Headers.AcceptRanges = "bytes"; // server can't (now)actually do it. here just for the reason.
-        if (track is null) return NotFound();
-        return File(track, "application/octet-stream", $"{id}.mp3");
+        
+        return new FileStreamResult(track, "application/octet-stream")
+        {
+            FileDownloadName = $"{id}.mp3",
+            EnableRangeProcessing = true
+        };
     }
 
     [HttpGet]
