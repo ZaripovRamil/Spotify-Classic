@@ -1,28 +1,45 @@
-﻿using Database.Services.Accessors;
-using Database.Services.Factories;
+﻿using Database.Services;
+using Database.Services.Accessors.Interfaces;
+using Database.Services.Factories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Models.DTO;
+using Models.DTO.FrontToBack.EntityCreationData;
 
 namespace Database.Controllers;
 [ApiController]
 [Route("[controller]")]
 public class AlbumController
 {
-    private readonly IDbPlaylistAccessor _playlistAccessor;
-    private readonly IPlaylistFactory _playlistFactory;
+    private readonly IDbAlbumAccessor _albumAccessor;
+    private readonly IAlbumFactory _albumFactory;
+    private readonly IDtoCreator _dtoCreator;
 
-    public AlbumController(IDbPlaylistAccessor playlistAccessor, IPlaylistFactory playlistFactory)
+    public AlbumController(IDbAlbumAccessor albumAccessor, IAlbumFactory albumFactory, IDtoCreator dtoCreator)
     {
-        _playlistAccessor = playlistAccessor;
-        _playlistFactory = playlistFactory;
+        _albumAccessor = albumAccessor;
+        _albumFactory = albumFactory;
+        _dtoCreator = dtoCreator;
     }
-
     [HttpPost]
     [Route("Add")]
-    public async Task Add([FromBody] PlaylistCreationData pData)
+    public async Task Add([FromBody] AlbumCreationData aData)
     {
-        var playlist = await _playlistFactory.Create(pData);
-        if (playlist != null)
-            await _playlistAccessor.Add(playlist);
+        var album = await _albumFactory.Create(aData);
+        if (album != null)
+            await _albumAccessor.Add(album);
     }
+    
+    [HttpGet]
+    [Route("get/id/{id}")]
+    public async Task<IActionResult> GetById(string id)
+    {
+        return new JsonResult(_dtoCreator.CreateFull(await _albumAccessor.GetById(id)));
+    }
+    
+    [HttpGet]
+    [Route("get/name/{name}")]
+    public async Task<IActionResult> GetByName(string name)
+    {
+        return new JsonResult(_dtoCreator.CreateFull(await _albumAccessor.GetByName(name)));
+    }
+    //TODO:GetByName|Id
 }

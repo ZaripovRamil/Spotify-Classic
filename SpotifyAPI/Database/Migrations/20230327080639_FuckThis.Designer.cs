@@ -3,6 +3,7 @@ using System;
 using Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230327080639_FuckThis")]
+    partial class FuckThis
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -453,7 +456,7 @@ namespace Database.Migrations
             modelBuilder.Entity("Models.Playlist", b =>
                 {
                     b.HasOne("Models.User", "Owner")
-                        .WithMany("Playlists")
+                        .WithMany()
                         .HasForeignKey("OwnerId");
 
                     b.Navigation("Owner");
@@ -508,11 +511,6 @@ namespace Database.Migrations
             modelBuilder.Entity("Models.Entities.Author", b =>
                 {
                     b.Navigation("Albums");
-                });
-
-            modelBuilder.Entity("Models.User", b =>
-                {
-                    b.Navigation("Playlists");
                 });
 #pragma warning restore 612, 618
         }

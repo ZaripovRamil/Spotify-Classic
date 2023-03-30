@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Models;
-using Models.DTO;
+using Models.DTO.BackToFront.EntityCreationResult;
+using Models.DTO.FrontToBack.EntityCreationData;
+using Models.Entities;
+using Models.Entities.Enums;
 
 
 namespace AuthService.Controllers;

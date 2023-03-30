@@ -1,7 +1,6 @@
-﻿using Database.Services.Accessors;
-using Database.Services.Factories;
+﻿using Database.Services;
+using Database.Services.Accessors.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Models.DTO;
 
 namespace Database.Controllers;
 
@@ -10,31 +9,33 @@ namespace Database.Controllers;
 public class UserController
 {
    
-    private readonly IDbUserAccessor _dbUserAccessor;
+    private readonly IDbUserAccessor _userAccessor;
+    private readonly IDtoCreator _dtoCreator;
 
-    public UserController(IDbUserAccessor dbUserAccessor)
+    public UserController(IDbUserAccessor userAccessor, IDtoCreator dtoCreator)
     {
-        _dbUserAccessor = dbUserAccessor;
+        _userAccessor = userAccessor;
+        _dtoCreator = dtoCreator;
     }
 
     [HttpGet]
-    [Route("get/login/{login}")]
-    public async Task<IActionResult> GetByLogin(string login)
+    [Route("get/username/{username}")]
+    public async Task<IActionResult> GetByUsername(string username)
     {
-        return new JsonResult(await _dbUserAccessor.GetByUsername(login));
+        return new JsonResult(_dtoCreator.CreateFull(await _userAccessor.GetByUsername(username)));    
     }
 
     [HttpGet]
     [Route("get/email/{email}")]
     public async Task<IActionResult> GetByEmail(string email)
     {
-        return new JsonResult(await _dbUserAccessor.UserByEmail(email));
+        return new JsonResult(_dtoCreator.CreateFull(await _userAccessor.GetByEmail(email)));
     }
 
     [HttpGet]
     [Route("get/id/{id}")]
     public async Task<IActionResult> GetById(string id)
     {
-        return new JsonResult(await _dbUserAccessor.GetById(id));
+        return new JsonResult(_dtoCreator.CreateFull(await _userAccessor.GetById(id)));
     }
 }

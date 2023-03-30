@@ -1,7 +1,9 @@
-﻿using Database.Services.Accessors;
+﻿using Database.Services;
+using Database.Services.Accessors.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Models;
-using Models.DTO;
+using Models.DTO.BackToFront.EntityCreationResult;
+using Models.DTO.FrontToBack.EntityCreationData;
+using Models.Entities;
 
 namespace Database.Controllers;
 
@@ -10,10 +12,12 @@ namespace Database.Controllers;
 public class GenreController
 {
     private readonly IDbGenreAccessor _genreAccessor;
+    private readonly IDtoCreator _dtoCreator;
 
-    public GenreController(IDbGenreAccessor genreAccessor)
+    public GenreController(IDbGenreAccessor genreAccessor, IDtoCreator dtoCreator)
     {
         _genreAccessor = genreAccessor;
+        _dtoCreator = dtoCreator;
     }
 
     [HttpPost]
@@ -30,13 +34,13 @@ public class GenreController
     [Route("get/id/{id}")]
     public async Task<IActionResult> GetById(string id)
     {
-        return new JsonResult(await _genreAccessor.GetById(id));
+        return new JsonResult(_dtoCreator.CreateLight(await _genreAccessor.GetById(id)));
     }
     
     [HttpGet]
     [Route("get/name/{name}")]
-    public async Task<IActionResult> GetByLogin(string name)
+    public async Task<IActionResult> GetByName(string name)
     {
-        return new JsonResult(await _genreAccessor.GetByName(name));
+        return new JsonResult(_dtoCreator.CreateLight(await _genreAccessor.GetByName(name)));
     }
 }

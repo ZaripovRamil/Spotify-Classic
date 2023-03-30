@@ -1,8 +1,10 @@
-﻿using Database.Services.Accessors;
-using Database.Services.Factories;
+﻿using Database.Services;
+using Database.Services.Accessors.Interfaces;
+using Database.Services.Factories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Models.DTO;
-using Models.DTO.BackToFront;
+using Models.DTO.BackToFront.EntityCreationResult;
+using Models.DTO.BackToFront.Light;
+using Models.DTO.FrontToBack.EntityCreationData;
 
 namespace Database.Controllers;
 
@@ -12,42 +14,38 @@ public class TrackController
 {
     private readonly ITrackFactory _trackFactory;
     private readonly IDbTrackAccessor _trackAccessor;
+    private readonly IDtoCreator _dtoCreator;
 
-    public TrackController(ITrackFactory trackFactory, IDbTrackAccessor trackAccessor)
+    public TrackController(ITrackFactory trackFactory, IDbTrackAccessor trackAccessor, IDtoCreator dtoCreator)
     {
         _trackFactory = trackFactory;
         _trackAccessor = trackAccessor;
+        _dtoCreator = dtoCreator;
     }
 
     [HttpPost]
     [Route("Add")]
-    public async Task Add([FromBody] TrackCreationData pData)
+    public async Task<IActionResult> Add([FromBody] TrackCreationData tData)
     {
-        var playlist = await _trackFactory.Create(pData);
-        if (playlist != null)
-            await _trackAccessor.Add(playlist);
+        var track = await _trackFactory.Create(tData);
+        if (track == null) return new JsonResult(TrackCreationCode.InvalidAlbum);
+            await _trackAccessor.Add(track);
+        return new JsonResult(TrackCreationCode.InvalidAlbum);
     }
 
     [HttpGet]
     [Route("Get")]
-    public async Task<IActionResult> GetAll()
+    public Task<IActionResult> GetAll()
     {
-        // TODO: may be extract this logic to separate data mapper?
-        return new JsonResult(_trackAccessor.GetAll().Select(track => new TrackLight
-        {
-            Id = track.Id,
-            Name = track.Name,
-            PreviewId = track.Id, 
-            Author = new AuthorLight
-            {
-                Id = track.Album.Owner.Id,
-                Name = track.Album.Owner.Name 
-            },
-            Album = new AlbumLight
-            {
-                Id = track.Album.Id,
-                Name = track.Album.Name
-            }
-        }));
-    } 
+        return Task.FromResult<IActionResult>(new JsonResult(_trackAccessor
+            .GetAll()
+            .Select(track => new TrackLight(track))));
+    }
+
+    [HttpGet]
+    [Route("Get/id/{id}")]
+    public async Task<IActionResult> Get(string id)
+    {
+        return new JsonResult(_dtoCreator.CreateFull(await _trackAccessor.GetById(id)));
+    }
 }
