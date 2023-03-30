@@ -16,8 +16,8 @@ function App() {
           <Route path="*" element={<PageBuilder component={<AuthorizationPage />} />} />
           <Route path="/register" element={<PageBuilder component={<RegistrationPage />} />} />
           <Route path="/player" element={<PageBuilder component={<Player />} />} />
-          <Route path="/main" element={<PageBuilder component={ <> <MainPageSection /> <Player /> </>} />} />
-          
+          <Route path="/main" element={<PageBuilder component={<MainPageSection />} />} />
+
         </Routes>
       </BrowserRouter>
     </>
