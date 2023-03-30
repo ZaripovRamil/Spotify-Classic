@@ -9,9 +9,9 @@ import Ports from '../constants/Ports';
 // care of http/https
 const prefix = "https://localhost:7022/api/";
 const fetcher = getFetcher(Ports.MusicService);
+export var isPlaying = false;
 
 const Player = () => {
-    // TODO: add animation logic until tracks have been fetched
     const [tracks, setTracks] = useState([{
         id: "",
         name: "",
@@ -40,6 +40,8 @@ const Player = () => {
         "playbackRate": 1.0,
         "seeking": false
     });
+
+    isPlaying = playerConfig.playing;
 
     const changeConfig = (configName, configValue) => {
         playerConfig[configName] = configValue;
@@ -131,9 +133,7 @@ const Player = () => {
                                 step="any"
                                 value={trackInfo.played}
                                 onChange={(e) => {
-                                    const a = parseFloat(e.target.value)
-                                    player.current.seekTo(a, 'fraction');
-                                    console.log(e.target.value);
+                                    player.current.seekTo(parseFloat(e.target.value), 'fraction');
                                 }} />
 
                             <div className="track-time">
