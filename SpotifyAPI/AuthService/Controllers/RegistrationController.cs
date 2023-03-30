@@ -9,7 +9,7 @@ using Models.Entities.Enums;
 namespace AuthService.Controllers;
 
 [ApiController]
-[Route("api/[controller]/[action]")]
+[Route("[controller]/[action]")]
 public class RegistrationController
 {
     private readonly UserManager<User> _userManager; 

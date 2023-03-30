@@ -5,7 +5,7 @@ using PlayingService.Services;
 namespace PlayingService.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("[controller]")]
 public class TracksController : Controller
 {
     private readonly IFileProvider _fileProvider;
@@ -32,7 +32,6 @@ public class TracksController : Controller
     [HttpGet]
     public async Task<IActionResult> GetAllAsync()
     {
-        // TODO: uncomment this when db controller will be ready
          return new JsonResult(await _client.GetFromJsonAsync<IEnumerable<Track>>("http://localhost:5096/track/get"));
     }
 }
