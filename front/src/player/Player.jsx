@@ -39,8 +39,6 @@ const Player = () => {
         "seeking": false
     });
 
-    isPlaying = playerConfig.playing;
-
     const changeConfig = (configName, configValue) => {
         playerConfig[configName] = configValue;
         // to keep volume level in (0, 1) range. otherwise player falls

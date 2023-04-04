@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Models.Entities;
+using Models.DTO.BackToFront.Light;
 using PlayingService.Services;
 
 namespace PlayingService.Controllers;
@@ -10,7 +10,6 @@ public class TracksController : Controller
 {
     private readonly IFileProvider _fileProvider;
     private readonly HttpClient _client = new();
-    //TODO: move this to db
 
     public TracksController(IFileProvider fp)
     {
@@ -32,6 +31,7 @@ public class TracksController : Controller
     [HttpGet]
     public async Task<IActionResult> GetAllAsync()
     {
-         return new JsonResult(await _client.GetFromJsonAsync<IEnumerable<Track>>("http://localhost:5096/track/get"));
+        var tracks = await _client.GetFromJsonAsync<IEnumerable<TrackLight>>("https://localhost:7093/track/get");
+        return new JsonResult(tracks);
     }
 }
