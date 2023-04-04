@@ -102,7 +102,10 @@ const Player = () => {
                     </div>
                     <div className="player-track">
                         <div className="track-img" >
-                            {tracks.id !== "" && <img style={{ width: "70px" }} src={prefix + `Previews/${tracks[playerConfig.trackId].id}`} width={"100%"} />}
+                            {tracks.id !== "" && <img style={{ maxWidth: "70px", maxHeight: "70px" }} src={prefix + `Previews/${tracks[playerConfig.trackId].id}`} width={"100%"} onError={({currentTarget}) => {
+                                currentTarget.onerror = null;
+                                currentTarget.src = prefix+`Previews/${tracks[playerConfig.trackId].album.id}`;
+                            }}/>}
                         </div>
 
                         <div className="track-control">
