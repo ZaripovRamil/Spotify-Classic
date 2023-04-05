@@ -7,22 +7,20 @@ import volume from "./PlayerImages/volume.svg";
 import Ports from '../constants/Ports';
 
 // care of http/https
-const prefix = "https://localhost:7022/api/";
+const prefix = "https://localhost:7022/";
 const fetcher = getFetcher(Ports.MusicService);
-export var isPlaying = false;
 
 const Player = () => {
     const [tracks, setTracks] = useState([{
         id: "",
         name: "",
-        previewId: "",
         album: {
             id: "",
-            name: ""
-        },
-        author: {
-            id: "",
-            name: ""
+            name: "",
+            author: {
+                id: "",
+                name: ""
+            }
         }
     }]);
     const player = useRef(null);
@@ -41,8 +39,6 @@ const Player = () => {
         "seeking": false
     });
 
-    isPlaying = playerConfig.playing;
-
     const changeConfig = (configName, configValue) => {
         playerConfig[configName] = configValue;
         // to keep volume level in (0, 1) range. otherwise player falls
@@ -51,8 +47,6 @@ const Player = () => {
         setPlayerCongig({ ...playerConfig });
     };
 
-    // these functions may be replaced with, but should they?
-    // changeConfig("trackId", (playerConfig.trackId + 1) % tracks.length)
     const playNext = () => {
         playerConfig.trackId = (playerConfig.trackId + 1) % tracks.length;
         setPlayerCongig({ ...playerConfig });
@@ -108,13 +102,16 @@ const Player = () => {
                     </div>
                     <div className="player-track">
                         <div className="track-img" >
-                            {tracks.id !== "" && <img style={{ width: "70px" }} src={prefix + `Previews/${tracks[playerConfig.trackId].previewId}`} width={"100%"} />}
+                            {tracks.id !== "" && <img style={{ maxWidth: "70px", maxHeight: "70px" }} src={prefix + `Previews/${tracks[playerConfig.trackId].id}`} width={"100%"} onError={({currentTarget}) => {
+                                currentTarget.onerror = null;
+                                currentTarget.src = prefix+`Previews/${tracks[playerConfig.trackId].album.id}`;
+                            }}/>}
                         </div>
 
                         <div className="track-control">
                             <div className="track-info">
                                 <div>{tracks[playerConfig.trackId].name}
-                                    {tracks.id !== "" && <div className="track-auth">{tracks[playerConfig.trackId].author.name}</div>}
+                                    {tracks.id !== "" && <div className="track-auth">{tracks[playerConfig.trackId].album.author.name}</div>}
                                 </div>
 
                                 <div className="player-btns track-btns">

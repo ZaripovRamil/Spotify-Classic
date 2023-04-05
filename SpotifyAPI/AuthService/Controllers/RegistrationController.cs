@@ -3,13 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.Entities;
-using Models.Entities.Enums;
 
 
 namespace AuthService.Controllers;
 
 [ApiController]
-[Route("api/[controller]/[action]")]
+[Route("[controller]/[action]")]
 public class RegistrationController
 {
     private readonly UserManager<User> _userManager; 
@@ -28,9 +27,9 @@ public class RegistrationController
             return new JsonResult(RegistrationCode.LoginTaken);
         if (rData.Password.Length < 8)
             return new JsonResult(RegistrationCode.WeakPassword);
-        var regResult = await _userManager.CreateAsync(new User {UserName = rData.Login, Email = rData.Email, Name = rData.Name, Role = Role.Free}, rData.Password);
-        if(regResult.Succeeded)
-            return new JsonResult(RegistrationCode.Successful);
-        return new JsonResult(RegistrationCode.UnknownError);
+        var regResult = await _userManager.CreateAsync(new User(rData.Login, rData.Email, rData.Name), rData.Password);
+        return regResult.Succeeded
+            ? new JsonResult(RegistrationCode.Successful)
+            : new JsonResult(RegistrationCode.UnknownError);
     }
 }

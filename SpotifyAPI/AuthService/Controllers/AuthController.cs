@@ -8,7 +8,7 @@ using Models.Entities;
 namespace AuthService.Controllers;
 
 [ApiController]
-[Route("api/[controller]/[action]")]
+[Route("[controller]/[action]")]
 public class AuthController
 {
     private readonly SignInManager<User> _signInManager;

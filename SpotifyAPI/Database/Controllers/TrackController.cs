@@ -37,9 +37,10 @@ public class TrackController
     [Route("Get")]
     public Task<IActionResult> GetAll()
     {
-        return Task.FromResult<IActionResult>(new JsonResult(_trackAccessor
+        var tracks = _trackAccessor
             .GetAll()
-            .Select(track => new TrackLight(track))));
+            .Select(track => new TrackLight(track));
+        return Task.FromResult<IActionResult>(new JsonResult(tracks));
     }
 
     [HttpGet]

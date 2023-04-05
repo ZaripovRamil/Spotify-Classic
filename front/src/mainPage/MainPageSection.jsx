@@ -1,12 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./MainPage.css";
 import wheelImgSrc from "./media/wheel.png";
 import klipartzImgSrc from "./media/klipartz.png";
 import { Playlists } from "./containers/playlists";
-import { isPlaying } from "../player/Player";
 
 export const MainPageSection = () => {
-  useEffect(c => console.log(isPlaying), [isPlaying]);
   return (
     <>
       <main className="main-page">

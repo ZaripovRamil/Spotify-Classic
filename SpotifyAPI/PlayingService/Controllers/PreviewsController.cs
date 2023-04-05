@@ -4,7 +4,7 @@ using PlayingService.Services;
 namespace PlayingService.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("[controller]")]
 public class PreviewsController : Controller
 {
     private readonly IFileProvider _fileProvider;

@@ -41,5 +41,4 @@ public class AlbumController
     {
         return new JsonResult(_dtoCreator.CreateFull(await _albumAccessor.GetByName(name)));
     }
-    //TODO:GetByName|Id
 }
