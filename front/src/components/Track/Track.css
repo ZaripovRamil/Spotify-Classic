@@ -1,0 +1,93 @@
+.track{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 60px;
+    padding: 1px;
+    background-color: rgba(21, 21, 25, 0.3);
+    color: #FCFCFC;
+    font-family: "Libre Baskerville";
+    font-size: 13px;
+    font-weight: 400;
+}
+.track:hover{
+    border: solid #FECB68 1px;
+    padding: 0px;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.8); 
+}
+.track:hover .track-btn{
+    opacity: 1;
+}
+.track:hover .track-img{
+    opacity: 0.4;
+    
+}
+.track-preview{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:10px;
+}
+
+.track-play-img{
+    position: relative;
+    width: 60px;
+    height: 60px;
+    background: #000; 
+
+}
+.track-img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    transition: opacity 124ms linear 
+}
+
+.track-btn{
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    top:15px;
+    left: 15px;
+    opacity: 0;
+}
+
+.track-buttonPlay{
+    width: 30px;
+    height: 30px;
+    background-image: url(./PlayTrack.svg);
+
+}
+.track-buttonStop{
+    width: 30px;
+    height: 30px;
+    background-image: url(./ButtonStop.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.track-audiotrack-auth{
+    color: #FCFCFC;
+    opacity: 0.65;
+}
+
+.track-info{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 5px 0 0;
+    gap: 40px;
+}
+.track-buttonLike{
+    width: 30px;
+    height: 30px;
+    background-image: url(./ButtonLike.svg) ;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    background-position: center;
+    border: none;
+}
+.track-duration{
+    font-size: 13px;
+    color: #D9D9D9;
+}
+
