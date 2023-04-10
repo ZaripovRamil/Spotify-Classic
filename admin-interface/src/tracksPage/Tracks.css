@@ -1,0 +1,73 @@
+.table-container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table th,
+.table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.table th {
+    background-color: #eee;
+}
+
+.table td {
+    font-size: 16px;
+}
+
+.button {
+    padding: 8px;
+    margin-right: 8px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.button-edit {
+    background-color: #2196f3;
+    color: #fff;
+}
+
+.button-delete {
+    background-color: #f44336;
+    color: #fff;
+}
+
+.button-save {
+    background-color: #4caf50;
+    color: #fff;
+}
+
+.button-cancel {
+    background-color: #ccc;
+    color: #fff;
+}
+
+.button-add {
+    background-color: #4caf50;
+    color: #fff;
+}
+
+.form-container {
+    border: 1px solid #ddd;
+    padding: 16px;
+    margin-top: 16px;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.input {
+    margin-bottom: 8px;
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
