@@ -3,11 +3,11 @@ import React, { useState } from "react";
 import "./Tracks.css";
 
 const Tracks = () => {
-  const columns = ['name', 'age'];
+  const columns = ["name", "age"];
   const [data, setData] = useState([
-    { name: 'Alice', age: 25 },
-    { name: 'Bob', age: 30 },
-    { name: 'Charlie', age: 35 }
+    { name: "Alice", age: 25 },
+    { name: "Bob", age: 30 },
+    { name: "Charlie", age: 35 },
   ]);
 
   const [editIndex, setEditIndex] = useState(-1);
@@ -18,15 +18,18 @@ const Tracks = () => {
     updatedData[index] = { ...updatedData[index], ...newData };
     setData(updatedData);
     setEditIndex(-1);
+    setNewData({ name: "", age: 0 });
   };
 
   const handleCancel = () => {
     setEditIndex(-1);
+    setNewData({ name: "", age: 0 });
   };
 
   const handleAdd = () => {
     const updatedData = [{ ...newData }, ...data];
     setData(updatedData);
+    setEditIndex(0);
     setNewData({ name: "", age: 0 });
   };
 
@@ -38,28 +41,9 @@ const Tracks = () => {
 
   return (
     <div className="table-container">
-      <div className="form-container">
-        <h3>Add new item:</h3>
-        <input
-          className="input"
-          type="text"
-          placeholder="Name"
-          value={newData.name}
-          onChange={(e) => setNewData({ ...newData, name: e.target.value })}
-        />
-        <input
-          className="input"
-          type="text"
-          placeholder="Age"
-          value={newData.age}
-          onChange={(e) =>
-            setNewData({ ...newData, age: parseInt(e.target.value) })
-          }
-        />
-        <button className="button button-add" onClick={handleAdd}>
-          Add
-        </button>
-      </div>
+      <button className="button button-add" onClick={handleAdd}>
+        Add Track
+      </button>
       <table className="table">
         <thead>
           <tr>
@@ -141,6 +125,6 @@ const Tracks = () => {
       </table>
     </div>
   );
-}
+};
 
 export default Tracks;
