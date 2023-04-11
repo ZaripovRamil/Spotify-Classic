@@ -5,11 +5,9 @@ namespace Models.DTO.BackToFront.Light;
 
 public class AlbumLight
 {
-    [JsonPropertyName("id")]
     public string Id { get; set; }
-    [JsonPropertyName("name")]
+    public string PreviewId { get; set; }
     public string Name { get; set; }
-    [JsonPropertyName("author")]
     public AuthorLight Author { get; set; }
 
     public AlbumLight() { }
@@ -19,5 +17,6 @@ public class AlbumLight
         Id = album.Id;
         Name = album.Name;
         Author = new AuthorLight(album.Author);
+        PreviewId = album.PreviewId;
     }
 }

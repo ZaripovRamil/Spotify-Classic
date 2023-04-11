@@ -23,6 +23,7 @@ builder.Services.AddScoped<IDbAuthorAccessor, DbAuthorAccessor>();
 builder.Services.AddScoped<IDbPlaylistAccessor, DbPlaylistAccessor>();
 builder.Services.AddScoped<IDbGenreAccessor, DbGenreAccessor>();
 builder.Services.AddScoped<IDbTrackAccessor, DbTrackAccessor>();
+builder.Services.AddScoped<IFileIdGenerator, FileIdGenerator>();
 builder.Services.AddScoped<IAlbumFactory, AlbumFactory>();
 builder.Services.AddScoped<IAuthorFactory, AuthorFactory>();
 builder.Services.AddScoped<IPlaylistFactory, PlaylistFactory>();
