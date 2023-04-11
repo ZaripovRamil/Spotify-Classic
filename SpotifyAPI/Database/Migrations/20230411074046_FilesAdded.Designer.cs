@@ -3,6 +3,7 @@ using System;
 using Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230411074046_FilesAdded")]
+    partial class FilesAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -201,8 +204,8 @@ namespace Database.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6004f73f-24f3-4ee2-891f-c273fec9a7fb",
-                            AuthorId = "7c2f4604-c265-469f-9233-daa5f2144291",
+                            Id = "c5cfb64c-c670-4c48-9cf2-e3e085e72831",
+                            AuthorId = "baf3a3d1-6bcf-492f-aa49-8aa6411f11d9",
                             Name = "The Four Seasons",
                             PreviewId = "7c561b1e-3070-4e83-b71a-2fd7a69fa040",
                             ReleaseYear = 1725,
@@ -210,8 +213,8 @@ namespace Database.Migrations
                         },
                         new
                         {
-                            Id = "6c71ddc7-99bd-4f52-927f-a7fe484b81f4",
-                            AuthorId = "a4e4d550-8d6d-41c3-83f6-30b7b733db2f",
+                            Id = "68e1d886-f75d-48b9-99d2-7ce226a49431",
+                            AuthorId = "103b2583-9e00-4238-820f-5589b575d8d5",
                             Name = "Moonlight Sonata",
                             PreviewId = "e6a51aae-2ee3-4253-8b9c-1e88e65f0efb",
                             ReleaseYear = 1802,
@@ -219,8 +222,8 @@ namespace Database.Migrations
                         },
                         new
                         {
-                            Id = "4bd78fad-e877-4eb5-af51-7ad51cba7cf4",
-                            AuthorId = "0fbecaf3-2ffc-4764-bcae-673a9ce80728",
+                            Id = "12fdb2a4-4431-4cdd-a0f9-8b630dc73092",
+                            AuthorId = "75240b99-b1e9-4cf4-bd2e-1543af089999",
                             Name = "Waltz No. 2",
                             PreviewId = "29ad8ca9-c791-4482-8a44-15776862b282",
                             ReleaseYear = 1938,
@@ -228,8 +231,8 @@ namespace Database.Migrations
                         },
                         new
                         {
-                            Id = "e601298e-b442-44c1-8db2-edee0a3d88ee",
-                            AuthorId = "6ab5f033-6eda-45e9-a889-17094797a6b4",
+                            Id = "2240f5ad-7074-4756-b27e-ae6d53093748",
+                            AuthorId = "5fe5fd0f-cee2-4cd3-ad9b-93c106715b3d",
                             Name = "Fantaisie-Impromptu",
                             PreviewId = "4180556e-5365-4b9c-aa72-a47241346855",
                             ReleaseYear = 1834,
@@ -237,8 +240,8 @@ namespace Database.Migrations
                         },
                         new
                         {
-                            Id = "024e54cc-ea66-46bc-8a72-543e876c4b0e",
-                            AuthorId = "fdccb59b-5fd7-4681-b512-2562c1c45ed9",
+                            Id = "a75dea3e-f574-47c3-bd57-2f0952b960a4",
+                            AuthorId = "7d102e68-f2c6-4ee5-b288-2bdbba1ec145",
                             Name = "The Tale of Tsar Saltan",
                             PreviewId = "cdbc9b43-ee1b-4a64-8b2d-d579522ea84f",
                             ReleaseYear = 1900,
@@ -246,8 +249,8 @@ namespace Database.Migrations
                         },
                         new
                         {
-                            Id = "640c8d09-e490-4168-b583-f8b7a0371a14",
-                            AuthorId = "5bc871d2-a0cb-4ef2-b277-a75907efbad7",
+                            Id = "d9e59b26-7e49-4b7b-91ef-4ae000e82310",
+                            AuthorId = "26206096-8ce8-49ca-98f9-900e58e62709",
                             Name = "Grandes études de Paganini",
                             PreviewId = "864239f6-65c5-440f-8326-213b3b25693f",
                             ReleaseYear = 1851,
@@ -255,8 +258,8 @@ namespace Database.Migrations
                         },
                         new
                         {
-                            Id = "a67c3903-49d4-45eb-ae48-da70bff46750",
-                            AuthorId = "5bc871d2-a0cb-4ef2-b277-a75907efbad7",
+                            Id = "b5c23776-2166-46a4-8a76-31883bbe13da",
+                            AuthorId = "26206096-8ce8-49ca-98f9-900e58e62709",
                             Name = "Liebestraum",
                             PreviewId = "44f268c1-3e94-4d05-8ccb-17c2e77b538d",
                             ReleaseYear = 1850,
@@ -264,8 +267,8 @@ namespace Database.Migrations
                         },
                         new
                         {
-                            Id = "bbbc51c3-86fe-4ba5-b832-e54488b44031",
-                            AuthorId = "e86f359c-cdcb-4c79-91b0-b1946a80725e",
+                            Id = "dd68b4b0-81d5-42ad-b971-160c94877251",
+                            AuthorId = "5e6586df-8c26-44cd-9c27-29f704419eeb",
                             Name = "Lettre à ma mère",
                             PreviewId = "5a9ba216-9883-471d-9c0f-4c3d37e4ec34",
                             ReleaseYear = 1979,
@@ -273,8 +276,8 @@ namespace Database.Migrations
                         },
                         new
                         {
-                            Id = "c8eabf33-6683-44c9-b650-fc91c65cd5a5",
-                            AuthorId = "b47db1d1-ffc4-4fe6-8b72-b23566fec5f3",
+                            Id = "fd7faef4-acaf-48cc-a971-5a0a02a2be13",
+                            AuthorId = "ca5417cf-8b4b-4c93-9f06-147b3fda9d96",
                             Name = "Requiem",
                             PreviewId = "9d0a67df-6fb4-4fac-b670-49a5f590beb7",
                             ReleaseYear = 1791,
@@ -282,8 +285,8 @@ namespace Database.Migrations
                         },
                         new
                         {
-                            Id = "25097b5e-b6c9-43a7-b414-ee1f3b34c967",
-                            AuthorId = "b47db1d1-ffc4-4fe6-8b72-b23566fec5f3",
+                            Id = "033252b5-b552-48cc-bf5b-d6b78f4c71b6",
+                            AuthorId = "ca5417cf-8b4b-4c93-9f06-147b3fda9d96",
                             Name = "The marriage of Figaro",
                             PreviewId = "15fa89e4-7777-4330-b32e-62172cd398c0",
                             ReleaseYear = 1786,
@@ -291,8 +294,8 @@ namespace Database.Migrations
                         },
                         new
                         {
-                            Id = "90dae04f-ebb7-4b10-99c5-b128d3892db1",
-                            AuthorId = "eee983b0-d055-4ee0-876e-3c5ddf07a3af",
+                            Id = "ca4ffc77-a648-4514-b7c5-c3ca17ef60f8",
+                            AuthorId = "09f413ea-12fb-43c7-b249-314be1874f23",
                             Name = "Violin Concerto No. 2",
                             PreviewId = "493afb2c-eb2a-4eab-9e4e-6585eb9924ae",
                             ReleaseYear = 1826,
@@ -300,8 +303,8 @@ namespace Database.Migrations
                         },
                         new
                         {
-                            Id = "c451ab41-143c-4264-bdd9-5f36b2d9cb2c",
-                            AuthorId = "a7a62662-bcd7-4139-9583-1d7bd01c2817",
+                            Id = "f273511c-5982-4327-90fd-76c8e3da42e7",
+                            AuthorId = "fb408405-ba23-4958-8378-164fddee75d0",
                             Name = "Whenever you need somebody",
                             PreviewId = "572cc6a2-a5ba-47f5-8819-8330770cf8b5",
                             ReleaseYear = 1987,
@@ -309,8 +312,8 @@ namespace Database.Migrations
                         },
                         new
                         {
-                            Id = "31285c3e-faa9-4102-95f6-ba7ea0c73499",
-                            AuthorId = "ddf5c16d-dbc9-484a-a2ca-d5e57ec9651a",
+                            Id = "0d39cad4-43f8-4c2f-bd82-7e97ecf42fb8",
+                            AuthorId = "0112b7d1-1a93-4995-b6be-7d5c375e3c7c",
                             Name = "Valse-Scherzo",
                             PreviewId = "36febf49-1c49-4b69-8084-73ebce69040a",
                             ReleaseYear = 1877,
@@ -318,8 +321,8 @@ namespace Database.Migrations
                         },
                         new
                         {
-                            Id = "1f860290-a43c-4259-af14-cade2803ecc5",
-                            AuthorId = "b47db1d1-ffc4-4fe6-8b72-b23566fec5f3",
+                            Id = "99deaecf-da9a-4dfd-a52c-84248c8b9466",
+                            AuthorId = "ca5417cf-8b4b-4c93-9f06-147b3fda9d96",
                             Name = "Piano Sonata No. 11",
                             PreviewId = "b26e8131-28bf-4ae9-842b-33b3d639b08e",
                             ReleaseYear = 1784,
@@ -327,8 +330,8 @@ namespace Database.Migrations
                         },
                         new
                         {
-                            Id = "707bbd8c-e1b2-46d5-b26f-e159f4cbadd1",
-                            AuthorId = "5bc871d2-a0cb-4ef2-b277-a75907efbad7",
+                            Id = "5c852bb6-5aa0-41b0-946c-d4ae234dfc71",
+                            AuthorId = "26206096-8ce8-49ca-98f9-900e58e62709",
                             Name = "Hungarian Rhapsodies",
                             PreviewId = "0a8c3ca2-56ca-4534-a426-648854e61821",
                             ReleaseYear = 1885,
@@ -358,69 +361,69 @@ namespace Database.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b47db1d1-ffc4-4fe6-8b72-b23566fec5f3",
+                            Id = "ca5417cf-8b4b-4c93-9f06-147b3fda9d96",
                             Name = "Wolfgang Amadeus Mozart",
-                            UserId = "738c53fb-48b6-4e0b-8095-1dce9b922e43"
+                            UserId = "6a7202f7-0b97-4e18-8654-62fef8634331"
                         },
                         new
                         {
-                            Id = "7c2f4604-c265-469f-9233-daa5f2144291",
+                            Id = "baf3a3d1-6bcf-492f-aa49-8aa6411f11d9",
                             Name = "Antonio Lucio Vivaldi",
-                            UserId = "5035e219-ff1e-4c59-a0d8-4402c070f3cd"
+                            UserId = "b8160d81-d4a8-4742-b47c-50812ab1b7f2"
                         },
                         new
                         {
-                            Id = "a4e4d550-8d6d-41c3-83f6-30b7b733db2f",
+                            Id = "103b2583-9e00-4238-820f-5589b575d8d5",
                             Name = "Ludwig van Beethoven",
-                            UserId = "2d3d3acf-89ee-4aec-b93c-d85e4023b576"
+                            UserId = "0337ed8c-bc86-4f77-8113-dc38e39bbf07"
                         },
                         new
                         {
-                            Id = "0fbecaf3-2ffc-4764-bcae-673a9ce80728",
+                            Id = "75240b99-b1e9-4cf4-bd2e-1543af089999",
                             Name = "Dmitri Shostakovich",
-                            UserId = "aefbbdf1-0a14-4fd2-b166-58adcc3ef163"
+                            UserId = "42002238-02b8-4372-bc7e-4b7a5f5987eb"
                         },
                         new
                         {
-                            Id = "6ab5f033-6eda-45e9-a889-17094797a6b4",
+                            Id = "5fe5fd0f-cee2-4cd3-ad9b-93c106715b3d",
                             Name = "Frédéric Chopin",
-                            UserId = "024e188a-0973-46b8-beb4-9ef04c4308c9"
+                            UserId = "dcb31b4d-b8db-4d85-a9dc-fc900fbd9e09"
                         },
                         new
                         {
-                            Id = "fdccb59b-5fd7-4681-b512-2562c1c45ed9",
+                            Id = "7d102e68-f2c6-4ee5-b288-2bdbba1ec145",
                             Name = "Nikolai Rimsky-Korsakov",
-                            UserId = "2863173a-a2c0-431b-b1fa-46215c4499b1"
+                            UserId = "2484a579-b940-47e8-a7c5-d6b3da63328b"
                         },
                         new
                         {
-                            Id = "5bc871d2-a0cb-4ef2-b277-a75907efbad7",
+                            Id = "26206096-8ce8-49ca-98f9-900e58e62709",
                             Name = "Franz Liszt",
-                            UserId = "ce704991-4644-41c8-9ec4-1a3a4707972f"
+                            UserId = "3e1fdf28-2de8-461a-8fe2-bfa8a62cb3e3"
                         },
                         new
                         {
-                            Id = "e86f359c-cdcb-4c79-91b0-b1946a80725e",
+                            Id = "5e6586df-8c26-44cd-9c27-29f704419eeb",
                             Name = "Paul de Senneville",
-                            UserId = "892aeaf4-133e-4f22-afa7-e7e7c7ae2a8c"
+                            UserId = "a0b0382d-bafe-482e-8f97-2ad87849d8b4"
                         },
                         new
                         {
-                            Id = "eee983b0-d055-4ee0-876e-3c5ddf07a3af",
+                            Id = "09f413ea-12fb-43c7-b249-314be1874f23",
                             Name = "Niccolò Paganini",
-                            UserId = "289a34e5-3cc1-4778-9497-373faa01cb26"
+                            UserId = "a28c3c3a-461c-48a2-8cb7-d42dc399a481"
                         },
                         new
                         {
-                            Id = "a7a62662-bcd7-4139-9583-1d7bd01c2817",
+                            Id = "fb408405-ba23-4958-8378-164fddee75d0",
                             Name = "Rick Astley",
-                            UserId = "46e5bb17-b9ca-4ff0-8933-caef9293bbd0"
+                            UserId = "45f45032-49e6-4731-8ff2-fe906d2de6c7"
                         },
                         new
                         {
-                            Id = "ddf5c16d-dbc9-484a-a2ca-d5e57ec9651a",
+                            Id = "0112b7d1-1a93-4995-b6be-7d5c375e3c7c",
                             Name = "Pyotr Tchaikovsky",
-                            UserId = "53b6e292-6a58-4fec-bfd8-eab933e8c765"
+                            UserId = "760cb97a-5057-4b2b-a2cd-fd59ae1aeb3e"
                         });
                 });
 
@@ -443,27 +446,27 @@ namespace Database.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f17d84ce-6469-4aa8-be38-af5824e20251",
+                            Id = "dfcf7bd3-9f88-421d-ae11-f1c1b376a101",
                             Name = "Classic"
                         },
                         new
                         {
-                            Id = "f8bef1e2-f319-42b5-add2-74bac63cc8d8",
+                            Id = "b36d757d-6ccf-4f38-991d-88edd4278ce9",
                             Name = "Instrumental"
                         },
                         new
                         {
-                            Id = "eacfbc05-916a-40bd-8dcd-cde617809889",
+                            Id = "af8444ff-e874-4167-ad04-132c9ff89054",
                             Name = "Jazz"
                         },
                         new
                         {
-                            Id = "3f77186e-d17a-494f-9d09-97800bd4bf13",
+                            Id = "7d1a3c18-e3ce-4ae4-a8ac-7f776563fdfb",
                             Name = "New Age"
                         },
                         new
                         {
-                            Id = "07d61508-81ed-407f-bad4-f174d5bd6c6b",
+                            Id = "ac04d579-63f2-4814-96ce-c2ed90c502d7",
                             Name = "Pop"
                         });
                 });
@@ -509,120 +512,6 @@ namespace Database.Migrations
                     b.HasIndex("AlbumId");
 
                     b.ToTable("Tracks");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "dc897690-3cb4-4d8b-b9e5-d38f2280f977",
-                            AlbumId = "6004f73f-24f3-4ee2-891f-c273fec9a7fb",
-                            FileId = "7c561b1e-3070-4e83-b71a-2fd7a69fa040",
-                            Name = "Summer - Storm"
-                        },
-                        new
-                        {
-                            Id = "1424871f-5288-44c8-9f8c-23a37eb30a08",
-                            AlbumId = "6004f73f-24f3-4ee2-891f-c273fec9a7fb",
-                            FileId = "9f1d7cfd-53c6-478f-82e2-db737d1b9ecf",
-                            Name = "Spring"
-                        },
-                        new
-                        {
-                            Id = "2cd900d8-247c-43a4-9785-71ff8233dc36",
-                            AlbumId = "6c71ddc7-99bd-4f52-927f-a7fe484b81f4",
-                            FileId = "e6a51aae-2ee3-4253-8b9c-1e88e65f0efb",
-                            Name = "Moonlight Sonata"
-                        },
-                        new
-                        {
-                            Id = "41ec0bc5-0e18-4d29-bad5-c0ed1bab2b5a",
-                            AlbumId = "4bd78fad-e877-4eb5-af51-7ad51cba7cf4",
-                            FileId = "29ad8ca9-c791-4482-8a44-15776862b282",
-                            Name = "Waltz No. 2"
-                        },
-                        new
-                        {
-                            Id = "fd2efa06-8bbe-4347-b37c-daaf274030c8",
-                            AlbumId = "e601298e-b442-44c1-8db2-edee0a3d88ee",
-                            FileId = "4180556e-5365-4b9c-aa72-a47241346855",
-                            Name = "Fantaisie Impromptu"
-                        },
-                        new
-                        {
-                            Id = "84c27b56-8acc-4a7b-8393-425f7a176f5e",
-                            AlbumId = "024e54cc-ea66-46bc-8a72-543e876c4b0e",
-                            FileId = "4180556e-5365-4b9c-aa72-a47241346855",
-                            Name = "Flight of the Bumblebee"
-                        },
-                        new
-                        {
-                            Id = "6ffbfa47-bd61-4119-a795-7c57abb8da38",
-                            AlbumId = "640c8d09-e490-4168-b583-f8b7a0371a14",
-                            FileId = "864239f6-65c5-440f-8326-213b3b25693f",
-                            Name = "La Campanella"
-                        },
-                        new
-                        {
-                            Id = "83fd9d41-cef3-4525-8b8b-79e4a747ae49",
-                            AlbumId = "a67c3903-49d4-45eb-ae48-da70bff46750",
-                            FileId = "44f268c1-3e94-4d05-8ccb-17c2e77b538d",
-                            Name = "Love Dream"
-                        },
-                        new
-                        {
-                            Id = "2a9d0aef-72a9-476b-a205-576dfd8d22e5",
-                            AlbumId = "bbbc51c3-86fe-4ba5-b832-e54488b44031",
-                            FileId = "15fa89e4-7777-4330-b32e-62172cd398c0",
-                            Name = "Marriage d'Amour"
-                        },
-                        new
-                        {
-                            Id = "670ee60d-6d82-49dd-96c1-91fe952e838d",
-                            AlbumId = "c8eabf33-6683-44c9-b650-fc91c65cd5a5",
-                            FileId = "9d0a67df-6fb4-4fac-b670-49a5f590beb7",
-                            Name = "Lacrimosa"
-                        },
-                        new
-                        {
-                            Id = "50d69e0c-d42b-41a9-9190-2db74a045310",
-                            AlbumId = "25097b5e-b6c9-43a7-b414-ee1f3b34c967",
-                            FileId = "15fa89e4-7777-4330-b32e-62172cd398c0",
-                            Name = "Marriage of Figaro - Overture"
-                        },
-                        new
-                        {
-                            Id = "f03c8e7c-9810-4d7f-ba5c-0f56f988692d",
-                            AlbumId = "90dae04f-ebb7-4b10-99c5-b128d3892db1",
-                            FileId = "493afb2c-eb2a-4eab-9e4e-6585eb9924ae",
-                            Name = "La Campanella"
-                        },
-                        new
-                        {
-                            Id = "ee324949-8fd7-45c3-9671-621285745083",
-                            AlbumId = "c451ab41-143c-4264-bdd9-5f36b2d9cb2c",
-                            FileId = "572cc6a2-a5ba-47f5-8819-8330770cf8b5",
-                            Name = "Never gonna give you up"
-                        },
-                        new
-                        {
-                            Id = "7b48fb6a-72bd-4879-ade4-f6bcc49122be",
-                            AlbumId = "31285c3e-faa9-4102-95f6-ba7ea0c73499",
-                            FileId = "36febf49-1c49-4b69-8084-73ebce69040a",
-                            Name = "Valse Sentimental"
-                        },
-                        new
-                        {
-                            Id = "baa8ad77-a427-4167-b833-f83743cfa509",
-                            AlbumId = "1f860290-a43c-4259-af14-cade2803ecc5",
-                            FileId = "b26e8131-28bf-4ae9-842b-33b3d639b08e",
-                            Name = "Turkish March"
-                        },
-                        new
-                        {
-                            Id = "55eddeb2-08b2-4ec0-bdb6-e7dd8ed6894d",
-                            AlbumId = "707bbd8c-e1b2-46d5-b26f-e159f4cbadd1",
-                            FileId = "2d47fb0d-971c-44e5-9d76-8b5589f0cbbb",
-                            Name = "Hungarian Rhapsody No. 2"
-                        });
                 });
 
             modelBuilder.Entity("Models.Entities.User", b =>
@@ -701,166 +590,166 @@ namespace Database.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "738c53fb-48b6-4e0b-8095-1dce9b922e43",
+                            Id = "6a7202f7-0b97-4e18-8654-62fef8634331",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "46d2643a-c5ed-47e9-b8db-a349efde2c30",
+                            ConcurrencyStamp = "5a1aefe7-f17c-4ec9-b022-67098ae02173",
                             Email = "",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Wolfgang Amadeus Mozart",
                             PhoneNumberConfirmed = false,
                             Role = 0,
-                            SecurityStamp = "92d4de25-b01a-4c20-b684-fb2751b0d69f",
+                            SecurityStamp = "da90bd61-a930-490b-adfb-1d364875c14a",
                             TwoFactorEnabled = false,
                             UserName = "mozart"
                         },
                         new
                         {
-                            Id = "5035e219-ff1e-4c59-a0d8-4402c070f3cd",
+                            Id = "b8160d81-d4a8-4742-b47c-50812ab1b7f2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fd8e5958-55de-4eca-8c9a-7b062b390a91",
+                            ConcurrencyStamp = "6f2e219e-500f-4ad1-b6b9-e7dad1a16d79",
                             Email = "",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Antonio Lucio Vivaldi",
                             PhoneNumberConfirmed = false,
                             Role = 0,
-                            SecurityStamp = "daf611a7-8fb6-479e-93bc-6c868b40f25e",
+                            SecurityStamp = "b74c3bfb-2511-4994-9bcc-e77a77c1dd3e",
                             TwoFactorEnabled = false,
                             UserName = "vivaldi"
                         },
                         new
                         {
-                            Id = "2d3d3acf-89ee-4aec-b93c-d85e4023b576",
+                            Id = "0337ed8c-bc86-4f77-8113-dc38e39bbf07",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a5813d93-e05f-4996-82b2-41d8d2170258",
+                            ConcurrencyStamp = "2da50d79-5cb8-4e08-97a3-fed708ce8b91",
                             Email = "",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Ludwig van Beethoven",
                             PhoneNumberConfirmed = false,
                             Role = 0,
-                            SecurityStamp = "18defe03-7ff5-48b0-9548-74d6202f3305",
+                            SecurityStamp = "d9a806fc-b3d8-4cbe-87b9-a03a1d716341",
                             TwoFactorEnabled = false,
                             UserName = "beethoven"
                         },
                         new
                         {
-                            Id = "aefbbdf1-0a14-4fd2-b166-58adcc3ef163",
+                            Id = "42002238-02b8-4372-bc7e-4b7a5f5987eb",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d2a22672-f0e6-43ff-9967-fed75fdfd751",
+                            ConcurrencyStamp = "ea464273-137b-42fc-a85e-c72fa8c62d1c",
                             Email = "",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Dmitri Shostakovich",
                             PhoneNumberConfirmed = false,
                             Role = 0,
-                            SecurityStamp = "b0e36524-eb1f-4641-be54-3caf0035e426",
+                            SecurityStamp = "478c1498-4977-49c9-975a-4fc34033fc54",
                             TwoFactorEnabled = false,
                             UserName = "shostakovich"
                         },
                         new
                         {
-                            Id = "024e188a-0973-46b8-beb4-9ef04c4308c9",
+                            Id = "dcb31b4d-b8db-4d85-a9dc-fc900fbd9e09",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d1ea8c40-13a9-47f4-aed5-09608dba6917",
+                            ConcurrencyStamp = "b7495544-00bc-4fb7-9252-d03e8581cd4a",
                             Email = "",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Frédéric Chopin",
                             PhoneNumberConfirmed = false,
                             Role = 0,
-                            SecurityStamp = "5d58440f-2c9c-4406-82c3-9c715931c0ca",
+                            SecurityStamp = "0ae4254d-e84d-465c-a50c-07e1f228b94e",
                             TwoFactorEnabled = false,
                             UserName = "chopin"
                         },
                         new
                         {
-                            Id = "2863173a-a2c0-431b-b1fa-46215c4499b1",
+                            Id = "2484a579-b940-47e8-a7c5-d6b3da63328b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "79ea96fe-4333-44aa-9081-2d3c5c33e4d1",
+                            ConcurrencyStamp = "f6edd93c-5cd7-468a-be9c-8422a4d4df6e",
                             Email = "",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Nikolai Rimsky-Korsakov",
                             PhoneNumberConfirmed = false,
                             Role = 0,
-                            SecurityStamp = "bced2c4e-4a70-42e3-8d39-b84a2b3b5b5d",
+                            SecurityStamp = "b591dd4a-057a-45ce-bfe2-a90ab6299b9d",
                             TwoFactorEnabled = false,
                             UserName = "rimsky-korsakov"
                         },
                         new
                         {
-                            Id = "ce704991-4644-41c8-9ec4-1a3a4707972f",
+                            Id = "3e1fdf28-2de8-461a-8fe2-bfa8a62cb3e3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "66ad81dd-c195-4362-b934-efcfdf36264c",
+                            ConcurrencyStamp = "81230e31-685f-4063-9735-b629fcd7b1ad",
                             Email = "",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Franz Liszt",
                             PhoneNumberConfirmed = false,
                             Role = 0,
-                            SecurityStamp = "216c4fcf-9b35-476e-b99e-a34a981241ba",
+                            SecurityStamp = "714f3246-1f0f-4477-aae7-f6b7714c0118",
                             TwoFactorEnabled = false,
                             UserName = "liszt"
                         },
                         new
                         {
-                            Id = "892aeaf4-133e-4f22-afa7-e7e7c7ae2a8c",
+                            Id = "a0b0382d-bafe-482e-8f97-2ad87849d8b4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "834b2e27-f66a-47f8-bc49-0496b95465e0",
+                            ConcurrencyStamp = "52275665-a705-4989-b1db-00de152bf4bf",
                             Email = "",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Paul de Senneville",
                             PhoneNumberConfirmed = false,
                             Role = 0,
-                            SecurityStamp = "6e5835ea-a282-4687-a95b-660f1df77c15",
+                            SecurityStamp = "b42e69a1-b20f-4b21-b997-618108599210",
                             TwoFactorEnabled = false,
                             UserName = "senneville"
                         },
                         new
                         {
-                            Id = "289a34e5-3cc1-4778-9497-373faa01cb26",
+                            Id = "a28c3c3a-461c-48a2-8cb7-d42dc399a481",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ac68d594-6236-44b7-9c0c-5f752dafa9c2",
+                            ConcurrencyStamp = "667e2b3b-1d1c-4cdd-b20c-42e3ddcb0e28",
                             Email = "",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Niccolò Paganini",
                             PhoneNumberConfirmed = false,
                             Role = 0,
-                            SecurityStamp = "ce9ac26b-4d19-4f94-9372-142b57975fa9",
+                            SecurityStamp = "4919c7db-4dc4-4bf1-a988-cd3fe08a01d3",
                             TwoFactorEnabled = false,
                             UserName = "paganini"
                         },
                         new
                         {
-                            Id = "46e5bb17-b9ca-4ff0-8933-caef9293bbd0",
+                            Id = "45f45032-49e6-4731-8ff2-fe906d2de6c7",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8bae5fd9-8273-4c60-934b-d1aec5ced422",
+                            ConcurrencyStamp = "630dd9ca-6c1e-490b-90cf-cf61605cb0f8",
                             Email = "",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Rick Astley",
                             PhoneNumberConfirmed = false,
                             Role = 0,
-                            SecurityStamp = "c89ccad2-dd62-4ecf-90f4-0b546dbc9835",
+                            SecurityStamp = "b90777f4-0e79-4712-aadf-f8d8e4177236",
                             TwoFactorEnabled = false,
                             UserName = "astley"
                         },
                         new
                         {
-                            Id = "53b6e292-6a58-4fec-bfd8-eab933e8c765",
+                            Id = "760cb97a-5057-4b2b-a2cd-fd59ae1aeb3e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b7755c69-d694-4610-8421-63c1c13ec7b1",
+                            ConcurrencyStamp = "39578c9b-4a5d-49ad-bd0e-7c3a6480d331",
                             Email = "",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Pyotr Tchaikovsky",
                             PhoneNumberConfirmed = false,
                             Role = 0,
-                            SecurityStamp = "88a8a550-25e9-4ada-be7c-56e9317b7313",
+                            SecurityStamp = "723a5a81-6373-427f-b4f2-8a1d452d5452",
                             TwoFactorEnabled = false,
                             UserName = "tchaikovsky"
                         });

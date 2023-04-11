@@ -6,16 +6,18 @@ namespace Models.Entities;
 public class Track
 {
     public string Id { get; set; } = Guid.NewGuid().ToString();
+    public string FileId { get; set; }
 
-    public Track(string name, Album album)
+    public Track(string name, Album album, string fileId)
     {
         Name = name;
         // Album = album;
         AlbumId = album.Id;
+        FileId = fileId;
         Genres = new List<Genre>();
     }
 
-    public Track(string name, Album album, List<Genre> genres) : this(name, album)
+    public Track(string name, Album album, List<Genre> genres, string fileId) : this(name, album, fileId)
     {
         Genres = genres;
     }
