@@ -29,7 +29,7 @@ public class TrackController
     {
         var track = await _trackFactory.Create(tData);
         if (track == null) return new JsonResult(TrackCreationCode.InvalidAlbum);
-            await _trackAccessor.Add(track);
+        await _trackAccessor.Add(track);
         return new JsonResult(TrackCreationCode.InvalidAlbum);
     }
 
@@ -47,6 +47,6 @@ public class TrackController
     [Route("Get/id/{id}")]
     public async Task<IActionResult> Get(string id)
     {
-        return new JsonResult(_dtoCreator.CreateFull(await _trackAccessor.GetById(id)));
+        return new JsonResult(_dtoCreator.CreateFull(await _trackAccessor.Get(id)));
     }
 }

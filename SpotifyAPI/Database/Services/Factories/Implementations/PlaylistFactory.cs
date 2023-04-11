@@ -8,10 +8,12 @@ namespace Database.Services.Factories.Implementations;
 public class PlaylistFactory:IPlaylistFactory
 {
     private readonly IDbUserAccessor _userAccessor;
+    private readonly IFileIdGenerator _idGenerator;
 
-    public PlaylistFactory(IDbUserAccessor userAccessor)
+    public PlaylistFactory(IDbUserAccessor userAccessor, IFileIdGenerator idGenerator)
     {
         _userAccessor = userAccessor;
+        _idGenerator = idGenerator;
     }
 
     public async Task<Playlist?> Create(PlaylistCreationData pData)
