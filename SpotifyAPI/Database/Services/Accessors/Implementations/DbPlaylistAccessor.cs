@@ -16,6 +16,21 @@ public class DbPlaylistAccessor:DbAccessor, IDbPlaylistAccessor
         await DbContext.SaveChangesAsync();
     }
 
-    public async Task<Playlist?> Get(string id) =>
-        await DbContext.Playlists.FirstOrDefaultAsync(p => p.Id == id);
+    public async Task<Playlist?> Get(string id) => await DbContext.Playlists
+            .Include(p=>p.Owner)
+            .Include(p=>p.Tracks)
+            .ThenInclude(t=>t.Album)
+            .ThenInclude(a=>a.Author)
+            .Include(p=>p.Tracks)
+            .ThenInclude(t=>t.Genres)
+            .FirstOrDefaultAsync(p => p.Id == id);
+    
+       
+
+    public async void AddTrack(Playlist playlist, Track track)
+    {
+        playlist.Tracks ??= new List<Track>();
+        playlist.Tracks.Add(track);
+        await DbContext.SaveChangesAsync();
+    }
 }
