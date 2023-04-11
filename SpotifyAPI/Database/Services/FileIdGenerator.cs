@@ -13,4 +13,9 @@ public class FileIdGenerator:IFileIdGenerator
     {
         return Guid.NewGuid().ToString();
     }
+
+    public string GetId(PlaylistCreationData trackCreationData)
+    {
+        return Guid.NewGuid().ToString();
+    }
 }

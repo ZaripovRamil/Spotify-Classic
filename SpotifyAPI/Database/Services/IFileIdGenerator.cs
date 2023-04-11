@@ -7,4 +7,5 @@ public interface IFileIdGenerator
 {
     public string GetId(TrackCreationData trackCreationData);
     public string GetId(AlbumCreationData trackCreationData);
+    string GetId(PlaylistCreationData trackCreationData);
 }

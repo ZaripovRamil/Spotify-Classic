@@ -129,10 +129,10 @@ public class AppDbContext: IdentityDbContext<User>
         var moonlight = new Track("Moonlight Sonata", moonlightAlbum,"e6a51aae-2ee3-4253-8b9c-1e88e65f0efb"); // classic, instrumental
         var waltzNo2 = new Track("Waltz No. 2", waltzNo2Album,"29ad8ca9-c791-4482-8a44-15776862b282"); // classic, jazz
         var fantasieImpromptu = new Track("Fantaisie Impromptu", fantaisieImpromptuAlbum, "4180556e-5365-4b9c-aa72-a47241346855"); // classic, instrumental
-        var flightOfBumblemee = new Track("Flight of the Bumblebee", taleofTsarSaltanAlbum, "4180556e-5365-4b9c-aa72-a47241346855"); // classic, instrumental
+        var flightOfBumblemee = new Track("Flight of the Bumblebee", taleofTsarSaltanAlbum, "cdbc9b43-ee1b-4a64-8b2d-d579522ea84f"); // classic, instrumental
         var laCampanellaLiszt = new Track("La Campanella", grandesEtudesDePaganiniAlbum,"864239f6-65c5-440f-8326-213b3b25693f"); // classic, instrumental
         var loveDream = new Track("Love Dream", liebestraumAlbum, "44f268c1-3e94-4d05-8ccb-17c2e77b538d"); // classic, instrumental
-        var marriegeDAmour = new Track("Marriage d'Amour", lettreAMaMereAlbum, "15fa89e4-7777-4330-b32e-62172cd398c0"); // newage, instrumental
+        var marriegeDAmour = new Track("Marriage d'Amour", lettreAMaMereAlbum, "5a9ba216-9883-471d-9c0f-4c3d37e4ec34"); // newage, instrumental
         var lacrimosa = new Track("Lacrimosa", requiemMozartAlbum, "9d0a67df-6fb4-4fac-b670-49a5f590beb7"); // classic
         var marriageOfFigaro = new Track("Marriage of Figaro - Overture", marriageOfFigaroAlbum,"15fa89e4-7777-4330-b32e-62172cd398c0"); // classic, instrumental
         var laCampanellaPaganini = new Track("La Campanella", violinConcertoNo2Album,"493afb2c-eb2a-4eab-9e4e-6585eb9924ae"); // classic, instrumental
