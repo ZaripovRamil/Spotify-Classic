@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Models.Entities.Joints;
 
 namespace Models.Entities;
 
@@ -14,4 +15,5 @@ public class Genre
 
     public string Name { get; set; }
     public List<Track> Tracks { get; set; }
+    public List<GenreTrack> GenreTracks { get; set; }
 }
