@@ -16,7 +16,8 @@
     align-items: center;
     justify-content: center;
     padding: 13px 10px;
-    gap:20px
+    gap:20px;
+    height: 64px;
 }
 .player-btns{
     display: flex;
@@ -37,99 +38,93 @@
     background-color: transparent;
     border: none;
 }
-.switch-btns{
+.player-switch-btns{
     width: 18%;
 }
-.buttonNext{
+.player-buttonNext{
     width: 17px;
     height: 22px;
     background-image: url(./PlayerImages/ButtonNext.svg);
 }
-.buttonPrevious{
+.player-buttonPrevious{
     width: 17px;
     height: 22px;
     background-image: url(./PlayerImages/ButtonPrevious.svg);
 }
-.buttonPlay{
+.player-buttonPlay{
     width: 20px;
     height: 27px;
     background-image: url(./PlayerImages/ButtonPlay.svg);
 }
-.buttonStop{
+.player-buttonStop{
     width: 20px;
     height: 20px;
     background-image: url(./PlayerImages/ButtonStop.svg);
 }
-.buttonRepeat{
+.player-buttonRepeat{
     width: 15px;
     height: 15px;
     background-image: url(./PlayerImages/repeat-btn.svg);
 }
-.buttonMix{
+.player-buttonMix{
     width: 15px;
     height: 15px;
     background-image: url(./PlayerImages/mix-btn.svg);
 }
-.buttonLike{
+.player-buttonLike{
     width: 15px;
     height: 15px;
     background-image: url(./PlayerImages/like-btn.svg);
 }
-.player-track{
+.player-audiotrack{
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     gap:20px
 }
-.track-control{
+.player-audiotrack-control{
     width:100%;
 }
-.track-img{
+.player-audiotrack-img{
     width: "70px";
     height: "74px";
     background-color: "#FCFCFC"; 
 }
 @media (max-width: 600px) { 
-    .track-img{
+    .player-audiotrack-img{
         display: none;
     }
 }
-.track-info{
+.player-audiotrack-info{
     display: flex;
     justify-content: space-between;
     align-items: end;
 }
-.track-auth{
+.player-audiotrack-auth{
     color: #FCFCFC;
     font-size: 13px;
     opacity: 0.65;
     margin-bottom: 5px;
 }
-.music-track{
+.player-music-track{
     width: 100%;
     margin: 0;
 }
-input[type='range'] {
+.player input[type='range'] {
     overflow: hidden;
     -webkit-appearance: none;
     background-color: #4C4E54;
     height: 4px;
 }
-
-
-
-input[type='range']::-webkit-slider-thumb {
+.player input[type='range']::-webkit-slider-thumb {
     width: 0px;
     -webkit-appearance: none;
     height: 10px;
     cursor:pointer;
     box-shadow: -500px 0 0 500px #FCFCFC;
 }
-
-
-
-.track-time{
+.player-track-time{
     display: flex;
     font-size: 10px;
     justify-content: space-between;
@@ -141,5 +136,5 @@ input[type='range']::-webkit-slider-thumb {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    
+  
 }

@@ -89,41 +89,41 @@ const Player = () => {
             />
             <div className="player">
                 <div className="player-controls">
-                    <div className="switch-btns player-btns">
+                    <div className="player-switch-btns player-btns">
 
-                        <input type='button' className="player-btn buttonPrevious" onClick={() => playPrevious()} />
+                        <input type='button' className="player-btn player-buttonPrevious" onClick={() => playPrevious()} />
 
                         <input type='button'
-                            className={`player-btn ${playerConfig.playing ? 'buttonStop' : 'buttonPlay'}`}
+                            className={`player-btn ${playerConfig.playing ? 'player-buttonStop' : 'player-buttonPlay'}`}
                             onClick={() => { changeConfig('playing', !playerConfig.playing) }} />
 
-                        <input type='button' className="player-btn buttonNext" onClick={() => playNext()} />
+                        <input type='button' className="player-btn player-buttonNext" onClick={() => playNext()} />
 
                     </div>
-                    <div className="player-track">
-                        <div className="track-img" >
+                    <div className="player-audiotrack">
+                        <div className="player-audiotrack-img" >
                             {tracks.id !== "" && <img style={{ maxWidth: "70px", maxHeight: "70px" }} src={prefix + `Previews/${tracks[playerConfig.trackId].id}`} width={"100%"} onError={({currentTarget}) => {
                                 currentTarget.onerror = null;
                                 currentTarget.src = prefix+`Previews/${tracks[playerConfig.trackId].album.id}`;
                             }}/>}
                         </div>
 
-                        <div className="track-control">
-                            <div className="track-info">
+                        <div className="player-audiotrack-control">
+                            <div className="player-audiotrack-info">
                                 <div>{tracks[playerConfig.trackId].name}
-                                    {tracks.id !== "" && <div className="track-auth">{tracks[playerConfig.trackId].album.author.name}</div>}
+                                    {tracks.id !== "" && <div className="player-audiotrack-auth">{tracks[playerConfig.trackId].album.author.name}</div>}
                                 </div>
 
-                                <div className="player-btns track-btns">
+                                <div className="player-btns">
                                     {/*TODO: logic of this buttons */}
-                                    <input type='button' className="player-btn buttonRepeat" />
-                                    <input type='button' className="player-btn buttonMix" />
-                                    <input type='button' className="player-btn buttonLike" />
+                                    <input type='button' className="player-btn player-buttonRepeat" />
+                                    <input type='button' className="player-btn player-buttonMix" />
+                                    <input type='button' className="player-btn player-buttonLike" />
                                 </div>
                             </div>
 
                             <input
-                                className="music-track"
+                                className="player-music-track"
                                 type="range"
                                 min={0}
                                 max={0.999999}
@@ -133,7 +133,7 @@ const Player = () => {
                                     player.current.seekTo(parseFloat(e.target.value), 'fraction');
                                 }} />
 
-                            <div className="track-time">
+                            <div className="player-track-time">
                                 <div >{moment(1000 * trackInfo.played * trackInfo.duration).format('mm:ss')}</div>
                                 <div>{moment(1000 * trackInfo.duration).format('mm:ss')}</div>
                             </div>
