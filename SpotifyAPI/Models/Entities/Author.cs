@@ -11,9 +11,9 @@ public class Author
         UserId = userId;
     }
 
-    public Author(User user)
+    public Author(User user, string name)
     {
-        Name = user.Name;
+        Name = name;
         UserId = user.Id;
         // User = user;
     }

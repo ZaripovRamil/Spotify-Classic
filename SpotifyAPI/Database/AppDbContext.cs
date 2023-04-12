@@ -60,17 +60,17 @@ public class AppDbContext: IdentityDbContext<User>
         #endregion
         #region authors creation
 
-        var mozartAuthor = new Author(defaultUser);
-        var vivaldiAuthor = new Author(defaultUser);
-        var beethovenAuthor = new Author(defaultUser);
-        var shostakovichAuthor = new Author(defaultUser);
-        var chopinAuthor = new Author(defaultUser);
-        var rimskyKorsakovAuthor = new Author(defaultUser);
-        var lisztAuthor = new Author(defaultUser);
-        var sennevilleAuthor = new Author(defaultUser);
-        var paganiniAuthor = new Author(defaultUser);
-        var memeGodAuthor = new Author(defaultUser);
-        var tchaikovskyAuthor = new Author(defaultUser);
+        var mozartAuthor = new Author(defaultUser, "Wolfgang Amadeus Mozart");
+        var vivaldiAuthor = new Author(defaultUser, "Antonio Lucio Vivaldi");
+        var beethovenAuthor = new Author(defaultUser,"Ludwig van Beethoven");
+        var shostakovichAuthor = new Author(defaultUser,"Dmitri Shostakovich");
+        var chopinAuthor = new Author(defaultUser,"Frédéric Chopin");
+        var rimskyKorsakovAuthor = new Author(defaultUser,"Nikolai Rimsky-Korsakov");
+        var lisztAuthor = new Author(defaultUser,"Franz Liszt");
+        var sennevilleAuthor = new Author(defaultUser,"Paul de Senneville");
+        var paganiniAuthor = new Author(defaultUser,"Niccolò Paganini");
+        var memeGodAuthor = new Author(defaultUser,"Rick Astley");
+        var tchaikovskyAuthor = new Author(defaultUser,"Pyotr Tchaikovsky");
         modelBuilder.Entity<Author>().HasData(mozartAuthor, vivaldiAuthor, beethovenAuthor, shostakovichAuthor,
             chopinAuthor, rimskyKorsakovAuthor, lisztAuthor, sennevilleAuthor, paganiniAuthor, memeGodAuthor,
             tchaikovskyAuthor);
