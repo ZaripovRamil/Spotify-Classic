@@ -2,6 +2,7 @@
 using Database.Services.Accessors.Interfaces;
 using Database.Services.Factories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.FrontToBack.EntityCreationData;
 
 namespace Database.Controllers;
@@ -21,11 +22,13 @@ public class AlbumController
     }
     [HttpPost]
     [Route("Add")]
-    public async Task Add([FromBody] AlbumCreationData aData)
+    public async Task<IActionResult> Add([FromBody] AlbumCreationData aData)
     {
         var album = await _albumFactory.Create(aData);
-        if (album != null)
-            await _albumAccessor.Add(album);
+        if (album == null)
+            return new JsonResult(new AlbumCreationResult(AlbumCreationCode.InvalidAuthor, album));
+        await _albumAccessor.Add(album);
+        return new JsonResult(new AlbumCreationResult(AlbumCreationCode.Successful, album));
     }
     
     [HttpGet]

@@ -1,5 +1,6 @@
 ﻿using Database.Services;
 using Database.Services.Accessors.Interfaces;
+using Database.Services.Factories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.FrontToBack.EntityCreationData;
@@ -13,22 +14,25 @@ public class AuthorController
 {
     private readonly IDbUserAccessor _userAccessor;
     private readonly IDbAuthorAccessor _authorAccessor;
+    private readonly IAuthorFactory _authorFactory;
     private readonly IDtoCreator _dtoCreator;
-    public AuthorController(IDbUserAccessor userAccessor, IDbAuthorAccessor authorAccessor, IDtoCreator dtoCreator)
+    public AuthorController(IDbUserAccessor userAccessor, IDbAuthorAccessor authorAccessor, IDtoCreator dtoCreator, IAuthorFactory authorFactory)
     {
         _userAccessor = userAccessor;
         _authorAccessor = authorAccessor;
         _dtoCreator = dtoCreator;
+        _authorFactory = authorFactory;
     }
 
     [HttpPost]
     [Route("Add")]
     public async Task<IActionResult> Create([FromBody]AuthorCreationData aData)
     {
-        var user = await _userAccessor.GetById(aData.UserId);
-        if (user == null) return new JsonResult(AuthorCreationCode.NoSuchUser);
+        var author = await _authorFactory.Create(aData);
+        if(author == null)
+            return new JsonResult(new AuthorCreationResult(AuthorCreationCode.InvalidUser, author));
         await _authorAccessor.Add(new Author(aData.Name, aData.UserId));
-        return new JsonResult(AuthorCreationCode.Successful);
+        return new JsonResult(new AuthorCreationResult(AuthorCreationCode.Successful, author));
     }
     
     [HttpGet]

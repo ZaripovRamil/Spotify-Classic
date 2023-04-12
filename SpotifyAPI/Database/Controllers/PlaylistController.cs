@@ -31,9 +31,9 @@ public class PlaylistController:Controller
     public async Task<IActionResult> Create([FromBody] PlaylistCreationData data)
     {
         var playlist = await _playlistFactory.Create(data);
-        if (playlist == null) return BadRequest(PlaylistCreationCode.InvalidUser);
+        if (playlist == null) return new JsonResult(new PlaylistCreationResult(PlaylistCreationCode.InvalidUser, null));
         await _playlistAccessor.Add(playlist);
-        return Ok(PlaylistCreationCode.Successful);
+        return Ok(new PlaylistCreationResult(PlaylistCreationCode.Successful, null));
     }
 
     [HttpPost]

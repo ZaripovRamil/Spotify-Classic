@@ -28,9 +28,9 @@ public class TrackController
     public async Task<IActionResult> Add([FromBody] TrackCreationData tData)
     {
         var track = await _trackFactory.Create(tData);
-        if (track == null) return new JsonResult(TrackCreationCode.InvalidAlbum);
+        if (track == null) return new JsonResult(new TrackCreationResult(TrackCreationCode.InvalidAlbum, null));
         await _trackAccessor.Add(track);
-        return new JsonResult(TrackCreationCode.InvalidAlbum);
+        return new JsonResult(new TrackCreationResult(TrackCreationCode.Successful, track));
     }
 
     [HttpGet]

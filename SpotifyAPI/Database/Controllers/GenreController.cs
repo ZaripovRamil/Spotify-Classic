@@ -25,9 +25,10 @@ public class GenreController
     public async Task<IActionResult> Add(GenreCreationData gData)
     {
         var genre = await _genreAccessor.GetByName(gData.Name);
-        if (genre != null) return new JsonResult(GenreCreationCode.AlreadyExists);
-        await _genreAccessor.Add(new Genre(gData.Name));
-        return new JsonResult(GenreCreationCode.Successful);
+        if (genre != null) return new JsonResult(new GenreCreationResult(GenreCreationCode.AlreadyExists, null));
+        genre = new Genre(gData.Name);
+        await _genreAccessor.Add(genre);
+        return new JsonResult(new GenreCreationResult(GenreCreationCode.Successful, genre));
     }
     
     [HttpGet]
