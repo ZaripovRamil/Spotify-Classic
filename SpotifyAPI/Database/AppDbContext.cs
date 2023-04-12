@@ -50,33 +50,25 @@ public class AppDbContext: IdentityDbContext<User>
     {
         #region users creation
 
-        var mozart = new User("mozart", "", "Wolfgang Amadeus Mozart");
-        var vivaldi = new User("vivaldi", "", "Antonio Lucio Vivaldi");
-        var beethoven = new User("beethoven", "", "Ludwig van Beethoven");
-        var shostakovich = new User("shostakovich", "", "Dmitri Shostakovich");
-        var chopin = new User("chopin", "", "Frédéric Chopin");
-        var rimskyKorsakov = new User("rimsky-korsakov", "", "Nikolai Rimsky-Korsakov");
-        var liszt = new User("liszt", "", "Franz Liszt");
-        var senneville = new User("senneville", "", "Paul de Senneville");
-        var paganini = new User("paganini", "", "Niccolò Paganini");
-        var memeGod = new User("astley", "", "Rick Astley");
-        var tchaikovsky = new User("tchaikovsky", "", "Pyotr Tchaikovsky");
-
+        var defaultUser = new User("defaultUser", null, "John Doe");
+        modelBuilder.Entity<User>().HasData(defaultUser);
         #endregion
         #region authors creation
 
-        var mozartAuthor = new Author(mozart);
-        var vivaldiAuthor = new Author(vivaldi);
-        var beethovenAuthor = new Author(beethoven);
-        var shostakovichAuthor = new Author(shostakovich);
-        var chopinAuthor = new Author(chopin);
-        var rimskyKorsakovAuthor = new Author(rimskyKorsakov);
-        var lisztAuthor = new Author(liszt);
-        var sennevilleAuthor = new Author(senneville);
-        var paganiniAuthor = new Author(paganini);
-        var memeGodAuthor = new Author(memeGod);
-        var tchaikovskyAuthor = new Author(tchaikovsky);
-
+        var mozartAuthor = new Author(defaultUser);
+        var vivaldiAuthor = new Author(defaultUser);
+        var beethovenAuthor = new Author(defaultUser);
+        var shostakovichAuthor = new Author(defaultUser);
+        var chopinAuthor = new Author(defaultUser);
+        var rimskyKorsakovAuthor = new Author(defaultUser);
+        var lisztAuthor = new Author(defaultUser);
+        var sennevilleAuthor = new Author(defaultUser);
+        var paganiniAuthor = new Author(defaultUser);
+        var memeGodAuthor = new Author(defaultUser);
+        var tchaikovskyAuthor = new Author(defaultUser);
+        modelBuilder.Entity<Author>().HasData(mozartAuthor, vivaldiAuthor, beethovenAuthor, shostakovichAuthor,
+            chopinAuthor, rimskyKorsakovAuthor, lisztAuthor, sennevilleAuthor, paganiniAuthor, memeGodAuthor,
+            tchaikovskyAuthor);
         #endregion
         #region albums creation
 
@@ -163,11 +155,8 @@ public class AppDbContext: IdentityDbContext<User>
         // #endregion
         #region db populating
 
-        modelBuilder.Entity<User>().HasData(mozart, vivaldi, beethoven, shostakovich, chopin, rimskyKorsakov, liszt,
-            senneville, paganini, memeGod, tchaikovsky);
-        modelBuilder.Entity<Author>().HasData(mozartAuthor, vivaldiAuthor, beethovenAuthor, shostakovichAuthor,
-            chopinAuthor, rimskyKorsakovAuthor, lisztAuthor, sennevilleAuthor, paganiniAuthor, memeGodAuthor,
-            tchaikovskyAuthor);
+        
+        
         modelBuilder.Entity<Genre>().HasData(classicGenre, instrumentalGenre, jazzGenre, newAgeGenre, popGenre);
         modelBuilder.Entity<Album>().HasData(fourSeasonsAlbum, moonlightAlbum, waltzNo2Album, fantaisieImpromptuAlbum,
         taleofTsarSaltanAlbum, grandesEtudesDePaganiniAlbum, liebestraumAlbum, lettreAMaMereAlbum,

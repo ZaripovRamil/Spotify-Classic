@@ -10,6 +10,8 @@ public class User : IdentityUser
     public List<Track> History { get; set; } = new();
     public List<Playlist> Playlists { get; set; } = new();
     public string Name { get; set; }
+
+    public string ProfilePicId { get; set; } = "default_pfp";
     public Role Role { get; set; }
 
     public User() { }
