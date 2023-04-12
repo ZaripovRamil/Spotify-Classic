@@ -9,11 +9,13 @@ public class TrackFactory:ITrackFactory
 {
     private readonly IDbAlbumAccessor _albumAccessor;
     private readonly IDbGenreAccessor _genreAccessor;
+    private readonly IFileIdGenerator _idGenerator;
 
-    public TrackFactory(IDbAlbumAccessor albumAccessor, IDbGenreAccessor genreAccessor)
+    public TrackFactory(IDbAlbumAccessor albumAccessor, IDbGenreAccessor genreAccessor, IFileIdGenerator idGenerator)
     {
         _albumAccessor = albumAccessor;
         _genreAccessor = genreAccessor;
+        _idGenerator = idGenerator;
     }
     
     
@@ -24,6 +26,6 @@ public class TrackFactory:ITrackFactory
         var genres = new List<Genre?>();
         foreach (var gId in tData.GenreIds)
             genres.Add( await _genreAccessor.GetById(gId));
-        return genres.Any(genre => genre == null) ? null : new Track(tData.Name, album, genres!);
+        return genres.Any(genre => genre == null) ? null : new Track(tData.Name, album,genres!,_idGenerator.GetId(tData));
     }
 }

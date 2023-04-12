@@ -3,6 +3,7 @@ using System;
 using Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230411090529_PlaylistUpdate")]
+    partial class PlaylistUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -554,7 +557,7 @@ namespace Database.Migrations
                         {
                             Id = "7140b053-2540-448f-994c-7642fee5074a",
                             AlbumId = "239a237a-e8a9-49af-b54b-3d5a67b96a0f",
-                            FileId = "4180556e-5365-4b9c-aa72-a47241346855",
+                            FileId = "cdbc9b43-ee1b-4a64-8b2d-d579522ea84f",
                             Name = "Flight of the Bumblebee"
                         },
                         new
@@ -575,7 +578,7 @@ namespace Database.Migrations
                         {
                             Id = "b38a088f-96a9-4cf2-b23c-fc2d8987b787",
                             AlbumId = "70367f69-9f2b-43ed-b474-caa66b315496",
-                            FileId = "15fa89e4-7777-4330-b32e-62172cd398c0",
+                            FileId = "5a9ba216-9883-471d-9c0f-4c3d37e4ec34",
                             Name = "Marriage d'Amour"
                         },
                         new

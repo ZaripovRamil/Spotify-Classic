@@ -16,7 +16,7 @@ public class DbTrackAccessor : DbAccessor, IDbTrackAccessor
         await DbContext.SaveChangesAsync();
     }
 
-    public async Task<Track?> GetById(string id)
+    public async Task<Track?> Get(string id)
     {
         return await DbContext.Tracks
             .Include(t=>t.Album)
