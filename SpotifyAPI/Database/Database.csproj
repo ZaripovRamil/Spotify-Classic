@@ -25,4 +25,14 @@
       <ProjectReference Include="..\Models\Models.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Migrations\20230412130634_UsersRemoved.Designer.cs" />
+      <Compile Remove="Migrations\20230412131358_ChangedEmail.Designer.cs" />
+      <Compile Remove="Migrations\20230412132939_anotherAttempt.Designer.cs" />
+      <Compile Remove="Migrations\20230412131358_ChangedEmail.cs" />
+      <Compile Remove="Migrations\20230412130047_ProfilePicsAdded.Designer.cs" />
+      <Compile Remove="Migrations\20230412132939_anotherAttempt.cs" />
+      <Compile Remove="Migrations\20230412130047_ProfilePicsAdded.cs" />
+    </ItemGroup>
+
 </Project>
