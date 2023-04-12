@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Models.Entities.Joints;
 
 namespace Models.Entities;
 
@@ -14,20 +15,24 @@ public class Track
         // Album = album;
         AlbumId = album.Id;
         FileId = fileId;
-        Genres = new List<Genre>();
+        //Genres = new List<Genre>();
+        GenreTracks = new List<GenreTrack>();
     }
 
-    public Track(string name, Album album, List<Genre> genres, string fileId) : this(name, album, fileId)
+    public Track(string name, Album album, string fileId, params Genre[] genres) : this(name, album, fileId)
     {
-        Genres = genres;
+        Genres = genres.ToList();
     }
 
-    public Track() { }
+    public Track()
+    {
+    }
 
     public string Name { get; set; }
     public string AlbumId { get; set; }
     public Album Album { get; set; }
     public List<Playlist> InPlaylists { get; set; }
+    public List<GenreTrack> GenreTracks { get; set; }
     public List<Genre> Genres { get; set; }
     public List<User> History { get; set; }
 }

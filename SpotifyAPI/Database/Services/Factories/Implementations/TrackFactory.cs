@@ -26,6 +26,6 @@ public class TrackFactory:ITrackFactory
         var genres = new List<Genre?>();
         foreach (var gId in tData.GenreIds)
             genres.Add( await _genreAccessor.GetById(gId));
-        return genres.Any(genre => genre == null) ? null : new Track(tData.Name, album,genres!,_idGenerator.GetId(tData));
+        return genres.Any(genre => genre == null) ? null : new Track(tData.Name, album,_idGenerator.GetId(tData), genres.ToArray()!);
     }
 }

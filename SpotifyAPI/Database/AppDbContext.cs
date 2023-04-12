@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Models.Entities;
 using Models.Entities.Enums;
+using Models.Entities.Joints;
 
 namespace Database;
 
@@ -42,11 +43,15 @@ public class AppDbContext: IdentityDbContext<User>
             .HasForeignKey(track => track.AlbumId)
             .HasPrincipalKey(album => album.Id)
             .IsRequired();
+        modelBuilder.Entity<Track>()
+            .HasMany(t => t.Genres)
+            .WithMany(g => g.Tracks)
+            .UsingEntity<GenreTrack>();
         
         PopulateDb(modelBuilder);
     }
 
-    private void PopulateDb(ModelBuilder modelBuilder)
+    private static void PopulateDb(ModelBuilder modelBuilder)
     {
         #region users creation
 
@@ -90,21 +95,6 @@ public class AppDbContext: IdentityDbContext<User>
         var hungarianRhapsodiesAlbum = new Album("Hungarian Rhapsodies", lisztAuthor, AlbumType.Album, 1885, "0a8c3ca2-56ca-4534-a426-648854e61821");
 
         #endregion
-        // #region authors' albums populating
-        //
-        // mozartAuthor.AddAlbums(requiemMozartAlbum, marriageOfFigaroAlbum, pianoSonataNo11Album);
-        // vivaldiAuthor.AddAlbums(fourSeasonsAlbum);
-        // beethovenAuthor.AddAlbums(moonlightAlbum);
-        // shostakovichAuthor.AddAlbums(waltzNo2Album);
-        // chopinAuthor.AddAlbums(fantaisieImpromptuAlbum);
-        // rimskyKorsakovAuthor.AddAlbums(taleofTsarSaltanAlbum);
-        // lisztAuthor.AddAlbums(liebestraumAlbum, grandesEtudesDePaganiniAlbum, hungarianRhapsodiesAlbum);
-        // sennevilleAuthor.AddAlbums(lettreAMaMereAlbum);
-        // paganiniAuthor.AddAlbums(violinConcertoNo2Album);
-        // memeGodAuthor.AddAlbums(wheneverYouNeedSomebodyAlbum);
-        // tchaikovskyAuthor.AddAlbums(valseScherzoAlbum);
-        //
-        // #endregion
         #region genres creation
 
         var classicGenre = new Genre("Classic");
@@ -134,25 +124,6 @@ public class AppDbContext: IdentityDbContext<User>
         var hungarianRhapsodyNo2 = new Track("Hungarian Rhapsody No. 2", hungarianRhapsodiesAlbum,"2d47fb0d-971c-44e5-9d76-8b5589f0cbbb"); // classic, instrumental
 
         #endregion
-        // #region albums populating
-        //
-        // fourSeasonsAlbum.AddTracks(storm, spring);
-        // moonlightAlbum.AddTracks(moonlight);
-        // waltzNo2Album.AddTracks(waltzNo2);
-        // fantaisieImpromptuAlbum.AddTracks(fantasieImpromptu);
-        // taleofTsarSaltanAlbum.AddTracks(flightOfBumblemee);
-        // grandesEtudesDePaganiniAlbum.AddTracks(laCampanellaLiszt);
-        // liebestraumAlbum.AddTracks(loveDream);
-        // lettreAMaMereAlbum.AddTracks(marriegeDAmour);
-        // requiemMozartAlbum.AddTracks(lacrimosa);
-        // marriageOfFigaroAlbum.AddTracks(marriageOfFigaro);
-        // violinConcertoNo2Album.AddTracks(laCampanellaPaganini);
-        // wheneverYouNeedSomebodyAlbum.AddTracks(rickroll);
-        // valseScherzoAlbum.AddTracks(valseSentimental);
-        // pianoSonataNo11Album.AddTracks(turkishMarch);
-        // hungarianRhapsodiesAlbum.AddTracks(hungarianRhapsodyNo2);
-        //
-        // #endregion
         #region db populating
 
         
@@ -166,6 +137,28 @@ public class AppDbContext: IdentityDbContext<User>
             laCampanellaLiszt, loveDream, marriegeDAmour, lacrimosa, marriageOfFigaro, laCampanellaPaganini, rickroll,
             valseSentimental, turkishMarch, hungarianRhapsodyNo2);
 
+        #endregion
+        
+        #region genretracks creation
+
+        modelBuilder.Entity<GenreTrack>()
+            .HasData(new GenreTrack(classicGenre, storm), new GenreTrack(instrumentalGenre, storm),
+                new GenreTrack(classicGenre, spring), new GenreTrack(instrumentalGenre, spring),
+                new GenreTrack(classicGenre, moonlight), new GenreTrack(instrumentalGenre, moonlight),
+                new GenreTrack(classicGenre, waltzNo2), new GenreTrack(jazzGenre, waltzNo2),
+                new GenreTrack(classicGenre, fantasieImpromptu), new GenreTrack(instrumentalGenre, fantasieImpromptu),
+                new GenreTrack(classicGenre, flightOfBumblemee), new GenreTrack(instrumentalGenre, flightOfBumblemee),
+                new GenreTrack(classicGenre, laCampanellaLiszt), new GenreTrack(instrumentalGenre, laCampanellaLiszt),
+                new GenreTrack(classicGenre, laCampanellaPaganini), new GenreTrack(instrumentalGenre, laCampanellaPaganini),
+                new GenreTrack(classicGenre, loveDream),new GenreTrack(instrumentalGenre, loveDream),
+                new GenreTrack(newAgeGenre, marriegeDAmour), new GenreTrack(instrumentalGenre, marriegeDAmour),
+                new GenreTrack(classicGenre, lacrimosa),
+                new GenreTrack(classicGenre, marriageOfFigaro), new GenreTrack(instrumentalGenre, marriageOfFigaro),
+                new GenreTrack(popGenre, rickroll), 
+                new GenreTrack(classicGenre, valseSentimental), new GenreTrack(instrumentalGenre, valseSentimental),
+                new GenreTrack(classicGenre, turkishMarch), new GenreTrack(instrumentalGenre, turkishMarch),
+                new GenreTrack(classicGenre, hungarianRhapsodyNo2), new GenreTrack(instrumentalGenre, hungarianRhapsodyNo2)
+            );
         #endregion
     }
 }
