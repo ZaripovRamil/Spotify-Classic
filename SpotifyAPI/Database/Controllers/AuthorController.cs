@@ -26,13 +26,18 @@ public class AuthorController
 
     [HttpPost]
     [Route("Add")]
-    public async Task<IActionResult> Create([FromBody]AuthorCreationData aData)
+    public async Task<IActionResult> ProcessAuthorCreation([FromBody]AuthorCreationData data)
     {
-        var author = await _authorFactory.Create(aData);
-        if(author == null)
-            return new JsonResult(new AuthorCreationResult(AuthorCreationCode.InvalidUser, author));
-        await _authorAccessor.Add(new Author(aData.Name, aData.UserId));
-        return new JsonResult(new AuthorCreationResult(AuthorCreationCode.Successful, author));
+        return new JsonResult(new AuthorCreationResult(await CreateAuthor(data)));
+    }
+
+    private async Task<(AuthorCreationCode, Author?)> CreateAuthor(AuthorCreationData data)
+    {
+        if (await _userAccessor.GetById(data.UserId) == null) return (AuthorCreationCode.InvalidUser, null);
+        var author = await _authorFactory.Create(data);
+        if (author == null) return (AuthorCreationCode.UnknownError, null);
+        await _authorAccessor.Add(author);
+        return (AuthorCreationCode.Successful, author);
     }
     
     [HttpGet]

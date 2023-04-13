@@ -22,13 +22,16 @@ public class GenreController
 
     [HttpPost]
     [Route("Add")]
-    public async Task<IActionResult> Add(GenreCreationData gData)
+    public async Task<IActionResult> ProcessGenreCreation(GenreCreationData data)
     {
-        var genre = await _genreAccessor.GetByName(gData.Name);
-        if (genre != null) return new JsonResult(new GenreCreationResult(GenreCreationCode.AlreadyExists, null));
-        genre = new Genre(gData.Name);
-        await _genreAccessor.Add(genre);
-        return new JsonResult(new GenreCreationResult(GenreCreationCode.Successful, genre));
+        return new JsonResult(new GenreCreationResult(await CreateGenre(data)));
+    }
+
+    private async Task<(GenreCreationCode, Genre)> CreateGenre(GenreCreationData data)
+    {
+        if (await _genreAccessor.GetByName(data.Name)!=null) return (GenreCreationCode.AlreadyExists, null);
+        var genre = new Genre(data.Name);
+        return (GenreCreationCode.Successful, genre);
     }
     
     [HttpGet]

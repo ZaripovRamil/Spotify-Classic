@@ -17,4 +17,8 @@ public class GenreCreationResult
         ResultMessage = Messages[code];
         GenreId = genre?.Id;
     }
+
+    public GenreCreationResult((GenreCreationCode State, Genre? Genre) data):this(data.State,data.Genre)
+    {
+    }
 }

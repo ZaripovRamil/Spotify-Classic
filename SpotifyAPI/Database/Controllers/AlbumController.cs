@@ -4,6 +4,7 @@ using Database.Services.Factories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.FrontToBack.EntityCreationData;
+using Models.Entities;
 
 namespace Database.Controllers;
 [ApiController]
@@ -11,6 +12,7 @@ namespace Database.Controllers;
 public class AlbumController
 {
     private readonly IDbAlbumAccessor _albumAccessor;
+    private readonly IDbAuthorAccessor _authorAccessor;
     private readonly IAlbumFactory _albumFactory;
     private readonly IDtoCreator _dtoCreator;
 
@@ -22,13 +24,19 @@ public class AlbumController
     }
     [HttpPost]
     [Route("Add")]
-    public async Task<IActionResult> Add([FromBody] AlbumCreationData aData)
+    public async Task<IActionResult> ProcessAlbumCreation([FromBody] AlbumCreationData data)
     {
-        var album = await _albumFactory.Create(aData);
-        if (album == null)
-            return new JsonResult(new AlbumCreationResult(AlbumCreationCode.InvalidAuthor, album));
+        
+        return new JsonResult(new AlbumCreationResult(await CreateAlbum(data)));
+    }
+
+    private async Task<(AlbumCreationCode, Album?)>CreateAlbum(AlbumCreationData data)
+    {
+        if (await _authorAccessor.GetById(data.AuthorId) == null) return (AlbumCreationCode.InvalidAuthor, null);
+        var album = await _albumFactory.Create(data);
+        if (album == null) return (AlbumCreationCode.UnknownError, null);
         await _albumAccessor.Add(album);
-        return new JsonResult(new AlbumCreationResult(AlbumCreationCode.Successful, album));
+        return (AlbumCreationCode.Successful, album);
     }
     
     [HttpGet]
