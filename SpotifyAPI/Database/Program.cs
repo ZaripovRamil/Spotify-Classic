@@ -28,6 +28,7 @@ builder.Services.AddScoped<IAlbumFactory, AlbumFactory>();
 builder.Services.AddScoped<IAuthorFactory, AuthorFactory>();
 builder.Services.AddScoped<IPlaylistFactory, PlaylistFactory>();
 builder.Services.AddScoped<ITrackFactory, TrackFactory>();
+builder.Services.AddScoped<IGenreFactory, GenreFactory>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

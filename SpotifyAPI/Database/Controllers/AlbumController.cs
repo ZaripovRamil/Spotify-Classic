@@ -28,16 +28,9 @@ public class AlbumController
     [Route("Add")]
     public async Task<IActionResult> ProcessAlbumCreation([FromBody] AlbumCreationData data)
     {
-        return new JsonResult(new AlbumCreationResult(await CreateAlbum(data)));
-    }
-
-    private async Task<(AlbumCreationCode, Album?)> CreateAlbum(AlbumCreationData data)
-    {
-        if (await _authorAccessor.GetById(data.AuthorId) == null) return (AlbumCreationCode.InvalidAuthor, null);
-        var album = await _albumFactory.Create(data);
-        if (album == null) return (AlbumCreationCode.UnknownError, null);
-        await _albumAccessor.Add(album);
-        return (AlbumCreationCode.Successful, album);
+        var (state, album) = await _albumFactory.Create(data);
+        if (state == AlbumCreationCode.Successful) await _albumAccessor.Add(album!);
+        return new JsonResult(new AlbumCreationResult(state, album));
     }
 
     [HttpGet]

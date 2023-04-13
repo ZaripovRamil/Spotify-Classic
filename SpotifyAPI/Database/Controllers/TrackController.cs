@@ -31,16 +31,9 @@ public class TrackController
     [Route("Add")]
     public async Task<IActionResult> ProcessTrackCreation([FromBody] TrackCreationData data)
     {
-        return new JsonResult(new TrackCreationResult(await CreateTrack(data)));
-    }
-
-    private async Task<(TrackCreationCode, Track?)> CreateTrack(TrackCreationData data)
-    {
-        if (await _albumAccessor.GetById(data.AlbumId) == null) return (TrackCreationCode.InvalidAlbum, null);
-        var track = await _trackFactory.Create(data);
-        if (track == null) return (TrackCreationCode.UnknownError, null);
-        await _trackAccessor.Add(track);
-        return (TrackCreationCode.Successful, track);
+        var (state, track) = await _trackFactory.Create(data);
+        if (state == TrackCreationCode.Successful) await _trackAccessor.Add(track!);
+        return new JsonResult(new TrackCreationResult(state, track));
     }
 
     [HttpGet]

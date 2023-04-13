@@ -1,5 +1,6 @@
 ﻿using Database.Services.Accessors.Interfaces;
 using Database.Services.Factories.Interfaces;
+using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.Entities;
 
@@ -16,11 +17,11 @@ public class AlbumFactory : IAlbumFactory
         _idGenerator = idGenerator;
     }
 
-    public async Task<Album?> Create(AlbumCreationData aData)
+    public async Task<(AlbumCreationCode, Album?)> Create(AlbumCreationData data)
     {
-        var author = await _authorAccessor.GetById(aData.AuthorId);
-        return author == null
-            ? null
-            : new Album(aData.Name, author, aData.AlbumType, aData.ReleaseDate, _idGenerator.GetId(aData));
+        var author = await _authorAccessor.GetById(data.AuthorId);
+        if (author == null) return (AlbumCreationCode.InvalidAuthor, null);
+        return (AlbumCreationCode.Successful,
+            new Album(data.Name, author, data.AlbumType, data.ReleaseDate, _idGenerator.GetId(data)));
     }
 }

@@ -26,7 +26,7 @@ public class DbPlaylistAccessor : DbAccessor, IDbPlaylistAccessor
         .FirstOrDefaultAsync(p => p.Id == id);
 
 
-    public async void AddTrack(Playlist playlist, Track track)
+    public async Task AddTrack(Playlist playlist, Track track)
     {
         playlist.Tracks ??= new List<Track>();
         playlist.Tracks.Add(track);

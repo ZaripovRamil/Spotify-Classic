@@ -1,9 +1,9 @@
 ﻿using Database.Services;
 using Database.Services.Accessors.Interfaces;
+using Database.Services.Factories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.FrontToBack.EntityCreationData;
-using Models.Entities;
 
 namespace Database.Controllers;
 
@@ -13,25 +13,22 @@ public class GenreController
 {
     private readonly IDbGenreAccessor _genreAccessor;
     private readonly IDtoCreator _dtoCreator;
+    private readonly IGenreFactory _genreFactory;
 
-    public GenreController(IDbGenreAccessor genreAccessor, IDtoCreator dtoCreator)
+    public GenreController(IDbGenreAccessor genreAccessor, IDtoCreator dtoCreator, IGenreFactory genreFactory)
     {
         _genreAccessor = genreAccessor;
         _dtoCreator = dtoCreator;
+        _genreFactory = genreFactory;
     }
 
     [HttpPost]
     [Route("Add")]
     public async Task<IActionResult> ProcessGenreCreation(GenreCreationData data)
     {
-        return new JsonResult(new GenreCreationResult(await CreateGenre(data)));
-    }
-
-    private async Task<(GenreCreationCode, Genre)> CreateGenre(GenreCreationData data)
-    {
-        if (await _genreAccessor.GetByName(data.Name) != null) return (GenreCreationCode.AlreadyExists, null);
-        var genre = new Genre(data.Name);
-        return (GenreCreationCode.Successful, genre);
+        var (state, genre) = await _genreFactory.Create(data);
+        if (state == GenreCreationCode.Successful) await _genreAccessor.Add(genre!);
+        return new JsonResult(new GenreCreationResult(state, genre));
     }
 
     [HttpGet]
