@@ -5,12 +5,12 @@ using Models.Entities.Enums;
 
 namespace Database.Services.Accessors.Implementations;
 
-public class DbUserAccessor :DbAccessor, IDbUserAccessor
+public class DbUserAccessor : DbAccessor, IDbUserAccessor
 {
-    public DbUserAccessor(AppDbContext dbContext):base(dbContext)
+    public DbUserAccessor(AppDbContext dbContext) : base(dbContext)
     {
     }
-    
+
     public async Task<User?> GetById(string id) =>
         await DbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
 

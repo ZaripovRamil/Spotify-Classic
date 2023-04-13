@@ -15,7 +15,8 @@ public class Album
     public AlbumType Type { get; set; }
     public List<Track> Tracks { get; } = new();
 
-    public Album(string name, Author author, AlbumType albumType, int releaseYear, string previewId) : this(name, author, albumType, previewId)
+    public Album(string name, Author author, AlbumType albumType, int releaseYear, string previewId) : this(name,
+        author, albumType, previewId)
     {
         ReleaseYear = releaseYear;
     }
@@ -32,5 +33,7 @@ public class Album
 
     public void AddTracks(params Track[] tracks) => Tracks.AddRange(tracks);
 
-    public Album() { }
+    public Album()
+    {
+    }
 }

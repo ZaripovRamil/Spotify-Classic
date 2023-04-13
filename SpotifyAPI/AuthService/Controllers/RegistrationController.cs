@@ -12,7 +12,7 @@ namespace AuthService.Controllers;
 [Route("[controller]/[action]")]
 public class RegistrationController
 {
-    private readonly UserManager<User> _userManager; 
+    private readonly UserManager<User> _userManager;
     private readonly IDbUserAccessor _userAccessor;
 
     public RegistrationController(UserManager<User> userManager, IDbUserAccessor userAccessor)
@@ -22,17 +22,18 @@ public class RegistrationController
     }
 
     [HttpPost]
-    public async Task<IActionResult> Add([FromBody]RegistrationData rData)
+    public async Task<IActionResult> Add([FromBody] RegistrationData rData)
     {
         if (await _userManager.FindByEmailAsync(rData.Email) != null)
-            return new JsonResult(new RegistrationResult(RegistrationCode.EmailTaken,null));
+            return new JsonResult(new RegistrationResult(RegistrationCode.EmailTaken, null));
         if (await _userManager.FindByNameAsync(rData.Login) != null)
-            return new JsonResult(new RegistrationResult(RegistrationCode.LoginTaken,null));
+            return new JsonResult(new RegistrationResult(RegistrationCode.LoginTaken, null));
         if (rData.Password.Length < 8)
-            return new JsonResult(new RegistrationResult(RegistrationCode.WeakPassword,null));
+            return new JsonResult(new RegistrationResult(RegistrationCode.WeakPassword, null));
         var regResult = await _userManager.CreateAsync(new User(rData.Login, rData.Email, rData.Name), rData.Password);
         return regResult.Succeeded
-            ? new JsonResult(new RegistrationResult(RegistrationCode.Successful,await _userAccessor.GetByEmail(rData.Email)))
-            : new JsonResult(new RegistrationResult(RegistrationCode.UnknownError,null));
+            ? new JsonResult(new RegistrationResult(RegistrationCode.Successful,
+                await _userAccessor.GetByEmail(rData.Email)))
+            : new JsonResult(new RegistrationResult(RegistrationCode.UnknownError, null));
     }
 }

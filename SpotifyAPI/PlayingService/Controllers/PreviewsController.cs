@@ -8,12 +8,12 @@ namespace PlayingService.Controllers;
 public class PreviewsController : Controller
 {
     private readonly IFileProvider _fileProvider;
-    
+
     public PreviewsController(IFileProvider fp)
     {
         _fileProvider = fp;
     }
-    
+
     [HttpGet("{id}")]
     public IActionResult GetById(string id)
     {

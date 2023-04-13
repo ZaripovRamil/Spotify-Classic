@@ -25,6 +25,8 @@ public class Author
     public User User { get; set; }
     public string Name { get; set; }
     public List<Album> Albums { get; set; } = new();
-    
-    public Author() { }
+
+    public Author()
+    {
+    }
 }

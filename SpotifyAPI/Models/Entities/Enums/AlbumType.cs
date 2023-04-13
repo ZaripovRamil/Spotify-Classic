@@ -2,5 +2,6 @@
 
 public enum AlbumType
 {
-    Album, Single
+    Album,
+    Single
 }

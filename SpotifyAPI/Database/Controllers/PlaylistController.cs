@@ -36,7 +36,7 @@ public class PlaylistController:Controller
         return new JsonResult(new PlaylistCreationResult(await CreatePlaylist(data)));
     }
 
-    private async Task<(PlaylistCreationCode, Playlist?)>CreatePlaylist(PlaylistCreationData data)
+    private async Task<(PlaylistCreationCode, Playlist?)> CreatePlaylist(PlaylistCreationData data)
     {
         if (await _userAccessor.GetById(data.OwnerId) == null) return (PlaylistCreationCode.InvalidUser, null);
         var playlist = await _playlistFactory.Create(data);

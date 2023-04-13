@@ -18,7 +18,8 @@ public class TrackController
     private readonly IDtoCreator _dtoCreator;
     private readonly IDbAlbumAccessor _albumAccessor;
 
-    public TrackController(ITrackFactory trackFactory, IDbTrackAccessor trackAccessor, IDtoCreator dtoCreator, IDbAlbumAccessor albumAccessor)
+    public TrackController(ITrackFactory trackFactory, IDbTrackAccessor trackAccessor, IDtoCreator dtoCreator,
+        IDbAlbumAccessor albumAccessor)
     {
         _trackFactory = trackFactory;
         _trackAccessor = trackAccessor;
@@ -36,7 +37,7 @@ public class TrackController
     private async Task<(TrackCreationCode, Track?)> CreateTrack(TrackCreationData data)
     {
         if (await _albumAccessor.GetById(data.AlbumId) == null) return (TrackCreationCode.InvalidAlbum, null);
-        var track =await _trackFactory.Create(data);
+        var track = await _trackFactory.Create(data);
         if (track == null) return (TrackCreationCode.UnknownError, null);
         await _trackAccessor.Add(track);
         return (TrackCreationCode.Successful, track);

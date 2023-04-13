@@ -5,7 +5,7 @@ using Models.Entities;
 
 namespace Database.Services.Factories.Implementations;
 
-public class PlaylistFactory:IPlaylistFactory
+public class PlaylistFactory : IPlaylistFactory
 {
     private readonly IDbUserAccessor _userAccessor;
     private readonly IFileIdGenerator _idGenerator;

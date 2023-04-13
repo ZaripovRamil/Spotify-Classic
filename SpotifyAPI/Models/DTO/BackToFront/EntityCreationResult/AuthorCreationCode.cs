@@ -2,6 +2,7 @@
 
 public enum AuthorCreationCode
 {
-    Successful, InvalidUser,
+    Successful,
+    InvalidUser,
     UnknownError
 }

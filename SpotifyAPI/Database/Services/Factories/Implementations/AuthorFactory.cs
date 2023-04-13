@@ -5,7 +5,7 @@ using Models.Entities;
 
 namespace Database.Services.Factories.Implementations;
 
-public class AuthorFactory:IAuthorFactory
+public class AuthorFactory : IAuthorFactory
 {
     private readonly IDbUserAccessor _userAccessor;
 

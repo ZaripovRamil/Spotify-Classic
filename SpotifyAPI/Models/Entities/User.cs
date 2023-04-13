@@ -12,7 +12,9 @@ public class User : IdentityUser
     public string Name { get; set; }
     public Role Role { get; set; }
 
-    public User() { }
+    public User()
+    {
+    }
 
     public User(string login, string email, string name)
     {

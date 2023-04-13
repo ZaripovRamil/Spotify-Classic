@@ -7,6 +7,7 @@ using Models.DTO.FrontToBack.EntityCreationData;
 using Models.Entities;
 
 namespace Database.Controllers;
+
 [ApiController]
 [Route("[controller]")]
 public class AlbumController
@@ -22,15 +23,15 @@ public class AlbumController
         _albumFactory = albumFactory;
         _dtoCreator = dtoCreator;
     }
+
     [HttpPost]
     [Route("Add")]
     public async Task<IActionResult> ProcessAlbumCreation([FromBody] AlbumCreationData data)
     {
-        
         return new JsonResult(new AlbumCreationResult(await CreateAlbum(data)));
     }
 
-    private async Task<(AlbumCreationCode, Album?)>CreateAlbum(AlbumCreationData data)
+    private async Task<(AlbumCreationCode, Album?)> CreateAlbum(AlbumCreationData data)
     {
         if (await _authorAccessor.GetById(data.AuthorId) == null) return (AlbumCreationCode.InvalidAuthor, null);
         var album = await _albumFactory.Create(data);
@@ -38,14 +39,14 @@ public class AlbumController
         await _albumAccessor.Add(album);
         return (AlbumCreationCode.Successful, album);
     }
-    
+
     [HttpGet]
     [Route("get/id/{id}")]
     public async Task<IActionResult> GetById(string id)
     {
         return new JsonResult(_dtoCreator.CreateFull(await _albumAccessor.GetById(id)));
     }
-    
+
     [HttpGet]
     [Route("get/name/{name}")]
     public async Task<IActionResult> GetByName(string name)

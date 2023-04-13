@@ -2,5 +2,6 @@
 
 public enum GenreCreationCode
 {
-    Successful, AlreadyExists
+    Successful,
+    AlreadyExists
 }

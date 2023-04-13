@@ -9,7 +9,7 @@ public class TrackFull
     public string FileId { get; set; }
     public string Name { get; set; }
     public AlbumLight Album { get; set; }
-    public List<GenreLight>Genres { get; set; }
+    public List<GenreLight> Genres { get; set; }
 
     public TrackFull(Track track)
     {
