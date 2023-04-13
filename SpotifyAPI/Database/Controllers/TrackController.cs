@@ -28,12 +28,12 @@ public class TrackController
 
     [HttpPost]
     [Route("Add")]
-    public async Task<IActionResult> Add([FromBody] TrackCreationData data)
+    public async Task<IActionResult> ProcessTrackCreation([FromBody] TrackCreationData data)
     {
         return new JsonResult(new TrackCreationResult(await CreateTrack(data)));
     }
 
-    public async Task<(TrackCreationCode, Track?)> CreateTrack(TrackCreationData data)
+    private async Task<(TrackCreationCode, Track?)> CreateTrack(TrackCreationData data)
     {
         if (await _albumAccessor.GetById(data.AlbumId) == null) return (TrackCreationCode.InvalidAlbum, null);
         var track =await _trackFactory.Create(data);
