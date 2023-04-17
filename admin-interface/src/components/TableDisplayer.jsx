@@ -8,8 +8,7 @@ import {
   IconButton,
   Paper,
   Button,
-  TextField,
-  makeStyles
+  TextField
 } from '@material-ui/core';
 import {
   Edit as EditIcon,
@@ -18,55 +17,7 @@ import {
   Cancel as CancelIcon,
   Add as AddIcon
 } from "@material-ui/icons";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '80%',
-    margin: '0 auto',
-    backgroundColor: theme.palette.background.paper,
-  },
-  table: {
-    minWidth: 650,
-    borderCollapse: "collapse",
-    "& td, & th": {
-      border: "1px solid #ddd",
-      padding: 8,
-      textAlign: "left"
-    }
-  },
-  addButton: {
-    background: "#4caf50",
-    color: "white"
-  },
-  editButton: {
-    background: "#2196f3",
-    color: "white"
-  },
-  deleteButton: {
-    background: "#f44336",
-    color: "white"
-  },
-  saveButton: {
-    background: "#4caf50",
-    color: "white"
-  },
-  cancelButton: {
-    background: "#ccc",
-    color: "white"
-  },
-  input: {
-    marginBottom: 8,
-    borderRadius: 4,
-    border: '1px solid #ddd'
-  },
-  formContainer: {
-    padding: '16px',
-    marginTop: '16px',
-    borderRadius: '4px',
-    backgroundColor: '#f9f9f9',
-    border: '1px solid #ddd'
-  }
-}));
+import { TableStyles } from "./TableStyles";
 
 const TableDisplayer = ({ data, onDataChange, columns }) => {
   const [editIndex, setEditIndex] = useState(-1);
@@ -102,7 +53,7 @@ const TableDisplayer = ({ data, onDataChange, columns }) => {
     onDataChange(updatedData);
   };
 
-  const classes = useStyles();
+  const classes = TableStyles();
 
   return (
     <div className={classes.root}>
