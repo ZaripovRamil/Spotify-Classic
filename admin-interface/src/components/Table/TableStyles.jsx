@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core';
 
 export const TableStyles = makeStyles((theme) => ({
   root: {
-    width: '80%',
+    maxWidth: '60%',
     margin: '0 auto',
     backgroundColor: theme.palette.background.paper,
   },

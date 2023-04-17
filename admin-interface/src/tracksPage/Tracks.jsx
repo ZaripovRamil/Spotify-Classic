@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import TableDisplayer from "../components/TableDisplayer";
+import React, { useState } from "react";
+import TableDisplayer from "../components/Table/TableDisplayer";
 
 const Tracks = () => {
   const [data, setData] = useState([
