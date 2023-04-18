@@ -1,29 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TableDisplayer from "../components/Table/TableDisplayer";
+import { getFetcher } from '../axios/AxiosInstance';
+import Ports from "../constants/Ports";
+
+const fetcher = getFetcher(Ports.MusicService);
 
 const Tracks = () => {
-  const [data, setData] = useState([
-    { name: "Alice", age: 25 },
-    { name: "Bob", age: 30 },
-    { name: "Charlie", age: 35 },
-  ]);
-
-  const columns = [
-    {
-      name: "name",
-      label: "name",
-      type: "text",
-    },
-    {
-      name: "age",
-      label: "age",
-      type: "number",
+  const [items, setItems] = useState([]);
+  const [columns, setColumns] = useState([]);
+  useEffect(() => {
+    const getTracks = async () => {
+      await fetcher.get('tracks/')
+        .then(res => {
+          if (res.status !== 200) return;
+          res.data.map(item => {
+            items.push({
+              id: item.id,
+              name: item.name,
+              album: item.album.name,
+              author: item.album.author.name
+            });
+            setItems([...items]);
+          });
+          items.length > 0 && Object.keys(items[0]).map(item => {
+            columns.push({
+              name: item,
+              label: item,
+              type: !isNaN(items[0][item]) ? 'number' : 'text'
+            });
+            setColumns([...columns]);
+          });
+        });
     }
-  ];
+    getTracks();
+  }, []);
 
   return (
     <>
-      <TableDisplayer data={data} columns={columns} onDataChange={setData} />
+      <TableDisplayer data={items} columns={columns} onDataChange={setItems} />
     </>
   );
 }
