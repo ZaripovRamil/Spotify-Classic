@@ -21,7 +21,7 @@ const ReadOnlyRow = ({ data, onDataChange, columns, setEditIndex, item, index, s
     return (
         <TableRow>
             {columns.map((column) => (
-                <TableCell key={column.name}>{item[column.name]}</TableCell>
+                <TableCell key={column.name}>{column.name.split('.').reduce((o, propName) => o === undefined ? undefined : o[propName], data[index])}</TableCell>
             ))}
             <TableCell>
                 <IconButton

@@ -10,26 +10,40 @@ const Tracks = () => {
   const [columns, setColumns] = useState([]);
   useEffect(() => {
     const getTracks = async () => {
-      await fetcher.get('tracks/')
+      await fetcher.get('trackjs/')
         .then(res => {
           if (res.status !== 200) return;
-          res.data.map(item => {
-            items.push({
-              id: item.id,
-              name: item.name,
-              album: item.album.name,
-              author: item.album.author.name
-            });
-            setItems([...items]);
-          });
-          items.length > 0 && Object.keys(items[0]).map(item => {
-            columns.push({
-              name: item,
-              label: item,
-              type: !isNaN(items[0][item]) ? 'number' : 'text'
-            });
-            setColumns([...columns]);
-          });
+          setItems(res.data);
+          setColumns([
+            {
+              name: 'name',
+              label: 'name',
+              type: 'text',
+              isEditable: true,
+            },
+            {
+              name: 'album.name',
+              label: 'album',
+              type: 'text',
+              isEditable: false,
+            },
+            {
+              name: 'album.author.name',
+              label: 'author',
+              type: 'text',
+              isEditable: false,
+            },
+          ]);
+        })
+        .catch(err => {
+          setItems([{
+            err: err.message,
+          }]);
+          setColumns([{
+            name: 'err',
+            label: 'error',
+            isEditable: false,
+          }])
         });
     }
     getTracks();

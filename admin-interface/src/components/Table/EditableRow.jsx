@@ -39,16 +39,35 @@ const EditableRow = ({ data, onDataChange, columns, editIndex, setEditIndex, ind
   return (
     <TableRow>
       {columns.map((column) => (
-        <TableCell key={column.name}>
-          <TextField
-            className={classes.input}
-            type={column.type || "text"}
-            value={newData[column.name] || ""}
-            onChange={(e) =>
-              setNewData({ ...newData, [column.name]: e.target.value })
-            }
-          />
-        </TableCell>
+        column.isEditable ?
+          (<TableCell key={column.name}>
+            <TextField
+              className={classes.input}
+              type={column.type || "text"}
+              value={column.name.split('.').reduce((o, propName) => o === undefined ? undefined : o[propName], newData) || ""}
+              onChange={(e) => {
+                // good luck
+                const props = column.name.split('.');
+                if (props.length === 0) {
+                  return;
+                }
+                const changeObj = (idx, obj) => {
+                  if (idx === props.length - 1) {
+                    obj[props[idx]] = e.target.value;
+                    return;
+                  }
+                  changeObj(++idx, obj[props[idx - 1]]);
+                };
+
+                changeObj(0, newData);
+                setNewData({ ...newData });
+              }
+              }
+            />
+          </TableCell>
+          ) : (
+            <TableCell key={column.name}>{column.name.split('.').reduce((o, propName) => o === undefined ? undefined : o[propName], data[index])}</TableCell>
+          )
       ))}
       <TableCell>
         <Button
