@@ -3,18 +3,24 @@ import TableDisplayer from "../components/Table/TableDisplayer";
 import { getFetcher } from '../axios/AxiosInstance';
 import Ports from "../constants/Ports";
 
-const fetcher = getFetcher(Ports.MusicService);
+const fetcher = getFetcher(Ports.AdminService);
 
 const Tracks = () => {
   const [items, setItems] = useState([]);
   const [columns, setColumns] = useState([]);
   useEffect(() => {
     const getTracks = async () => {
-      await fetcher.get('trackjs/')
+      await fetcher.get('tracks/')
         .then(res => {
           if (res.status !== 200) return;
           setItems(res.data);
           setColumns([
+            {
+              name: 'id',
+              label: 'id',
+              type: 'text',
+              isEditable: false,
+            },
             {
               name: 'name',
               label: 'name',

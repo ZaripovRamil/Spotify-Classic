@@ -2,6 +2,7 @@
 using Database.Services.Accessors.Interfaces;
 using Database.Services.Factories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack.EntityCreationData;
 
 namespace Database.Controllers;
@@ -26,6 +27,16 @@ public class AlbumController
         var album = await _albumFactory.Create(aData);
         if (album != null)
             await _albumAccessor.Add(album);
+    }
+
+    [HttpGet]
+    [Route("Get")]
+    public Task<IActionResult> GetAllAsync()
+    {
+        var albums = _albumAccessor
+            .GetAll()
+            .Select(album => new AlbumLight(album));
+        return Task.FromResult<IActionResult>(new JsonResult(albums));
     }
     
     [HttpGet]

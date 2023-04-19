@@ -1,10 +1,11 @@
 ﻿using Database.Services.Accessors.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Models.DTO.BackToFront.Light;
 using Models.Entities;
 
 namespace Database.Services.Accessors.Implementations;
 
-public class DbAlbumAccessor:DbAccessor, IDbAlbumAccessor
+public class DbAlbumAccessor : DbAccessor, IDbAlbumAccessor
 {
     public DbAlbumAccessor(AppDbContext dbContext) : base(dbContext)
     {
@@ -21,7 +22,9 @@ public class DbAlbumAccessor:DbAccessor, IDbAlbumAccessor
             .Include(a=>a.Author)
             .Include(a=>a.Tracks)
             .FirstOrDefaultAsync(a => a.Name == name);
-    
+
+    public IEnumerable<Album> GetAll() => DbContext.Albums.Include(a => a.Author);
+
 
     public async Task<Album?> GetById(string id) =>
         await DbContext.Albums

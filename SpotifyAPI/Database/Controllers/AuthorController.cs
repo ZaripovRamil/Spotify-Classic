@@ -2,6 +2,7 @@
 using Database.Services.Accessors.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
+using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.Entities;
 
@@ -29,6 +30,16 @@ public class AuthorController
         if (user == null) return new JsonResult(AuthorCreationCode.NoSuchUser);
         await _authorAccessor.Add(new Author(aData.Name, aData.UserId));
         return new JsonResult(AuthorCreationCode.Successful);
+    }
+
+    [HttpGet]
+    [Route("Get")]
+    public Task<IActionResult> GetAllAsync()
+    {
+        var authors = _authorAccessor
+            .GetAll()
+            .Select(author => new AuthorLight(author));
+        return Task.FromResult<IActionResult>(new JsonResult(authors));
     }
     
     [HttpGet]
