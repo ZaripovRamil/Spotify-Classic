@@ -8,9 +8,9 @@ import {
   DialogTitle,
 } from '@material-ui/core';
 
-// onFormDataSubmitWithCallbackAsync should be an async function that receives data from form
+// submitFormDataWithResultAsync should be an async function that receives data from form
 // and returns true or false, indicating whether data was proccedeed succesfully or not
-const FormDialog = ({ isOpen, setIsOpen, onFormDataSubmitWithCallbackAsync }) => {
+const FormDialog = ({ isOpen, setIsOpen, submitFormDataWithResultAsync }) => {
   const [formData, setFormData] = useState({
     trackName: '',
     albumId: '',
@@ -55,7 +55,7 @@ const FormDialog = ({ isOpen, setIsOpen, onFormDataSubmitWithCallbackAsync }) =>
       setFormError('Track name, album id and track mp3 file are required.')
       return;
     }
-    const res = await onFormDataSubmitWithCallbackAsync(formData);
+    const res = await submitFormDataWithResultAsync(formData);
     if (!res) {
       setFormError('Something went wrong. Please check the correcteness of your input data');
       return;

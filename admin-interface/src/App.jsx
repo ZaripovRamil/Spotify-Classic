@@ -4,7 +4,6 @@ import Tracks from './tracksPage/Tracks';
 import Albums from './albumsPage/Albums';
 import Authors from './authorsPage/Authors';
 import Menu from './components/MenuComponent';
-import './App.css';
 
 function App() {
   return (

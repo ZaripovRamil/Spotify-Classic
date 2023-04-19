@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import TableDisplayer from "../components/Table/TableDisplayer";
 import { getFetcher } from '../axios/AxiosInstance';
 import Ports from "../constants/Ports";
+import { Promise } from "q";
 
 const fetcher = getFetcher(Ports.AdminService);
 
@@ -55,9 +56,24 @@ const Tracks = () => {
     getTracks();
   }, []);
 
+  const editItemsWithResultAsync = async (data) => {
+    await new Promise(r => setTimeout(r, 1000));
+    return true;
+  }
+
+  const deleteItemsWithResultAsync = async (data) => {
+    await new Promise(r => setTimeout(r, 1000));
+    return false;
+  }
+
+  const insertItemsWithResultAsync = async (data) => {
+    await new Promise(r => setTimeout(r, 1000));
+    return false;
+  }
+
   return (
     <>
-      <TableDisplayer data={items} columns={columns} onDataChange={setItems} />
+      <TableDisplayer data={items} editDataWithResultAsync={editItemsWithResultAsync} deleteDataWithResultAsync={deleteItemsWithResultAsync} insertDataWithResultAsync={insertItemsWithResultAsync} columns={columns} />
     </>
   );
 }

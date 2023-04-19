@@ -11,28 +11,21 @@ import {
 } from '@material-ui/icons';
 import { TableStyles } from "./TableStyles";
 
-const EditableRow = ({ data, onDataChange, columns, editIndex, setEditIndex, index, newData, setNewData }) => {
-  const handleSave = (index) => {
-    const updatedData = [...data];
-    updatedData[index] = { ...updatedData[index], ...newData };
-    onDataChange(updatedData);
+const EditableRow = ({ data, editDataWithResultAsync, columns, setEditIndex, index, newData, setNewData }) => {
+  const handleSave = async () => {
+    const res = await editDataWithResultAsync(newData);
+    if (!res) {
+      alert('There was an error saving the data. Please check it and try again later');
     setEditIndex(-1);
-    setNewData({});
-  };
-
-  const handleCancel = () => {
-    // if the row was created and then canceled immediately
-    if (!Object.values(data[editIndex]).some(Boolean)) {
-      handleDelete(editIndex);
+      return;
     }
     setEditIndex(-1);
     setNewData({});
   };
 
-  const handleDelete = (index) => {
-    const updatedData = [...data];
-    updatedData.splice(index, 1);
-    onDataChange(updatedData);
+  const handleCancel = () => {
+    setEditIndex(-1);
+    setNewData({});
   };
 
   const classes = TableStyles();
@@ -73,7 +66,7 @@ const EditableRow = ({ data, onDataChange, columns, editIndex, setEditIndex, ind
         <Button
           variant="contained"
           className={classes.saveButton}
-          onClick={() => handleSave(index)}
+          onClick={handleSave}
         >
           <SaveIcon />
         </Button>

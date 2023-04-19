@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     TableRow,
     TableCell,
@@ -6,14 +6,10 @@ import {
 } from '@material-ui/core';
 import { Add as AddIcon } from "@material-ui/icons";
 import { TableStyles } from "./TableStyles";
+import FormDialog from "../FormDialog/FormDialog";
 
-const AddRowRow = ({ data, onDataChange, columns, setEditIndex, newData, setNewData }) => {
-    const handleAdd = () => {
-        const updatedData = [{ ...newData }, ...data];
-        onDataChange(updatedData);
-        setEditIndex(0);
-        setNewData({});
-    };
+const AddRowRow = ({ insertDataWithResultAsync, columns }) => {
+    const [openForm, setOpenForm] = useState(false);
 
     const classes = TableStyles();
     return (
@@ -25,10 +21,11 @@ const AddRowRow = ({ data, onDataChange, columns, setEditIndex, newData, setNewD
                 <Button
                     variant="contained"
                     className={classes.addButton}
-                    onClick={handleAdd}
+                    onClick={() => setOpenForm(true)}
                 >
                     <AddIcon />
                 </Button>
+                <FormDialog isOpen={openForm} setIsOpen={setOpenForm} submitFormDataWithResultAsync={insertDataWithResultAsync} />
             </TableCell>
         </TableRow>
     );
