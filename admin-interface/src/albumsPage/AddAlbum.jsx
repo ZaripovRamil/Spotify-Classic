@@ -34,7 +34,7 @@ const AddAlbum = ({ insertItemsWithResultAsync }) => {
         {
             name: 'releaseDate',
             label: 'Release Date',
-            type: 'text',
+            type: 'number',
             isRequired: false,
         },
     ];

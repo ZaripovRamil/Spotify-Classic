@@ -1,6 +1,6 @@
 import React from "react";
 import { DialogContent } from '@material-ui/core';
-import FormItem from "./FormItem";
+import FormItem from "./FormItems/FormItem";
 
 const FormDialogContent = ({ formData, setFormData, columns }) => {
   const handleFormChange = (event) => {
@@ -26,26 +26,9 @@ const FormDialogContent = ({ formData, setFormData, columns }) => {
 
   return (
     <DialogContent>
-      {columns.map((column, idx) => {
-        return (<FormItem formData={formData} setFormData={setFormData} handleFormChange={handleFormChange} column={column} key={`form-item-${idx}`} />);
-      })}
-      {/* 
-      {formData.genres.map((value, index) => (
-        <TextField
-          key={index}
-          margin="dense"
-          name={`genres-${index}`}
-          label={`genre-id ${index + 1}`}
-          value={value}
-          data-index={index}
-          fullWidth
-          onChange={handleFormChange}
-        />
+      {columns.map((column, idx) => (
+        <FormItem formData={formData} setFormData={setFormData} handleFormChange={handleFormChange} column={column} key={`form-item-${idx}`} />
       ))}
-      <br />
-      <Button onClick={handleAddGenre} color="primary">
-        Add new genre
-      </Button> */}
     </DialogContent>
   );
 }
