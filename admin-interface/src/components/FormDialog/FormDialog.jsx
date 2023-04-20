@@ -20,7 +20,7 @@ const FormDialog = ({ isOpen, setIsOpen, submitFormDataWithResultAsync }) => {
   const [formError, setFormError] = useState();
 
   const handleFormChange = (event) => {
-    const field = event.target.name;
+    let field = event.target.name;
     let val = null;
 
     if (event.target.type !== 'file' && field !== 'genres') {
@@ -29,11 +29,12 @@ const FormDialog = ({ isOpen, setIsOpen, submitFormDataWithResultAsync }) => {
       val = event.target.files[0];
     }
 
-    if (field === 'genres') {
-      const index = event.target.dataset.index;
+    if (field.startsWith('genres-')) {
+      const index = +field.split('genres-').filter(Boolean)[0];
       const newGenres = [...formData.genres];
       newGenres[index] = event.target.value;
       val = newGenres;
+      field = 'genres';
     }
 
     setFormData({ ...formData, [field]: val });
@@ -118,7 +119,7 @@ const FormDialog = ({ isOpen, setIsOpen, submitFormDataWithResultAsync }) => {
           <TextField
             key={index}
             margin="dense"
-            name="genres"
+            name={`genres-${index}`}
             label={`genre-id ${index + 1}`}
             value={value}
             data-index={index}

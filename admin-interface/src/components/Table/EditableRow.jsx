@@ -16,7 +16,7 @@ const EditableRow = ({ data, editDataWithResultAsync, columns, setEditIndex, ind
     const res = await editDataWithResultAsync(newData);
     if (!res) {
       alert('There was an error saving the data. Please check it and try again later');
-    setEditIndex(-1);
+      setEditIndex(-1);
       return;
     }
     setEditIndex(-1);
@@ -39,20 +39,12 @@ const EditableRow = ({ data, editDataWithResultAsync, columns, setEditIndex, ind
               type={column.type || "text"}
               value={column.name.split('.').reduce((o, propName) => o === undefined ? undefined : o[propName], newData) || ""}
               onChange={(e) => {
-                // good luck
                 const props = column.name.split('.');
-                if (props.length === 0) {
-                  return;
-                }
-                const changeObj = (idx, obj) => {
-                  if (idx === props.length - 1) {
-                    obj[props[idx]] = e.target.value;
-                    return;
-                  }
-                  changeObj(++idx, obj[props[idx - 1]]);
-                };
-
-                changeObj(0, newData);
+                if (props.length === 0) return;
+                // good luck
+                props.reduce((o, propName, idx) => o === undefined ?
+                  undefined : idx === props.length - 1 ?
+                    o[props[idx]] = e.target.value : o[propName], newData);
                 setNewData({ ...newData });
               }
               }

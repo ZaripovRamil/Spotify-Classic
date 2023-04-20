@@ -17,12 +17,6 @@ const Tracks = () => {
           setItems(res.data);
           setColumns([
             {
-              name: 'id',
-              label: 'id',
-              type: 'text',
-              isEditable: false,
-            },
-            {
               name: 'name',
               label: 'name',
               type: 'text',
