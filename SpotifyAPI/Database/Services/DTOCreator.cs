@@ -4,7 +4,7 @@ using Models.Entities;
 
 namespace Database.Services;
 
-public class DtoCreator: IDtoCreator
+public class DtoCreator : IDtoCreator
 {
     public AlbumFull? CreateFull(Album? album)
     {

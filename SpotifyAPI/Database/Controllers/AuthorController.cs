@@ -16,7 +16,9 @@ public class AuthorController
     private readonly IDbAuthorAccessor _authorAccessor;
     private readonly IAuthorFactory _authorFactory;
     private readonly IDtoCreator _dtoCreator;
-    public AuthorController(IDbUserAccessor userAccessor, IDbAuthorAccessor authorAccessor, IDtoCreator dtoCreator, IAuthorFactory authorFactory)
+
+    public AuthorController(IDbUserAccessor userAccessor, IDbAuthorAccessor authorAccessor, IDtoCreator dtoCreator,
+        IAuthorFactory authorFactory)
     {
         _userAccessor = userAccessor;
         _authorAccessor = authorAccessor;
@@ -26,22 +28,20 @@ public class AuthorController
 
     [HttpPost]
     [Route("Add")]
-    public async Task<IActionResult> Create([FromBody]AuthorCreationData aData)
+    public async Task<IActionResult> ProcessAuthorCreation([FromBody] AuthorCreationData data)
     {
-        var author = await _authorFactory.Create(aData);
-        if(author == null)
-            return new JsonResult(new AuthorCreationResult(AuthorCreationCode.InvalidUser, author));
-        await _authorAccessor.Add(new Author(aData.Name, aData.UserId));
-        return new JsonResult(new AuthorCreationResult(AuthorCreationCode.Successful, author));
+        var (state, author) = await _authorFactory.Create(data);
+        if (state == AuthorCreationCode.Successful) await _authorAccessor.Add(author!);
+        return new JsonResult(new AuthorCreationResult(state, author));
     }
-    
+
     [HttpGet]
     [Route("get/id/{id}")]
     public async Task<IActionResult> GetById(string id)
     {
         return new JsonResult(_dtoCreator.CreateFull(await _authorAccessor.GetById(id)));
     }
-    
+
     [HttpGet]
     [Route("get/name/{name}")]
     public async Task<IActionResult> GetByName(string name)

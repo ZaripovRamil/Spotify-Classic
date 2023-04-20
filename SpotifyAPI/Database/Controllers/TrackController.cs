@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack.EntityCreationData;
+using Models.Entities;
 
 namespace Database.Controllers;
 
@@ -15,22 +16,24 @@ public class TrackController
     private readonly ITrackFactory _trackFactory;
     private readonly IDbTrackAccessor _trackAccessor;
     private readonly IDtoCreator _dtoCreator;
+    private readonly IDbAlbumAccessor _albumAccessor;
 
-    public TrackController(ITrackFactory trackFactory, IDbTrackAccessor trackAccessor, IDtoCreator dtoCreator)
+    public TrackController(ITrackFactory trackFactory, IDbTrackAccessor trackAccessor, IDtoCreator dtoCreator,
+        IDbAlbumAccessor albumAccessor)
     {
         _trackFactory = trackFactory;
         _trackAccessor = trackAccessor;
         _dtoCreator = dtoCreator;
+        _albumAccessor = albumAccessor;
     }
 
     [HttpPost]
     [Route("Add")]
-    public async Task<IActionResult> Add([FromBody] TrackCreationData tData)
+    public async Task<IActionResult> ProcessTrackCreation([FromBody] TrackCreationData data)
     {
-        var track = await _trackFactory.Create(tData);
-        if (track == null) return new JsonResult(new TrackCreationResult(TrackCreationCode.InvalidAlbum, null));
-        await _trackAccessor.Add(track);
-        return new JsonResult(new TrackCreationResult(TrackCreationCode.Successful, track));
+        var (state, track) = await _trackFactory.Create(data);
+        if (state == TrackCreationCode.Successful) await _trackAccessor.Add(track!);
+        return new JsonResult(new TrackCreationResult(state, track));
     }
 
     [HttpGet]

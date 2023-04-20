@@ -6,45 +6,48 @@ using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.FrontToBack;
 using Models.DTO.FrontToBack.EntityCreationData;
+using Models.Entities;
 
 namespace Database.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class PlaylistController:Controller
+public class PlaylistController : Controller
 {
+    private readonly IDbUserAccessor _userAccessor;
     private readonly IDbPlaylistAccessor _playlistAccessor;
     private readonly IPlaylistFactory _playlistFactory;
     private readonly IDbTrackAccessor _trackAccessor;
     private readonly IDtoCreator _dtoCreator;
 
-    public PlaylistController(IDbPlaylistAccessor playlistAccessor, IDbTrackAccessor trackAccessor, IPlaylistFactory playlistFactory, IDtoCreator dtoCreator)
+    public PlaylistController(IDbPlaylistAccessor playlistAccessor, IDbTrackAccessor trackAccessor,
+        IPlaylistFactory playlistFactory, IDtoCreator dtoCreator, IDbUserAccessor userAccessor)
     {
         _playlistAccessor = playlistAccessor;
         _trackAccessor = trackAccessor;
         _playlistFactory = playlistFactory;
         _dtoCreator = dtoCreator;
+        _userAccessor = userAccessor;
     }
 
     [HttpPost]
-    [Route("[action]")]
-    public async Task<IActionResult> Create([FromBody] PlaylistCreationData data)
+    [Route("Add")]
+    public async Task<IActionResult> ProcessPlaylistCreation([FromBody] PlaylistCreationData data)
     {
-        var playlist = await _playlistFactory.Create(data);
-        if (playlist == null) return new JsonResult(new PlaylistCreationResult(PlaylistCreationCode.InvalidUser, null));
-        await _playlistAccessor.Add(playlist);
-        return Ok(new PlaylistCreationResult(PlaylistCreationCode.Successful, null));
+        var (state, playlist) = await _playlistFactory.Create(data);
+        if (state == PlaylistCreationCode.Successful) await _playlistAccessor.Add(playlist!);
+        return new JsonResult(new PlaylistCreationResult(state, playlist));
     }
 
     [HttpPost]
     [Route("[action]")]
     public async Task<IActionResult> AddTrack([FromBody] PlaylistTrackAdditionData data)
     {
-        var playlist =await _playlistAccessor.Get(data.playlistId);
-        var track =await _trackAccessor.Get(data.trackId);
+        var playlist = await _playlistAccessor.Get(data.playlistId);
+        var track = await _trackAccessor.Get(data.trackId);
         if (playlist == null || track == null)
             return BadRequest();
-        _playlistAccessor.AddTrack(playlist, track);
+        await _playlistAccessor.AddTrack(playlist, track);
         return Ok();
     }
 

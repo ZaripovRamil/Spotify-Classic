@@ -4,7 +4,7 @@ using Models.Entities;
 
 namespace Database.Services.Factories.Interfaces;
 
-public interface ITrackFactory
+public interface IGenreFactory
 {
-    public Task<(TrackCreationCode, Track?)> Create(TrackCreationData data);
+    public Task<(GenreCreationCode, Genre?)> Create(GenreCreationData data);
 }

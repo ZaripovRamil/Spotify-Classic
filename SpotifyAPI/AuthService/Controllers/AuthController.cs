@@ -14,7 +14,7 @@ public class AuthController
     private readonly SignInManager<User> _signInManager;
     private IDbRequester Requester { get; }
 
-    public AuthController(SignInManager<User> signInManager,  IDbRequester requester)
+    public AuthController(SignInManager<User> signInManager, IDbRequester requester)
     {
         _signInManager = signInManager;
         Requester = requester;

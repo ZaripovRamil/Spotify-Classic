@@ -2,7 +2,7 @@
 
 namespace Database.Services;
 
-public class FileIdGenerator:IFileIdGenerator
+public class FileIdGenerator : IFileIdGenerator
 {
     public string GetId(TrackCreationData trackCreationData)
     {

@@ -8,7 +8,6 @@ namespace Database.Controllers;
 [Route("[controller]")]
 public class UserController
 {
-   
     private readonly IDbUserAccessor _userAccessor;
     private readonly IDtoCreator _dtoCreator;
 
@@ -22,7 +21,7 @@ public class UserController
     [Route("get/username/{username}")]
     public async Task<IActionResult> GetByUsername(string username)
     {
-        return new JsonResult(_dtoCreator.CreateFull(await _userAccessor.GetByUsername(username)));    
+        return new JsonResult(_dtoCreator.CreateFull(await _userAccessor.GetByUsername(username)));
     }
 
     [HttpGet]

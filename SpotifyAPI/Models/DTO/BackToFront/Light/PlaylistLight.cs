@@ -4,7 +4,7 @@ namespace Models.DTO.BackToFront.Light;
 
 public class PlaylistLight
 {
-    public string Id { get; set; } 
+    public string Id { get; set; }
     public string PreviewId { get; set; }
     public string Name { get; set; }
     public User Owner { get; set; }

@@ -8,4 +8,3 @@ public interface IDbGenreAccessor
     public Task Add(Genre genre);
     Task<Genre?> GetByName(string gDataName);
 }
-

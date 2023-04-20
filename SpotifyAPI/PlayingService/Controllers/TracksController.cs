@@ -17,10 +17,10 @@ public class TracksController : Controller
     }
 
     [HttpGet("{id}")]
-    public async Task<FileStreamResult> DownloadByIdAsync (string id)
+    public async Task<FileStreamResult> DownloadByIdAsync(string id)
     {
         var track = _fileProvider.GetFileAsStream($"Assets/Tracks/{id}.mp3");
-        
+
         return new FileStreamResult(track, "application/octet-stream")
         {
             FileDownloadName = $"{id}.mp3",

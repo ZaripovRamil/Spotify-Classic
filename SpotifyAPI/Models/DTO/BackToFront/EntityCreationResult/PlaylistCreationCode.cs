@@ -2,5 +2,7 @@
 
 public enum PlaylistCreationCode
 {
-    Successful, InvalidUser
+    Successful,
+    InvalidUser,
+    UnknownError
 }

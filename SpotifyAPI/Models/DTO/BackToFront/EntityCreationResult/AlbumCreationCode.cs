@@ -3,5 +3,6 @@
 public enum AlbumCreationCode
 {
     Successful,
-    InvalidAuthor
+    InvalidAuthor,
+    UnknownError
 }
