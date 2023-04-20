@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import AddAuthor from "./AddAuthor";
 import TableDisplayer from "../components/Table/TableDisplayer";
 import { getFetcher } from '../axios/AxiosInstance';
 import Ports from "../constants/Ports";
@@ -7,14 +8,14 @@ const fetcher = getFetcher(Ports.AdminService);
 
 const Authors = () => {
   const [items, setItems] = useState([]);
-  const [columns, setColumns] = useState([]);
+  const [tableColumns, setTableColumns] = useState([]);
   useEffect(() => {
     const getTracks = async () => {
       await fetcher.get('authors/')
         .then(res => {
           if (res.status !== 200) return;
           setItems(res.data);
-          setColumns([
+          setTableColumns([
             {
               name: 'id',
               label: 'id',
@@ -33,7 +34,7 @@ const Authors = () => {
           setItems([{
             err: err.message,
           }]);
-          setColumns([{
+          setTableColumns([{
             name: 'err',
             label: 'error',
             isEditable: false,
@@ -43,9 +44,25 @@ const Authors = () => {
     getTracks();
   }, []);
 
+  const editItemsWithResultAsync = async (data) => {
+    await new Promise(r => setTimeout(r, 1000));
+    return true;
+  }
+
+  const deleteItemsWithResultAsync = async (data) => {
+    await new Promise(r => setTimeout(r, 1000));
+    return false;
+  }
+
+  const insertItemsWithResultAsync = async (data) => {
+    await new Promise(r => setTimeout(r, 1000));
+    return false;
+  }
+
   return (
     <>
-      <TableDisplayer data={items} columns={columns} onDataChange={setItems} />
+      <AddAuthor insertItemsWithResultAsync={insertItemsWithResultAsync} />
+      <TableDisplayer data={items} editDataWithResultAsync={editItemsWithResultAsync} deleteDataWithResultAsync={deleteItemsWithResultAsync} columns={tableColumns} />
     </>
   );
 }

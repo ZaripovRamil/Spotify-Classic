@@ -4,37 +4,37 @@ import { Button } from "@material-ui/core";
 import { Add as AddIcon } from "@material-ui/icons";
 import { TableStyles } from "../components/Table/TableStyles";
 
-const AddTrack = ({ insertItemsWithResultAsync }) => {
+const AddAlbum = ({ insertItemsWithResultAsync }) => {
     const [openAddingForm, setOpenAddingForm] = useState(false);
     const [formData, setFormData] = useState({
-        trackName: '',
-        albumId: '',
-        genres: [],
-        trackFile: null,
+        albumName: '',
+        authorId: '',
+        albumType: '',
+        releaseDate: '',
     });
     const addingFormColumns = [
         {
-            name: 'trackName',
-            label: 'Track Name',
+            name: 'albumName',
+            label: 'Album Name',
             type: 'text',
             isRequired: true,
         },
         {
-            name: 'albumId',
-            label: 'Album Id',
+            name: 'authorId',
+            label: 'Author Id',
             type: 'text',
             isRequired: true,
         },
         {
-            name: 'trackFile',
-            label: 'Track File',
-            type: 'file',
+            name: 'albumType',
+            label: 'ALbum Type',
+            type: 'text',
             isRequired: true,
         },
         {
-            name: 'genres',
-            label: 'Genres Ids',
-            type: 'array',
+            name: 'releaseDate',
+            label: 'Release Date',
+            type: 'text',
             isRequired: false,
         },
     ];
@@ -54,4 +54,4 @@ const AddTrack = ({ insertItemsWithResultAsync }) => {
     );
 }
 
-export default AddTrack;
+export default AddAlbum;
