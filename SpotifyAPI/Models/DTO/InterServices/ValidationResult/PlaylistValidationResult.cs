@@ -7,7 +7,7 @@ public class PlaylistValidationResult:EntityValidationResult
 {
     public PlaylistValidationResult(PlaylistValidationCode code, User user) : base((int)code)
     {
-        throw new NotImplementedException();
+        Owner = user;
     }
 
     public User Owner { get; set; }
