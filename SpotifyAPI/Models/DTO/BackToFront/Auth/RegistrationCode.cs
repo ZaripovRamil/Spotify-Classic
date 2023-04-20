@@ -1,4 +1,4 @@
-﻿namespace Models.DTO.BackToFront.EntityCreationResult;
+﻿namespace Models.DTO.BackToFront.Auth;
 
 public enum RegistrationCode
 {
