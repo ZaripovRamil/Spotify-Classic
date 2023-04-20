@@ -17,24 +17,35 @@ const AddAlbum = ({ insertItemsWithResultAsync }) => {
             name: 'albumName',
             label: 'Album Name',
             type: 'text',
+            typeProps: [],
             isRequired: true,
         },
         {
             name: 'authorId',
             label: 'Author Id',
             type: 'text',
+            typeProps: [],
             isRequired: true,
         },
         {
             name: 'albumType',
             label: 'ALbum Type',
-            type: 'text',
+            type: 'select',
+            typeProps: [{
+                value: '0',
+                label: 'album',
+            },
+            {
+                value: '1',
+                label: 'single',
+            }],
             isRequired: true,
         },
         {
             name: 'releaseDate',
             label: 'Release Date',
             type: 'number',
+            typeProps: [],
             isRequired: false,
         },
     ];

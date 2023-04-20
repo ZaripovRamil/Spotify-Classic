@@ -35,6 +35,10 @@ const AddTrack = ({ insertItemsWithResultAsync }) => {
             name: 'genres',
             label: 'Genres Ids',
             type: 'array',
+            typeProps: [{
+                type: 'text',
+                typeProps: [],
+            }],
             isRequired: false,
         },
     ];

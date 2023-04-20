@@ -1,8 +1,8 @@
 import React from "react";
 import { Button } from '@material-ui/core';
-import TextFieldFormItem from "./TextFieldFormItem";
+import FormItem from "./FormItem";
 
-const MultiTextFieldFormItem = ({ formData, setFormData, handleFormChange, column }) => {
+const MultiInputFieldFormItem = ({ formData, setFormData, handleFormChange, column }) => {
     const handleAddItem = () => {
         formData[column.name] = [...formData[column.name], '']
         setFormData({ ...formData });
@@ -10,10 +10,11 @@ const MultiTextFieldFormItem = ({ formData, setFormData, handleFormChange, colum
     return (
         <>
             {formData[column.name].map((_, idx) =>
-                <TextFieldFormItem key={idx} formData={formData} handleFormChange={handleFormChange} column={{
+                <FormItem key={idx} formData={formData} handleFormChange={handleFormChange} column={{
                     name: `${column.name}.${idx}`,
                     label: `${column.label} ${idx + 1}`,
-                    type: 'text',
+                    type: column.typeProps[0].type,
+                    typeProps: column.typeProps[0].typeProps,
                     isRequired: column.isRequired && idx === 0,
                 }} />
             )}
@@ -25,4 +26,4 @@ const MultiTextFieldFormItem = ({ formData, setFormData, handleFormChange, colum
     );
 }
 
-export default MultiTextFieldFormItem;
+export default MultiInputFieldFormItem;
