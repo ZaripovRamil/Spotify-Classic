@@ -17,8 +17,7 @@ public class TrackFactory:ITrackFactory
         _genreAccessor = genreAccessor;
         _idGenerator = idGenerator;
     }
-    
-    
+
     public async  Task<Track?> Create(TrackCreationData tData)
     {
         var album = await _albumAccessor.GetById(tData.AlbumId);

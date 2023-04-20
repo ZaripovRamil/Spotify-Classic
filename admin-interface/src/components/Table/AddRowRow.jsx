@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-import {
-    TableRow,
-    TableCell,
-    Button,
-} from '@material-ui/core';
+import { TableRow, TableCell, Button } from '@material-ui/core';
 import { Add as AddIcon } from "@material-ui/icons";
 import { TableStyles } from "./TableStyles";
 import FormDialog from "../FormDialog/FormDialog";

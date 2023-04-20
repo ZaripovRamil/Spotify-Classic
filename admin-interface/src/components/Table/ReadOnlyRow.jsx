@@ -10,6 +10,10 @@ import {
 } from "@material-ui/icons";
 import { TableStyles } from "./TableStyles";
 
+const getCompoundProperty = (object, property, delimeter='.') => {
+    return property.split(delimeter).reduce((obj, propName) => obj ? obj[propName] : obj, object) || "";
+}
+
 const ReadOnlyRow = ({ data, deleteDataWithResultAsync, columns, setEditIndex, item, index, setNewData }) => {
 	const handleDelete = async () => {
 		const res = await deleteDataWithResultAsync(data[index]);
@@ -28,7 +32,7 @@ const ReadOnlyRow = ({ data, deleteDataWithResultAsync, columns, setEditIndex, i
 	return (
 		<TableRow>
 			{columns.map((column) => (
-				<TableCell key={column.name}>{column.name.split('.').reduce((o, propName) => o === undefined ? undefined : o[propName], data[index])}</TableCell>
+				<TableCell key={column.name}>{getCompoundProperty(data[index], column.name)}</TableCell>
 			))}
 			<TableCell>
 				<IconButton

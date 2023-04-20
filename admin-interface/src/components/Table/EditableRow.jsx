@@ -11,6 +11,10 @@ import {
 } from '@material-ui/icons';
 import { TableStyles } from "./TableStyles";
 
+const getCompoundProperty = (object, property, delimeter='.') => {
+    return property.split(delimeter).reduce((obj, propName) => obj ? obj[propName] : obj, object) || "";
+}
+
 const EditableRow = ({ data, editDataWithResultAsync, columns, setEditIndex, index, newData, setNewData }) => {
   const handleSave = async () => {
     const res = await editDataWithResultAsync(newData);
@@ -37,7 +41,7 @@ const EditableRow = ({ data, editDataWithResultAsync, columns, setEditIndex, ind
             <TextField
               className={classes.input}
               type={column.type || "text"}
-              value={column.name.split('.').reduce((o, propName) => o === undefined ? undefined : o[propName], newData) || ""}
+              value={getCompoundProperty(newData, column.name)}
               onChange={(e) => {
                 const props = column.name.split('.');
                 if (props.length === 0) return;
@@ -51,7 +55,7 @@ const EditableRow = ({ data, editDataWithResultAsync, columns, setEditIndex, ind
             />
           </TableCell>
           ) : (
-            <TableCell key={column.name}>{column.name.split('.').reduce((o, propName) => o === undefined ? undefined : o[propName], data[index])}</TableCell>
+            <TableCell key={column.name}>{getCompoundProperty(data[index], column.name)}</TableCell>
           )
       ))}
       <TableCell>
