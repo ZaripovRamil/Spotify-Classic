@@ -22,8 +22,8 @@ public class TrackFactory : ITrackFactory
 
     public async Task<(TrackValidationCode, Track?)> Create(TrackCreationData data)
     {
-        var validationResult = _trackValidator.Validate(data);
-        return (validationResult.ValidationCode,
+        var validationResult = await _trackValidator.Validate(data);
+        return ((TrackValidationCode)validationResult.ValidationCode,
             validationResult.IsValid
                 ? new Track(data.Name, validationResult.Album, _idGenerator.GetId(data), validationResult.Genres)
                 : null);

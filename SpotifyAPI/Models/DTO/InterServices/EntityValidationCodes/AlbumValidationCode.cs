@@ -2,7 +2,10 @@
 
 public enum AlbumValidationCode
 {
-    Successful,
+    Successful = EntityValidationCode.Successful,
+    EmptyName = EntityValidationCode.EmptyName,
+    InvalidName = EntityValidationCode.InvalidName,
+    UnknownError = EntityValidationCode.UnknownError,
     InvalidAuthor,
-    UnknownError
+    InvalidReleaseYear
 }

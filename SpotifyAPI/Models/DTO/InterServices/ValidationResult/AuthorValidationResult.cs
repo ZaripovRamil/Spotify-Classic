@@ -5,6 +5,9 @@ namespace Models.DTO.InterServices.ValidationResult;
 
 public class AuthorValidationResult:EntityValidationResult
 {
-    public AuthorValidationCode ValidationCode { get; set; }
+    public AuthorValidationResult(AuthorValidationCode code, User owner) : base((int)code)
+    {
+        Owner = owner;
+    }
     public User Owner { get; set; }
 }

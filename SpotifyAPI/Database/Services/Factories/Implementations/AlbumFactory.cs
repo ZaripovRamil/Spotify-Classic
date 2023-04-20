@@ -20,9 +20,9 @@ public class AlbumFactory : IAlbumFactory
 
     public async Task<(AlbumValidationCode, Album?)> Create(AlbumCreationData data)
     {
-        var validationResult = _albumValidator.Validate(data);
-        return (validationResult.ValidationCode, validationResult.IsValid?
-            new Album(data.Name, validationResult.Author, data.AlbumType, data.ReleaseDate, _idGenerator.GetId(data))
+        var validationResult = await _albumValidator.Validate(data);
+        return ((AlbumValidationCode)validationResult.ValidationCode, validationResult.IsValid?
+            new Album(data.Name, validationResult.Author, data.AlbumType, data.ReleaseYear, _idGenerator.GetId(data))
             :null);
     }
 }

@@ -5,5 +5,5 @@ namespace Database.Services.EntityValidators.Interfaces;
 
 public interface IAuthorValidator
 {
-    public AuthorValidationResult Validate(AuthorCreationData data);
+    public Task<AuthorValidationResult> Validate(AuthorCreationData data);
 }

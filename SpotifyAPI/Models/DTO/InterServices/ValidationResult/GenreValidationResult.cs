@@ -4,5 +4,7 @@ namespace Models.DTO.InterServices.ValidationResult;
 
 public class GenreValidationResult:EntityValidationResult
 {
-    public GenreValidationCode ValidationCode{ get; set; }
+    public GenreValidationResult(GenreValidationCode code) : base((int)code)
+    {
+    }
 }

@@ -5,5 +5,5 @@ namespace Database.Services.EntityValidators.Interfaces;
 
 public interface IGenreValidator
 {
-    public GenreValidationResult Validate(GenreCreationData data);
+    public Task<GenreValidationResult> Validate(GenreCreationData data);
 }

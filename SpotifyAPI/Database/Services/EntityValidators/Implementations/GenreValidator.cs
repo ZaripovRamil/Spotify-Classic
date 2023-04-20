@@ -1,14 +1,25 @@
-﻿using Database.Services.EntityValidators.Interfaces;
+﻿using Database.Services.Accessors.Interfaces;
+using Database.Services.EntityValidators.Interfaces;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.DTO.InterServices.EntityValidationCodes;
 using Models.DTO.InterServices.ValidationResult;
 
 namespace Database.Services.EntityValidators.Implementations;
 
-public class GenreValidator:IGenreValidator
+public class GenreValidator:EntityValidator,IGenreValidator
 {
-    public GenreValidationResult Validate(GenreCreationData data)
+    private readonly IDbGenreAccessor _genreAccessor;
+
+    public GenreValidator(IDbGenreAccessor genreAccessor)
     {
-        throw new NotImplementedException();
+        _genreAccessor = genreAccessor;
+    }
+
+    public async Task<GenreValidationResult> Validate(GenreCreationData data)
+    {
+        var state = (GenreValidationCode) base.Validate(data).ValidationCode;
+        if (await _genreAccessor.GetByName(data.Name) != null)
+            state = GenreValidationCode.AlreadyExists;
+        return new GenreValidationResult(state);
     }
 }

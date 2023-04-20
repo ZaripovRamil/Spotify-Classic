@@ -1,14 +1,26 @@
-﻿using Database.Services.EntityValidators.Interfaces;
+﻿using Database.Services.Accessors.Interfaces;
+using Database.Services.EntityValidators.Interfaces;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.DTO.InterServices.EntityValidationCodes;
 using Models.DTO.InterServices.ValidationResult;
 
 namespace Database.Services.EntityValidators.Implementations;
 
-public class AuthorValidator:IAuthorValidator
+public class AuthorValidator:EntityValidator,IAuthorValidator
 {
-    public AuthorValidationResult Validate(AuthorCreationData data)
+    private readonly IDbUserAccessor _userAccessor;
+
+    public AuthorValidator(IDbUserAccessor userAccessor)
     {
-        throw new NotImplementedException();
+        _userAccessor = userAccessor;
+    }
+
+    public async Task<AuthorValidationResult> Validate(AuthorCreationData data)
+    {
+        var state = (AuthorValidationCode) base.Validate(data).ValidationCode;
+        var user = await _userAccessor.GetById(data.UserId);
+        if (user == null)
+            state = AuthorValidationCode.InvalidUser;
+        return new AuthorValidationResult(state, user);
     }
 }

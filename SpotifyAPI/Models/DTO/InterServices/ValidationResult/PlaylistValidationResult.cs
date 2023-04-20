@@ -5,6 +5,10 @@ namespace Models.DTO.InterServices.ValidationResult;
 
 public class PlaylistValidationResult:EntityValidationResult
 {
-    public PlaylistValidationCode ValidationCode { get; set; }
+    public PlaylistValidationResult(PlaylistValidationCode code, User user) : base((int)code)
+    {
+        throw new NotImplementedException();
+    }
+
     public User Owner { get; set; }
 }

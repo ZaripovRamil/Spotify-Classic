@@ -5,6 +5,10 @@ namespace Models.DTO.InterServices.ValidationResult;
 
 public class AlbumValidationResult:EntityValidationResult
 {
-    public AlbumValidationCode ValidationCode { get; set; }
+    public AlbumValidationResult(AlbumValidationCode code, Author author) : base((int) code)
+    {
+        Author = author;
+    }
+    
     public Author Author { get; set; }
 }

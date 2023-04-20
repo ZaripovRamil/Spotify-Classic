@@ -6,5 +6,5 @@ public class AlbumCreationData : EntityCreationData
 {
     public string AuthorId { get; set; }
     public AlbumType AlbumType { get; set; }
-    public int ReleaseDate { get; set; }
+    public int ReleaseYear { get; set; }
 }

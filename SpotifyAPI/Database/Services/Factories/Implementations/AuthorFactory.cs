@@ -18,8 +18,8 @@ public class AuthorFactory : IAuthorFactory
 
     public async Task<(AuthorValidationCode, Author?)> Create(AuthorCreationData data)
     {
-        var validationResult = _authorValidator.Validate(data);
-        return (validationResult.ValidationCode,
+        var validationResult = await _authorValidator.Validate(data);
+        return ((AuthorValidationCode)validationResult.ValidationCode,
             validationResult.IsValid ? new Author(data.Name, validationResult.Owner) : null);
     }
 }

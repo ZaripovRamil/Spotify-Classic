@@ -5,5 +5,5 @@ namespace Database.Services.EntityValidators.Interfaces;
 
 public interface IAlbumValidator
 {
-    public AlbumValidationResult Validate(AlbumCreationData data);
+    public Task<AlbumValidationResult> Validate(AlbumCreationData data);
 }

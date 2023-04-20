@@ -2,6 +2,9 @@
 
 public enum GenreValidationCode
 {
-    Successful,
+    Successful = EntityValidationCode.Successful,
+    EmptyName = EntityValidationCode.EmptyName,
+    InvalidName = EntityValidationCode.InvalidName,
+    UnknownError = EntityValidationCode.UnknownError,
     AlreadyExists
 }

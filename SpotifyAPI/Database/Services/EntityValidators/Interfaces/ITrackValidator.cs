@@ -5,5 +5,5 @@ namespace Database.Services.EntityValidators.Interfaces;
 
 public interface ITrackValidator
 {
-    public TrackValidationResult Validate(TrackCreationData data);
+    public Task<TrackValidationResult> Validate(TrackCreationData data);
 }
