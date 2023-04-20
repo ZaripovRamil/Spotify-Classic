@@ -1,27 +1,26 @@
-﻿using Models.Entities;
+﻿using Models.DTO.InterServices.EntityValidationCodes;
+using Models.Entities;
 
 namespace Models.DTO.BackToFront.EntityCreationResult;
 
-public class GenreCreationResult
+public class GenreCreationResult:EntityCreationResult
 {
-    private static readonly Dictionary<GenreCreationCode, string> Messages = new()
+    private static readonly Dictionary<GenreValidationCode, string> Messages = new()
     {
-        {GenreCreationCode.Successful, "Success"},
-        {GenreCreationCode.AlreadyExists, "This genre already exists"}
+        {GenreValidationCode.Successful, "Success"},
+        {GenreValidationCode.AlreadyExists, "This genre already exists"}
     };
-
-    public bool IsSuccessful { get; set; }
+    
     public string? GenreId { get; set; }
-    public string ResultMessage { get; set; }
 
-    public GenreCreationResult(GenreCreationCode code, Genre? genre)
+    public GenreCreationResult(GenreValidationCode code, Genre? genre)
     {
-        IsSuccessful = code == GenreCreationCode.Successful;
+        IsSuccessful = code == GenreValidationCode.Successful;
         ResultMessage = Messages[code];
         GenreId = genre?.Id;
     }
 
-    public GenreCreationResult((GenreCreationCode State, Genre? Genre) data) : this(data.State, data.Genre)
+    public GenreCreationResult((GenreValidationCode State, Genre? Genre) data) : this(data.State, data.Genre)
     {
     }
 }

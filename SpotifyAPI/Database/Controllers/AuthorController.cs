@@ -4,7 +4,7 @@ using Database.Services.Factories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.FrontToBack.EntityCreationData;
-using Models.Entities;
+using Models.DTO.InterServices.EntityValidationCodes;
 
 namespace Database.Controllers;
 
@@ -12,15 +12,13 @@ namespace Database.Controllers;
 [Route("[controller]")]
 public class AuthorController
 {
-    private readonly IDbUserAccessor _userAccessor;
     private readonly IDbAuthorAccessor _authorAccessor;
     private readonly IAuthorFactory _authorFactory;
     private readonly IDtoCreator _dtoCreator;
 
-    public AuthorController(IDbUserAccessor userAccessor, IDbAuthorAccessor authorAccessor, IDtoCreator dtoCreator,
+    public AuthorController(IDbAuthorAccessor authorAccessor, IDtoCreator dtoCreator,
         IAuthorFactory authorFactory)
     {
-        _userAccessor = userAccessor;
         _authorAccessor = authorAccessor;
         _dtoCreator = dtoCreator;
         _authorFactory = authorFactory;
@@ -31,7 +29,7 @@ public class AuthorController
     public async Task<IActionResult> ProcessAuthorCreation([FromBody] AuthorCreationData data)
     {
         var (state, author) = await _authorFactory.Create(data);
-        if (state == AuthorCreationCode.Successful) await _authorAccessor.Add(author!);
+        if (state == AuthorValidationCode.Successful) await _authorAccessor.Add(author!);
         return new JsonResult(new AuthorCreationResult(state, author));
     }
 

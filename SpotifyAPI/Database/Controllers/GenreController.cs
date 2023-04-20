@@ -4,6 +4,7 @@ using Database.Services.Factories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.FrontToBack.EntityCreationData;
+using Models.DTO.InterServices.EntityValidationCodes;
 
 namespace Database.Controllers;
 
@@ -27,7 +28,7 @@ public class GenreController
     public async Task<IActionResult> ProcessGenreCreation(GenreCreationData data)
     {
         var (state, genre) = await _genreFactory.Create(data);
-        if (state == GenreCreationCode.Successful) await _genreAccessor.Add(genre!);
+        if (state == GenreValidationCode.Successful) await _genreAccessor.Add(genre!);
         return new JsonResult(new GenreCreationResult(state, genre));
     }
 

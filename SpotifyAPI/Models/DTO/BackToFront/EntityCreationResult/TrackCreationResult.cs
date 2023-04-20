@@ -1,28 +1,27 @@
-﻿using Models.Entities;
+﻿using Models.DTO.InterServices.EntityValidationCodes;
+using Models.Entities;
 
 namespace Models.DTO.BackToFront.EntityCreationResult;
 
-public class TrackCreationResult
+public class TrackCreationResult:EntityCreationResult
 {
-    private static readonly Dictionary<TrackCreationCode, string> Messages = new()
+    private static readonly Dictionary<TrackValidationCode, string> Messages = new()
     {
-        {TrackCreationCode.Successful, "Success"},
-        {TrackCreationCode.InvalidAlbum, "Invalid AlbumId"},
-        {TrackCreationCode.UnknownError, "Unknown error"}
+        {TrackValidationCode.Successful, "Success"},
+        {TrackValidationCode.InvalidAlbum, "Invalid AlbumId"},
+        {TrackValidationCode.UnknownError, "Unknown error"}
     };
-
-    public bool IsSuccessful { get; set; }
+    
     public string? TrackId { get; set; }
-    public string ResultMessage { get; set; }
 
-    public TrackCreationResult(TrackCreationCode code, Track? track)
+    public TrackCreationResult(TrackValidationCode code, Track? track)
     {
-        IsSuccessful = code == TrackCreationCode.Successful;
+        IsSuccessful = code == TrackValidationCode.Successful;
         ResultMessage = Messages[code];
         TrackId = track?.Id;
     }
 
-    public TrackCreationResult((TrackCreationCode State, Track? Track) data) : this(data.State, data.Track)
+    public TrackCreationResult((TrackValidationCode State, Track? Track) data) : this(data.State, data.Track)
     {
     }
 }

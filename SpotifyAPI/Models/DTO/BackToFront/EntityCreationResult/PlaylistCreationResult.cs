@@ -1,28 +1,27 @@
-﻿using Models.Entities;
+﻿using Models.DTO.InterServices.EntityValidationCodes;
+using Models.Entities;
 
 namespace Models.DTO.BackToFront.EntityCreationResult;
 
-public class PlaylistCreationResult
+public class PlaylistCreationResult:EntityCreationResult
 {
-    private static readonly Dictionary<PlaylistCreationCode, string> Messages = new()
+    private static readonly Dictionary<PlaylistValidationCode, string> Messages = new()
     {
-        {PlaylistCreationCode.Successful, "Success"},
-        {PlaylistCreationCode.InvalidUser, "Invalid UserId"},
-        {PlaylistCreationCode.UnknownError, "Unknown error"}
+        {PlaylistValidationCode.Successful, "Success"},
+        {PlaylistValidationCode.InvalidUser, "Invalid UserId"},
+        {PlaylistValidationCode.UnknownError, "Unknown error"}
     };
-
-    public bool IsSuccessful { get; set; }
+    
     public string? PlaylistId { get; set; }
-    public string ResultMessage { get; set; }
 
-    public PlaylistCreationResult(PlaylistCreationCode code, Playlist? playlist)
+    public PlaylistCreationResult(PlaylistValidationCode code, Playlist? playlist)
     {
-        IsSuccessful = code == PlaylistCreationCode.Successful;
+        IsSuccessful = code == PlaylistValidationCode.Successful;
         ResultMessage = Messages[code];
         PlaylistId = playlist?.Id;
     }
 
-    public PlaylistCreationResult((PlaylistCreationCode State, Playlist? Playlist) data) : this(data.State,
+    public PlaylistCreationResult((PlaylistValidationCode State, Playlist? Playlist) data) : this(data.State,
         data.Playlist)
     {
     }
