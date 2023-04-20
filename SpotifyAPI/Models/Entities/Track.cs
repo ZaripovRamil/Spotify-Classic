@@ -19,7 +19,7 @@ public class Track
         GenreTracks = new List<GenreTrack>();
     }
 
-    public Track(string id,string name, Album album, string fileId):this(name, album, fileId)
+    public Track(string id, string name, Album album, string fileId) : this(name, album, fileId)
     {
         Id = id;
     }
