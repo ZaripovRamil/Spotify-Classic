@@ -1,34 +1,31 @@
-﻿using Database.Services.Accessors.Interfaces;
+﻿using Database.Services.EntityValidators.Interfaces;
 using Database.Services.Factories.Interfaces;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.FrontToBack.EntityCreationData;
+using Models.DTO.InterServices.EntityValidationCodes;
 using Models.Entities;
 
 namespace Database.Services.Factories.Implementations;
 
 public class TrackFactory : ITrackFactory
 {
-    private readonly IDbAlbumAccessor _albumAccessor;
-    private readonly IDbGenreAccessor _genreAccessor;
     private readonly IFileIdGenerator _idGenerator;
+    private readonly ITrackValidator _trackValidator;
 
-    public TrackFactory(IDbAlbumAccessor albumAccessor, IDbGenreAccessor genreAccessor, IFileIdGenerator idGenerator)
+    public TrackFactory(IFileIdGenerator idGenerator,
+        ITrackValidator trackValidator)
     {
-        _albumAccessor = albumAccessor;
-        _genreAccessor = genreAccessor;
         _idGenerator = idGenerator;
+        _trackValidator = trackValidator;
     }
 
 
-    public async Task<(TrackCreationCode, Track?)> Create(TrackCreationData data)
+    public async Task<(TrackValidationCode, Track?)> Create(TrackCreationData data)
     {
-        var album = await _albumAccessor.GetById(data.AlbumId);
-        if (album is null) return (TrackCreationCode.InvalidAlbum, null);
-        var genres = new List<Genre?>();
-        foreach (var gId in data.GenreIds)
-            genres.Add(await _genreAccessor.GetById(gId));
-        return genres.Any(genre => genre == null)
-            ? (TrackCreationCode.InvalidGenres, null)
-            : (TrackCreationCode.Successful, new Track(data.Name, album, _idGenerator.GetId(data), genres.ToArray()!));
+        var validationResult = _trackValidator.Validate(data);
+        return (validationResult.ValidationCode,
+            validationResult.IsValid
+                ? new Track(data.Name, validationResult.Album, _idGenerator.GetId(data), validationResult.Genres)
+                : null);
     }
 }

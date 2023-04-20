@@ -1,27 +1,28 @@
-﻿using Database.Services.Accessors.Interfaces;
+﻿using Database.Services.EntityValidators.Interfaces;
 using Database.Services.Factories.Interfaces;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.FrontToBack.EntityCreationData;
+using Models.DTO.InterServices.EntityValidationCodes;
 using Models.Entities;
 
 namespace Database.Services.Factories.Implementations;
 
 public class AlbumFactory : IAlbumFactory
 {
-    private readonly IDbAuthorAccessor _authorAccessor;
     private readonly IFileIdGenerator _idGenerator;
+    private readonly IAlbumValidator _albumValidator;
 
-    public AlbumFactory(IDbAuthorAccessor authorAccessor, IFileIdGenerator idGenerator)
+    public AlbumFactory(IFileIdGenerator idGenerator, IAlbumValidator albumValidator)
     {
-        _authorAccessor = authorAccessor;
         _idGenerator = idGenerator;
+        _albumValidator = albumValidator;
     }
 
-    public async Task<(AlbumCreationCode, Album?)> Create(AlbumCreationData data)
+    public async Task<(AlbumValidationCode, Album?)> Create(AlbumCreationData data)
     {
-        var author = await _authorAccessor.GetById(data.AuthorId);
-        if (author == null) return (AlbumCreationCode.InvalidAuthor, null);
-        return (AlbumCreationCode.Successful,
-            new Album(data.Name, author, data.AlbumType, data.ReleaseDate, _idGenerator.GetId(data)));
+        var validationResult = _albumValidator.Validate(data);
+        return (validationResult.ValidationCode, validationResult.IsValid?
+            new Album(data.Name, validationResult.Author, data.AlbumType, data.ReleaseDate, _idGenerator.GetId(data))
+            :null);
     }
 }
