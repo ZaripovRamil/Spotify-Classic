@@ -15,6 +15,12 @@ public class Album
     public AlbumType Type { get; set; }
     public List<Track> Tracks { get; } = new();
 
+    public Album(string id,string name, Author author, AlbumType albumType, int releaseYear, string previewId) : this(name,
+        author, albumType,releaseYear, previewId)
+    {
+        Id = id;
+    }
+
     public Album(string name, Author author, AlbumType albumType, int releaseYear, string previewId) : this(name, author, albumType, previewId)
     {
         ReleaseYear = releaseYear;

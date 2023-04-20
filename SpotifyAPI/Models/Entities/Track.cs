@@ -19,6 +19,11 @@ public class Track
         GenreTracks = new List<GenreTrack>();
     }
 
+    public Track(string id,string name, Album album, string fileId):this(name, album, fileId)
+    {
+        Id = id;
+    }
+
     public Track(string name, Album album, string fileId, params Genre[] genres) : this(name, album, fileId)
     {
         Genres = genres.ToList();

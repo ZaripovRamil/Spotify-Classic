@@ -22,4 +22,9 @@ public class User : IdentityUser
         Email = email;
         UserName = login;
     }
+
+    public User(string id,string login, string email, string name):this(login, email, name)
+    {
+        Id = id;
+    }
 }
