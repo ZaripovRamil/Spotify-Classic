@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Database.Services.Accessors.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.FrontToBack.EntityCreationData;
@@ -12,24 +13,26 @@ namespace AuthService.Controllers;
 public class RegistrationController
 {
     private readonly UserManager<User> _userManager; 
+    private readonly IDbUserAccessor _userAccessor;
 
-    public RegistrationController(UserManager<User> userManager)
+    public RegistrationController(UserManager<User> userManager, IDbUserAccessor userAccessor)
     {
         _userManager = userManager;
+        _userAccessor = userAccessor;
     }
 
     [HttpPost]
     public async Task<IActionResult> Add([FromBody]RegistrationData rData)
     {
         if (await _userManager.FindByEmailAsync(rData.Email) != null)
-            return new JsonResult(RegistrationCode.EmailTaken);
+            return new JsonResult(new RegistrationResult(RegistrationCode.EmailTaken,null));
         if (await _userManager.FindByNameAsync(rData.Login) != null)
-            return new JsonResult(RegistrationCode.LoginTaken);
+            return new JsonResult(new RegistrationResult(RegistrationCode.LoginTaken,null));
         if (rData.Password.Length < 8)
-            return new JsonResult(RegistrationCode.WeakPassword);
+            return new JsonResult(new RegistrationResult(RegistrationCode.WeakPassword,null));
         var regResult = await _userManager.CreateAsync(new User(rData.Login, rData.Email, rData.Name), rData.Password);
         return regResult.Succeeded
-            ? new JsonResult(RegistrationCode.Successful)
-            : new JsonResult(RegistrationCode.UnknownError);
+            ? new JsonResult(new RegistrationResult(RegistrationCode.Successful,await _userAccessor.GetByEmail(rData.Email)))
+            : new JsonResult(new RegistrationResult(RegistrationCode.UnknownError,null));
     }
 }

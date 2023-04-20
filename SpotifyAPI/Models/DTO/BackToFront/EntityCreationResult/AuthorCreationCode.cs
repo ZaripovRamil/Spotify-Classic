@@ -2,5 +2,5 @@
 
 public enum AuthorCreationCode
 {
-    Successful, NoSuchUser
+    Successful, InvalidUser
 }
