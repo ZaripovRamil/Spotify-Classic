@@ -1,21 +1,19 @@
 import React, { useState } from 'react';
-import {  Dialog, DialogTitle } from '@material-ui/core';
+import { Dialog, DialogTitle } from '@material-ui/core';
 import FormDialogActions from './FormDialogActions';
 import FormDialogContent from './FormDialogContent';
 
+const getCompoundProperty = (object, property, delimeter = '.') => {
+  return property.split(delimeter).reduce((obj, propName) => obj ? obj[propName] : obj, object) || "";
+}
+
 // submitFormDataWithResultAsync should be an async function that receives data from form
 // and returns true or false, indicating whether data was proccedeed succesfully or not
-const FormDialog = ({ isOpen, setIsOpen, submitFormDataWithResultAsync }) => {
-  const [formData, setFormData] = useState({
-    trackName: '',
-    albumId: '',
-    genres: [],
-    attachment: null,
-  });
+const FormDialog = ({ isOpen, setIsOpen, formData, setFormData, columns, submitFormDataWithResultAsync }) => {
   const [formError, setFormError] = useState();
 
   const validateFormData = () => {
-    return formData.trackName && formData.albumId && formData.attachment;
+    return !columns.some(column => column.isRequired && !getCompoundProperty(formData, column.name));
   }
 
   const handleSubmit = async () => {
@@ -31,33 +29,6 @@ const FormDialog = ({ isOpen, setIsOpen, submitFormDataWithResultAsync }) => {
 
     setIsOpen(false);
   };
-
-  const columns = [
-    {
-      name: 'trackName',
-      label: 'Track Name',
-      type: 'text',
-      isRequired: true,
-    },
-    {
-      name: 'albumId',
-      label: 'Album Id',
-      type: 'text',
-      isRequired: true,
-    },
-    {
-      name: 'trackFile',
-      label: 'Track File',
-      type: 'file',
-      isRequired: true,
-    },
-    {
-      name: 'genres',
-      label: 'Genres Ids',
-      type: 'array',
-      isRequired: false,
-    },
-  ]
 
   return (
     <Dialog open={isOpen} onClose={() => setIsOpen(false)}>

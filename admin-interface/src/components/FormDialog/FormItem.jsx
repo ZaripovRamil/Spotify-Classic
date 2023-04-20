@@ -3,7 +3,7 @@ import TextFieldFormItem from "./TextFieldFormItem";
 import FilePickerFormItem from "./FilePickerFormItem";
 import MultiTextFieldFormItem from "./MultiTextFieldFormItem";
 
-const FormItem = ({ formData, setFormData, handleFormChange, column }) => {
+const FormItem = ({ formData, setFormData, column, handleFormChange }) => {
     switch (column.type) {
         case 'text':
             return <TextFieldFormItem formData={formData} handleFormChange={handleFormChange} column={column} />;
@@ -12,7 +12,7 @@ const FormItem = ({ formData, setFormData, handleFormChange, column }) => {
             return <MultiTextFieldFormItem formData={formData} setFormData={setFormData} handleFormChange={handleFormChange} column={column} />;
 
         case 'file':
-            return <FilePickerFormItem formData={formData} handleFormChange={handleFormChange} />;
+            return <FilePickerFormItem formData={formData} column={column} handleFormChange={handleFormChange} />;
 
         default: return (<></>);
     }

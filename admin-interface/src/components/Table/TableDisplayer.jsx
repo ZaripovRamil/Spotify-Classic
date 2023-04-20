@@ -3,14 +3,14 @@ import { TableStyles } from "./TableStyles";
 import TableHeader from "./TableHeadDisplayer";
 import TableBodyDisplayer from "./TableBodyDisplayer";
 
-const TableDisplayer = ({ data, editDataWithResultAsync, deleteDataWithResultAsync, insertDataWithResultAsync, columns }) => {
+const TableDisplayer = ({ data, editDataWithResultAsync, deleteDataWithResultAsync, columns }) => {
   const classes = TableStyles();
 
   return (
     <div className={classes.root}>
       <Table className={classes.table}>
         <TableHeader columns={columns} />
-        <TableBodyDisplayer data={data} editDataWithResultAsync={editDataWithResultAsync} deleteDataWithResultAsync={deleteDataWithResultAsync} insertDataWithResultAsync={insertDataWithResultAsync} columns={columns} />
+        <TableBodyDisplayer data={data} editDataWithResultAsync={editDataWithResultAsync} deleteDataWithResultAsync={deleteDataWithResultAsync} columns={columns} />
       </Table>
     </div>
   );

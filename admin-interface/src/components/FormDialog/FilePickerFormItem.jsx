@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@material-ui/core";
 
 // todo: accept not only mp3. how do you upload previews?
-const FilePickerFormItem = ({ formData, handleFormChange }) => {
+const FilePickerFormItem = ({ formData, column, handleFormChange }) => {
     return (
         <>
             <input
@@ -10,7 +10,7 @@ const FilePickerFormItem = ({ formData, handleFormChange }) => {
                 capture="user"
                 id="attachment-input"
                 type="file"
-                name="attachment"
+                name={column.name}
                 onChange={handleFormChange}
                 style={{ display: 'none' }}
             />

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import AddTrack from "./AddTrack";
 import TableDisplayer from "../components/Table/TableDisplayer";
 import { getFetcher } from '../axios/AxiosInstance';
 import Ports from "../constants/Ports";
@@ -8,14 +9,15 @@ const fetcher = getFetcher(Ports.AdminService);
 
 const Tracks = () => {
   const [items, setItems] = useState([]);
-  const [columns, setColumns] = useState([]);
+  const [tableColumns, setTableColumns] = useState([]);
+
   useEffect(() => {
     const getTracks = async () => {
       await fetcher.get('tracks/')
         .then(res => {
           if (res.status !== 200) return;
           setItems(res.data);
-          setColumns([
+          setTableColumns([
             {
               name: 'name',
               label: 'name',
@@ -40,7 +42,7 @@ const Tracks = () => {
           setItems([{
             err: err.message,
           }]);
-          setColumns([{
+          setTableColumns([{
             name: 'err',
             label: 'error',
             isEditable: false,
@@ -67,7 +69,8 @@ const Tracks = () => {
 
   return (
     <>
-      <TableDisplayer data={items} editDataWithResultAsync={editItemsWithResultAsync} deleteDataWithResultAsync={deleteItemsWithResultAsync} insertDataWithResultAsync={insertItemsWithResultAsync} columns={columns} />
+      <AddTrack insertItemsWithResultAsync={insertItemsWithResultAsync} />
+      <TableDisplayer data={items} editDataWithResultAsync={editItemsWithResultAsync} deleteDataWithResultAsync={deleteItemsWithResultAsync} columns={tableColumns} />
     </>
   );
 }
