@@ -1,10 +1,10 @@
-﻿using Models.DTO.BackToFront.EntityCreationResult;
-using Models.DTO.FrontToBack.EntityCreationData;
+﻿using Models.DTO.FrontToBack.EntityCreationData;
+using Models.DTO.InterServices.EntityValidationCodes;
 using Models.Entities;
 
 namespace Database.Services.Factories.Interfaces;
 
 public interface IAuthorFactory
 {
-    public Task<(AuthorCreationCode, Author?)> Create(AuthorCreationData data);
+    public Task<(AuthorValidationCode, Author?)> Create(AuthorCreationData data);
 }

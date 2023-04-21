@@ -1,28 +1,27 @@
-﻿using Models.Entities;
+﻿using Models.DTO.InterServices.EntityValidationCodes;
+using Models.Entities;
 
 namespace Models.DTO.BackToFront.EntityCreationResult;
 
-public class AlbumCreationResult
+public class AlbumCreationResult:EntityCreationResult
 {
-    private static readonly Dictionary<AlbumCreationCode, string> Messages = new()
+    private static readonly Dictionary<AlbumValidationCode, string> Messages = new()
     {
-        {AlbumCreationCode.Successful, "Success"},
-        {AlbumCreationCode.InvalidAuthor, "Invalid AuthorId"},
-        {AlbumCreationCode.UnknownError, "Unknown error"}
+        {AlbumValidationCode.Successful, "Success"},
+        {AlbumValidationCode.InvalidAuthor, "Invalid AuthorId"},
+        {AlbumValidationCode.UnknownError, "Unknown error"}
     };
-
-    public bool IsSuccessful { get; set; }
+    
     public string? AlbumId { get; set; }
-    public string ResultMessage { get; set; }
 
-    public AlbumCreationResult(AlbumCreationCode code, Album? album)
+    public AlbumCreationResult(AlbumValidationCode code, Album? album)
     {
-        IsSuccessful = code == AlbumCreationCode.Successful;
+        IsSuccessful = code == AlbumValidationCode.Successful;
         ResultMessage = Messages[code];
         AlbumId = album?.Id;
     }
 
-    public AlbumCreationResult((AlbumCreationCode State, Album? Album) data) : this(data.State, data.Album)
+    public AlbumCreationResult((AlbumValidationCode State, Album? Album) data) : this(data.State, data.Album)
     {
     }
 }

@@ -1,10 +1,10 @@
-﻿using Models.DTO.BackToFront.EntityCreationResult;
-using Models.DTO.FrontToBack.EntityCreationData;
+﻿using Models.DTO.FrontToBack.EntityCreationData;
+using Models.DTO.InterServices.EntityValidationCodes;
 using Models.Entities;
 
 namespace Database.Services.Factories.Interfaces;
 
 public interface IAlbumFactory
 {
-    public Task<(AlbumCreationCode, Album?)> Create(AlbumCreationData data);
+    public Task<(AlbumValidationCode, Album?)> Create(AlbumCreationData data);
 }

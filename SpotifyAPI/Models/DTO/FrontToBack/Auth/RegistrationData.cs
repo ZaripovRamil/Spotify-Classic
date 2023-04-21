@@ -1,4 +1,4 @@
-﻿namespace Models.DTO.FrontToBack.EntityCreationData;
+﻿namespace Models.DTO.FrontToBack.Auth;
 
 public class RegistrationData
 {

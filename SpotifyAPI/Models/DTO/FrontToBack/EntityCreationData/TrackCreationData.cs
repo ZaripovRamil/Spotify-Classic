@@ -1,8 +1,7 @@
 ﻿namespace Models.DTO.FrontToBack.EntityCreationData;
 
-public class TrackCreationData
+public class TrackCreationData : EntityCreationData
 {
-    public string Name { get; set; }
     public string AlbumId { get; set; }
-    public List<string> GenreIds { get; set; }
+    public string[] GenreIds { get; set; }
 }

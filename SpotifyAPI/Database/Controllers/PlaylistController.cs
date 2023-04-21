@@ -1,12 +1,11 @@
 ﻿using Database.Services;
 using Database.Services.Accessors.Interfaces;
 using Database.Services.Factories.Interfaces;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.FrontToBack;
 using Models.DTO.FrontToBack.EntityCreationData;
-using Models.Entities;
+using Models.DTO.InterServices.EntityValidationCodes;
 
 namespace Database.Controllers;
 
@@ -14,20 +13,18 @@ namespace Database.Controllers;
 [Route("[controller]")]
 public class PlaylistController : Controller
 {
-    private readonly IDbUserAccessor _userAccessor;
     private readonly IDbPlaylistAccessor _playlistAccessor;
     private readonly IPlaylistFactory _playlistFactory;
     private readonly IDbTrackAccessor _trackAccessor;
     private readonly IDtoCreator _dtoCreator;
 
     public PlaylistController(IDbPlaylistAccessor playlistAccessor, IDbTrackAccessor trackAccessor,
-        IPlaylistFactory playlistFactory, IDtoCreator dtoCreator, IDbUserAccessor userAccessor)
+        IPlaylistFactory playlistFactory, IDtoCreator dtoCreator)
     {
         _playlistAccessor = playlistAccessor;
         _trackAccessor = trackAccessor;
         _playlistFactory = playlistFactory;
         _dtoCreator = dtoCreator;
-        _userAccessor = userAccessor;
     }
 
     [HttpPost]
@@ -35,7 +32,7 @@ public class PlaylistController : Controller
     public async Task<IActionResult> ProcessPlaylistCreation([FromBody] PlaylistCreationData data)
     {
         var (state, playlist) = await _playlistFactory.Create(data);
-        if (state == PlaylistCreationCode.Successful) await _playlistAccessor.Add(playlist!);
+        if (state == PlaylistValidationCode.Successful) await _playlistAccessor.Add(playlist!);
         return new JsonResult(new PlaylistCreationResult(state, playlist));
     }
 

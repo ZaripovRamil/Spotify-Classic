@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack.EntityCreationData;
-using Models.Entities;
+using Models.DTO.InterServices.EntityValidationCodes;
 
 namespace Database.Controllers;
 
@@ -16,15 +16,12 @@ public class TrackController
     private readonly ITrackFactory _trackFactory;
     private readonly IDbTrackAccessor _trackAccessor;
     private readonly IDtoCreator _dtoCreator;
-    private readonly IDbAlbumAccessor _albumAccessor;
 
-    public TrackController(ITrackFactory trackFactory, IDbTrackAccessor trackAccessor, IDtoCreator dtoCreator,
-        IDbAlbumAccessor albumAccessor)
+    public TrackController(ITrackFactory trackFactory, IDbTrackAccessor trackAccessor, IDtoCreator dtoCreator)
     {
         _trackFactory = trackFactory;
         _trackAccessor = trackAccessor;
         _dtoCreator = dtoCreator;
-        _albumAccessor = albumAccessor;
     }
 
     [HttpPost]
@@ -32,7 +29,7 @@ public class TrackController
     public async Task<IActionResult> ProcessTrackCreation([FromBody] TrackCreationData data)
     {
         var (state, track) = await _trackFactory.Create(data);
-        if (state == TrackCreationCode.Successful) await _trackAccessor.Add(track!);
+        if (state == TrackValidationCode.Successful) await _trackAccessor.Add(track!);
         return new JsonResult(new TrackCreationResult(state, track));
     }
 

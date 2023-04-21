@@ -4,7 +4,7 @@ using Database.Services.Factories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.FrontToBack.EntityCreationData;
-using Models.Entities;
+using Models.DTO.InterServices.EntityValidationCodes;
 
 namespace Database.Controllers;
 
@@ -13,7 +13,6 @@ namespace Database.Controllers;
 public class AlbumController
 {
     private readonly IDbAlbumAccessor _albumAccessor;
-    private readonly IDbAuthorAccessor _authorAccessor;
     private readonly IAlbumFactory _albumFactory;
     private readonly IDtoCreator _dtoCreator;
 
@@ -29,7 +28,7 @@ public class AlbumController
     public async Task<IActionResult> ProcessAlbumCreation([FromBody] AlbumCreationData data)
     {
         var (state, album) = await _albumFactory.Create(data);
-        if (state == AlbumCreationCode.Successful) await _albumAccessor.Add(album!);
+        if (state == AlbumValidationCode.Successful) await _albumAccessor.Add(album!);
         return new JsonResult(new AlbumCreationResult(state, album));
     }
 

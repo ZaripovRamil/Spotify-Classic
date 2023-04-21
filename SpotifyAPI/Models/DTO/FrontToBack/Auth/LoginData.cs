@@ -1,4 +1,4 @@
-﻿namespace Models.DTO.FrontToBack;
+﻿namespace Models.DTO.FrontToBack.Auth;
 
 public class LoginData
 {
