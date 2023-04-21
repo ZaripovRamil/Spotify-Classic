@@ -4,6 +4,6 @@ public enum TrackCreationCode
 {
     Successful,
     InvalidAlbum,
-    UnknownError,
-    InvalidGenres
+    InvalidGenres,
+    UnknownError
 }

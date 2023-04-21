@@ -23,7 +23,5 @@ public class PlaylistCreationResult
     }
 
     public PlaylistCreationResult((PlaylistCreationCode State, Playlist? Playlist) data) : this(data.State,
-        data.Playlist)
-    {
-    }
+        data.Playlist) { }
 }

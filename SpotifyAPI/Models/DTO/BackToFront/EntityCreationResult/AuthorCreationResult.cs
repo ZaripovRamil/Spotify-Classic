@@ -22,7 +22,5 @@ public class AuthorCreationResult
         AuthorId = author?.Id;
     }
 
-    public AuthorCreationResult((AuthorCreationCode State, Author? Author) data) : this(data.State, data.Author)
-    {
-    }
+    public AuthorCreationResult((AuthorCreationCode State, Author? Author) data) : this(data.State, data.Author) { }
 }

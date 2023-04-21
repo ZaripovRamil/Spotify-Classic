@@ -16,5 +16,6 @@ public class PlaylistLight
         PreviewId = playlist.PreviewId;
         Name = playlist.Name;
         TrackCount = playlist.Tracks.Count;
+        Owner = playlist.Owner;
     }
 }

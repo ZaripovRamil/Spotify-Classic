@@ -7,9 +7,7 @@ public class GenreTrack
     public Genre Genre { get; set; }
     public Track Track { get; set; }
 
-    public GenreTrack()
-    {
-    }
+    public GenreTrack() { }
 
     public GenreTrack(Genre genre, Track track)
     {

@@ -22,7 +22,5 @@ public class AlbumCreationResult
         AlbumId = album?.Id;
     }
 
-    public AlbumCreationResult((AlbumCreationCode State, Album? Album) data) : this(data.State, data.Album)
-    {
-    }
+    public AlbumCreationResult((AlbumCreationCode State, Album? Album) data) : this(data.State, data.Album) { }
 }

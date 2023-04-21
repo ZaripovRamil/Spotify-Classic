@@ -21,7 +21,5 @@ public class GenreCreationResult
         GenreId = genre?.Id;
     }
 
-    public GenreCreationResult((GenreCreationCode State, Genre? Genre) data) : this(data.State, data.Genre)
-    {
-    }
+    public GenreCreationResult((GenreCreationCode State, Genre? Genre) data) : this(data.State, data.Genre) { }
 }

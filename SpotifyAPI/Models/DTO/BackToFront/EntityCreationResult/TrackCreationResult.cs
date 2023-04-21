@@ -22,7 +22,5 @@ public class TrackCreationResult
         TrackId = track?.Id;
     }
 
-    public TrackCreationResult((TrackCreationCode State, Track? Track) data) : this(data.State, data.Track)
-    {
-    }
+    public TrackCreationResult((TrackCreationCode State, Track? Track) data) : this(data.State, data.Track) { }
 }

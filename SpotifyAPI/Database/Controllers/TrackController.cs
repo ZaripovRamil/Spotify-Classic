@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack.EntityCreationData;
-using Models.Entities;
 
 namespace Database.Controllers;
 
@@ -16,15 +15,12 @@ public class TrackController
     private readonly ITrackFactory _trackFactory;
     private readonly IDbTrackAccessor _trackAccessor;
     private readonly IDtoCreator _dtoCreator;
-    private readonly IDbAlbumAccessor _albumAccessor;
 
-    public TrackController(ITrackFactory trackFactory, IDbTrackAccessor trackAccessor, IDtoCreator dtoCreator,
-        IDbAlbumAccessor albumAccessor)
+    public TrackController(ITrackFactory trackFactory, IDbTrackAccessor trackAccessor, IDtoCreator dtoCreator)
     {
         _trackFactory = trackFactory;
         _trackAccessor = trackAccessor;
         _dtoCreator = dtoCreator;
-        _albumAccessor = albumAccessor;
     }
 
     [HttpPost]

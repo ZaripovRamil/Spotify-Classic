@@ -31,7 +31,7 @@ public class DtoCreator : IDtoCreator
         return user == null ? null : new UserFull(user);
     }
 
-    public PlaylistFull CreateFull(Playlist? playlist)
+    public PlaylistFull? CreateFull(Playlist? playlist)
     {
         return playlist == null ? null : new PlaylistFull(playlist);
     }

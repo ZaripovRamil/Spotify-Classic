@@ -9,9 +9,7 @@ public class TrackLight
     public string Name { get; set; }
     public AlbumLight Album { get; set; }
 
-    public TrackLight()
-    {
-    }
+    public TrackLight() { }
 
     public TrackLight(Track track)
     {

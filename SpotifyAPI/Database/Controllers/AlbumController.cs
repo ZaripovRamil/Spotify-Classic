@@ -4,7 +4,6 @@ using Database.Services.Factories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.FrontToBack.EntityCreationData;
-using Models.Entities;
 
 namespace Database.Controllers;
 
@@ -13,7 +12,6 @@ namespace Database.Controllers;
 public class AlbumController
 {
     private readonly IDbAlbumAccessor _albumAccessor;
-    private readonly IDbAuthorAccessor _authorAccessor;
     private readonly IAlbumFactory _albumFactory;
     private readonly IDtoCreator _dtoCreator;
 
