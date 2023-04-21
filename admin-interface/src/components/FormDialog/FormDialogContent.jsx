@@ -7,18 +7,18 @@ const FormDialogContent = ({ formData, setFormData, columns }) => {
     let field = event.target.name;
     let val = null;
 
-    if (event.target.type !== 'file' && field !== 'genres') {
+    if (field.indexOf('.') !== -1) { // compound property, e.g. array type
+      const data = field.split('.');
+      const index = +data[1];
+      const newItems = [...formData[data[0]]];
+      newItems[index] = event.target.value;
+      val = newItems;
+      field = data[0];
+    } else if (event.target.files) { // if there is a file and it's mp3
+      if (event.target.files[0].type === 'audio/mpeg')
+        val = event.target.files[0];
+    } else {
       val = event.target.value;
-    } else if (event.target.files && event.target.files[0].type === 'audio/mpeg') {
-      val = event.target.files[0];
-    }
-
-    if (field.startsWith('genres.')) {
-      const index = +field.split('genres.').filter(Boolean)[0];
-      const newGenres = [...formData.genres];
-      newGenres[index] = event.target.value;
-      val = newGenres;
-      field = 'genres';
     }
 
     setFormData({ ...formData, [field]: val });

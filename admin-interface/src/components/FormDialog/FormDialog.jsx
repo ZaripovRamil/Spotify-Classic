@@ -18,7 +18,7 @@ const FormDialog = ({ isOpen, setIsOpen, formData, setFormData, columns, submitF
 
   const handleSubmit = async () => {
     if (!validateFormData()) {
-      setFormError('Track name, album id and track mp3 file are required.')
+      setFormError(`Fields ${columns.map(column => column.isRequired ? column.label : '').filter(Boolean).join(', ')} are required. Please fill it it.`)
       return;
     }
     const res = await submitFormDataWithResultAsync(formData);

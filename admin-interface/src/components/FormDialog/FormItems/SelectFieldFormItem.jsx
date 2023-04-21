@@ -8,7 +8,7 @@ const getCompoundProperty = (object, property, delimeter = '.') => {
 const SelectFieldFormItem = ({ formData, handleFormChange, column }) => {
     return (
         <FormControl style={{width: '100%'}}>
-            <InputLabel>{column.label}</InputLabel>
+            <InputLabel required={column.isRequired} >{column.label}</InputLabel>
             <Select value={getCompoundProperty(formData, column.name)} name={column.name} onChange={handleFormChange}>
                 {column.typeProps.map(option => (
                     <MenuItem key={option.value} value={option.value}>{option.label}</MenuItem>

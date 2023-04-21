@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@material-ui/core";
 
-// todo: accept not only mp3. how do you upload previews?
+// todo: accept not only mp3. how do you upload previews? just add typeProps!
 const FilePickerFormItem = ({ formData, column, handleFormChange }) => {
     return (
         <>
@@ -17,7 +17,7 @@ const FilePickerFormItem = ({ formData, column, handleFormChange }) => {
             <label htmlFor="attachment-input">
                 <Button variant="contained" component="span">Attach MP3</Button>
             </label>
-            {formData.attachment && formData.attachment.name}
+            {formData[column.name] && formData[column.name].name}
             <br />
         </>
     );
