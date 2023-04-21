@@ -9,5 +9,4 @@ public interface IDbAuthorAccessor
     Task<Author?> GetById(string id);
     Task<Author?> GetByName(string name);
     IEnumerable<Author> GetAll();
-
 }

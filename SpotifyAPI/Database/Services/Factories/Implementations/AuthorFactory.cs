@@ -1,11 +1,12 @@
 ﻿using Database.Services.Accessors.Interfaces;
 using Database.Services.Factories.Interfaces;
+using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.Entities;
 
 namespace Database.Services.Factories.Implementations;
 
-public class AuthorFactory:IAuthorFactory
+public class AuthorFactory : IAuthorFactory
 {
     private readonly IDbUserAccessor _userAccessor;
 
@@ -14,9 +15,10 @@ public class AuthorFactory:IAuthorFactory
         _userAccessor = userAccessor;
     }
 
-    public async Task<Author?> Create(AuthorCreationData aData)
+    public async Task<(AuthorCreationCode, Author?)> Create(AuthorCreationData data)
     {
-        var owner = await _userAccessor.GetById(aData.UserId);
-        return owner == null ? null : new Author(aData.Name, aData.UserId);
+        var owner = await _userAccessor.GetById(data.UserId);
+        if (owner == null) return (AuthorCreationCode.InvalidUser, null);
+        return (AuthorCreationCode.Successful, new Author(data.Name, owner));
     }
 }

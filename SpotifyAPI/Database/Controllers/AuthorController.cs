@@ -1,10 +1,10 @@
 ﻿using Database.Services;
 using Database.Services.Accessors.Interfaces;
+using Database.Services.Factories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack.EntityCreationData;
-using Models.Entities;
 
 namespace Database.Controllers;
 
@@ -12,24 +12,24 @@ namespace Database.Controllers;
 [Route("[controller]")]
 public class AuthorController
 {
-    private readonly IDbUserAccessor _userAccessor;
     private readonly IDbAuthorAccessor _authorAccessor;
+    private readonly IAuthorFactory _authorFactory;
     private readonly IDtoCreator _dtoCreator;
-    public AuthorController(IDbUserAccessor userAccessor, IDbAuthorAccessor authorAccessor, IDtoCreator dtoCreator)
+
+    public AuthorController(IDbAuthorAccessor authorAccessor, IDtoCreator dtoCreator, IAuthorFactory authorFactory)
     {
-        _userAccessor = userAccessor;
         _authorAccessor = authorAccessor;
         _dtoCreator = dtoCreator;
+        _authorFactory = authorFactory;
     }
 
     [HttpPost]
     [Route("Add")]
-    public async Task<IActionResult> Create([FromBody]AuthorCreationData aData)
+    public async Task<IActionResult> ProcessAuthorCreation([FromBody] AuthorCreationData data)
     {
-        var user = await _userAccessor.GetById(aData.UserId);
-        if (user == null) return new JsonResult(AuthorCreationCode.NoSuchUser);
-        await _authorAccessor.Add(new Author(aData.Name, aData.UserId));
-        return new JsonResult(AuthorCreationCode.Successful);
+        var (state, author) = await _authorFactory.Create(data);
+        if (state == AuthorCreationCode.Successful) await _authorAccessor.Add(author!);
+        return new JsonResult(new AuthorCreationResult(state, author));
     }
 
     [HttpGet]
@@ -48,7 +48,7 @@ public class AuthorController
     {
         return new JsonResult(_dtoCreator.CreateFull(await _authorAccessor.GetById(id)));
     }
-    
+
     [HttpGet]
     [Route("get/name/{name}")]
     public async Task<IActionResult> GetByName(string name)

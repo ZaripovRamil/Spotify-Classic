@@ -1,5 +1,4 @@
-﻿using Models.DTO.BackToFront.Light;
-using Models.Entities;
+﻿using Models.Entities;
 
 namespace Models.DTO.BackToFront;
 
@@ -8,9 +7,9 @@ public class LoginResult
     public LoginResult(bool loginSucceeded, User user)
     {
         IsSuccessful = loginSucceeded;
-        User = new UserLight(user);
+        UserId = user.Id;
     }
 
     public bool IsSuccessful { get; set; }
-    public UserLight User{ get; set; }
+    public string UserId { get; set; }
 }

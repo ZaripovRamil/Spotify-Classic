@@ -14,7 +14,7 @@ public class PlaylistFull
         Tracks = playlist.Tracks.Select(t => new TrackLight(t)).ToList();
     }
 
-    public string Id { get; set; } 
+    public string Id { get; set; }
     public string PreviewId { get; set; }
     public string Name { get; set; }
     public UserLight Owner { get; set; }

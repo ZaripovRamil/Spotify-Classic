@@ -5,15 +5,16 @@ namespace Models.Entities;
 [PrimaryKey("Id")]
 public class Author
 {
-    public Author(string name, string userId)
+    public Author(string name, User user)
     {
         Name = name;
-        UserId = userId;
+        UserId = user.Id;
     }
 
-    public Author(User user)
+    public Author(string id, User user, string name)
     {
-        Name = user.Name;
+        Id = id;
+        Name = name;
         UserId = user.Id;
         // User = user;
     }

@@ -19,7 +19,5 @@ public class Playlist
         Tracks = new List<Track>();
     }
 
-    public Playlist()
-    {
-    }
+    public Playlist() { }
 }

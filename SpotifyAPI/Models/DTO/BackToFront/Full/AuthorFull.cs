@@ -13,6 +13,6 @@ public class AuthorFull
     {
         Id = author.Id;
         Name = author.Name;
-        Albums = author.Albums.Select(album=>new AlbumLight(album)).ToList();
+        Albums = author.Albums.Select(album => new AlbumLight(album)).ToList();
     }
 }

@@ -4,7 +4,7 @@ using Models.Entities;
 
 namespace Database.Services;
 
-public class DtoCreator: IDtoCreator
+public class DtoCreator : IDtoCreator
 {
     public AlbumFull? CreateFull(Album? album)
     {
@@ -31,7 +31,7 @@ public class DtoCreator: IDtoCreator
         return user == null ? null : new UserFull(user);
     }
 
-    public PlaylistFull CreateFull(Playlist? playlist)
+    public PlaylistFull? CreateFull(Playlist? playlist)
     {
         return playlist == null ? null : new PlaylistFull(playlist);
     }

@@ -25,12 +25,11 @@ public class TrackController
 
     [HttpPost]
     [Route("Add")]
-    public async Task<IActionResult> Add([FromBody] TrackCreationData tData)
+    public async Task<IActionResult> ProcessTrackCreation([FromBody] TrackCreationData data)
     {
-        var track = await _trackFactory.Create(tData);
-        if (track == null) return new JsonResult(TrackCreationCode.InvalidCreationData);
-        await _trackAccessor.Add(track);
-        return new JsonResult(TrackCreationCode.Successful);
+        var (state, track) = await _trackFactory.Create(data);
+        if (state == TrackCreationCode.Successful) await _trackAccessor.Add(track!);
+        return new JsonResult(new TrackCreationResult(state, track));
     }
 
     [HttpGet]

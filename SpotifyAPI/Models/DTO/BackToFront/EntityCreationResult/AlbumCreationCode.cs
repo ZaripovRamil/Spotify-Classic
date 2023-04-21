@@ -1,7 +1,8 @@
 ﻿namespace Models.DTO.BackToFront.EntityCreationResult;
 
-public enum GenreCreationCode
+public enum AlbumCreationCode
 {
     Successful,
-    AlreadyExists
+    InvalidAuthor,
+    UnknownError
 }

@@ -10,6 +10,8 @@ public class User : IdentityUser
     public List<Track> History { get; set; } = new();
     public List<Playlist> Playlists { get; set; } = new();
     public string Name { get; set; }
+
+    public string ProfilePicId { get; set; } = "default_pfp";
     public Role Role { get; set; }
 
     public User() { }
@@ -19,5 +21,10 @@ public class User : IdentityUser
         Name = name;
         Email = email;
         UserName = login;
+    }
+
+    public User(string id,string login, string email, string name):this(login, email, name)
+    {
+        Id = id;
     }
 }

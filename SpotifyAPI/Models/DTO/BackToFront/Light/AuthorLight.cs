@@ -8,7 +8,7 @@ public class AuthorLight
     public string Name { get; set; }
 
     public AuthorLight() { }
-    
+
     public AuthorLight(Author author)
     {
         Id = author.Id;
