@@ -1,12 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using Database;
-using Database.Services;
-using Database.Services.Accessors.Implementations;
-using Database.Services.Accessors.Interfaces;
-using Database.Services.EntityValidators.Implementations;
-using Database.Services.EntityValidators.Interfaces;
-using Database.Services.Factories.Implementations;
-using Database.Services.Factories.Interfaces;
+using DatabaseServices;
+using DatabaseServices.Services;
+using DatabaseServices.Services.Accessors.Implementations;
+using DatabaseServices.Services.Accessors.Interfaces;
+using DatabaseServices.Services.EntityValidators.Implementations;
+using DatabaseServices.Services.EntityValidators.Interfaces;
+using DatabaseServices.Services.Factories.Implementations;
+using DatabaseServices.Services.Factories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

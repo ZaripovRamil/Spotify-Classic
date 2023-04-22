@@ -2,7 +2,7 @@
 using Models.DTO.BackToFront.Light;
 using Models.Entities;
 
-namespace Database.Services;
+namespace DatabaseServices.Services;
 
 public class DtoCreator : IDtoCreator
 {

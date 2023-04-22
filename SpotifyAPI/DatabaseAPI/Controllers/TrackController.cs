@@ -1,13 +1,13 @@
-﻿using Database.Services;
-using Database.Services.Accessors.Interfaces;
-using Database.Services.Factories.Interfaces;
+﻿using DatabaseServices.Services;
+using DatabaseServices.Services.Accessors.Interfaces;
+using DatabaseServices.Services.Factories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.DTO.InterServices.EntityValidationCodes;
 
-namespace Database.Controllers;
+namespace DatabaseAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]

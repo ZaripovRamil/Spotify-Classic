@@ -1,4 +1,4 @@
-﻿namespace Database.Services.Accessors.Implementations;
+﻿namespace DatabaseServices.Services.Accessors.Implementations;
 
 public abstract class DbAccessor
 {

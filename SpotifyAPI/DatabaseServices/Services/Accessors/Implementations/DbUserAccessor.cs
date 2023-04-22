@@ -1,9 +1,9 @@
-﻿using Database.Services.Accessors.Interfaces;
+﻿using DatabaseServices.Services.Accessors.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Models.Entities;
 using Models.Entities.Enums;
 
-namespace Database.Services.Accessors.Implementations;
+namespace DatabaseServices.Services.Accessors.Implementations;
 
 public class DbUserAccessor : DbAccessor, IDbUserAccessor
 {

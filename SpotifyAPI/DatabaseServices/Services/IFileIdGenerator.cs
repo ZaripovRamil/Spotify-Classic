@@ -1,7 +1,6 @@
 ﻿using Models.DTO.FrontToBack.EntityCreationData;
-using Models.Entities;
 
-namespace Database.Services;
+namespace DatabaseServices.Services;
 
 public interface IFileIdGenerator
 {

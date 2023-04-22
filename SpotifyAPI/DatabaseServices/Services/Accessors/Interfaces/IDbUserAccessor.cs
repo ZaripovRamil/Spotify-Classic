@@ -1,7 +1,7 @@
 ﻿using Models.Entities;
 using Models.Entities.Enums;
 
-namespace Database.Services.Accessors.Interfaces;
+namespace DatabaseServices.Services.Accessors.Interfaces;
 
 public interface IDbUserAccessor
 {

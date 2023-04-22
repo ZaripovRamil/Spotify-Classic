@@ -1,6 +1,6 @@
 ﻿using Models.Entities;
 
-namespace Database.Services.Accessors.Interfaces;
+namespace DatabaseServices.Services.Accessors.Interfaces;
 
 public interface IDbGenreAccessor
 {

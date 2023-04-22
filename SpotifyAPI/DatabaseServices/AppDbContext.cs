@@ -4,7 +4,7 @@ using Models.Entities;
 using Models.Entities.Enums;
 using Models.Entities.Joints;
 
-namespace Database;
+namespace DatabaseServices;
 
 public class AppDbContext: IdentityDbContext<User>
 {

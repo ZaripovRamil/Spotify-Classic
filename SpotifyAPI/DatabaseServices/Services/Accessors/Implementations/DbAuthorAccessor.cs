@@ -1,8 +1,8 @@
-﻿using Database.Services.Accessors.Interfaces;
+﻿using DatabaseServices.Services.Accessors.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Models.Entities;
 
-namespace Database.Services.Accessors.Implementations;
+namespace DatabaseServices.Services.Accessors.Implementations;
 
 public class DbAuthorAccessor : DbAccessor, IDbAuthorAccessor
 {
