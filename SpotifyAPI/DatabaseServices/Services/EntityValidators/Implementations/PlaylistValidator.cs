@@ -1,0 +1,26 @@
+﻿using Database.Services.Accessors.Interfaces;
+using Database.Services.EntityValidators.Interfaces;
+using Models.DTO.FrontToBack.EntityCreationData;
+using Models.DTO.InterServices.EntityValidationCodes;
+using Models.DTO.InterServices.ValidationResult;
+
+namespace Database.Services.EntityValidators.Implementations;
+
+public class PlaylistValidator :EntityValidator,IPlaylistValidator
+{
+    private readonly IDbUserAccessor _userAccessor;
+
+    public PlaylistValidator(IDbUserAccessor userAccessor)
+    {
+        _userAccessor = userAccessor;
+    }
+
+    public async Task<PlaylistValidationResult> Validate(PlaylistCreationData data)
+    {
+        var state = (PlaylistValidationCode) base.Validate(data).ValidationCode;
+        var user = await _userAccessor.GetById(data.OwnerId);
+        if (user == null)
+            state = PlaylistValidationCode.InvalidUser;
+        return new PlaylistValidationResult(state, user);
+    }
+}
