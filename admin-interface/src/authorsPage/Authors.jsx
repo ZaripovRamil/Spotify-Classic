@@ -11,7 +11,7 @@ const Authors = () => {
   const [tableColumns, setTableColumns] = useState([]);
   useEffect(() => {
     const getTracks = async () => {
-      await fetcher.get('authors/')
+      await fetcher.get('authors/get/')
         .then(res => {
           if (res.status !== 200) return;
           setItems(res.data);
@@ -55,8 +55,8 @@ const Authors = () => {
   }
 
   const insertItemsWithResultAsync = async (data) => {
-    await new Promise(r => setTimeout(r, 1000));
-    return false;
+    return await fetcher.post('authors/add', data)
+      .then(res => JSON.parse(res.data));
   }
 
   return (

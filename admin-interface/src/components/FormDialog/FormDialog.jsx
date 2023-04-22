@@ -9,9 +9,7 @@ const getCompoundProperty = (object, property, delimeter = '.') => {
 
 // submitFormDataWithResultAsync should be an async function that receives data from form
 // and returns true or false, indicating whether data was proccedeed succesfully or not
-const FormDialog = ({ isOpen, setIsOpen, formData, setFormData, columns, submitFormDataWithResultAsync }) => {
-  const [formError, setFormError] = useState();
-
+const FormDialog = ({ isOpen, setIsOpen, formData, setFormData, columns, formError, setFormError, submitFormDataWithResultAsync }) => {
   const validateFormData = () => {
     return !columns.some(column => column.isRequired && !getCompoundProperty(formData, column.name));
   }
@@ -22,12 +20,13 @@ const FormDialog = ({ isOpen, setIsOpen, formData, setFormData, columns, submitF
       return;
     }
     const res = await submitFormDataWithResultAsync(formData);
-    if (!res) {
-      setFormError('Something went wrong. Please check the correcteness of your input data');
+    if (!res.isSuccessful) {
+      setFormError(res.resultMessage);
       return;
     }
 
     setIsOpen(false);
+    setFormData({});
   };
 
   return (

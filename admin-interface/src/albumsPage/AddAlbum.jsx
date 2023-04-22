@@ -3,18 +3,22 @@ import FormDialog from "../components/FormDialog/FormDialog";
 import { Button } from "@material-ui/core";
 import { Add as AddIcon } from "@material-ui/icons";
 import { TableStyles } from "../components/Table/TableStyles";
+import { getFetcher } from '../axios/AxiosInstance';
+import Ports from "../constants/Ports";
+
+const fetcher = getFetcher(Ports.AdminService);
 
 const AddAlbum = ({ insertItemsWithResultAsync }) => {
     const [openAddingForm, setOpenAddingForm] = useState(false);
     const [formData, setFormData] = useState({
-        albumName: '',
+        name: '',
         authorId: '',
         albumType: '',
         releaseDate: '',
     });
     const addingFormColumns = [
         {
-            name: 'albumName',
+            name: 'name',
             label: 'Album Name',
             type: 'text',
             typeProps: [],

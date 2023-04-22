@@ -11,7 +11,7 @@ const Albums = () => {
   const [tableColumns, setTableColumns] = useState([]);
   useEffect(() => {
     const getTracks = async () => {
-      await fetcher.get('albums/')
+      await fetcher.get('albums/get/')
         .then(res => {
           if (res.status !== 200) return;
           setItems(res.data);
@@ -61,8 +61,8 @@ const Albums = () => {
   }
 
   const insertItemsWithResultAsync = async (data) => {
-    await new Promise(r => setTimeout(r, 1000));
-    return false;
+    return await fetcher.post('albums/add/', data)
+      .then(res => JSON.parse(res.data));
   }
 
   return (
