@@ -1,5 +1,5 @@
-﻿using Database.Extensions;
-using Models.DTO.FrontToBack.EntityCreationData;
+﻿using DatabaseServices.Extensions;
+using Models.DTO.FrontToBack.Auth;
 using Models.Entities;
 
 namespace AuthService.Services;

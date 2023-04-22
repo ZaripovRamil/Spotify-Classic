@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack.EntityCreationData;
+using Models.DTO.InterServices.EntityValidationCodes;
 
 namespace Database.Controllers;
 
@@ -28,7 +29,7 @@ public class AlbumController
     public async Task<IActionResult> ProcessAlbumCreation([FromBody] AlbumCreationData data)
     {
         var (state, album) = await _albumFactory.Create(data);
-        if (state == AlbumCreationCode.Successful) await _albumAccessor.Add(album!);
+        if (state == AlbumValidationCode.Successful) await _albumAccessor.Add(album!);
         return new JsonResult(new AlbumCreationResult(state, album));
     }
     

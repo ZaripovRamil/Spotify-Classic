@@ -1,7 +1,6 @@
 ﻿namespace Models.DTO.FrontToBack.EntityCreationData;
 
-public class PlaylistCreationData
+public class PlaylistCreationData : EntityCreationData
 {
-    public string Name { get; set; }
     public string OwnerId { get; set; }
 }

@@ -1,8 +1,8 @@
-﻿using Database.Services.Accessors.Interfaces;
+﻿using DatabaseServices.Services.Accessors.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Models.DTO.BackToFront.EntityCreationResult;
-using Models.DTO.FrontToBack.EntityCreationData;
+using Models.DTO.BackToFront.Auth;
+using Models.DTO.FrontToBack.Auth;
 using Models.Entities;
 
 

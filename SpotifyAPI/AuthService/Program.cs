@@ -1,5 +1,5 @@
 using AuthService.Services;
-using Database;
+using DatabaseServices;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Models.Entities;

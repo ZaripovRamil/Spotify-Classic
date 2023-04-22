@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack.EntityCreationData;
+using Models.DTO.InterServices.EntityValidationCodes;
 
 namespace Database.Controllers;
 
@@ -28,7 +29,7 @@ public class TrackController
     public async Task<IActionResult> ProcessTrackCreation([FromBody] TrackCreationData data)
     {
         var (state, track) = await _trackFactory.Create(data);
-        if (state == TrackCreationCode.Successful) await _trackAccessor.Add(track!);
+        if (state == TrackValidationCode.Successful) await _trackAccessor.Add(track!);
         return new JsonResult(new TrackCreationResult(state, track));
     }
 

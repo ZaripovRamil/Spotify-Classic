@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack.EntityCreationData;
+using Models.DTO.InterServices.EntityValidationCodes;
 
 namespace Database.Controllers;
 
@@ -16,7 +17,8 @@ public class AuthorController
     private readonly IAuthorFactory _authorFactory;
     private readonly IDtoCreator _dtoCreator;
 
-    public AuthorController(IDbAuthorAccessor authorAccessor, IDtoCreator dtoCreator, IAuthorFactory authorFactory)
+    public AuthorController(IDbAuthorAccessor authorAccessor, IDtoCreator dtoCreator,
+        IAuthorFactory authorFactory)
     {
         _authorAccessor = authorAccessor;
         _dtoCreator = dtoCreator;
@@ -28,7 +30,7 @@ public class AuthorController
     public async Task<IActionResult> ProcessAuthorCreation([FromBody] AuthorCreationData data)
     {
         var (state, author) = await _authorFactory.Create(data);
-        if (state == AuthorCreationCode.Successful) await _authorAccessor.Add(author!);
+        if (state == AuthorValidationCode.Successful) await _authorAccessor.Add(author!);
         return new JsonResult(new AuthorCreationResult(state, author));
     }
 

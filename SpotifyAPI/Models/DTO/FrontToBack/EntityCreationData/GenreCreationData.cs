@@ -1,6 +1,5 @@
 ﻿namespace Models.DTO.FrontToBack.EntityCreationData;
 
-public class GenreCreationData
+public class GenreCreationData : EntityCreationData
 {
-    public string Name { get; set; }
 }

@@ -1,26 +1,26 @@
-﻿using Models.Entities;
+﻿using Models.DTO.InterServices.EntityValidationCodes;
+using Models.Entities;
 
 namespace Models.DTO.BackToFront.EntityCreationResult;
 
-public class AuthorCreationResult
+public class AuthorCreationResult:EntityCreationResult
 {
-    private static readonly Dictionary<AuthorCreationCode, string> Messages = new()
+    private static readonly Dictionary<AuthorValidationCode, string> Messages = new()
     {
-        {AuthorCreationCode.Successful, "Success"},
-        {AuthorCreationCode.InvalidUser, "Invalid UserId"},
-        {AuthorCreationCode.UnknownError, "Unknown error"}
+        {AuthorValidationCode.Successful, "Success"},
+        {AuthorValidationCode.InvalidUser, "Invalid UserId"},
+        {AuthorValidationCode.UnknownError, "Unknown error"}
     };
-
-    public bool IsSuccessful { get; set; }
+    
     public string? AuthorId { get; set; }
-    public string ResultMessage { get; set; }
-
-    public AuthorCreationResult(AuthorCreationCode code, Author? author)
+    public AuthorCreationResult(AuthorValidationCode code, Author? author)
     {
-        IsSuccessful = code == AuthorCreationCode.Successful;
+        IsSuccessful = code == AuthorValidationCode.Successful;
         ResultMessage = Messages[code];
         AuthorId = author?.Id;
     }
 
-    public AuthorCreationResult((AuthorCreationCode State, Author? Author) data) : this(data.State, data.Author) { }
+    public AuthorCreationResult((AuthorValidationCode State, Author? Author) data) : this(data.State, data.Author)
+    {
+    }
 }

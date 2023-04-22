@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.FrontToBack;
 using Models.DTO.FrontToBack.EntityCreationData;
+using Models.DTO.InterServices.EntityValidationCodes;
 
 namespace Database.Controllers;
 
@@ -31,7 +32,7 @@ public class PlaylistController : Controller
     public async Task<IActionResult> ProcessPlaylistCreation([FromBody] PlaylistCreationData data)
     {
         var (state, playlist) = await _playlistFactory.Create(data);
-        if (state == PlaylistCreationCode.Successful) await _playlistAccessor.Add(playlist!);
+        if (state == PlaylistValidationCode.Successful) await _playlistAccessor.Add(playlist!);
         return new JsonResult(new PlaylistCreationResult(state, playlist));
     }
 
