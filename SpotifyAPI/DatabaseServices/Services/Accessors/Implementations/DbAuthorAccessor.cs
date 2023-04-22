@@ -17,6 +17,14 @@ public class DbAuthorAccessor : DbAccessor, IDbAuthorAccessor
         await DbContext.SaveChangesAsync();
     }
 
+    public IEnumerable<Author> GetAll() => DbContext.Authors;
+    
+    public async Task Delete(Author author)
+    {
+        DbContext.Authors.Remove(author);
+        await DbContext.SaveChangesAsync();
+    }
+
     public async Task<Author?> GetById(string id)
     {
         return await DbContext.Authors

@@ -56,11 +56,13 @@ const Albums = () => {
   }
 
   const deleteItemsWithResultAsync = async (data) => {
-    await new Promise(r => setTimeout(r, 1000));
-    return false;
+    return await fetcher.delete(`albums/delete/${data.id}`)
+      .then(res => JSON.parse(res.data));
   }
 
   const insertItemsWithResultAsync = async (data) => {
+    data.releaseDate = parseInt(data.releaseDate);
+    data.albumType = parseInt(data.albumType);
     return await fetcher.post('albums/add/', data)
       .then(res => JSON.parse(res.data));
   }

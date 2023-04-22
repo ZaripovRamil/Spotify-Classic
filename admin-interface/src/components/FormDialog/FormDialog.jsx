@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import { Dialog, DialogTitle } from '@material-ui/core';
 import FormDialogActions from './FormDialogActions';
 import FormDialogContent from './FormDialogContent';
@@ -8,8 +8,9 @@ const getCompoundProperty = (object, property, delimeter = '.') => {
 }
 
 // submitFormDataWithResultAsync should be an async function that receives data from form
-// and returns true or false, indicating whether data was proccedeed succesfully or not
-const FormDialog = ({ isOpen, setIsOpen, formData, setFormData, columns, formError, setFormError, submitFormDataWithResultAsync }) => {
+// and returns object with fields {isSuccessful: boolean, resultMessage: string}
+const FormDialog = ({ isOpen, setIsOpen, formData, setFormData, columns, submitFormDataWithResultAsync }) => {
+  const [formError, setFormError] = useState();
   const validateFormData = () => {
     return !columns.some(column => column.isRequired && !getCompoundProperty(formData, column.name));
   }

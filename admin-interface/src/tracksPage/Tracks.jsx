@@ -19,6 +19,12 @@ const Tracks = () => {
           setItems(res.data);
           setTableColumns([
             {
+              name: 'id',
+              label: 'track id',
+              type: 'text',
+              isEditable: false,
+            },
+            {
               name: 'name',
               label: 'name',
               type: 'text',
@@ -58,8 +64,7 @@ const Tracks = () => {
   }
 
   const deleteItemsWithResultAsync = async (data) => {
-    await new Promise(r => setTimeout(r, 1000));
-    return false;
+    return await fetcher.delete(`tracks/delete/${data.id}`)
   }
 
   const insertItemsWithResultAsync = async (data) => {

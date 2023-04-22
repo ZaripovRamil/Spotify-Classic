@@ -3,10 +3,6 @@ import FormDialog from "../components/FormDialog/FormDialog";
 import { Button } from "@material-ui/core";
 import { Add as AddIcon } from "@material-ui/icons";
 import { TableStyles } from "../components/Table/TableStyles";
-import { getFetcher } from '../axios/AxiosInstance';
-import Ports from "../constants/Ports";
-
-const fetcher = getFetcher(Ports.AdminService);
 
 const AddAuthor = ({ insertItemsWithResultAsync }) => {
     const [openAddingForm, setOpenAddingForm] = useState(false);

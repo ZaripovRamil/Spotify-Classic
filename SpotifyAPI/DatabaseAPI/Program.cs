@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Database;
-using DatabaseServices;
 using DatabaseServices.Services;
 using DatabaseServices.Services.Accessors.Implementations;
 using DatabaseServices.Services.Accessors.Interfaces;
+using DatabaseServices.Services.DeleteHandlers.Implementations;
+using DatabaseServices.Services.DeleteHandlers.Interfaces;
 using DatabaseServices.Services.EntityValidators.Implementations;
 using DatabaseServices.Services.EntityValidators.Interfaces;
 using DatabaseServices.Services.Factories.Implementations;
@@ -20,23 +21,36 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Spotify")).EnableThreadSafetyChecks());
 builder.Services.AddSingleton<IDtoCreator, DtoCreator>();
+
 builder.Services.AddScoped<IDbUserAccessor, DbUserAccessor>();
 builder.Services.AddScoped<IDbAlbumAccessor, DbAlbumAccessor>();
 builder.Services.AddScoped<IDbAuthorAccessor, DbAuthorAccessor>();
 builder.Services.AddScoped<IDbPlaylistAccessor, DbPlaylistAccessor>();
 builder.Services.AddScoped<IDbGenreAccessor, DbGenreAccessor>();
 builder.Services.AddScoped<IDbTrackAccessor, DbTrackAccessor>();
+
 builder.Services.AddScoped<IFileIdGenerator, FileIdGenerator>();
+
 builder.Services.AddScoped<IAlbumValidator, AlbumValidator>();
 builder.Services.AddScoped<IAuthorValidator, AuthorValidator>();
 builder.Services.AddScoped<IGenreValidator, GenreValidator>();
 builder.Services.AddScoped<IPlaylistValidator, PlaylistValidator>();
 builder.Services.AddScoped<ITrackValidator, TrackValidator>();
+
+builder.Services.AddScoped<IAlbumDeleteHandler, AlbumDeleteHandler>();
+builder.Services.AddScoped<IAuthorDeleteHandler, AuthorDeleteHandler>();
+builder.Services.AddScoped<ITrackDeleteHandler, TrackDeleteHandler>();
+
 builder.Services.AddScoped<IAlbumFactory, AlbumFactory>();
 builder.Services.AddScoped<IAuthorFactory, AuthorFactory>();
 builder.Services.AddScoped<IPlaylistFactory, PlaylistFactory>();
 builder.Services.AddScoped<ITrackFactory, TrackFactory>();
 builder.Services.AddScoped<IGenreFactory, GenreFactory>();
+
+builder.Services.AddScoped<IAuthorDeleteHandler, AuthorDeleteHandler>();
+builder.Services.AddScoped<IAlbumDeleteHandler, AlbumDeleteHandler>();
+builder.Services.AddScoped<ITrackDeleteHandler, TrackDeleteHandler>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

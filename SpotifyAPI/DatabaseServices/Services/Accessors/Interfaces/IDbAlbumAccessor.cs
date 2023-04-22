@@ -7,4 +7,6 @@ public interface IDbAlbumAccessor
     public Task Add(Album album);
     Task<Album?> GetById(string id);
     Task<Album?> GetByName(string name);
+    IEnumerable<Album> GetAll();
+    Task Delete(Album album);
 }

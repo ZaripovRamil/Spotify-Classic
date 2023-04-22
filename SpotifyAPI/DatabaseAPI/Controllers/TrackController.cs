@@ -1,5 +1,6 @@
 ﻿using DatabaseServices.Services;
 using DatabaseServices.Services.Accessors.Interfaces;
+using DatabaseServices.Services.DeleteHandlers.Interfaces;
 using DatabaseServices.Services.Factories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
@@ -16,12 +17,14 @@ public class TrackController
     private readonly ITrackFactory _trackFactory;
     private readonly IDbTrackAccessor _trackAccessor;
     private readonly IDtoCreator _dtoCreator;
+    private readonly ITrackDeleteHandler _trackDeleteHandler;
 
-    public TrackController(ITrackFactory trackFactory, IDbTrackAccessor trackAccessor, IDtoCreator dtoCreator)
+    public TrackController(ITrackFactory trackFactory, IDbTrackAccessor trackAccessor, IDtoCreator dtoCreator, ITrackDeleteHandler trackDeleteHandler)
     {
         _trackFactory = trackFactory;
         _trackAccessor = trackAccessor;
         _dtoCreator = dtoCreator;
+        _trackDeleteHandler = trackDeleteHandler;
     }
 
     [HttpPost]
@@ -48,5 +51,12 @@ public class TrackController
     public async Task<IActionResult> Get(string id)
     {
         return new JsonResult(_dtoCreator.CreateFull(await _trackAccessor.Get(id)));
+    }
+
+    [HttpDelete]
+    [Route("delete/{id}")]
+    public async Task<IActionResult> DeleteById(string id)
+    {
+        return new JsonResult(await _trackDeleteHandler.HandleDeleteById(id));
     }
 }

@@ -1,7 +1,6 @@
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack.EntityCreationData;
 
@@ -11,7 +10,7 @@ namespace AdminService.Controllers;
 [Route("[controller]")]
 public class AuthorsController : Controller
 {
-    private readonly HttpClient _client = new() {BaseAddress = new Uri("https://localhost:7248/author/")};
+    private readonly HttpClient _client = new() { BaseAddress = new Uri("https://localhost:7248/author/") };
     
     [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()
@@ -29,9 +28,11 @@ public class AuthorsController : Controller
         return new JsonResult(responseContent);
     }
 
-    // [HttpDelete("delete/{id}")]
-    // public async Task<IActionResult> Remove([FromBody] string id)
-    // {
-    //     
-    // }
+    [HttpDelete("delete/{id}")]
+    public async Task<IActionResult> DeleteAsync(string id)
+    {
+        var response = await _client.DeleteAsync($"delete/{id}");
+        var responseContent = await response.Content.ReadAsStringAsync();
+        return new JsonResult(responseContent);
+    }
 }

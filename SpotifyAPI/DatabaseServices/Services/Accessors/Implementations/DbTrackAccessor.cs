@@ -33,4 +33,10 @@ public class DbTrackAccessor : DbAccessor, IDbTrackAccessor
             .Include(t => t.Album.Author)
             .Include(t => t.Genres);
     }
+
+    public async Task Delete(Track track)
+    {
+        DbContext.Tracks.Remove(track);
+        await DbContext.SaveChangesAsync();
+    }
 }

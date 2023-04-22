@@ -24,4 +24,6 @@ public class TrackCreationResult:EntityCreationResult
     public TrackCreationResult((TrackValidationCode State, Track? Track) data) : this(data.State, data.Track)
     {
     }
+
+    public TrackCreationResult() { }
 }

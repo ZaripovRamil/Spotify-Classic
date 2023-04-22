@@ -24,4 +24,6 @@ public class AlbumCreationResult:EntityCreationResult
     public AlbumCreationResult((AlbumValidationCode State, Album? Album) data) : this(data.State, data.Album)
     {
     }
+
+    public AlbumCreationResult() { }
 }

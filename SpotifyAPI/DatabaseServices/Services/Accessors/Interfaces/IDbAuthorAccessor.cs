@@ -4,7 +4,9 @@ namespace DatabaseServices.Services.Accessors.Interfaces;
 
 public interface IDbAuthorAccessor
 {
-    public Task Add(Author author);
+    Task Add(Author author);
     Task<Author?> GetById(string id);
     Task<Author?> GetByName(string name);
+    IEnumerable<Author> GetAll();
+    Task Delete(Author author);
 }

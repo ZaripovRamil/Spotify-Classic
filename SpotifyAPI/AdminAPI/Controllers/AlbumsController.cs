@@ -11,12 +11,12 @@ namespace AdminService.Controllers;
 [Route("[controller]")]
 public class AlbumsController
 {
-    private readonly HttpClient _client = new();
+    private readonly HttpClient _client = new() { BaseAddress = new Uri("https://localhost:7248/album/") };
 
     [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()
     {
-        var tracks = await _client.GetFromJsonAsync<IEnumerable<AlbumLight>>("https://localhost:7248/album/get");
+        var tracks = await _client.GetFromJsonAsync<IEnumerable<AlbumLight>>("get");
         return new JsonResult(tracks);
     }
 
@@ -25,6 +25,14 @@ public class AlbumsController
     {
         var json = JsonSerializer.Serialize(creationData);
         var response = await _client.PostAsync("add", new StringContent(json, Encoding.UTF8, "application/json"));
+        var responseContent = await response.Content.ReadAsStringAsync();
+        return new JsonResult(responseContent);
+    }
+
+    [HttpDelete("delete/{id}")]
+    public async Task<IActionResult> DeleteAsync(string id)
+    {
+        var response = await _client.DeleteAsync($"delete/{id}");
         var responseContent = await response.Content.ReadAsStringAsync();
         return new JsonResult(responseContent);
     }

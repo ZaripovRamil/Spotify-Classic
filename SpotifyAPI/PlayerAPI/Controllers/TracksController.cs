@@ -9,7 +9,7 @@ namespace PlayingService.Controllers;
 public class TracksController : Controller
 {
     private readonly IFileProvider _fileProvider;
-    private readonly HttpClient _client = new();
+    private readonly HttpClient _client = new(){BaseAddress = new Uri("https://localhost:7248/track/")};
 
     public TracksController(IFileProvider fp)
     {
@@ -31,7 +31,7 @@ public class TracksController : Controller
     [HttpGet]
     public async Task<IActionResult> GetAllAsync()
     {
-        var tracks = await _client.GetFromJsonAsync<IEnumerable<TrackLight>>("https://localhost:7093/track/get");
+        var tracks = await _client.GetFromJsonAsync<IEnumerable<TrackLight>>("get");
         return new JsonResult(tracks);
     }
 }

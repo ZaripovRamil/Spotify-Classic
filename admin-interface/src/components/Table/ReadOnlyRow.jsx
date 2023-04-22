@@ -10,17 +10,19 @@ import {
 } from "@material-ui/icons";
 import { TableStyles } from "./TableStyles";
 
-const getCompoundProperty = (object, property, delimeter='.') => {
-    return property.split(delimeter).reduce((obj, propName) => obj ? obj[propName] : obj, object) || "";
+const getCompoundProperty = (object, property, delimeter = '.') => {
+	return property.split(delimeter).reduce((obj, propName) => obj ? obj[propName] : obj, object) || "";
 }
 
-const ReadOnlyRow = ({ data, deleteDataWithResultAsync, columns, setEditIndex, item, index, setNewData }) => {
+const ReadOnlyRow = ({ data, columns, setEditIndex, item, index, setNewData, deleteDataWithResultAsync }) => {
 	const handleDelete = async () => {
 		const res = await deleteDataWithResultAsync(data[index]);
-		if (!res) {
-			alert('There was an error while deleting the data. Please, refresh the page and try again');
+		if (!res.isSuccessful) {
+			alert(res.resultMessage);
 			return;
 		}
+		data.splice(index, 1);
+		setNewData({ ...data });
 	};
 
 	const handleEdit = () => {

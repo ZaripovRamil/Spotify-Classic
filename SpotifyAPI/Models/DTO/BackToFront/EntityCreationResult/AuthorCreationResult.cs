@@ -23,4 +23,5 @@ public class AuthorCreationResult:EntityCreationResult
     public AuthorCreationResult((AuthorValidationCode State, Author? Author) data) : this(data.State, data.Author)
     {
     }
+    public AuthorCreationResult() { }
 }

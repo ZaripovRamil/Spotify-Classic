@@ -50,8 +50,8 @@ const Authors = () => {
   }
 
   const deleteItemsWithResultAsync = async (data) => {
-    await new Promise(r => setTimeout(r, 1000));
-    return false;
+    return await fetcher.delete(`authors/delete/${data.id}`)
+      .then(res => JSON.parse(res.data));
   }
 
   const insertItemsWithResultAsync = async (data) => {
