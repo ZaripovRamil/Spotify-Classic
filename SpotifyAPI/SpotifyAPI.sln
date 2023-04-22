@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseAPI", "DatabaseAPI\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseServices", "DatabaseServices\DatabaseServices.csproj", "{4217E46D-C230-4373-A23D-817B98A819A7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminService", "AdminService\AdminService.csproj", "{4DDE6D2F-EDB3-431C-A217-82B4B9C8E5A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{4217E46D-C230-4373-A23D-817B98A819A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4217E46D-C230-4373-A23D-817B98A819A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4217E46D-C230-4373-A23D-817B98A819A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DDE6D2F-EDB3-431C-A217-82B4B9C8E5A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DDE6D2F-EDB3-431C-A217-82B4B9C8E5A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DDE6D2F-EDB3-431C-A217-82B4B9C8E5A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DDE6D2F-EDB3-431C-A217-82B4B9C8E5A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
