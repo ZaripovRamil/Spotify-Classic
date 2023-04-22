@@ -1,8 +1,8 @@
-﻿using Database.Services;
-using Database.Services.Accessors.Interfaces;
+﻿using DatabaseServices.Services;
+using DatabaseServices.Services.Accessors.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Database.Controllers;
+namespace DatabaseAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]

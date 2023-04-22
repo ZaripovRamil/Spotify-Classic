@@ -2,7 +2,7 @@
 using Models.DTO.InterServices.EntityValidationCodes;
 using Models.DTO.InterServices.ValidationResult;
 
-namespace Database.Services.EntityValidators.Implementations;
+namespace DatabaseServices.Services.EntityValidators.Implementations;
 
 public class EntityValidator
 {

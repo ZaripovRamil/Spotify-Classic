@@ -2,7 +2,7 @@
 using Models.DTO.InterServices.EntityValidationCodes;
 using Models.Entities;
 
-namespace Database.Services.Factories.Interfaces;
+namespace DatabaseServices.Services.Factories.Interfaces;
 
 public interface IPlaylistFactory
 {
