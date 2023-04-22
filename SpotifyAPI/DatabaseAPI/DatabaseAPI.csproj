@@ -7,12 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.1" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+      <ProjectReference Include="..\DatabaseServices\DatabaseServices.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DatabaseServices\DatabaseServices.csproj" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
 
 </Project>
