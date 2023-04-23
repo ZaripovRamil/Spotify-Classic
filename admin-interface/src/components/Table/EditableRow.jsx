@@ -15,7 +15,7 @@ const getCompoundProperty = (object, property, delimeter='.') => {
     return property.split(delimeter).reduce((obj, propName) => obj ? obj[propName] : obj, object) || "";
 }
 
-const EditableRow = ({ data, editDataWithResultAsync, columns, setEditIndex, index, newData, setNewData }) => {
+const EditableRow = ({ data, setData, editDataWithResultAsync, columns, setEditIndex, index, newData, setNewData }) => {
   const handleSave = async () => {
     const res = await editDataWithResultAsync(newData);
     if (!res) {
@@ -23,6 +23,8 @@ const EditableRow = ({ data, editDataWithResultAsync, columns, setEditIndex, ind
       setEditIndex(-1);
       return;
     }
+    data[index] = structuredClone(newData);
+    setData(data);
     setEditIndex(-1);
     setNewData({});
   };

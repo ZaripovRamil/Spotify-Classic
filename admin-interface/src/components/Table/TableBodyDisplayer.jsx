@@ -3,7 +3,7 @@ import EditableRow from "./EditableRow";
 import ReadOnlyRow from "./ReadOnlyRow";
 import { TableBody } from "@material-ui/core";
 
-const TableBodyDisplayer = ({ data, editDataWithResultAsync, deleteDataWithResultAsync, columns }) => {
+const TableBodyDisplayer = ({ data, setData, editDataWithResultAsync, deleteDataWithResultAsync, columns }) => {
   const [editIndex, setEditIndex] = useState(-1);
   const [newData, setNewData] = useState({});
 
@@ -12,9 +12,9 @@ const TableBodyDisplayer = ({ data, editDataWithResultAsync, deleteDataWithResul
       {data.map((item, index) => (
         <Fragment key={`data-${index}`}>
           {index === editIndex ? (
-            <EditableRow data={data} editDataWithResultAsync={editDataWithResultAsync} columns={columns} setEditIndex={setEditIndex} index={index} newData={newData} setNewData={setNewData} />
+            <EditableRow data={data} setData={setData} editDataWithResultAsync={editDataWithResultAsync} columns={columns} setEditIndex={setEditIndex} index={index} newData={newData} setNewData={setNewData} />
           ) : (
-            <ReadOnlyRow data={data} deleteDataWithResultAsync={deleteDataWithResultAsync} columns={columns} setEditIndex={setEditIndex} item={item} index={index} setNewData={setNewData} />
+            <ReadOnlyRow data={data} setData={setData} deleteDataWithResultAsync={deleteDataWithResultAsync} columns={columns} setEditIndex={setEditIndex} item={item} index={index} setNewData={setNewData} />
           )}
         </Fragment>
       ))}

@@ -75,7 +75,7 @@ const Tracks = () => {
   return (
     <>
       <AddTrack insertItemsWithResultAsync={insertItemsWithResultAsync} />
-      <TableDisplayer data={items} editDataWithResultAsync={editItemsWithResultAsync} deleteDataWithResultAsync={deleteItemsWithResultAsync} columns={tableColumns} />
+      <TableDisplayer data={items} setData={setItems} editDataWithResultAsync={editItemsWithResultAsync} deleteDataWithResultAsync={deleteItemsWithResultAsync} columns={tableColumns} />
     </>
   );
 }

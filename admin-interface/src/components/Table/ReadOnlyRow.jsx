@@ -14,7 +14,7 @@ const getCompoundProperty = (object, property, delimeter = '.') => {
 	return property.split(delimeter).reduce((obj, propName) => obj ? obj[propName] : obj, object) || "";
 }
 
-const ReadOnlyRow = ({ data, columns, setEditIndex, item, index, setNewData, deleteDataWithResultAsync }) => {
+const ReadOnlyRow = ({ data, setData, columns, setEditIndex, item, index, setNewData, deleteDataWithResultAsync }) => {
 	const handleDelete = async () => {
 		if (!window.confirm("You're about to delete this item. Are you sure?")) return;
 		const res = await deleteDataWithResultAsync(data[index]);
@@ -22,13 +22,12 @@ const ReadOnlyRow = ({ data, columns, setEditIndex, item, index, setNewData, del
 			alert(res.resultMessage);
 			return;
 		}
-		data.splice(index, 1);
-		setNewData({ ...data });
+		setData(data.filter((_, i) => i !== index));
 	};
 
 	const handleEdit = () => {
 		setEditIndex(index);
-		setNewData(item);
+		setNewData(structuredClone(item));
 	}
 
 	const classes = TableStyles();
