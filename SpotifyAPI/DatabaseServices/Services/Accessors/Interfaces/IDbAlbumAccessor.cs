@@ -9,4 +9,5 @@ public interface IDbAlbumAccessor
     Task<Album?> GetByName(string name);
     IEnumerable<Album> GetAll();
     Task Delete(Album album);
+    Task Update(Album album);
 }

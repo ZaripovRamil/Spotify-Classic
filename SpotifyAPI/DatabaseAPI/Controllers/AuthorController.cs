@@ -2,10 +2,12 @@
 using DatabaseServices.Services.Accessors.Interfaces;
 using DatabaseServices.Services.DeleteHandlers.Interfaces;
 using DatabaseServices.Services.Factories.Interfaces;
+using DatabaseServices.Services.UpdateHandlers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack.EntityCreationData;
+using Models.DTO.FrontToBack.EntityUpdateData;
 using Models.DTO.InterServices.EntityValidationCodes;
 
 namespace DatabaseAPI.Controllers;
@@ -18,14 +20,16 @@ public class AuthorController
     private readonly IAuthorFactory _authorFactory;
     private readonly IDtoCreator _dtoCreator;
     private readonly IAuthorDeleteHandler _authorDeleteHandler;
+    private readonly IAuthorUpdateHandler _authorUpdateHandler;
 
     public AuthorController(IDbAuthorAccessor authorAccessor, IDtoCreator dtoCreator,
-        IAuthorFactory authorFactory, IAuthorDeleteHandler authorDeleteHandler)
+        IAuthorFactory authorFactory, IAuthorDeleteHandler authorDeleteHandler, IAuthorUpdateHandler authorUpdateHandler)
     {
         _authorAccessor = authorAccessor;
         _dtoCreator = dtoCreator;
         _authorFactory = authorFactory;
         _authorDeleteHandler = authorDeleteHandler;
+        _authorUpdateHandler = authorUpdateHandler;
     }
 
     [HttpPost]
@@ -66,5 +70,12 @@ public class AuthorController
     public async Task<IActionResult> DeleteById(string id)
     {
         return new JsonResult(await _authorDeleteHandler.HandleDeleteById(id));
+    }
+
+    [HttpPut]
+    [Route("update/{id}")]
+    public async Task<IActionResult> UpdateById(string id, [FromBody] AuthorUpdateData updateData)
+    {
+        return new JsonResult(await _authorUpdateHandler.HandleUpdateById(id, updateData));
     }
 }

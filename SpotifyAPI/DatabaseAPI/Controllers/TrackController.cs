@@ -2,10 +2,12 @@
 using DatabaseServices.Services.Accessors.Interfaces;
 using DatabaseServices.Services.DeleteHandlers.Interfaces;
 using DatabaseServices.Services.Factories.Interfaces;
+using DatabaseServices.Services.UpdateHandlers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack.EntityCreationData;
+using Models.DTO.FrontToBack.EntityUpdateData;
 using Models.DTO.InterServices.EntityValidationCodes;
 
 namespace DatabaseAPI.Controllers;
@@ -18,13 +20,15 @@ public class TrackController
     private readonly IDbTrackAccessor _trackAccessor;
     private readonly IDtoCreator _dtoCreator;
     private readonly ITrackDeleteHandler _trackDeleteHandler;
+    private readonly ITrackUpdateHandler _trackUpdateHandler;
 
-    public TrackController(ITrackFactory trackFactory, IDbTrackAccessor trackAccessor, IDtoCreator dtoCreator, ITrackDeleteHandler trackDeleteHandler)
+    public TrackController(ITrackFactory trackFactory, IDbTrackAccessor trackAccessor, IDtoCreator dtoCreator, ITrackDeleteHandler trackDeleteHandler, ITrackUpdateHandler trackUpdateHandler)
     {
         _trackFactory = trackFactory;
         _trackAccessor = trackAccessor;
         _dtoCreator = dtoCreator;
         _trackDeleteHandler = trackDeleteHandler;
+        _trackUpdateHandler = trackUpdateHandler;
     }
 
     [HttpPost]
@@ -58,5 +62,12 @@ public class TrackController
     public async Task<IActionResult> DeleteById(string id)
     {
         return new JsonResult(await _trackDeleteHandler.HandleDeleteById(id));
+    }
+
+    [HttpPut]
+    [Route("update/{id}")]
+    public async Task<IActionResult> UpdateById(string id, TrackUpdateData trackUpdateData)
+    {
+        return new JsonResult(await _trackUpdateHandler.HandleUpdateById(id, trackUpdateData));
     }
 }

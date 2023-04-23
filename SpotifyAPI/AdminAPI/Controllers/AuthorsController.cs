@@ -3,6 +3,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack.EntityCreationData;
+using Models.DTO.FrontToBack.EntityUpdateData;
 
 namespace AdminService.Controllers;
 
@@ -32,6 +33,16 @@ public class AuthorsController : Controller
     public async Task<IActionResult> DeleteAsync(string id)
     {
         var response = await _client.DeleteAsync($"delete/{id}");
+        var responseContent = await response.Content.ReadAsStringAsync();
+        return new JsonResult(responseContent);
+    }
+
+    [HttpPut("update/{id}")]
+    public async Task<IActionResult> UpdateAsync(string id, AuthorUpdateData authorUpdateData)
+    {
+        var json = JsonSerializer.Serialize(authorUpdateData);
+        var response =
+            await _client.PutAsync($"update/{id}", new StringContent(json, Encoding.UTF8, "application/json"));
         var responseContent = await response.Content.ReadAsStringAsync();
         return new JsonResult(responseContent);
     }

@@ -1,6 +1,7 @@
 using DatabaseServices.Services.Accessors.Interfaces;
 using DatabaseServices.Services.DeleteHandlers.Interfaces;
 using Models.DTO.BackToFront.EntityCreationResult;
+using Models.DTO.BackToFront.EntityDeletionResult;
 
 namespace DatabaseServices.Services.DeleteHandlers.Implementations;
 
@@ -13,10 +14,10 @@ public class TrackDeleteHandler : ITrackDeleteHandler
         _trackAccessor = trackAccessor;
     }
 
-    public async Task<TrackCreationResult> HandleDeleteById(string id)
+    public async Task<TrackDeletionResult> HandleDeleteById(string id)
     {
         var track = await _trackAccessor.Get(id);
-        var result = new TrackCreationResult { IsSuccessful = true, ResultMessage = "Successful" };
+        var result = new TrackDeletionResult { IsSuccessful = true, ResultMessage = "Successful" };
         if (track is null)
         {
             result.IsSuccessful = false;

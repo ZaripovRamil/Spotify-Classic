@@ -1,6 +1,9 @@
+using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack.EntityCreationData;
+using Models.DTO.FrontToBack.EntityUpdateData;
 
 namespace AdminService.Controllers;
 
@@ -30,6 +33,16 @@ public class TracksController : Controller
     public async Task<IActionResult> DeleteAsync(string id)
     {
         var response = await _client.DeleteAsync($"delete/{id}");
+        var responseContent = await response.Content.ReadAsStringAsync();
+        return new JsonResult(responseContent);
+    }
+
+    [HttpPut("update/{id}")]
+    public async Task<IActionResult> UpdateAsync(string id, TrackUpdateData trackUpdateData)
+    {
+        var json = JsonSerializer.Serialize(trackUpdateData);
+        var response =
+            await _client.PutAsync($"update/{id}", new StringContent(json, Encoding.UTF8, "application/json"));
         var responseContent = await response.Content.ReadAsStringAsync();
         return new JsonResult(responseContent);
     }

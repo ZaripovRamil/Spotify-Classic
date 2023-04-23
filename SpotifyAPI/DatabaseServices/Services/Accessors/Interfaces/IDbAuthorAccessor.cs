@@ -9,4 +9,5 @@ public interface IDbAuthorAccessor
     Task<Author?> GetByName(string name);
     IEnumerable<Author> GetAll();
     Task Delete(Author author);
+    Task Update(Author author);
 }

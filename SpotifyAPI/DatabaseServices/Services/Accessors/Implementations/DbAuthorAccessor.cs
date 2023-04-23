@@ -25,6 +25,12 @@ public class DbAuthorAccessor : DbAccessor, IDbAuthorAccessor
         await DbContext.SaveChangesAsync();
     }
 
+    public async Task Update(Author author)
+    {
+        DbContext.Authors.Update(author);
+        await DbContext.SaveChangesAsync();
+    }
+
     public async Task<Author?> GetById(string id)
     {
         return await DbContext.Authors

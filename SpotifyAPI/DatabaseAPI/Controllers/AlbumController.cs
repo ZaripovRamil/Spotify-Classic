@@ -2,10 +2,12 @@
 using DatabaseServices.Services.Accessors.Interfaces;
 using DatabaseServices.Services.DeleteHandlers.Interfaces;
 using DatabaseServices.Services.Factories.Interfaces;
+using DatabaseServices.Services.UpdateHandlers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack.EntityCreationData;
+using Models.DTO.FrontToBack.EntityUpdateData;
 using Models.DTO.InterServices.EntityValidationCodes;
 
 namespace DatabaseAPI.Controllers;
@@ -18,14 +20,16 @@ public class AlbumController
     private readonly IAlbumFactory _albumFactory;
     private readonly IDtoCreator _dtoCreator;
     private readonly IAlbumDeleteHandler _albumDeleteHandler;
+    private readonly IAlbumUpdateHandler _albumUpdateHandler;
 
     public AlbumController(IDbAlbumAccessor albumAccessor, IAlbumFactory albumFactory, IDtoCreator dtoCreator,
-        IAlbumDeleteHandler albumDeleteHandler)
+        IAlbumDeleteHandler albumDeleteHandler, IAlbumUpdateHandler albumUpdateHandler)
     {
         _albumAccessor = albumAccessor;
         _albumFactory = albumFactory;
         _dtoCreator = dtoCreator;
         _albumDeleteHandler = albumDeleteHandler;
+        _albumUpdateHandler = albumUpdateHandler;
     }
 
     [HttpPost]
@@ -66,5 +70,12 @@ public class AlbumController
     public async Task<IActionResult> DeleteById(string id)
     {
         return new JsonResult(await _albumDeleteHandler.HandleDeleteById(id));
+    }
+
+    [HttpPut]
+    [Route("update/{id}")]
+    public async Task<IActionResult> UpdateById(string id, AlbumUpdateData albumUpdateData)
+    {
+        return new JsonResult(await _albumUpdateHandler.HandleUpdateById(id, albumUpdateData));
     }
 }

@@ -1,8 +1,8 @@
-using Models.DTO.BackToFront.EntityCreationResult;
+using Models.DTO.BackToFront.EntityDeletionResult;
 
 namespace DatabaseServices.Services.DeleteHandlers.Interfaces;
 
 public interface ITrackDeleteHandler
 {
-    Task<TrackCreationResult> HandleDeleteById(string id);
+    Task<TrackDeletionResult> HandleDeleteById(string id);
 }

@@ -39,4 +39,10 @@ public class DbTrackAccessor : DbAccessor, IDbTrackAccessor
         DbContext.Tracks.Remove(track);
         await DbContext.SaveChangesAsync();
     }
+
+    public async Task Update(Track track)
+    {
+        DbContext.Tracks.Update(track);
+        await DbContext.SaveChangesAsync();
+    }
 }

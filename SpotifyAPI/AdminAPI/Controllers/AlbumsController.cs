@@ -1,9 +1,9 @@
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack.EntityCreationData;
+using Models.DTO.FrontToBack.EntityUpdateData;
 
 namespace AdminService.Controllers;
 
@@ -33,6 +33,16 @@ public class AlbumsController
     public async Task<IActionResult> DeleteAsync(string id)
     {
         var response = await _client.DeleteAsync($"delete/{id}");
+        var responseContent = await response.Content.ReadAsStringAsync();
+        return new JsonResult(responseContent);
+    }
+
+    [HttpPut("update/{id}")]
+    public async Task<IActionResult> UpdateAsync(string id, [FromBody] AlbumUpdateData albumUpdateData)
+    {
+        var json = JsonSerializer.Serialize(albumUpdateData);
+        var response =
+            await _client.PutAsync($"update/{id}", new StringContent(json, Encoding.UTF8, "application/json"));
         var responseContent = await response.Content.ReadAsStringAsync();
         return new JsonResult(responseContent);
     }

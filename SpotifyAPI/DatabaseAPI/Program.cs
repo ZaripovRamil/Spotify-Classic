@@ -9,6 +9,8 @@ using DatabaseServices.Services.EntityValidators.Implementations;
 using DatabaseServices.Services.EntityValidators.Interfaces;
 using DatabaseServices.Services.Factories.Implementations;
 using DatabaseServices.Services.Factories.Interfaces;
+using DatabaseServices.Services.UpdateHandlers.Implementations;
+using DatabaseServices.Services.UpdateHandlers.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,15 +43,15 @@ builder.Services.AddScoped<IAlbumDeleteHandler, AlbumDeleteHandler>();
 builder.Services.AddScoped<IAuthorDeleteHandler, AuthorDeleteHandler>();
 builder.Services.AddScoped<ITrackDeleteHandler, TrackDeleteHandler>();
 
+builder.Services.AddScoped<IAuthorUpdateHandler, AuthorUpdateHandler>();
+builder.Services.AddScoped<IAlbumUpdateHandler, AlbumUpdateHandler>();
+builder.Services.AddScoped<ITrackUpdateHandler, TrackUpdateHandler>();
+
 builder.Services.AddScoped<IAlbumFactory, AlbumFactory>();
 builder.Services.AddScoped<IAuthorFactory, AuthorFactory>();
 builder.Services.AddScoped<IPlaylistFactory, PlaylistFactory>();
 builder.Services.AddScoped<ITrackFactory, TrackFactory>();
 builder.Services.AddScoped<IGenreFactory, GenreFactory>();
-
-builder.Services.AddScoped<IAuthorDeleteHandler, AuthorDeleteHandler>();
-builder.Services.AddScoped<IAlbumDeleteHandler, AlbumDeleteHandler>();
-builder.Services.AddScoped<ITrackDeleteHandler, TrackDeleteHandler>();
 
 var app = builder.Build();
 
