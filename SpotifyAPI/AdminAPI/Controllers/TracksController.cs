@@ -5,13 +5,13 @@ using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.DTO.FrontToBack.EntityUpdateData;
 
-namespace AdminService.Controllers;
+namespace AdminAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
 public class TracksController : Controller
 {
-    private readonly HttpClient _client = new(){BaseAddress = new Uri("https://localhost:7248/track/") };
+    private readonly HttpClient _client = new() { BaseAddress = new Uri("https://localhost:7248/track/") };
     
     [HttpGet]
     public async Task<IActionResult> GetAllAsync()

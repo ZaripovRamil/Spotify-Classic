@@ -42,7 +42,8 @@ public class DbTrackAccessor : DbAccessor, IDbTrackAccessor
 
     public async Task Update(Track track)
     {
-        DbContext.Tracks.Update(track);
+        var toChange = (await Get(track.Id))!;
+        toChange.Name = track.Name;
         await DbContext.SaveChangesAsync();
     }
 }

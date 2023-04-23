@@ -1,4 +1,4 @@
-using DatabaseServices.Services.Accessors.Implementations;
+using DatabaseServices.Services.Accessors.Interfaces;
 using DatabaseServices.Services.UpdateHandlers.Interfaces;
 using Models.DTO.BackToFront.EntityUpdateResult;
 using Models.DTO.FrontToBack.EntityUpdateData;
@@ -8,9 +8,9 @@ namespace DatabaseServices.Services.UpdateHandlers.Implementations;
 
 public class TrackUpdateHandler : ITrackUpdateHandler
 {
-    private readonly DbTrackAccessor _trackAccessor;
+    private readonly IDbTrackAccessor _trackAccessor;
 
-    public TrackUpdateHandler(DbTrackAccessor trackAccessor)
+    public TrackUpdateHandler(IDbTrackAccessor trackAccessor)
     {
         _trackAccessor = trackAccessor;
     }

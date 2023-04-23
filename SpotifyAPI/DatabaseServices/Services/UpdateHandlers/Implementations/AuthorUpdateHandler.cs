@@ -1,4 +1,4 @@
-using DatabaseServices.Services.Accessors.Implementations;
+using DatabaseServices.Services.Accessors.Interfaces;
 using DatabaseServices.Services.UpdateHandlers.Interfaces;
 using Models.DTO.BackToFront.EntityUpdateResult;
 using Models.DTO.FrontToBack.EntityUpdateData;
@@ -8,9 +8,9 @@ namespace DatabaseServices.Services.UpdateHandlers.Implementations;
 
 public class AuthorUpdateHandler : IAuthorUpdateHandler
 {
-    private readonly DbAuthorAccessor _authorAccessor;
+    private readonly IDbAuthorAccessor _authorAccessor;
 
-    public AuthorUpdateHandler(DbAuthorAccessor authorAccessor)
+    public AuthorUpdateHandler(IDbAuthorAccessor authorAccessor)
     {
         _authorAccessor = authorAccessor;
     }
@@ -35,6 +35,7 @@ public class AuthorUpdateHandler : IAuthorUpdateHandler
             return result;
         }
 
+        // TODO: see comment to DbAuthorAccessor.Update
         await _authorAccessor.Update(new Author(id, author.User, updateData.Name));
         return result;
     }

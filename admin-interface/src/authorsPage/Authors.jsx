@@ -45,8 +45,8 @@ const Authors = () => {
   }, []);
 
   const editItemsWithResultAsync = async (data) => {
-    await new Promise(r => setTimeout(r, 1000));
-    return true;
+    return await fetcher.put(`authors/update/${data.id}`, { id: data.id, name: data.name })
+      .then(res => JSON.parse(res.data));
   }
 
   const deleteItemsWithResultAsync = async (data) => {

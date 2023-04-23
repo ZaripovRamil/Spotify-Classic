@@ -1,6 +1,5 @@
-using DatabaseServices.Services.Accessors.Implementations;
+using DatabaseServices.Services.Accessors.Interfaces;
 using DatabaseServices.Services.UpdateHandlers.Interfaces;
-using Models.DTO.BackToFront.EntityDeletionResult;
 using Models.DTO.BackToFront.EntityUpdateResult;
 using Models.DTO.FrontToBack.EntityUpdateData;
 using Models.Entities;
@@ -9,9 +8,9 @@ namespace DatabaseServices.Services.UpdateHandlers.Implementations;
 
 public class AlbumUpdateHandler : IAlbumUpdateHandler
 {
-    private readonly DbAlbumAccessor _albumAccessor;
+    private readonly IDbAlbumAccessor _albumAccessor;
 
-    public AlbumUpdateHandler(DbAlbumAccessor albumAccessor)
+    public AlbumUpdateHandler(IDbAlbumAccessor albumAccessor)
     {
         _albumAccessor = albumAccessor;
     }

@@ -27,7 +27,8 @@ public class DbAlbumAccessor : DbAccessor, IDbAlbumAccessor
 
     public async Task Update(Album album)
     {
-        DbContext.Albums.Update(album);
+        var toChange = (await GetById(album.Id))!;
+        toChange.Name = album.Name;
         await DbContext.SaveChangesAsync();
     }
 

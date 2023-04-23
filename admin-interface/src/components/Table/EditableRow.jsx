@@ -18,8 +18,8 @@ const getCompoundProperty = (object, property, delimeter='.') => {
 const EditableRow = ({ data, setData, editDataWithResultAsync, columns, setEditIndex, index, newData, setNewData }) => {
   const handleSave = async () => {
     const res = await editDataWithResultAsync(newData);
-    if (!res) {
-      alert('There was an error saving the data. Please check it and try again later');
+    if (!res.isSuccessful) {
+      alert(res.resultMessage);
       setEditIndex(-1);
       return;
     }

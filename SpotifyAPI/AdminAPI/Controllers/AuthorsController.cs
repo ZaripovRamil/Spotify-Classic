@@ -5,7 +5,7 @@ using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.DTO.FrontToBack.EntityUpdateData;
 
-namespace AdminService.Controllers;
+namespace AdminAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
