@@ -64,7 +64,8 @@ const Albums = () => {
     data.releaseDate = parseInt(data.releaseDate);
     data.albumType = parseInt(data.albumType);
     return await fetcher.post('albums/add/', data)
-      .then(res => JSON.parse(res.data));
+      .then(res => JSON.parse(res.data))
+      .finally(() => window.location.reload());
   }
 
   return (

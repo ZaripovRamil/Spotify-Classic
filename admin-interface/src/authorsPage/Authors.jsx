@@ -56,7 +56,8 @@ const Authors = () => {
 
   const insertItemsWithResultAsync = async (data) => {
     return await fetcher.post('authors/add', data)
-      .then(res => JSON.parse(res.data));
+      .then(res => JSON.parse(res.data))
+      .finally(() => window.location.reload());
   }
 
   return (
