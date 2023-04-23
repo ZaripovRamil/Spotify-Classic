@@ -10,15 +10,16 @@ import Ports from '../constants/Ports';
 const prefix = "https://localhost:7022/";
 const fetcher = getFetcher(Ports.MusicService);
 
-const Player = () => {
+const Player = ({props}) => {
+    const { tracksList, setTracksList,playerConf, setPlayerConf } = props;
     const [tracks, setTracks] = useState([{
         id: "",
-        fileId: "",
+        fileId:"",
         name: "",
         album: {
             id: "",
-            previewId: "",
             name: "",
+            previewId:"",
             author: {
                 id: "",
                 name: ""
@@ -28,35 +29,29 @@ const Player = () => {
     const player = useRef(null);
     useEffect(() => {
         // TODO: add .catch()?
-        fetcher.get('tracks').then((data) => setTracks(data.data));
+        fetcher.get('tracks').then((data) => {setTracks(data.data)
+            
+    })
     }, [])
 
 
     const [playerConfig, setPlayerCongig] = useState({
         "controls": false,
-        "trackId": 0,
-        "playing": false,
         "volume": 0.8,
         "playbackRate": 1.0,
         "seeking": false
     });
 
-    const changeConfig = (configName, configValue) => {
-        playerConfig[configName] = configValue;
-        // to keep volume level in (0, 1) range. otherwise player falls
-        playerConfig.volume = Math.max(0, Math.min(1, playerConfig.volume));
-        playerConfig.playbackRate = Math.max(0.1, Math.min(2, playerConfig.playbackRate));
-        setPlayerCongig({ ...playerConfig });
-    };
-
     const playNext = () => {
-        playerConfig.trackId = (playerConfig.trackId + 1) % tracks.length;
-        setPlayerCongig({ ...playerConfig });
+        playerConf.trackPosInAlbum = (playerConf.trackPosInAlbum + 1) % tracksList.length;
+        playerConf.trackId = tracksList[playerConf.trackPosInAlbum].id
+        setPlayerConf({ ...playerConf });
     };
 
     const playPrevious = () => {
-        playerConfig.trackId = (playerConfig.trackId - 1 + tracks.length) % tracks.length;
-        setPlayerCongig({ ...playerConfig });
+        playerConf.trackPosInAlbum = (playerConf.trackPosInAlbum - 1 + tracksList.length) % tracksList.length;
+        playerConf.trackId = tracksList[playerConf.trackPosInAlbum].id
+        setPlayerConf({ ...playerConf });
     };
 
     // duration is the track duration in seconds
@@ -75,45 +70,47 @@ const Player = () => {
 
     return (
         <>
+            {tracksList && playerConf &&
             <ReactPlayer
                 ref={player}
                 controls={playerConfig.controls}
-                playing={playerConfig.playing}
+                playing={playerConf.playing}
                 playbackRate={playerConfig.playbackRate}
                 volume={playerConfig.volume}
-                url={prefix + "tracks/" + tracks[playerConfig.trackId].fileId}
+                url={tracksList && (prefix + "tracks/" + tracksList[playerConf.trackPosInAlbum].fileId)}
                 onDuration={(duration) => updateTrackInfo('duration', duration.toFixed(2))}
                 onProgress={(state) => {
                     updateTrackInfo('played', +state.played.toFixed(4));
                     updateTrackInfo('loaded', +state.loaded.toFixed(4));
                 }}
                 style={{ display: "None" }}
-            />
+            />}
+            {tracksList && playerConf &&
             <div className="player">
                 <div className="player-controls">
                     <div className="player-switch-btns player-btns">
 
                         <input type='button' className="player-btn player-buttonPrevious" onClick={() => playPrevious()} />
 
-                        <input type='button'
-                            className={`player-btn ${playerConfig.playing ? 'player-buttonStop' : 'player-buttonPlay'}`}
-                            onClick={() => { changeConfig('playing', !playerConfig.playing) }} />
+                        {<input type='button'
+                            className={`player-btn ${playerConf.playing ? 'player-buttonStop' : 'player-buttonPlay'}`}
+                            onClick={() => { setPlayerConf((oldPlayerConf) => ({...oldPlayerConf,playing: !oldPlayerConf.playing}))}}/>}
 
                         <input type='button' className="player-btn player-buttonNext" onClick={() => playNext()} />
 
                     </div>
                     <div className="player-audiotrack">
                         <div className="player-audiotrack-img" >
-                            {tracks.id !== "" && <img style={{ maxWidth: "70px", maxHeight: "70px" }} src={prefix + `Previews/${tracks[playerConfig.trackId].album.previewId}`} width={"100%"} onError={({currentTarget}) => {
-                                // TODO: get some random picture if album preview is unavailable
+                            { playerConf.trackId !== "" && <img style={{ maxWidth: "70px", maxHeight: "70px" }} src={prefix + `Previews/${tracksList[playerConf.trackPosInAlbum].fileId}`} width={"100%"} onError={({currentTarget}) => {
                                 currentTarget.onerror = null;
+                                currentTarget.src = prefix+`Previews/${tracksList[playerConf.trackPosInAlbum].album.previewId}`;
                             }}/>}
                         </div>
 
                         <div className="player-audiotrack-control">
                             <div className="player-audiotrack-info">
-                                <div>{tracks[playerConfig.trackId].name}
-                                    {tracks.id !== "" && <div className="player-audiotrack-auth">{tracks[playerConfig.trackId].album.author.name}</div>}
+                                <div>{ tracksList[playerConf.trackPosInAlbum].name}
+                                    {playerConf.trackId !== "" && <div className="player-audiotrack-auth">{tracksList[playerConf.trackPosInAlbum].album.author.name}</div>}
                                 </div>
 
                                 <div className="player-btns">
@@ -149,6 +146,8 @@ const Player = () => {
                     </div>
                 </div>
             </div>
+            }
+            
         </>
     )
 }

@@ -14,8 +14,8 @@ export const UserProfileHeader = () => {
 
             <div className="user-menu">
                 <div className="user-menu-list">
-                    <NavLink to="/user" style={({ isActive }) => console.log(isActive)}  >Playlists</NavLink>
-                    <NavLink to="/history" style={({ isActive }) => console.log(isActive)}  >History</NavLink>
+                    <NavLink to="/user" >Playlists</NavLink>
+                    <NavLink to="/history"  >History</NavLink>
                 </div>
             </div>
             
