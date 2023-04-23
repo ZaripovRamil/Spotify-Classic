@@ -6,7 +6,7 @@ namespace PlayerAPI.Controllers;
 [Route("[controller]")]
 public class PreviewsController : Controller
 {
-    private readonly HttpClient _clientToStatic = new() { BaseAddress = new Uri("https://localhost:7022/previews/") };
+    private readonly HttpClient _clientToStatic = new() { BaseAddress = new Uri("https://localhost:7153/previews/") };
     
     [HttpGet("get/{id}")]
     public async Task<IActionResult> GetByIdAsync(string id)

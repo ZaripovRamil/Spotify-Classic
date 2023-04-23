@@ -8,7 +8,7 @@ namespace PlayerAPI.Controllers;
 public class TracksController : Controller
 {
     private readonly HttpClient _clientToDb = new() { BaseAddress = new Uri("https://localhost:7248/track/") };
-    private readonly HttpClient _clientToStatic = new() { BaseAddress = new Uri("https://localhost:7022/tracks/") };
+    private readonly HttpClient _clientToStatic = new() { BaseAddress = new Uri("https://localhost:7153/tracks/") };
     
     [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()
