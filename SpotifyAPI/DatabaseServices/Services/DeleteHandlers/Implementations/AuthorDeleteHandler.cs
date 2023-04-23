@@ -29,7 +29,7 @@ public class AuthorDeleteHandler : IAuthorDeleteHandler
         {
             result.IsSuccessful = false;
             result.ResultMessage =
-                "The requested author owns at least one track. tI has to own zero for safe delete.";
+                "The requested author owns at least one track. It has to own zero for safe delete.";
 
             return result;
         }

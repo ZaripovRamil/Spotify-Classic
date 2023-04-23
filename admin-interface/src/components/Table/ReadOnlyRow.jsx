@@ -16,6 +16,7 @@ const getCompoundProperty = (object, property, delimeter = '.') => {
 
 const ReadOnlyRow = ({ data, columns, setEditIndex, item, index, setNewData, deleteDataWithResultAsync }) => {
 	const handleDelete = async () => {
+		if (!window.confirm("You're about to delete this item. Are you sure?")) return;
 		const res = await deleteDataWithResultAsync(data[index]);
 		if (!res.isSuccessful) {
 			alert(res.resultMessage);
