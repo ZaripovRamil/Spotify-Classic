@@ -1,37 +1,37 @@
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.Light;
-using PlayingService.Services;
 
-namespace PlayingService.Controllers;
+namespace PlayerAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
 public class TracksController : Controller
 {
-    private readonly IFileProvider _fileProvider;
-    private readonly HttpClient _client = new(){BaseAddress = new Uri("https://localhost:7248/track/")};
-
-    public TracksController(IFileProvider fp)
-    {
-        _fileProvider = fp;
-    }
-
-    [HttpGet("{id}")]
-    public async Task<FileStreamResult> DownloadByIdAsync(string id)
-    {
-        var track = _fileProvider.GetFileAsStream($"Assets/Tracks/{id}.mp3");
-
-        return new FileStreamResult(track, "application/octet-stream")
-        {
-            FileDownloadName = $"{id}.mp3",
-            EnableRangeProcessing = true
-        };
-    }
-
-    [HttpGet]
+    private readonly HttpClient _clientToDb = new() { BaseAddress = new Uri("https://localhost:7248/track/") };
+    private readonly HttpClient _clientToStatic = new() { BaseAddress = new Uri("https://localhost:7022/tracks/") };
+    
+    [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()
     {
-        var tracks = await _client.GetFromJsonAsync<IEnumerable<TrackLight>>("get");
+        var tracks = await _clientToDb.GetFromJsonAsync<IEnumerable<TrackLight>>("get");
         return new JsonResult(tracks);
+    }
+
+    [HttpGet("get/{id}")]
+    public async Task<IActionResult> GetByIdAsStreamAsync(string id)
+    {
+        try
+        {
+            var responseStream = await _clientToStatic.GetStreamAsync(id);
+            return new FileStreamResult(responseStream, "application/octet-stream")
+            {
+                FileDownloadName = $"{id}.mp3",
+                EnableRangeProcessing = true
+            };
+        }
+        catch (HttpRequestException)
+        {
+            return NotFound();
+        }
     }
 }
