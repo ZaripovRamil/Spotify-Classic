@@ -28,7 +28,7 @@ const Player = () => {
     const player = useRef(null);
     useEffect(() => {
         // TODO: add .catch()?
-        fetcher.get('tracks').then((data) => setTracks(data.data));
+        fetcher.get('tracks/get').then((data) => setTracks(data.data));
     }, [])
 
 
@@ -81,7 +81,7 @@ const Player = () => {
                 playing={playerConfig.playing}
                 playbackRate={playerConfig.playbackRate}
                 volume={playerConfig.volume}
-                url={prefix + "tracks/" + tracks[playerConfig.trackId].fileId}
+                url={prefix + "tracks/get/" + tracks[playerConfig.trackId].fileId}
                 onDuration={(duration) => updateTrackInfo('duration', duration.toFixed(2))}
                 onProgress={(state) => {
                     updateTrackInfo('played', +state.played.toFixed(4));
@@ -104,7 +104,7 @@ const Player = () => {
                     </div>
                     <div className="player-audiotrack">
                         <div className="player-audiotrack-img" >
-                            {tracks.id !== "" && <img style={{ maxWidth: "70px", maxHeight: "70px" }} src={prefix + `Previews/${tracks[playerConfig.trackId].album.previewId}`} width={"100%"} onError={({currentTarget}) => {
+                            {tracks.id !== "" && <img style={{ maxWidth: "70px", maxHeight: "70px" }} src={prefix + `Previews/get/${tracks[playerConfig.trackId].album.previewId}`} width={"100%"} onError={({currentTarget}) => {
                                 // TODO: get some random picture if album preview is unavailable
                                 currentTarget.onerror = null;
                             }}/>}

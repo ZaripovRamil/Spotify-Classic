@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.DTO.FrontToBack.EntityUpdateData;
@@ -11,28 +12,53 @@ namespace AdminAPI.Controllers;
 [Route("[controller]")]
 public class TracksController : Controller
 {
-    private readonly HttpClient _client = new() { BaseAddress = new Uri("https://localhost:7248/track/") };
+    private readonly HttpClient _clientToStatic = new() { BaseAddress = new Uri("https://localhost:7153/tracks/") };
+    private readonly HttpClient _clientToDb = new() { BaseAddress = new Uri("https://localhost:7248/track/") };
     
-    [HttpGet]
+    [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()
     {
-        var tracks = await _client.GetFromJsonAsync<IEnumerable<TrackLight>>("get");
+        var tracks = await _clientToDb.GetFromJsonAsync<IEnumerable<TrackLight>>("get");
         return new JsonResult(tracks);
     }
 
-    // doesn't work now. don't touch.
-    [HttpPost]
-    public async Task<IActionResult> AddAsync([FromBody] TrackCreationData creationData)
+    [HttpGet("get/{id}")]
+    public async Task<IActionResult> GetByIdAsync(string id)
     {
-        var resp = await _client.PostAsync("add", JsonContent.Create(creationData));
-        var res = await resp.Content.ReadAsStringAsync();
-        return res == "0" ? Ok() : NotFound();
+        var track = await _clientToDb.GetFromJsonAsync<TrackLight>($"get/id/{id}");
+        return new JsonResult(track);
+    }
+
+    [HttpPost("add")]
+    public async Task<IActionResult> AddAsync([FromForm] TrackCreationDataWithFile creationDataWithFile)
+    {
+        var creationData = new TrackCreationData
+        {
+            AlbumId = creationDataWithFile.AlbumId,
+            GenreIds = creationDataWithFile.GenreIds,
+            Name = creationDataWithFile.Name,
+        };
+        var json = JsonSerializer.Serialize(creationData);
+        var dbResponse = await _clientToDb.PostAsync("add", new StringContent(json, Encoding.UTF8, "application/json"));
+        var responseContent = await dbResponse.Content.ReadAsStringAsync();
+        var trackCreationResult = JsonSerializer.Deserialize<TrackCreationResult>(responseContent,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        if (trackCreationResult is null || !trackCreationResult.IsSuccessful)
+            return BadRequest(trackCreationResult?.ResultMessage ?? "");
+        var trackContent = new StreamContent(creationDataWithFile.TrackFile.OpenReadStream());
+        var formData = new MultipartFormDataContent();
+        formData.Add(trackContent, "file", $"{trackCreationResult.TrackId!}.mp3");
+        var staticResponse = await _clientToStatic.PostAsync("upload", formData);
+        if (staticResponse.IsSuccessStatusCode)
+            return new JsonResult(trackCreationResult);
+        await _clientToDb.DeleteAsync($"delete/{trackCreationResult.TrackId}");
+        return BadRequest(staticResponse.RequestMessage);
     }
 
     [HttpDelete("delete/{id}")]
     public async Task<IActionResult> DeleteAsync(string id)
     {
-        var response = await _client.DeleteAsync($"delete/{id}");
+        var response = await _clientToDb.DeleteAsync($"delete/{id}");
         var responseContent = await response.Content.ReadAsStringAsync();
         return new JsonResult(responseContent);
     }
@@ -42,8 +68,18 @@ public class TracksController : Controller
     {
         var json = JsonSerializer.Serialize(trackUpdateData);
         var response =
-            await _client.PutAsync($"update/{id}", new StringContent(json, Encoding.UTF8, "application/json"));
+            await _clientToDb.PutAsync($"update/{id}", new StringContent(json, Encoding.UTF8, "application/json"));
         var responseContent = await response.Content.ReadAsStringAsync();
         return new JsonResult(responseContent);
     }
+}
+
+public class TrackCreationDataWithFile
+{
+    public TrackCreationDataWithFile() { }
+    public string Name { get; set; }
+    public string AlbumId { get; set; }
+    [FromForm(Name = "genreIds")]
+    public string[] GenreIds { get; set; }
+    public IFormFile TrackFile { get; set; }
 }

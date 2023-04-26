@@ -9,7 +9,7 @@ const MultiInputFieldFormItem = ({ formData, setFormData, handleFormChange, colu
     };
     return (
         <>
-            {formData[column.name].map((_, idx) =>
+            {formData[column.name] && formData[column.name].map((_, idx) =>
                 <FormItem key={idx} formData={formData} handleFormChange={handleFormChange} column={{
                     name: `${column.name}.${idx}`,
                     label: `${column.label} ${idx + 1}`,

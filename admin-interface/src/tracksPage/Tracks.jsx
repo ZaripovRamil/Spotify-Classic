@@ -3,7 +3,6 @@ import AddTrack from "./AddTrack";
 import TableDisplayer from "../components/Table/TableDisplayer";
 import { getFetcher } from '../axios/AxiosInstance';
 import Ports from "../constants/Ports";
-import { Promise } from "q";
 
 const fetcher = getFetcher(Ports.AdminService);
 
@@ -13,7 +12,7 @@ const Tracks = () => {
 
   useEffect(() => {
     const getTracks = async () => {
-      await fetcher.get('tracks/')
+      await fetcher.get('tracks/get/')
         .then(res => {
           if (res.status !== 200) return;
           setItems(res.data);
@@ -65,11 +64,24 @@ const Tracks = () => {
 
   const deleteItemsWithResultAsync = async (data) => {
     return await fetcher.delete(`tracks/delete/${data.id}`)
+      .then(res => JSON.parse(res.data));
   }
 
   const insertItemsWithResultAsync = async (data) => {
-    await new Promise(r => setTimeout(r, 1000));
-    return false;
+    const formData = new FormData();
+    Object.keys(data).forEach(prop => prop === 'genreIds' ? data[prop].forEach(genre => formData.append('genreIds[]', genre)) : formData.append(prop, data[prop]));
+    return await fetcher.post(`tracks/add`, formData)
+      .then(async (res) => {
+        if (res.status < 200 || res.status >= 300) return res.data; // if not ok
+        const track = await getTrackById(res.data.trackId);
+        setItems([ track, ...items ]);
+        return res.data
+      });
+  }
+
+  const getTrackById = async (id) => {
+    return await fetcher.get(`tracks/get/${id}`)
+      .then(res => res.data);
   }
 
   return (

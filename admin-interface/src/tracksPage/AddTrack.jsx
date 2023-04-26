@@ -7,14 +7,14 @@ import { TableStyles } from "../components/Table/TableStyles";
 const AddTrack = ({ insertItemsWithResultAsync }) => {
     const [openAddingForm, setOpenAddingForm] = useState(false);
     const [formData, setFormData] = useState({
-        trackName: '',
+        name: '',
         albumId: '',
-        genres: [],
+        genreIds: [],
         trackFile: null,
     });
     const addingFormColumns = [
         {
-            name: 'trackName',
+            name: 'name',
             label: 'Track Name',
             type: 'text',
             isRequired: true,
@@ -32,7 +32,7 @@ const AddTrack = ({ insertItemsWithResultAsync }) => {
             isRequired: true,
         },
         {
-            name: 'genres',
+            name: 'genreIds',
             label: 'Genres Ids',
             type: 'array',
             typeProps: [{

@@ -3,6 +3,7 @@ using DatabaseServices.Services.Accessors.Interfaces;
 using DatabaseServices.Services.DeleteHandlers.Interfaces;
 using DatabaseServices.Services.Factories.Interfaces;
 using DatabaseServices.Services.UpdateHandlers.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Light;
@@ -54,7 +55,9 @@ public class TrackController
     [Route("Get/id/{id}")]
     public async Task<IActionResult> Get(string id)
     {
-        return new JsonResult(_dtoCreator.CreateFull(await _trackAccessor.Get(id)));
+        // return new JsonResult(_dtoCreator.CreateFull(await _trackAccessor.Get(id)));
+        var track = await _trackAccessor.Get(id);
+        return track is null ? new NotFoundResult() : new JsonResult(new TrackLight(track));
     }
 
     [HttpDelete]
