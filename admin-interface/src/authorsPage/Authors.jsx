@@ -60,6 +60,11 @@ const Authors = () => {
       .finally(() => window.location.reload());
   }
 
+  const getAuthorByIdAsync = async (id) => {
+    return await fetcher.get(`authors/get/${id}`)
+      .then(res => res.data);
+  }
+
   return (
     <>
       <AddAuthor insertItemsWithResultAsync={insertItemsWithResultAsync} />

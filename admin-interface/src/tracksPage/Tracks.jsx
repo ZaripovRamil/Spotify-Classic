@@ -69,20 +69,31 @@ const Tracks = () => {
 
   const insertItemsWithResultAsync = async (data) => {
     const formData = new FormData();
-    Object.keys(data).forEach(prop => prop === 'genreIds' ? data[prop].forEach(genre => formData.append('genreIds[]', genre)) : formData.append(prop, data[prop]));
-    return await fetcher.post(`tracks/add`, formData)
-      .then(async (res) => {
-        if (res.status < 200 || res.status >= 300) return res.data; // if not ok
-        const track = await getTrackById(res.data.trackId);
-        setItems([ track, ...items ]);
-        return res.data
-      });
-  }
+    Object.entries(data).forEach(([prop, value]) => {
+      if (prop === 'genreIds') {
+        value.forEach((genre) => formData.append('genreIds[]', genre));
+      } else {
+        formData.append(prop, value);
+      }
+    });
+    try {
+      const res = await fetcher.post(`tracks/add`, formData);
+      const track = await getTrackByIdAsync(res.data.trackId);
+      setItems([track, ...items]);
+      return res.data;
+    } catch (error) {
+      return error.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+    }
+  };
 
-  const getTrackById = async (id) => {
-    return await fetcher.get(`tracks/get/${id}`)
-      .then(res => res.data);
-  }
+  const getTrackByIdAsync = async (id) => {
+    try {
+      const res = await fetcher.get(`tracks/get/${id}`);
+      return res.data;
+    } catch (error) {
+      return error.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+    }
+  };
 
   return (
     <>

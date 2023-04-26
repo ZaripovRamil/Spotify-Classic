@@ -29,6 +29,7 @@ public class TracksController : Controller
         return new JsonResult(track);
     }
 
+    // TODO: split it up
     [HttpPost("add")]
     public async Task<IActionResult> AddAsync([FromForm] TrackCreationDataWithFile creationDataWithFile)
     {
@@ -44,7 +45,11 @@ public class TracksController : Controller
         var trackCreationResult = JsonSerializer.Deserialize<TrackCreationResult>(responseContent,
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         if (trackCreationResult is null || !trackCreationResult.IsSuccessful)
-            return BadRequest(trackCreationResult?.ResultMessage ?? "");
+            return BadRequest(new TrackCreationResult
+            {
+                IsSuccessful = false,
+                ResultMessage = trackCreationResult?.ResultMessage ?? "Unknown error"
+            });
         var trackContent = new StreamContent(creationDataWithFile.TrackFile.OpenReadStream());
         var formData = new MultipartFormDataContent();
         formData.Add(trackContent, "file", $"{trackCreationResult.TrackId!}.mp3");
@@ -52,7 +57,11 @@ public class TracksController : Controller
         if (staticResponse.IsSuccessStatusCode)
             return new JsonResult(trackCreationResult);
         await _clientToDb.DeleteAsync($"delete/{trackCreationResult.TrackId}");
-        return BadRequest(staticResponse.RequestMessage);
+        return BadRequest(new TrackCreationResult
+        {
+            IsSuccessful = false,
+            ResultMessage = staticResponse.RequestMessage?.ToString() ?? " Unknown error",
+        });
     }
 
     [HttpDelete("delete/{id}")]
@@ -79,7 +88,6 @@ public class TrackCreationDataWithFile
     public TrackCreationDataWithFile() { }
     public string Name { get; set; }
     public string AlbumId { get; set; }
-    [FromForm(Name = "genreIds")]
     public string[] GenreIds { get; set; }
     public IFormFile TrackFile { get; set; }
 }

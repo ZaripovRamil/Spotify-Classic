@@ -16,8 +16,15 @@ public class AlbumsController
     [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()
     {
-        var tracks = await _client.GetFromJsonAsync<IEnumerable<AlbumLight>>("get");
-        return new JsonResult(tracks);
+        var albums = await _client.GetFromJsonAsync<IEnumerable<AlbumLight>>("get");
+        return new JsonResult(albums);
+    }
+
+    [HttpGet("get/{id}")]
+    public async Task<IActionResult> GetByIdAsync(string id)
+    {
+        var album = await _client.GetFromJsonAsync<AlbumLight>($"get/id/{id}");
+        return new JsonResult(album);
     }
 
     [HttpPost("add")]

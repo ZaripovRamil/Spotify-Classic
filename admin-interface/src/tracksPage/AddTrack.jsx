@@ -39,7 +39,7 @@ const AddTrack = ({ insertItemsWithResultAsync }) => {
                 type: 'text',
                 typeProps: [],
             }],
-            isRequired: false,
+            isRequired: true,
         },
     ];
 

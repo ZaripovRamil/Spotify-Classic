@@ -16,8 +16,15 @@ public class AuthorsController : Controller
     [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()
     {
-        var tracks = await _client.GetFromJsonAsync<IEnumerable<AuthorLight>>("get");
-        return new JsonResult(tracks);
+        var authors = await _client.GetFromJsonAsync<IEnumerable<AuthorLight>>("get");
+        return new JsonResult(authors);
+    }
+
+    [HttpGet("get/{id}")]
+    public async Task<IActionResult> GetByIdAsync(string id)
+    {
+        var author = await _client.GetFromJsonAsync<AuthorLight>($"get/id/{id}");
+        return new JsonResult(author);
     }
 
     [HttpPost("add")]
