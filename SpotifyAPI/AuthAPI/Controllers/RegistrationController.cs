@@ -9,7 +9,7 @@ using Models.Entities;
 namespace AuthService.Controllers;
 
 [ApiController]
-[Route("[controller]/[action]")]
+[Route("Registration")]
 public class RegistrationController
 {
     private readonly UserManager<User> _userManager;
@@ -22,6 +22,7 @@ public class RegistrationController
     }
 
     [HttpPost]
+    [Route("Add")]
     public async Task<IActionResult> Add([FromBody] RegistrationData rData)
     {
         if (await _userManager.FindByEmailAsync(rData.Email) != null)

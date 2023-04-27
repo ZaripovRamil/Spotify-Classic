@@ -27,6 +27,7 @@ public class DbAuthorAccessor : DbAccessor, IDbAuthorAccessor
     public async Task<Author?> GetByName(string name)
     {
         return await DbContext.Authors
+            .Include(a => a.User)
             .Include(a => a.Albums)
             .FirstOrDefaultAsync(a => a.Name == name);
     }

@@ -1,12 +1,17 @@
+using System.Reflection;
+using APIServices;
 using AuthService.Services;
 using Database;
 using DatabaseServices;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Models.Entities;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var url = builder.WebHost.GetSetting(WebHostDefaults.ServerUrlsKey);
+Console.WriteLine(url);
+RouteOverseer.SendAssemblyRoutes(url, Assembly.GetCallingAssembly());
 // Add services to the container.
 
 builder.Services.AddControllers();

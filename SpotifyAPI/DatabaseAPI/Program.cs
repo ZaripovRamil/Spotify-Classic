@@ -10,7 +10,8 @@ using DatabaseServices.Services.Factories.Implementations;
 using DatabaseServices.Services.Factories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var url = builder.WebHost.GetSetting(WebHostDefaults.ServerUrlsKey);
+Console.WriteLine(url);
 // Add services to the container.
 
 builder.Services.AddControllers();

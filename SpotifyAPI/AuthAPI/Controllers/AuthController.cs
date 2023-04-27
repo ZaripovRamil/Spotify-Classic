@@ -8,7 +8,7 @@ using Models.Entities;
 namespace AuthService.Controllers;
 
 [ApiController]
-[Route("[controller]/[action]")]
+[Route("Auth")]
 public class AuthController
 {
     private readonly SignInManager<User> _signInManager;
@@ -21,6 +21,7 @@ public class AuthController
     }
 
     [HttpPost]
+    [Route("Login")]
     public async Task<IActionResult> Login(LoginData lData)
     {
         var loginResult = await _signInManager

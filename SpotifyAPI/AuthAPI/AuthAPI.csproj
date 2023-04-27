@@ -15,6 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\APIServices\APIServices.csproj" />
       <ProjectReference Include="..\DatabaseServices\DatabaseServices.csproj" />
       <ProjectReference Include="..\Models\Models.csproj" />
     </ItemGroup>
