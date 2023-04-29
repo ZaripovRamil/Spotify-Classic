@@ -48,6 +48,15 @@ const AddAlbum = ({ insertItemsWithResultAsync }) => {
             typeProps: [],
             isRequired: false,
         },
+        {
+            name: 'preiewFile',
+            label: 'Preview picture',
+            type: 'file',
+            typeProps: [{
+                accept: "image/jpg"
+            }],
+            isRequired: true,
+        },
     ];
 
     const classes = TableStyles();

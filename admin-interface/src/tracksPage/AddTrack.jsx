@@ -29,6 +29,9 @@ const AddTrack = ({ insertItemsWithResultAsync }) => {
             name: 'trackFile',
             label: 'Track File',
             type: 'file',
+            typeProps: [{
+                accept: "audio/mp3"
+            }],
             isRequired: true,
         },
         {

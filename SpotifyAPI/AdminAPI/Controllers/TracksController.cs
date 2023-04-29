@@ -60,7 +60,7 @@ public class TracksController : Controller
         return BadRequest(new TrackCreationResult
         {
             IsSuccessful = false,
-            ResultMessage = staticResponse.RequestMessage?.ToString() ?? " Unknown error",
+            ResultMessage = staticResponse.RequestMessage?.ToString() ?? "Unknown error",
         });
     }
 
@@ -83,11 +83,7 @@ public class TracksController : Controller
     }
 }
 
-public class TrackCreationDataWithFile
+public class TrackCreationDataWithFile : TrackCreationData
 {
-    public TrackCreationDataWithFile() { }
-    public string Name { get; set; }
-    public string AlbumId { get; set; }
-    public string[] GenreIds { get; set; }
     public IFormFile TrackFile { get; set; }
 }

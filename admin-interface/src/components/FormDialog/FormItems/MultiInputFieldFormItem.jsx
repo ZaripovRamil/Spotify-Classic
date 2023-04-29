@@ -16,15 +16,15 @@ const MultiInputFieldFormItem = ({ formData, setFormData, handleFormChange, colu
     return (
         <>
             {formData[column.name] && formData[column.name].map((_, idx) =>
-                <div style={{width: '100%', display: 'flex'}}>
-                    <FormItem key={idx} formData={formData} handleFormChange={handleFormChange} column={{
+                <div key={idx} style={{width: '100%', display: 'flex'}}>
+                    <FormItem formData={formData} handleFormChange={handleFormChange} column={{
                         name: `${column.name}.${idx}`,
                         label: `${column.label} ${idx + 1}`,
                         type: column.typeProps[0].type,
                         typeProps: column.typeProps[0].typeProps,
                         isRequired: column.isRequired && idx === 0,
                     }} />
-                    <Button key={`delete-btn-${idx}`} onClick={() => handleDeleteItem(idx)}><Delete /></Button>
+                    <Button onClick={() => handleDeleteItem(idx)}><Delete /></Button>
                 </div>
             )}
             <br />
