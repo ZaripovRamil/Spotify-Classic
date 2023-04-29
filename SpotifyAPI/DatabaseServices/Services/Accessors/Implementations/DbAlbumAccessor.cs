@@ -23,6 +23,12 @@ public class DbAlbumAccessor : DbAccessor, IDbAlbumAccessor
             .Include(a => a.Tracks)
             .FirstOrDefaultAsync(a => a.Name == name);
 
+    public IEnumerable<Album> GetAll()
+    {
+        return DbContext.Albums.Include(a => a.Author)
+            .Include(a => a.Tracks);
+    }
+
 
     public async Task<Album?> GetById(string id) =>
         await DbContext.Albums

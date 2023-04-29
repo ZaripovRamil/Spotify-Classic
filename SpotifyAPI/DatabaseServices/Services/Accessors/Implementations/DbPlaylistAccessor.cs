@@ -33,4 +33,11 @@ public class DbPlaylistAccessor : DbAccessor, IDbPlaylistAccessor
         playlist.Tracks.Add(track);
         await DbContext.SaveChangesAsync();
     }
+
+    public IEnumerable<Playlist> GetAll()
+    {
+        return DbContext.Playlists
+            .Include(p => p.Owner)
+            .Include(p => p.Tracks);
+    }
 }

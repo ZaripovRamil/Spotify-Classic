@@ -30,4 +30,9 @@ public class DbAuthorAccessor : DbAccessor, IDbAuthorAccessor
             .Include(a => a.Albums)
             .FirstOrDefaultAsync(a => a.Name == name);
     }
+
+    public IEnumerable<Author> GetAll()
+    {
+        return DbContext.Authors.Include(a => a.Albums);
+    }
 }
