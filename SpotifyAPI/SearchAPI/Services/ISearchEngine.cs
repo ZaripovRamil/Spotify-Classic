@@ -1,8 +1,9 @@
-﻿using Models.Entities;
+﻿using Models.DTO.BackToFront;
+using Models.Entities;
 
 namespace SearchAPI.Services;
 
 public interface ISearchEngine
 {
-    public Task<List<Track>> SearchAsync(string query);
+    public Task<SearchResult> SearchAsync(string query);
 }

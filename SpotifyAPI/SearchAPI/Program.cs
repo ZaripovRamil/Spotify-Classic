@@ -29,7 +29,7 @@ builder.Services.AddScoped<IDbAlbumAccessor, DbAlbumAccessor>();
 builder.Services.AddScoped<IDbAuthorAccessor, DbAuthorAccessor>();
 builder.Services.AddScoped<IDbPlaylistAccessor, DbPlaylistAccessor>();
 builder.Services.AddScoped<IDbTrackAccessor, DbTrackAccessor>();
-builder.Services.AddScoped<ISearchEngine, SearchEngine>();
+builder.Services.AddScoped<ISearchEngine, ShittyEngine>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

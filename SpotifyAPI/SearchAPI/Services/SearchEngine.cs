@@ -1,4 +1,5 @@
 ﻿using DatabaseServices.Services.Accessors.Interfaces;
+using Models.DTO.BackToFront;
 using Models.Entities;
 using Nest;
 
@@ -8,20 +9,35 @@ public class SearchEngine:ISearchEngine
 {
     private static async Task<ElasticClient> CreateElasticClient()
     {
-        var settings = new ConnectionSettings(new Uri("http://localhost:9200"))
-            .DefaultMappingFor<Entity>(m => m
-                .Ignore(p => p.Id)
-                .Ignore(p => p.Name))
-            .DefaultMappingFor<Track>(m=>m.IndexName("Tracks"))
-            .DefaultMappingFor<Album>(m=>m.IndexName("Albums"))
-            .DefaultMappingFor<Author>(m=>m.IndexName("Authors"))
-            .DefaultMappingFor<Playlist>(m=>m.IndexName("Playlists"));
+        var settings = new ConnectionSettings(new Uri("https://localhost:9200"))
+            .DisableDirectStreaming()
+            .BasicAuthentication("elastic", "changeme")
+            .DefaultMappingFor<Track>(m=>m.IndexName("tracks"))
+            .DefaultMappingFor<Album>(m=>m.IndexName("albums"))
+            .DefaultMappingFor<Author>(m=>m.IndexName("authors"))
+            .DefaultMappingFor<Playlist>(m=>m.IndexName("playlists"));
+        settings.EnableApiVersioningHeader();    
         var client = new ElasticClient(settings);
         await DeleteIndices(client);
         await IndexData(client);
         return client;
     }
-
+    
+    private static IIndexState CustomIndexSettings()
+    {
+        return new IndexState
+        {
+            Settings = new IndexSettings
+            {
+                { "index.analysis.analyzer.default.type", "simple" }
+            },
+            Mappings = new TypeMappingDescriptor<Entity>()
+                .Properties(props => props
+                    .Text(t => t.Name("Name").Analyzer("simple"))
+                )
+        };
+    }
+    
     private static IDbTrackAccessor _trackAccessor;
     private static IDbAlbumAccessor _albumAccessor;
     private static IDbAuthorAccessor _authorAccessor;
@@ -40,23 +56,28 @@ public class SearchEngine:ISearchEngine
 
     private static async Task IndexData(ElasticClient client)
     {
-        var tracks = _trackAccessor.GetAll(); 
+        var tracks = _trackAccessor.GetAll();
         var albums = _albumAccessor.GetAll();
         var playlists = _playlistAccessor.GetAll();
         var authors = _authorAccessor.GetAll();
-        foreach (var track in tracks)
-            await client.IndexAsync(track, i => i.Index("Tracks"));
-        foreach (var album in albums)
-            await client.IndexAsync(album, i => i.Index("Albums"));
-        foreach (var author in authors)
-            await client.IndexAsync(author, i=>i.Index("Authors"));
-        foreach (var playlist in playlists)
-            await client.IndexAsync(playlist, i => i.Index("Playlists"));
+
+        var indexSettings = CustomIndexSettings();
+
+        await client.Indices.CreateAsync("tracks", c => c.InitializeUsing(indexSettings));
+        await client.Indices.CreateAsync("albums", c => c.InitializeUsing(indexSettings));
+        await client.Indices.CreateAsync("authors", c => c.InitializeUsing(indexSettings));
+        await client.Indices.CreateAsync("playlists", c => c.InitializeUsing(indexSettings));
+
+        await client.IndexManyAsync(tracks, "tracks");
+        await client.IndexManyAsync(albums, "albums");
+        await client.IndexManyAsync(authors, "authors");
+        await client.IndexManyAsync(playlists, "playlists");
     }
+
     
     private static async Task DeleteIndices(ElasticClient client)
     {
-        var indices = new List<string> { "Tracks", "Albums", "Authors", "Playlists" };
+        var indices = new List<string> { "tracks", "albums", "authors", "playlists" };
     
         foreach (var index in indices)
         {
@@ -70,8 +91,9 @@ public class SearchEngine:ISearchEngine
             }
         }
     }
-    public async Task<List<Track>> SearchAsync(string query)
+    public async Task<SearchResult> SearchAsync(string query)
     {
+        throw new NotImplementedException();
         var client = ElasticClient;
 
         var searchResponse = await client.SearchAsync<Track>(s => s
@@ -86,6 +108,9 @@ public class SearchEngine:ISearchEngine
             )
         );
 
-        return searchResponse.Documents.ToList();
+        Console.WriteLine(!searchResponse.IsValid
+            ? $"Search error: {searchResponse.DebugInformation}"
+            : $"Search successful: {searchResponse.DebugInformation}");
+        return null; //Enumerable.Empty<Entity>().Concat(searchResponse.Documents).ToList();
     }
 }
