@@ -26,6 +26,7 @@ export const PageBuilder = ({ component }) => {
     useEffect(() => {
         localStorage.setItem('player-tracklist', JSON.stringify(tracksList));
     },[tracksList])
+
     useEffect(() => {
         localStorage.setItem('player-config', JSON.stringify(playerConf));
     },[playerConf])
@@ -38,7 +39,7 @@ export const PageBuilder = ({ component }) => {
             <div className="content">
                 {React.cloneElement(component, tracksProps)}
             </div>
-            <Footer />
+            <Footer props={tracksProps}/>
             <Player props={tracksProps}/>
         </>
     )

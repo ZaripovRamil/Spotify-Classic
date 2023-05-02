@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 // import { fetcher } from "../axios/AxiosInstance.js";
-import { PlaylistCard } from "./PlaylistCard";
+// import { PlaylistCard } from "./PlaylistCard";
+import { PlaylistCard } from "../../components/Playlist/PlaylistCard";
+import "../../components/Playlist/PlaylistCard.css"
 
 export const Playlists = () => {
    const playlistsArray = [

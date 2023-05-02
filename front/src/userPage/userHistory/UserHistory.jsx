@@ -26,7 +26,7 @@ export const UserHistory = (props) => {
     useEffect(() => {
         console.log(props)
         // TODO: add .catch()?
-        fetcher.get('tracks').then((data) => {setHistoryTracks(data.data); !tracksList && setTracksList(data.data);});
+        fetcher.get('tracks').then((data) => {setHistoryTracks(data.data);});
         
         
     }, [])

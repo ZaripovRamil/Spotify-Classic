@@ -31,7 +31,7 @@ public class TracksController : Controller
     [HttpGet]
     public async Task<IActionResult> GetAllAsync()
     {
-        var tracks = await _client.GetFromJsonAsync<IEnumerable<TrackLight>>("https://localhost:7093/track/get");
+        var tracks = await _client.GetFromJsonAsync<IEnumerable<TrackLight>>("https://localhost:7248/track/get");
         return new JsonResult(tracks);
     }
 }

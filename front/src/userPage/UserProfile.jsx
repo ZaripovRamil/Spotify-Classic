@@ -7,8 +7,10 @@ export const UserProfile = (props) => {
     })
     return (
         <>
+          <main className="main-page">
             <UserProfileHeader/>
             {React.cloneElement(props.component, props)}
+        </main>
         </>
         
     )
