@@ -21,7 +21,7 @@ const NumberFieldFormItem = ({ formData, handleFormChange, column }) => {
                     pattern: "[0-9]*",
                     inputMode: "numeric",
                     onKeyDown: (event) => {
-                        if (!/[0-9]/.test(event.key))
+                        if (!/[0-9]/.test(event.key) && event.key !== 'Backspace')
                             event.preventDefault();
                     },
                 },

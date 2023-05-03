@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Models.DTO.BackToFront.Full;
 using Models.DTO.BackToFront.Light;
 
 namespace PlayerAPI.Controllers;
@@ -13,8 +14,8 @@ public class TracksController : Controller
     [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()
     {
-        var tracks = await _clientToDb.GetFromJsonAsync<IEnumerable<TrackLight>>("get");
-        return new JsonResult(tracks);
+        var tracks = await _clientToDb.GetFromJsonAsync<IEnumerable<TrackFull>>("get");
+        return new JsonResult(tracks?.Select(trackFull => new TrackLight(trackFull)));
     }
 
     [HttpGet("get/{id}")]

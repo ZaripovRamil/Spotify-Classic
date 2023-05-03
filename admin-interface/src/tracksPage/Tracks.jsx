@@ -24,6 +24,12 @@ const Tracks = () => {
               isEditable: false,
             },
             {
+              name: 'fileId',
+              label: 'file id',
+              type: 'text',
+              isEditable: false,
+            },
+            {
               name: 'name',
               label: 'name',
               type: 'text',
@@ -41,6 +47,13 @@ const Tracks = () => {
               type: 'text',
               isEditable: false,
             },
+            // not working for now
+            // {
+            //   name: 'genres',
+            //   label: 'genres',
+            //   type: 'text',
+            //   isEditable: false,
+            // },
           ]);
         })
         .catch(err => {

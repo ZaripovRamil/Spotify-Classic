@@ -1,3 +1,4 @@
+using Models.DTO.BackToFront.Full;
 using Models.Entities;
 
 namespace Models.DTO.BackToFront.Light;
@@ -17,5 +18,13 @@ public class TrackLight
         Name = track.Name;
         Album = new AlbumLight(track.Album);
         FileId = track.FileId;
+    }
+
+    public TrackLight(TrackFull trackFull)
+    {
+        Id = trackFull.Id;
+        FileId = trackFull.FileId;
+        Name = trackFull.Name;
+        Album = trackFull.Album;
     }
 }

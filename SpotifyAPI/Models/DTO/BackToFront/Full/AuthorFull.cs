@@ -9,6 +9,8 @@ public class AuthorFull
     public string Name { get; set; }
     public List<AlbumLight> Albums { get; set; }
 
+    public AuthorFull() { }
+
     public AuthorFull(Author author)
     {
         Id = author.Id;

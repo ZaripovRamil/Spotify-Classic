@@ -5,6 +5,7 @@ using DatabaseServices.Services.Factories.Interfaces;
 using DatabaseServices.Services.UpdateHandlers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
+using Models.DTO.BackToFront.Full;
 using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.DTO.FrontToBack.EntityUpdateData;
@@ -47,7 +48,7 @@ public class AlbumController
     {
         var albums = _albumAccessor
             .GetAll()
-            .Select(album => new AlbumLight(album));
+            .Select(album => new AlbumFull(album));
         return Task.FromResult<IActionResult>(new JsonResult(albums));
     }
 

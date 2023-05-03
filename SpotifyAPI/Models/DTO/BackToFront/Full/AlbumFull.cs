@@ -11,6 +11,8 @@ public class AlbumFull
     public AuthorLight Author { get; set; }
     public List<TrackLight> Tracks { get; set; }
 
+    public AlbumFull() { }
+
     public AlbumFull(Album album)
     {
         Id = album.Id;

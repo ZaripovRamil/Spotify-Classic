@@ -23,6 +23,12 @@ const Albums = () => {
               isEditable: false,
             },
             {
+              name: 'previewId',
+              label: 'Preview id',
+              type: 'text',
+              isEditable: false,
+            },
+            {
               name: 'name',
               label: 'name',
               type: 'text',

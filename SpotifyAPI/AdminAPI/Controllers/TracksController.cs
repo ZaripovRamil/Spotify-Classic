@@ -2,6 +2,7 @@ using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
+using Models.DTO.BackToFront.Full;
 using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.DTO.FrontToBack.EntityUpdateData;
@@ -18,14 +19,14 @@ public class TracksController : Controller
     [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()
     {
-        var tracks = await _clientToDb.GetFromJsonAsync<IEnumerable<TrackLight>>("get");
+        var tracks = await _clientToDb.GetFromJsonAsync<IEnumerable<TrackFull>>("get");
         return new JsonResult(tracks);
     }
 
     [HttpGet("get/{id}")]
     public async Task<IActionResult> GetByIdAsync(string id)
     {
-        var track = await _clientToDb.GetFromJsonAsync<TrackLight>($"get/id/{id}");
+        var track = await _clientToDb.GetFromJsonAsync<TrackFull>($"get/id/{id}");
         return new JsonResult(track);
     }
 
