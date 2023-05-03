@@ -25,4 +25,6 @@ public class PlaylistCreationResult:EntityCreationResult
         data.Playlist)
     {
     }
+
+    public PlaylistCreationResult() { }
 }

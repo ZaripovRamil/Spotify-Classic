@@ -23,4 +23,6 @@ public class GenreCreationResult:EntityCreationResult
     public GenreCreationResult((GenreValidationCode State, Genre? Genre) data) : this(data.State, data.Genre)
     {
     }
+
+    public GenreCreationResult() { }
 }

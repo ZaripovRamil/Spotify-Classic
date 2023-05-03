@@ -1,25 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
-using PlayingService.Services;
 
-namespace PlayingService.Controllers;
+namespace PlayerAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
 public class PreviewsController : Controller
 {
-    private readonly IFileProvider _fileProvider;
-
-    public PreviewsController(IFileProvider fp)
+    private readonly HttpClient _clientToStatic = new() { BaseAddress = new Uri("https://localhost:7153/previews/") };
+    
+    [HttpGet("get/{id}")]
+    public async Task<IActionResult> GetByIdAsync(string id)
     {
-        _fileProvider = fp;
-    }
-
-    [HttpGet("{id}")]
-    public IActionResult GetById(string id)
-    {
-        var preview = _fileProvider.GetFileAsStream($"Assets/Previews/{id}.jpg");
-        Response.ContentLength = _fileProvider.GetFileLength($"Assets/Previews/{id}.jpg");
-        if (preview is null) return NotFound();
-        return File(preview, "application/octet-stream", $"{id}.jpg");
+        var response = await _clientToStatic.GetAsync(id);
+        if (!response.IsSuccessStatusCode) return NotFound();
+        return File(await response.Content.ReadAsStreamAsync(), "application/octet-stream");
     }
 }

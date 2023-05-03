@@ -11,6 +11,8 @@ public class TrackFull
     public AlbumLight Album { get; set; }
     public List<GenreLight> Genres { get; set; }
 
+    public TrackFull() { }
+
     public TrackFull(Track track)
     {
         Id = track.Id;
