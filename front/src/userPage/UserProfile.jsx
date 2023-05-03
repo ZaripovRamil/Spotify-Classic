@@ -1,11 +1,14 @@
+import React, { useEffect } from "react"
 import "./UserProfile.css"
 import { UserProfileHeader } from "./UserProfileHeader"
 
-export const UserProfile = ({ component }) => {
+export const UserProfile = (props) => {
+    useEffect(()=>{
+    })
     return (
         <>
             <UserProfileHeader/>
-            {component}
+            {React.cloneElement(props.component, props)}
         </>
         
     )
