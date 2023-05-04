@@ -11,11 +11,18 @@ namespace AdminAPI.Controllers;
 [Route("[controller]")]
 public class AlbumsController
 {
-    private readonly HttpClient _client = new() { BaseAddress = new Uri("https://localhost:7248/album/") };
+    private readonly HttpClient _client;
 
+    public AlbumsController(IConfiguration configuration)
+    {
+        var ports = configuration.GetSection("APIsPorts");
+        _client = new HttpClient { BaseAddress = new Uri($"https://localhost:{ports.GetSection("Database").Value}") };
+    }
+    
     [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()
     {
+        Console.WriteLine(_client.BaseAddress);
         var albums = await _client.GetFromJsonAsync<IEnumerable<AlbumLight>>("get");
         return new JsonResult(albums);
     }
