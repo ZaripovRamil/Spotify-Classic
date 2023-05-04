@@ -14,17 +14,21 @@ namespace AdminAPI.Controllers;
 public class AlbumsController : Controller
 {
     private readonly HttpClient _clientToDb;
-    private readonly HttpClient _clientToStatic = new() { BaseAddress = new Uri("https://localhost:7153/previews/") };
+    private readonly HttpClient _clientToStatic;
 
     public AlbumsController(IConfiguration configuration)
     {
         var ports = configuration.GetSection("APIsPorts");
-        _clientToDb = new HttpClient { BaseAddress = new Uri($"https://localhost:{ports.GetSection("Database").Value}") };
+        _clientToDb = new HttpClient
+            { BaseAddress = new Uri($"https://localhost:{ports.GetSection("Database").Value}/album/") };
+        _clientToStatic = new HttpClient
+            { BaseAddress = new Uri($"https://localhost:{ports.GetSection("Static").Value}/previews/") };
     }
     
     [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()
     {
+        Console.WriteLine(_clientToDb.BaseAddress);
         var albums = await _clientToDb.GetFromJsonAsync<IEnumerable<AlbumFull>>("get");
         return new JsonResult(albums);
     }
