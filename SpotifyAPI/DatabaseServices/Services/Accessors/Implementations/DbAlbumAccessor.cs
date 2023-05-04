@@ -16,6 +16,21 @@ public class DbAlbumAccessor : DbAccessor, IDbAlbumAccessor
         await DbContext.Albums.AddAsync(album);
         await DbContext.SaveChangesAsync();
     }
+    
+    public IEnumerable<Album> GetAll() => DbContext.Albums.Include(a => a.Author);
+    
+    public async Task Delete(Album album)
+    {
+        DbContext.Albums.Remove(album);
+        await DbContext.SaveChangesAsync();
+    }
+
+    public async Task Update(Album album)
+    {
+        var toChange = (await GetById(album.Id))!;
+        toChange.Name = album.Name;
+        await DbContext.SaveChangesAsync();
+    }
 
     public async Task<Album?> GetByName(string name) =>
         await DbContext.Albums
