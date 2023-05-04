@@ -49,7 +49,7 @@ const AddAlbum = ({ insertItemsWithResultAsync }) => {
             isRequired: false,
         },
         {
-            name: 'preiewFile',
+            name: 'previewFile',
             label: 'Preview picture',
             type: 'file',
             typeProps: [{

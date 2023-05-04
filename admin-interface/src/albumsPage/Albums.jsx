@@ -69,9 +69,25 @@ const Albums = () => {
   const insertItemsWithResultAsync = async (data) => {
     data.releaseDate = parseInt(data.releaseDate);
     data.albumType = parseInt(data.albumType);
-    return await fetcher.post('albums/add/', data)
-      .then(res => JSON.parse(res.data))
-      .finally(() => window.location.reload());
+    const formData = new FormData();
+    Object.entries(data).forEach(([prop, value]) => formData.append(prop, value));
+    try {
+      const res = await fetcher.post(`albums/add`, formData);
+      const album = await getAlbumByIdAsync(res.data.albumId);
+      setItems([album, ...items]);
+      return res.data;
+    } catch (error) {
+      return error.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+    }
+  }
+
+  const getAlbumByIdAsync = async (id) => {
+    try {
+      const res = await fetcher.get(`albums/get/${id}`);
+      return res.data;
+    } catch (error) {
+      return error.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+    }
   }
 
   return (

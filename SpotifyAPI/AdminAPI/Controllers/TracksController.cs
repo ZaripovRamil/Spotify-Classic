@@ -1,9 +1,9 @@
 using System.Text;
 using System.Text.Json;
+using AdminAPI.ModelsExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Full;
-using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.DTO.FrontToBack.EntityUpdateData;
 
@@ -30,39 +30,52 @@ public class TracksController : Controller
         return new JsonResult(track);
     }
 
-    // TODO: split it up
+    // actually garbage, but looks not so bad now
     [HttpPost("add")]
     public async Task<IActionResult> AddAsync([FromForm] TrackCreationDataWithFile creationDataWithFile)
     {
-        var creationData = new TrackCreationData
-        {
-            AlbumId = creationDataWithFile.AlbumId,
-            GenreIds = creationDataWithFile.GenreIds,
-            Name = creationDataWithFile.Name,
-        };
-        var json = JsonSerializer.Serialize(creationData);
-        var dbResponse = await _clientToDb.PostAsync("add", new StringContent(json, Encoding.UTF8, "application/json"));
-        var responseContent = await dbResponse.Content.ReadAsStringAsync();
-        var trackCreationResult = JsonSerializer.Deserialize<TrackCreationResult>(responseContent,
-            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        if (trackCreationResult is null || !trackCreationResult.IsSuccessful)
-            return BadRequest(new TrackCreationResult
-            {
-                IsSuccessful = false,
-                ResultMessage = trackCreationResult?.ResultMessage ?? "Unknown error"
-            });
-        var trackContent = new StreamContent(creationDataWithFile.TrackFile.OpenReadStream());
-        var formData = new MultipartFormDataContent();
-        formData.Add(trackContent, "file", $"{trackCreationResult.TrackId!}.mp3");
-        var staticResponse = await _clientToStatic.PostAsync("upload", formData);
-        if (staticResponse.IsSuccessStatusCode)
-            return new JsonResult(trackCreationResult);
-        await _clientToDb.DeleteAsync($"delete/{trackCreationResult.TrackId}");
+        var creationData = (TrackCreationData)creationDataWithFile;
+        var trackCreationResult = await AddToDbAsync(creationData);
+        if (!trackCreationResult.IsSuccessful)
+            return BadRequest(trackCreationResult);
+
+        var track = await _clientToDb.GetFromJsonAsync<TrackFull>($"get/id/{trackCreationResult.TrackId}");
+        var staticResponse =
+            await UploadContentToStaticAsync(creationDataWithFile.TrackFile, track!.FileId);
+        if (staticResponse.IsSuccessStatusCode) return new JsonResult(trackCreationResult);
+        
+        // if static API rejected uploading, delete track from database. what if this fails too? cry, i suppose.
+        await DeleteAsync(trackCreationResult.TrackId!);
         return BadRequest(new TrackCreationResult
         {
             IsSuccessful = false,
-            ResultMessage = staticResponse.RequestMessage?.ToString() ?? "Unknown error",
+            ResultMessage = await staticResponse.Content.ReadAsStringAsync()
         });
+    }
+
+    private async Task<TrackCreationResult> AddToDbAsync(TrackCreationData creationData)
+    {
+        var json = JsonSerializer.Serialize(creationData);
+        var resp = await _clientToDb.PostAsync("add", new StringContent(json, Encoding.UTF8, "application/json"));
+        var respContent = await resp.Content.ReadAsStreamAsync();
+        var trackCreationResult = await JsonSerializer.DeserializeAsync<TrackCreationResult>(respContent,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        if (trackCreationResult is null)
+            return new TrackCreationResult
+            {
+                IsSuccessful = false,
+                ResultMessage = "Unknown database error"
+            };
+        return trackCreationResult;
+    }
+
+    private async Task<HttpResponseMessage> UploadContentToStaticAsync(IFormFile track, string trackId)
+    {
+        var formData = new MultipartFormDataContent();
+        var trackContent = new StreamContent(track.OpenReadStream());
+        formData.Add(trackContent, "file", $"{trackId}.mp3");
+
+        return await _clientToStatic.PostAsync("upload", formData);
     }
 
     [HttpDelete("delete/{id}")]
@@ -82,9 +95,4 @@ public class TracksController : Controller
         var responseContent = await response.Content.ReadAsStringAsync();
         return new JsonResult(responseContent);
     }
-}
-
-public class TrackCreationDataWithFile : TrackCreationData
-{
-    public IFormFile TrackFile { get; set; }
 }

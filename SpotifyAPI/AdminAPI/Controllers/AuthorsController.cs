@@ -1,7 +1,7 @@
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using Models.DTO.BackToFront.Light;
+using Models.DTO.BackToFront.Full;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.DTO.FrontToBack.EntityUpdateData;
 
@@ -16,14 +16,14 @@ public class AuthorsController : Controller
     [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()
     {
-        var authors = await _client.GetFromJsonAsync<IEnumerable<AuthorLight>>("get");
+        var authors = await _client.GetFromJsonAsync<IEnumerable<AuthorFull>>("get");
         return new JsonResult(authors);
     }
 
     [HttpGet("get/{id}")]
     public async Task<IActionResult> GetByIdAsync(string id)
     {
-        var author = await _client.GetFromJsonAsync<AuthorLight>($"get/id/{id}");
+        var author = await _client.GetFromJsonAsync<AuthorFull>($"get/id/{id}");
         return new JsonResult(author);
     }
 

@@ -55,14 +55,23 @@ const Authors = () => {
   }
 
   const insertItemsWithResultAsync = async (data) => {
-    return await fetcher.post('authors/add', data)
-      .then(res => JSON.parse(res.data))
-      .finally(() => window.location.reload());
+    try {
+      const res = await fetcher.post(`authors/add`, data);
+      const author = await getAuthorByIdAsync(res.data.authorId);
+      setItems([author, ...items]);
+      return res.data;
+    } catch (error) {
+      return error.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+    }
   }
 
   const getAuthorByIdAsync = async (id) => {
-    return await fetcher.get(`authors/get/${id}`)
-      .then(res => res.data);
+    try {
+      const res = await fetcher.get(`authors/get/${id}`);
+      return res.data;
+    } catch (error) {
+      return error.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+    }
   }
 
   return (
