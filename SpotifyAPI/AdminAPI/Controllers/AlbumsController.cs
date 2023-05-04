@@ -13,9 +13,15 @@ namespace AdminAPI.Controllers;
 [Route("[controller]")]
 public class AlbumsController : Controller
 {
-    private readonly HttpClient _clientToDb = new() { BaseAddress = new Uri("https://localhost:7248/album/") };
+    private readonly HttpClient _clientToDb;
     private readonly HttpClient _clientToStatic = new() { BaseAddress = new Uri("https://localhost:7153/previews/") };
 
+    public AlbumsController(IConfiguration configuration)
+    {
+        var ports = configuration.GetSection("APIsPorts");
+        _clientToDb = new HttpClient { BaseAddress = new Uri($"https://localhost:{ports.GetSection("Database").Value}") };
+    }
+    
     [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()
     {
