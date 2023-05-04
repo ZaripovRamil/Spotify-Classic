@@ -9,15 +9,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IFileProvider, FileProvider>();
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(corsPolicyBuilder =>
-    {
-        corsPolicyBuilder.WithOrigins("http://localhost:7066")
-            .AllowAnyHeader()
-            .AllowAnyMethod();
-    });
-});
 
 var app = builder.Build();
 
