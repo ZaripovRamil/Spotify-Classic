@@ -14,7 +14,12 @@ const Albums = () => {
       await fetcher.get('albums/get/')
         .then(res => {
           if (res.status !== 200) return;
-          setItems(res.data);
+          setItems(res.data.map(item => {
+            item.tableProps = {
+              color: 'white'
+            }
+            return item;
+          }));
           setTableColumns([
             {
               name: 'id',
@@ -72,10 +77,13 @@ const Albums = () => {
     const formData = new FormData();
     Object.entries(data).forEach(([prop, value]) => formData.append(prop, value));
     try {
-      const res = await fetcher.post(`albums/add`, formData);
-      const album = await getAlbumByIdAsync(res.data.albumId);
+      const newAlbumResult = await fetcher.post(`albums/add`, formData)
+        .then(r => JSON.parse(r.data));
+      if (!newAlbumResult.isSuccessful) return newAlbumResult;
+      const album = await getAlbumByIdAsync(newAlbumResult.albumId);
+      album.tableProps = { color: '#b3cf99' }
       setItems([album, ...items]);
-      return res.data;
+      return newAlbumResult;
     } catch (error) {
       return error.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }

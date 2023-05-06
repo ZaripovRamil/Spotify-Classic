@@ -14,7 +14,12 @@ const Authors = () => {
       await fetcher.get('authors/get/')
         .then(res => {
           if (res.status !== 200) return;
-          setItems(res.data);
+          setItems(res.data.map(item => {
+            item.tableProps = {
+              color: 'white'
+            }
+            return item;
+          }));
           setTableColumns([
             {
               name: 'id',
@@ -56,10 +61,13 @@ const Authors = () => {
 
   const insertItemsWithResultAsync = async (data) => {
     try {
-      const res = await fetcher.post(`authors/add`, data);
-      const author = await getAuthorByIdAsync(res.data.authorId);
+      const newAuthorResult = await fetcher.post(`authors/add`, data)
+        .then(r => JSON.parse(r.data));
+      if (!newAuthorResult.isSuccessful) return newAuthorResult;
+      const author = await getAuthorByIdAsync(newAuthorResult.authorId);
+      author.tableProps = { color: '#b3cf99' }
       setItems([author, ...items]);
-      return res.data;
+      return newAuthorResult;
     } catch (error) {
       return error.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }

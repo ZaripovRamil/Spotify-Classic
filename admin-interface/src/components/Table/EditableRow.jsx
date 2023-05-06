@@ -24,6 +24,7 @@ const EditableRow = ({ data, setData, editDataWithResultAsync, columns, setEditI
       return;
     }
     data[index] = structuredClone(newData);
+    data[index].tableProps.color = '#fffc99';
     setData(data);
     setEditIndex(-1);
     setNewData({});
@@ -36,7 +37,7 @@ const EditableRow = ({ data, setData, editDataWithResultAsync, columns, setEditI
 
   const classes = TableStyles();
   return (
-    <TableRow>
+    <TableRow style={{ backgroundColor: data[index]?.tableProps?.color ?? 'eeeeee' }}>
       {columns.map((column) => (
         column.isEditable ?
           (<TableCell key={column.name}>

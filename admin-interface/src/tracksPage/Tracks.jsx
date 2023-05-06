@@ -15,7 +15,12 @@ const Tracks = () => {
       await fetcher.get('tracks/get/')
         .then(res => {
           if (res.status !== 200) return;
-          setItems(res.data);
+          setItems(res.data.map(item => {
+            item.tableProps = {
+              color: 'white'
+            };
+            return item;
+          }));
           setTableColumns([
             {
               name: 'id',
@@ -90,10 +95,12 @@ const Tracks = () => {
       }
     });
     try {
-      const res = await fetcher.post(`tracks/add`, formData);
-      const track = await getTrackByIdAsync(res.data.trackId);
+      const newTrackResult = await fetcher.post(`tracks/add`, formData);
+      if (!newTrackResult.isSuccessful) return newTrackResult;
+      const track = await getTrackByIdAsync(newTrackResult.trackId);
+      track.tableProps.color = '#b3cf99';
       setItems([track, ...items]);
-      return res.data;
+      return newTrackResult;
     } catch (error) {
       return error.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }
