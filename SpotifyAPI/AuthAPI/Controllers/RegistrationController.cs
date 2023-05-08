@@ -1,24 +1,20 @@
-﻿using DatabaseServices.Services.Accessors.Interfaces;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.Auth;
 using Models.DTO.FrontToBack.Auth;
 using Models.Entities;
 
-
-namespace AuthService.Controllers;
+namespace AuthAPI.Controllers;
 
 [ApiController]
 [Route("[controller]/[action]")]
 public class RegistrationController
 {
     private readonly UserManager<User> _userManager;
-    private readonly IDbUserAccessor _userAccessor;
 
-    public RegistrationController(UserManager<User> userManager, IDbUserAccessor userAccessor)
+    public RegistrationController(UserManager<User> userManager)
     {
         _userManager = userManager;
-        _userAccessor = userAccessor;
     }
 
     [HttpPost]
@@ -33,7 +29,7 @@ public class RegistrationController
         var regResult = await _userManager.CreateAsync(new User(rData.Login, rData.Email, rData.Name), rData.Password);
         return regResult.Succeeded
             ? new JsonResult(new RegistrationResult(RegistrationCode.Successful,
-                await _userAccessor.GetByEmail(rData.Email)))
+                await _userManager.FindByEmailAsync(rData.Email)))
             : new JsonResult(new RegistrationResult(RegistrationCode.UnknownError, null));
     }
 }

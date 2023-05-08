@@ -11,7 +11,7 @@ public static class DatabaseRequestGenerator
     {
         var message = new HttpRequestMessage();
         message.Method = HttpMethod.Get;
-        message.RequestUri = new Uri("http://localhost:5096/" + uri);
+        message.RequestUri = new Uri("https://localhost:7248/" + uri);
         var content = await (await client.SendAsync(message)).Content.ReadAsStringAsync();
         var result = JsonSerializer.Deserialize<T>(content, Options);
         return result;
@@ -22,7 +22,7 @@ public static class DatabaseRequestGenerator
         var message = new HttpRequestMessage();
         message.Method = HttpMethod.Post;
         message.Content = JsonContent.Create(data);
-        message.RequestUri = new Uri("http://localhost:5096/" + uri);
+        message.RequestUri = new Uri("https://localhost:7248/" + uri);
         await client.SendAsync(message);
     }
 }
