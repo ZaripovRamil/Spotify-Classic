@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Json;
 using AdminAPI.ModelsExtensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Full;
@@ -9,6 +10,7 @@ using Models.DTO.FrontToBack.EntityUpdateData;
 
 namespace AdminAPI.Controllers;
 
+[Authorize(Roles = "Admin")]
 [ApiController]
 [Route("[controller]")]
 public class AlbumsController : Controller

@@ -1,4 +1,4 @@
-namespace AuthAPI;
+namespace Models;
 
 public class JwtTokenSettings
 {

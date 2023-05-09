@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.Full;
 using Models.DTO.FrontToBack.EntityCreationData;
@@ -7,6 +8,7 @@ using Models.DTO.FrontToBack.EntityUpdateData;
 
 namespace AdminAPI.Controllers;
 
+[Authorize(Roles = "Admin")]
 [ApiController]
 [Route("[controller]")]
 public class AuthorsController : Controller
