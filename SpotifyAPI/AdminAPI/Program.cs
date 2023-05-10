@@ -62,7 +62,8 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(corsPolicyBuilder =>
     {
-        corsPolicyBuilder.WithOrigins($"http://localhost:{builder.Configuration.GetSection("ApplicationHosts:AdminFrontend")}")
+        corsPolicyBuilder
+            .WithOrigins($"http://localhost:{solutionConfiguration.GetSection("ApplicationHosts:AdminFrontend").Value}")
             .AllowAnyHeader().AllowAnyMethod();
     });
 });
