@@ -11,13 +11,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 var solutionConfigurationBuilder = new ConfigurationBuilder()
     .SetBasePath(Directory.GetParent(Directory.GetCurrentDirectory())!.FullName)
     .AddJsonFile("appsettings.json");
 var solutionConfiguration = solutionConfigurationBuilder.Build();
 
 builder.Services.Configure<JwtTokenSettings>(solutionConfiguration.GetSection("JWTTokenSettings"));
+builder.Services.Configure<ApplicationHosts>(solutionConfiguration.GetSection("ApplicationHosts"));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opts =>
@@ -62,7 +62,8 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(corsPolicyBuilder =>
     {
-        corsPolicyBuilder.WithOrigins("http://localhost:5123").AllowAnyHeader().AllowAnyMethod();
+        corsPolicyBuilder.WithOrigins($"http://localhost:{builder.Configuration.GetSection("ApplicationHosts:AdminFrontend")}")
+            .AllowAnyHeader().AllowAnyMethod();
     });
 });
 

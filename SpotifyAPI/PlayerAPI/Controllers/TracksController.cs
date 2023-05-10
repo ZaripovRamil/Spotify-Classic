@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using Models.DTO.BackToFront.Full;
 using Models.DTO.BackToFront.Light;
 
@@ -8,8 +9,14 @@ namespace PlayerAPI.Controllers;
 [Route("[controller]")]
 public class TracksController : Controller
 {
-    private readonly HttpClient _clientToDb = new() { BaseAddress = new Uri("https://localhost:7248/track/") };
-    private readonly HttpClient _clientToStatic = new() { BaseAddress = new Uri("https://localhost:7153/tracks/") };
+    private readonly HttpClient _clientToDb;
+    private readonly HttpClient _clientToStatic;
+
+    public TracksController(ApplicationHosts hosts)
+    {
+        _clientToDb = new HttpClient { BaseAddress = new Uri($"https://localhost:{hosts.DatabaseAPI}/track/") };
+        _clientToStatic = new HttpClient { BaseAddress = new Uri($"https://localhost:{hosts.StaticAPI}/tracks/") };
+    }
     
     [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Models;
 
 namespace PlayerAPI.Controllers;
 
@@ -6,7 +7,12 @@ namespace PlayerAPI.Controllers;
 [Route("[controller]")]
 public class PreviewsController : Controller
 {
-    private readonly HttpClient _clientToStatic = new() { BaseAddress = new Uri("https://localhost:7153/previews/") };
+    private readonly HttpClient _clientToStatic;
+
+    public PreviewsController(ApplicationHosts hosts)
+    {
+        _clientToStatic = new HttpClient { BaseAddress = new Uri($"https://localhost:{hosts.StaticAPI}/previews/") };
+    }
     
     [HttpGet("get/{id}")]
     public async Task<IActionResult> GetByIdAsync(string id)

@@ -43,6 +43,7 @@ var solutionConfigurationBuilder = new ConfigurationBuilder()
 var solutionConfiguration = solutionConfigurationBuilder.Build();
 
 builder.Services.Configure<JwtTokenSettings>(solutionConfiguration.GetSection("JWTTokenSettings"));
+builder.Services.Configure<ApplicationHosts>(solutionConfiguration.GetSection("ApplicationHosts"));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opts =>
@@ -88,7 +89,9 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(corsPolicyBuilder =>
     {
-        corsPolicyBuilder.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod();
+        corsPolicyBuilder
+            .WithOrigins($"http://localhost:{solutionConfiguration.GetSection("ApplicationHosts:UsersFrontend")}")
+            .AllowAnyHeader().AllowAnyMethod();
     });
 });
 var app = builder.Build();

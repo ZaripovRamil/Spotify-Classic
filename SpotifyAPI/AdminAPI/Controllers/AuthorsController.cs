@@ -2,6 +2,7 @@ using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using Models.DTO.BackToFront.Full;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.DTO.FrontToBack.EntityUpdateData;
@@ -15,11 +16,10 @@ public class AuthorsController : Controller
 {
     private readonly HttpClient _clientToDb;
 
-    public AuthorsController(IConfiguration configuration)
+    public AuthorsController(ApplicationHosts hosts)
     {
-        var ports = configuration.GetSection("APIsPorts");
         _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{ports.GetSection("Database").Value}/album/") };
+            { BaseAddress = new Uri($"https://localhost:{hosts.DatabaseAPI}/album/") };
     }
     
     [HttpGet("get")]

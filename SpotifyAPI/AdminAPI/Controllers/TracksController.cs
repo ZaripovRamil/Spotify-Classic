@@ -3,6 +3,7 @@ using System.Text.Json;
 using AdminAPI.ModelsExtensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Full;
 using Models.DTO.FrontToBack.EntityCreationData;
@@ -18,13 +19,12 @@ public class TracksController : Controller
     private readonly HttpClient _clientToDb;
     private readonly HttpClient _clientToStatic;
 
-    public TracksController(IConfiguration configuration)
+    public TracksController(ApplicationHosts hosts)
     {
-        var ports = configuration.GetSection("APIsPorts");
         _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{ports.GetSection("Database").Value}/album/") };
+            { BaseAddress = new Uri($"https://localhost:{hosts.DatabaseAPI}/album/") };
         _clientToStatic = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{ports.GetSection("Static").Value}/previews/") };
+            { BaseAddress = new Uri($"https://localhost:{hosts.StaticAPI}/previews/") };
     }
     
     [HttpGet("get")]
