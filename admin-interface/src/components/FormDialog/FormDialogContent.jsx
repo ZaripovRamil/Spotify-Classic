@@ -16,7 +16,7 @@ const FormDialogContent = ({ formData, setFormData, columns }) => {
       val = newItems;
       field = data[0];
     } else if (event.target.files) { // if there is a file and its media type is of what is allowed
-      if (event.target.files[0].type.split('/')[0] === columns.find(column => column.name === field).typeProps[0].accept.split('/')[0])
+      if (event.target.files[0].type.split('/')[0] === columns.find(column => column.name === field).typeProps.accept.split('/')[0])
         val = event.target.files[0];
     } else {
       val = event.target.value;

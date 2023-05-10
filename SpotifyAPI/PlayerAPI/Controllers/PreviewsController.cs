@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Models;
 
 namespace PlayerAPI.Controllers;
@@ -11,9 +12,10 @@ public class PreviewsController : Controller
 {
     private readonly HttpClient _clientToStatic;
 
-    public PreviewsController(ApplicationHosts hosts)
+    public PreviewsController(IOptions<ApplicationHosts> hostsOptions)
     {
-        _clientToStatic = new HttpClient { BaseAddress = new Uri($"https://localhost:{hosts.StaticAPI}/previews/") };
+        _clientToStatic = new HttpClient
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.StaticAPI}/previews/") };
     }
     
     [HttpGet("get/{id}")]

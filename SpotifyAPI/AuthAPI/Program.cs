@@ -90,7 +90,8 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(corsPolicyBuilder =>
     {
         corsPolicyBuilder
-            .WithOrigins($"http://localhost:{solutionConfiguration.GetSection("ApplicationHosts:UsersFrontend").Value}")
+            .WithOrigins($"http://localhost:{solutionConfiguration.GetSection("ApplicationHosts:UsersFrontend").Value}",
+                $"http://localhost:{solutionConfiguration.GetSection("ApplicationHosts:AdminFrontend").Value}")
             .AllowAnyHeader().AllowAnyMethod();
     });
 });

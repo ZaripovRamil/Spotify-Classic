@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Models;
 using Models.DTO.BackToFront.Full;
 using Models.DTO.BackToFront.Light;
@@ -14,10 +15,12 @@ public class TracksController : Controller
     private readonly HttpClient _clientToDb;
     private readonly HttpClient _clientToStatic;
 
-    public TracksController(ApplicationHosts hosts)
+    public TracksController(IOptions<ApplicationHosts> hostsOptions)
     {
-        _clientToDb = new HttpClient { BaseAddress = new Uri($"https://localhost:{hosts.DatabaseAPI}/track/") };
-        _clientToStatic = new HttpClient { BaseAddress = new Uri($"https://localhost:{hosts.StaticAPI}/tracks/") };
+        _clientToDb = new HttpClient
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseAPI}/track/") };
+        _clientToStatic = new HttpClient
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.StaticAPI}/tracks/") };
     }
     
     [HttpGet("get")]

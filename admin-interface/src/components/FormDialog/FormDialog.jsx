@@ -11,7 +11,7 @@ const getCompoundProperty = (object, property, delimeter = '.') => {
 
 // submitFormDataWithResultAsync should be an async function that receives data from form
 // and returns object with fields {isSuccessful: boolean, resultMessage: string}
-const FormDialog = ({ isOpen, setIsOpen, formData, setFormData, columns, submitFormDataWithResultAsync }) => {
+const FormDialog = ({ isOpen, setIsOpen, formHeader, formData, setFormData, columns, submitFormDataWithResultAsync }) => {
   const [formError, setFormError] = useState();
   useEffect(() => setFormError(), [formData]);
 
@@ -36,7 +36,7 @@ const FormDialog = ({ isOpen, setIsOpen, formData, setFormData, columns, submitF
 
   return (
     <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
-      <DialogTitle>Add new item</DialogTitle>
+      <DialogTitle>{formHeader ? formHeader : "Form"}</DialogTitle>
       <FormDialogContent formData={formData} setFormData={setFormData} columns={columns} />
       <FormDialogActions setIsOpen={setIsOpen} handleFormSubmit={handleSubmit} />
       <div style={{ color: 'red' }}>{formError && formError}</div>
