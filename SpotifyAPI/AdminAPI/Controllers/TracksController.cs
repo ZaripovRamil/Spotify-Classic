@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using AdminAPI.ModelsExtensions;
@@ -16,8 +15,17 @@ namespace AdminAPI.Controllers;
 [Route("[controller]")]
 public class TracksController : Controller
 {
-    private readonly HttpClient _clientToStatic = new() { BaseAddress = new Uri("https://localhost:7153/tracks/") };
-    private readonly HttpClient _clientToDb = new() { BaseAddress = new Uri("https://localhost:7248/track/") };
+    private readonly HttpClient _clientToDb;
+    private readonly HttpClient _clientToStatic;
+
+    public TracksController(IConfiguration configuration)
+    {
+        var ports = configuration.GetSection("APIsPorts");
+        _clientToDb = new HttpClient
+            { BaseAddress = new Uri($"https://localhost:{ports.GetSection("Database").Value}/album/") };
+        _clientToStatic = new HttpClient
+            { BaseAddress = new Uri($"https://localhost:{ports.GetSection("Static").Value}/previews/") };
+    }
     
     [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.Auth;
 using Models.DTO.FrontToBack.Auth;
@@ -18,6 +19,7 @@ public class RegistrationController
     }
 
     [HttpPost]
+    [AllowAnonymous]
     public async Task<IActionResult> Add([FromBody] RegistrationData rData)
     {
         if (await _userManager.FindByEmailAsync(rData.Email) != null)
