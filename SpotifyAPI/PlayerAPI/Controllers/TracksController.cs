@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.DTO.BackToFront.Full;
@@ -5,6 +6,7 @@ using Models.DTO.BackToFront.Light;
 
 namespace PlayerAPI.Controllers;
 
+[Authorize(Roles = "Free,Premium,Admin")]
 [ApiController]
 [Route("[controller]")]
 public class TracksController : Controller
