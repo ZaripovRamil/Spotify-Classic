@@ -28,9 +28,10 @@ const AuthForm = () => {
             .catch(err => console.log(err));
     };
 
-    const handleAuthorizationInfo = (info) => {
-        if (info.name != undefined) {
-            navigate('/main')
+    const handleAuthorizationInfo = (data) => {
+        if (data && data.isSuccessful) {
+            localStorage.setItem('access-token', data.token);
+            navigate('/main');
         }
         else {
             setLoginError(AuthorizationErrors.wrongLoginOrPassword);
@@ -51,7 +52,7 @@ const AuthForm = () => {
         } else {
             setPasswordError();
         }
-        if (credentials.identifier.length < 4) {
+        if (credentials.username.length < 4) {
             setLoginError(AuthorizationErrors.needMoreCharacters(4));
         } else {
             setLoginError();

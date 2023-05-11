@@ -5,7 +5,7 @@ using Models;
 
 namespace PlayerAPI.Controllers;
 
-[Authorize(Roles = "Free,Premium,Admin")]
+// [Authorize(Roles = "Free,Premium,Admin")]
 [ApiController]
 [Route("[controller]")]
 public class PreviewsController : Controller

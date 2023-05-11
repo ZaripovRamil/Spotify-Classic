@@ -64,6 +64,12 @@ const Player = ({ props }) => {
         trackInfo[parameter] = value;
         setTrackInfo({ ...trackInfo });
     }
+
+    const getToken = () => {
+        const token = localStorage.getItem('access-token');
+        return token ?? "";
+    }
+
     ReactPlayer.removeCustomPlayers();
 
     return (
@@ -80,6 +86,16 @@ const Player = ({ props }) => {
                     onProgress={(state) => {
                         updateTrackInfo('played', +state.played.toFixed(4));
                         updateTrackInfo('loaded', +state.loaded.toFixed(4));
+                    }}
+                    config={{
+                        file: {
+                            // forceHLS: true,
+                            hlsOptions: {
+                                xhrSetup: function (xhr, url) {
+                                    xhr.setRequestHeader('Authorization', `Bearer ${getToken()}`);
+                                },
+                            },
+                        },
                     }}
                     style={{ display: "None" }}
                 />}

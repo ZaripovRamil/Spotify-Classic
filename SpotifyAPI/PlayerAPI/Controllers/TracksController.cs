@@ -7,7 +7,7 @@ using Models.DTO.BackToFront.Light;
 
 namespace PlayerAPI.Controllers;
 
-[Authorize(Roles = "Free,Premium,Admin")]
+// [Authorize(Roles = "Free,Premium,Admin")]
 [ApiController]
 [Route("[controller]")]
 public class TracksController : Controller
