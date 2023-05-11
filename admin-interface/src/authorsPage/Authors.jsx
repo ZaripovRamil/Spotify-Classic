@@ -14,7 +14,12 @@ const Authors = () => {
       await fetcher.get('authors/get/')
         .then(res => {
           if (res.status !== 200) return;
-          setItems(res.data);
+          setItems(res.data.map(item => {
+            item.tableProps = {
+              color: 'white'
+            }
+            return item;
+          }));
           setTableColumns([
             {
               name: 'id',
@@ -45,23 +50,43 @@ const Authors = () => {
   }, []);
 
   const editItemsWithResultAsync = async (data) => {
-    return await fetcher.put(`authors/update/${data.id}`, { id: data.id, name: data.name })
+    try {
+      return await fetcher.put(`authors/update/${data.id}`, { id: data.id, name: data.name })
       .then(res => JSON.parse(res.data));
+    } catch (err) {
+      if (err.code === 401) {
+        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+      }
+      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+    }
   }
 
   const deleteItemsWithResultAsync = async (data) => {
-    return await fetcher.delete(`authors/delete/${data.id}`)
+    try {
+      return await fetcher.delete(`authors/delete/${data.id}`)
       .then(res => JSON.parse(res.data));
+    } catch (err) {
+      if (err.code === 401) {
+        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+      }
+      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+    }
   }
 
   const insertItemsWithResultAsync = async (data) => {
     try {
-      const res = await fetcher.post(`authors/add`, data);
-      const author = await getAuthorByIdAsync(res.data.authorId);
+      const newAuthorResult = await fetcher.post(`authors/add`, data)
+        .then(r => JSON.parse(r.data));
+      if (!newAuthorResult.isSuccessful) return newAuthorResult;
+      const author = await getAuthorByIdAsync(newAuthorResult.authorId);
+      author.tableProps = { color: '#b3cf99' }
       setItems([author, ...items]);
-      return res.data;
-    } catch (error) {
-      return error.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+      return newAuthorResult;
+    } catch (err) {
+      if (err.code === 401) {
+        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+      }
+      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }
   }
 
@@ -69,8 +94,11 @@ const Authors = () => {
     try {
       const res = await fetcher.get(`authors/get/${id}`);
       return res.data;
-    } catch (error) {
-      return error.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+    } catch (err) {
+      if (err.code === 401) {
+        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+      }
+      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }
   }
 

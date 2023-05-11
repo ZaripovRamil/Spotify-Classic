@@ -4,6 +4,7 @@ import FilePickerFormItem from "./FilePickerFormItem";
 import MultiInputFieldFormItem from "./MultiInputFieldFormItem";
 import NumberFieldFormItem from "./NumberFieldFormItem";
 import SelectFieldFormItem from "./SelectFieldFormItem";
+import CheckboxFormItem from "./CheckboxFormItem";
 
 const FormItem = ({ formData, setFormData, column, handleFormChange }) => {
     switch (column.type) {
@@ -21,6 +22,9 @@ const FormItem = ({ formData, setFormData, column, handleFormChange }) => {
 
         case 'select':
             return <SelectFieldFormItem formData={formData} column={column} handleFormChange={handleFormChange} />;
+
+        case 'checkbox':
+            return <CheckboxFormItem formData={formData} column={column} handleFormChange={handleFormChange} />;
 
         default: return (<></>);
     }

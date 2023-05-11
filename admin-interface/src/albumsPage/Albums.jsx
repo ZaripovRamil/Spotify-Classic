@@ -14,7 +14,12 @@ const Albums = () => {
       await fetcher.get('albums/get/')
         .then(res => {
           if (res.status !== 200) return;
-          setItems(res.data);
+          setItems(res.data.map(item => {
+            item.tableProps = {
+              color: 'white'
+            }
+            return item;
+          }));
           setTableColumns([
             {
               name: 'id',
@@ -57,13 +62,27 @@ const Albums = () => {
   }, []);
 
   const editItemsWithResultAsync = async (data) => {
-    return await fetcher.put(`albums/update/${data.id}`, { id: data.id, name: data.name })
+    try {
+      return await fetcher.put(`albums/update/${data.id}`, { id: data.id, name: data.name })
       .then(res => JSON.parse(res.data));
+    } catch (err) {
+      if (err.code === 401) {
+        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+      }
+      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+    }
   }
 
   const deleteItemsWithResultAsync = async (data) => {
-    return await fetcher.delete(`albums/delete/${data.id}`)
+    try {
+      return await fetcher.delete(`albums/delete/${data.id}`)
       .then(res => JSON.parse(res.data));
+    } catch (err) {
+      if (err.code === 401) {
+        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+      }
+      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+    }
   }
 
   const insertItemsWithResultAsync = async (data) => {
@@ -72,12 +91,18 @@ const Albums = () => {
     const formData = new FormData();
     Object.entries(data).forEach(([prop, value]) => formData.append(prop, value));
     try {
-      const res = await fetcher.post(`albums/add`, formData);
-      const album = await getAlbumByIdAsync(res.data.albumId);
+      const newAlbumResult = await fetcher.post(`albums/add`, formData)
+        .then(r => JSON.parse(r.data));
+      if (!newAlbumResult.isSuccessful) return newAlbumResult;
+      const album = await getAlbumByIdAsync(newAlbumResult.albumId);
+      album.tableProps = { color: '#b3cf99' }
       setItems([album, ...items]);
-      return res.data;
-    } catch (error) {
-      return error.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+      return newAlbumResult;
+    } catch (err) {
+      if (err.code === 401) {
+        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+      }
+      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }
   }
 
@@ -86,6 +111,9 @@ const Albums = () => {
       const res = await fetcher.get(`albums/get/${id}`);
       return res.data;
     } catch (error) {
+      if (error.code === 401) {
+        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+      }
       return error.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }
   }

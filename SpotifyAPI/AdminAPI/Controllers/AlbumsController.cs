@@ -1,7 +1,10 @@
 using System.Text;
 using System.Text.Json;
 using AdminAPI.ModelsExtensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Models;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Full;
 using Models.DTO.FrontToBack.EntityCreationData;
@@ -9,6 +12,7 @@ using Models.DTO.FrontToBack.EntityUpdateData;
 
 namespace AdminAPI.Controllers;
 
+[Authorize(Roles = "Admin")]
 [ApiController]
 [Route("[controller]")]
 public class AlbumsController : Controller
@@ -16,19 +20,17 @@ public class AlbumsController : Controller
     private readonly HttpClient _clientToDb;
     private readonly HttpClient _clientToStatic;
 
-    public AlbumsController(IConfiguration configuration)
+    public AlbumsController(IOptions<ApplicationHosts> hostsOptions)
     {
-        var ports = configuration.GetSection("APIsPorts");
         _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{ports.GetSection("Database").Value}/album/") };
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseAPI}/album/") };
         _clientToStatic = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{ports.GetSection("Static").Value}/previews/") };
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.StaticAPI}/previews/") };
     }
     
     [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()
     {
-        Console.WriteLine(_clientToDb.BaseAddress);
         var albums = await _clientToDb.GetFromJsonAsync<IEnumerable<AlbumFull>>("get");
         return new JsonResult(albums);
     }

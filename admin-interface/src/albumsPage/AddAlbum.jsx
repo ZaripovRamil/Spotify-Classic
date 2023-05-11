@@ -17,44 +17,48 @@ const AddAlbum = ({ insertItemsWithResultAsync }) => {
             name: 'name',
             label: 'Album Name',
             type: 'text',
-            typeProps: [],
+            typeProps: {},
             isRequired: true,
         },
         {
             name: 'authorId',
             label: 'Author Id',
             type: 'text',
-            typeProps: [],
+            typeProps: {},
             isRequired: true,
         },
         {
             name: 'albumType',
             label: 'ALbum Type',
             type: 'select',
-            typeProps: [{
-                value: '0',
-                label: 'album',
+            typeProps: {
+                values: [
+                    {
+                        value: '0',
+                        label: 'album'
+                    },
+                    {
+                        value: '1',
+                        label: 'single'
+                    },
+                ]
             },
-            {
-                value: '1',
-                label: 'single',
-            }],
             isRequired: true,
         },
         {
             name: 'releaseDate',
             label: 'Release Date',
             type: 'number',
-            typeProps: [],
+            typeProps: {},
             isRequired: false,
         },
         {
             name: 'previewFile',
             label: 'Preview picture',
             type: 'file',
-            typeProps: [{
+            typeProps: {
                 accept: "image/jpg"
-            }],
+            },
             isRequired: true,
         },
     ];
@@ -69,7 +73,7 @@ const AddAlbum = ({ insertItemsWithResultAsync }) => {
             >
                 <AddIcon />
             </Button>
-            <FormDialog isOpen={openAddingForm} setIsOpen={setOpenAddingForm} formData={formData} setFormData={setFormData} columns={addingFormColumns} submitFormDataWithResultAsync={insertItemsWithResultAsync} />
+            <FormDialog isOpen={openAddingForm} setIsOpen={setOpenAddingForm} formHeader={"Add new album"} formData={formData} setFormData={setFormData} columns={addingFormColumns} submitFormDataWithResultAsync={insertItemsWithResultAsync} />
         </>
     );
 }

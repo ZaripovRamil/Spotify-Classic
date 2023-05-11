@@ -1,15 +1,27 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Models;
 using Models.DTO.BackToFront.Full;
 using Models.DTO.BackToFront.Light;
 
 namespace PlayerAPI.Controllers;
 
+// [Authorize(Roles = "Free,Premium,Admin")]
 [ApiController]
 [Route("[controller]")]
 public class TracksController : Controller
 {
-    private readonly HttpClient _clientToDb = new() { BaseAddress = new Uri("https://localhost:7248/track/") };
-    private readonly HttpClient _clientToStatic = new() { BaseAddress = new Uri("https://localhost:7153/tracks/") };
+    private readonly HttpClient _clientToDb;
+    private readonly HttpClient _clientToStatic;
+
+    public TracksController(IOptions<ApplicationHosts> hostsOptions)
+    {
+        _clientToDb = new HttpClient
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseAPI}/track/") };
+        _clientToStatic = new HttpClient
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.StaticAPI}/tracks/") };
+    }
     
     [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()

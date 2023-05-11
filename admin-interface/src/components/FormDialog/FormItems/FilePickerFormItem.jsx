@@ -5,7 +5,7 @@ const FilePickerFormItem = ({ formData, column, handleFormChange }) => {
     return (
         <>
             <input
-                accept={column.typeProps[0].accept}
+                accept={column.typeProps.accept}
                 capture="user"
                 id="attachment-input"
                 type="file"

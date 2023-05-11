@@ -32,7 +32,7 @@ const ReadOnlyRow = ({ data, setData, columns, setEditIndex, item, index, setNew
 
 	const classes = TableStyles();
 	return (
-		<TableRow>
+		<TableRow style={{ backgroundColor: item?.tableProps?.color ?? "white" }}>
 			{columns.map((column) => (
 				<TableCell key={column.name}>{getCompoundProperty(data[index], column.name)}</TableCell>
 			))}

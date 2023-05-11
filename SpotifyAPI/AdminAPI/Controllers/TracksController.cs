@@ -1,7 +1,10 @@
 using System.Text;
 using System.Text.Json;
 using AdminAPI.ModelsExtensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Models;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Full;
 using Models.DTO.FrontToBack.EntityCreationData;
@@ -9,12 +12,21 @@ using Models.DTO.FrontToBack.EntityUpdateData;
 
 namespace AdminAPI.Controllers;
 
+[Authorize(Roles = "Admin")]
 [ApiController]
 [Route("[controller]")]
 public class TracksController : Controller
 {
-    private readonly HttpClient _clientToStatic = new() { BaseAddress = new Uri("https://localhost:7153/tracks/") };
-    private readonly HttpClient _clientToDb = new() { BaseAddress = new Uri("https://localhost:7248/track/") };
+    private readonly HttpClient _clientToDb;
+    private readonly HttpClient _clientToStatic;
+
+    public TracksController(IOptions<ApplicationHosts> hostsOptions)
+    {
+        _clientToDb = new HttpClient
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseAPI}/track/") };
+        _clientToStatic = new HttpClient
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.StaticAPI}/previews/") };
+    }
     
     [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()

@@ -56,7 +56,7 @@ const AddTrack = ({ insertItemsWithResultAsync }) => {
             >
                 <AddIcon />
             </Button>
-            <FormDialog isOpen={openAddingForm} setIsOpen={setOpenAddingForm} formData={formData} setFormData={setFormData} columns={addingFormColumns} submitFormDataWithResultAsync={insertItemsWithResultAsync} />
+            <FormDialog isOpen={openAddingForm} setIsOpen={setOpenAddingForm} formHeader={"Add new track"} formData={formData} setFormData={setFormData} columns={addingFormColumns} submitFormDataWithResultAsync={insertItemsWithResultAsync} />
         </>
     );
 }
