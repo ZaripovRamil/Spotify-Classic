@@ -1,7 +1,7 @@
 ﻿using Models.DTO.FrontToBack.Auth;
 using Models.Entities;
 
-namespace AuthService.Services;
+namespace AuthAPI.Services;
 
 public interface IDbRequester
 {
