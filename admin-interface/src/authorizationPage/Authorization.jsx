@@ -11,6 +11,7 @@ const Authorization = () => {
     const [credentials, setCredentials] = useState({
         username: '',
         password: '',
+        rememberMe: false,
     })
     const authorizationFormColumns = [
         {
@@ -26,6 +27,13 @@ const Authorization = () => {
             type: 'text',
             typeProps: {},
             isRequired: true
+        },
+        {
+            name: 'rememberMe',
+            label: 'Remember me',
+            type: 'checkbox',
+            typeProps: {},
+            isRequired: false
         },
     ]
     const authorizeWithResultAsync = async (data) => {

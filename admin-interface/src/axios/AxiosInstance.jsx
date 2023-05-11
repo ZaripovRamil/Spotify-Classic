@@ -2,12 +2,14 @@ import axios from "axios";
 
 // care of http/https
 export const getFetcher = (port) => {
-    let authToken = localStorage.getItem('access-token');
-    if (authToken === null) authToken = '';
-    return axios.create({
-        headers: {
-            'Authorization': `Bearer ${authToken}`
-        },
+    const instance = axios.create({
         baseURL: `https://localhost:${port}/`
     });
+
+    instance.interceptors.request.use(config => {
+        const authToken = localStorage.getItem('access-token') ?? "";
+        config.headers.Authorization = `Bearer ${authToken}`;
+        return config;
+    });
+    return instance;
 }

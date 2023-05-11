@@ -19,7 +19,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         _jwtTokenSettings = jwtTokenSettingsConfig.Value;
     }
 
-    public async Task<string?> GenerateJwtTokenAsync(string username)
+    public async Task<string?> GenerateJwtTokenAsync(string username, TimeSpan additionalLifetime)
     {
         var foundUser = await _dbRequester.GetUserByUsername(username);
         if (foundUser == null) return null;
@@ -29,7 +29,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
             audience: _jwtTokenSettings.Audience,
             notBefore: now,
             claims: GetIdentity(username, foundUser.Role).Claims,
-            expires: now + TimeSpan.FromMinutes(_jwtTokenSettings.Lifetime),
+            expires: now + TimeSpan.FromMinutes(_jwtTokenSettings.Lifetime) + additionalLifetime,
             signingCredentials: new SigningCredentials(
                 new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtTokenSettings.Key)),
                 SecurityAlgorithms.HmacSha256));

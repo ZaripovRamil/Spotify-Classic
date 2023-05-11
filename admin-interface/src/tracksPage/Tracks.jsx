@@ -76,13 +76,27 @@ const Tracks = () => {
   }, []);
 
   const editItemsWithResultAsync = async (data) => {
-    return await fetcher.put(`tracks/update/${data.id}`, { id: data.id, name: data.name })
+    try {
+      return await fetcher.put(`tracks/update/${data.id}`, { id: data.id, name: data.name })
       .then(res => JSON.parse(res.data));
+    } catch (err) {
+      if (err.code === 401) {
+        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+      }
+      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+    }
   }
 
   const deleteItemsWithResultAsync = async (data) => {
-    return await fetcher.delete(`tracks/delete/${data.id}`)
+    try {
+      return await fetcher.delete(`tracks/delete/${data.id}`)
       .then(res => JSON.parse(res.data));
+    } catch (err) {
+      if (err.code === 401) {
+        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+      }
+      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+    }
   }
 
   const insertItemsWithResultAsync = async (data) => {
@@ -101,8 +115,11 @@ const Tracks = () => {
       track.tableProps.color = '#b3cf99';
       setItems([track, ...items]);
       return newTrackResult;
-    } catch (error) {
-      return error.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+    } catch (err) {
+      if (err.code === 401) {
+        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+      }
+      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }
   };
 
@@ -110,8 +127,11 @@ const Tracks = () => {
     try {
       const res = await fetcher.get(`tracks/get/${id}`);
       return res.data;
-    } catch (error) {
-      return error.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+    } catch (err) {
+      if (err.code === 401) {
+        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+      }
+      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }
   };
 

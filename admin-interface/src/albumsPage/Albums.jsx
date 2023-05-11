@@ -62,13 +62,27 @@ const Albums = () => {
   }, []);
 
   const editItemsWithResultAsync = async (data) => {
-    return await fetcher.put(`albums/update/${data.id}`, { id: data.id, name: data.name })
+    try {
+      return await fetcher.put(`albums/update/${data.id}`, { id: data.id, name: data.name })
       .then(res => JSON.parse(res.data));
+    } catch (err) {
+      if (err.code === 401) {
+        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+      }
+      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+    }
   }
 
   const deleteItemsWithResultAsync = async (data) => {
-    return await fetcher.delete(`albums/delete/${data.id}`)
+    try {
+      return await fetcher.delete(`albums/delete/${data.id}`)
       .then(res => JSON.parse(res.data));
+    } catch (err) {
+      if (err.code === 401) {
+        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+      }
+      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+    }
   }
 
   const insertItemsWithResultAsync = async (data) => {
@@ -84,8 +98,11 @@ const Albums = () => {
       album.tableProps = { color: '#b3cf99' }
       setItems([album, ...items]);
       return newAlbumResult;
-    } catch (error) {
-      return error.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+    } catch (err) {
+      if (err.code === 401) {
+        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+      }
+      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }
   }
 
@@ -94,6 +111,9 @@ const Albums = () => {
       const res = await fetcher.get(`albums/get/${id}`);
       return res.data;
     } catch (error) {
+      if (error.code === 401) {
+        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+      }
       return error.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }
   }

@@ -26,7 +26,7 @@ public class AuthController : Controller
     public async Task<IActionResult> Login(LoginData loginData)
     {
         var loginResult = await _signInManager
-            .PasswordSignInAsync(loginData.Username, loginData.Password, false, false);
+            .PasswordSignInAsync(loginData.Username, loginData.Password, loginData.RememberMe, false);
         if (!loginResult.Succeeded)
         {
             var errorMessage = loginResult.IsLockedOut ? "You're locked" :
@@ -34,7 +34,8 @@ public class AuthController : Controller
                 loginResult.RequiresTwoFactor ? "Two factor authentication is required" : "No such a user";
             return new JsonResult(new LoginResult(false, "", errorMessage));
         }
-        var token = await _jwtTokenGenerator.GenerateJwtTokenAsync(loginData.Username);
+        var additionalLifetime = loginData.RememberMe ? TimeSpan.FromDays(14) : TimeSpan.Zero;
+        var token = await _jwtTokenGenerator.GenerateJwtTokenAsync(loginData.Username, additionalLifetime);
         return token is null
             ? new JsonResult(new LoginResult(false, "", "Authorization failed"))
             : new JsonResult(new LoginResult(true, token, "Successful"));

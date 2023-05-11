@@ -31,7 +31,6 @@ public class AlbumsController : Controller
     [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()
     {
-        Console.WriteLine(_clientToDb.BaseAddress);
         var albums = await _clientToDb.GetFromJsonAsync<IEnumerable<AlbumFull>>("get");
         return new JsonResult(albums);
     }
