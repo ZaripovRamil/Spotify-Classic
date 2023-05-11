@@ -7,9 +7,11 @@ public class TrackCreationResult:EntityCreationResult
 {
     private static readonly Dictionary<TrackValidationCode, string> Messages = new()
     {
-        {TrackValidationCode.Successful, "Success"},
-        {TrackValidationCode.InvalidAlbum, "Invalid AlbumId"},
-        {TrackValidationCode.UnknownError, "Unknown error"}
+        { TrackValidationCode.Successful, "Success" },
+        { TrackValidationCode.InvalidAlbum, "Invalid AlbumId" },
+        { TrackValidationCode.UnknownError, "Unknown error" },
+        { TrackValidationCode.InvalidGenres , "Invalid genres" },
+        { TrackValidationCode.EmptyName , "Empty name" },
     };
     
     public string? TrackId { get; set; }
@@ -24,4 +26,6 @@ public class TrackCreationResult:EntityCreationResult
     public TrackCreationResult((TrackValidationCode State, Track? Track) data) : this(data.State, data.Track)
     {
     }
+
+    public TrackCreationResult() { }
 }

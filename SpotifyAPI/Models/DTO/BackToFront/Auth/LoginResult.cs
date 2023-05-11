@@ -1,15 +1,15 @@
-﻿using Models.Entities;
-
-namespace Models.DTO.BackToFront.Auth;
+﻿namespace Models.DTO.BackToFront.Auth;
 
 public class LoginResult
 {
-    public LoginResult(bool loginSucceeded, User user)
+    public LoginResult(bool loginSucceeded, string token, string resultMessage)
     {
         IsSuccessful = loginSucceeded;
-        UserId = user.Id;
+        Token = token;
+        ResultMessage = resultMessage;
     }
 
     public bool IsSuccessful { get; set; }
-    public string UserId { get; set; }
+    public string Token { get; set; }
+    public string ResultMessage { get; set; }
 }

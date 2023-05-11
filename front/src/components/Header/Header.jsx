@@ -6,7 +6,7 @@ export const Header = () => {
             <div>
                 <input type="text" placeholder="Search"/>
             </div>
-            <Link to="/authorization"><div className="avatar"></div></Link>
+            <Link to="/authorize"><div className="avatar"></div></Link>
         </header>
         )
 }

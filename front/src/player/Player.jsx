@@ -10,16 +10,16 @@ import Ports from '../constants/Ports';
 const prefix = "https://localhost:7022/";
 const fetcher = getFetcher(Ports.MusicService);
 
-const Player = ({props}) => {
-    const { tracksList, setTracksList,playerConf, setPlayerConf } = props;
+const Player = ({ props }) => {
+    const { tracksList, setTracksList, playerConf, setPlayerConf } = props;
     const [tracks, setTracks] = useState([{
         id: "",
-        fileId:"",
+        fileId: "",
         name: "",
         album: {
             id: "",
             name: "",
-            previewId:"",
+            previewId: "",
             author: {
                 id: "",
                 name: ""
@@ -29,9 +29,7 @@ const Player = ({props}) => {
     const player = useRef(null);
     useEffect(() => {
         // TODO: add .catch()?
-        fetcher.get('tracks').then((data) => {setTracks(data.data)
-            
-    })
+        fetcher.get('tracks/get').then((data) => setTracks(data.data));
     }, [])
 
 
@@ -66,88 +64,103 @@ const Player = ({props}) => {
         trackInfo[parameter] = value;
         setTrackInfo({ ...trackInfo });
     }
+
+    const getToken = () => {
+        const token = localStorage.getItem('access-token');
+        return token ?? "";
+    }
+
     ReactPlayer.removeCustomPlayers();
 
     return (
         <>
             {tracksList && playerConf &&
-            <ReactPlayer
-                ref={player}
-                controls={playerConfig.controls}
-                playing={playerConf.playing}
-                playbackRate={playerConfig.playbackRate}
-                volume={playerConfig.volume}
-                url={tracksList && (prefix + "tracks/" + tracksList[playerConf.trackPosInAlbum].fileId)}
-                onDuration={(duration) => updateTrackInfo('duration', duration.toFixed(2))}
-                onProgress={(state) => {
-                    updateTrackInfo('played', +state.played.toFixed(4));
-                    updateTrackInfo('loaded', +state.loaded.toFixed(4));
-                }}
-                style={{ display: "None" }}
-            />}
+                <ReactPlayer
+                    ref={player}
+                    controls={playerConfig.controls}
+                    playing={playerConf.playing}
+                    playbackRate={playerConfig.playbackRate}
+                    volume={playerConfig.volume}
+                    url={tracksList && (prefix + "tracks/get/" + tracksList[playerConf.trackPosInAlbum].fileId)}
+                    onDuration={(duration) => updateTrackInfo('duration', duration.toFixed(2))}
+                    onProgress={(state) => {
+                        updateTrackInfo('played', +state.played.toFixed(4));
+                        updateTrackInfo('loaded', +state.loaded.toFixed(4));
+                    }}
+                    config={{
+                        file: {
+                            // forceHLS: true,
+                            hlsOptions: {
+                                xhrSetup: function (xhr, url) {
+                                    xhr.setRequestHeader('Authorization', `Bearer ${getToken()}`);
+                                },
+                            },
+                        },
+                    }}
+                    style={{ display: "None" }}
+                />}
             {tracksList && playerConf &&
-            <div className="player">
-                <div className="player-controls">
-                    <div className="player-switch-btns player-btns">
+                <div className="player">
+                    <div className="player-controls">
+                        <div className="player-switch-btns player-btns">
 
-                        <input type='button' className="player-btn player-buttonPrevious" onClick={() => playPrevious()} />
+                            <input type='button' className="player-btn player-buttonPrevious" onClick={() => playPrevious()} />
 
-                        {<input type='button'
-                            className={`player-btn ${playerConf.playing ? 'player-buttonStop' : 'player-buttonPlay'}`}
-                            onClick={() => { setPlayerConf((oldPlayerConf) => ({...oldPlayerConf,playing: !oldPlayerConf.playing}))}}/>}
+                            {<input type='button'
+                                className={`player-btn ${playerConf.playing ? 'player-buttonStop' : 'player-buttonPlay'}`}
+                                onClick={() => { setPlayerConf((oldPlayerConf) => ({ ...oldPlayerConf, playing: !oldPlayerConf.playing })) }} />}
 
-                        <input type='button' className="player-btn player-buttonNext" onClick={() => playNext()} />
+                            <input type='button' className="player-btn player-buttonNext" onClick={() => playNext()} />
 
-                    </div>
-                    <div className="player-audiotrack">
-                        <div className="player-audiotrack-img" >
-                            { playerConf.trackId !== "" && <img style={{ maxWidth: "70px", maxHeight: "70px" }} src={prefix + `Previews/${tracksList[playerConf.trackPosInAlbum].fileId}`} width={"100%"} onError={({currentTarget}) => {
-                                currentTarget.onerror = null;
-                                currentTarget.src = prefix+`Previews/${tracksList[playerConf.trackPosInAlbum].album.previewId}`;
-                            }}/>}
                         </div>
-
-                        <div className="player-audiotrack-control">
-                            <div className="player-audiotrack-info">
-                                <div>{ tracksList[playerConf.trackPosInAlbum].name}
-                                    {playerConf.trackId !== "" && <div className="player-audiotrack-auth">{tracksList[playerConf.trackPosInAlbum].album.author.name}</div>}
-                                </div>
-
-                                <div className="player-btns">
-                                    {/*TODO: logic of this buttons */}
-                                    <input type='button' className="player-btn player-buttonRepeat" />
-                                    <input type='button' className="player-btn player-buttonMix" />
-                                    <input type='button' className="player-btn player-buttonLike" />
-                                </div>
+                        <div className="player-audiotrack">
+                            <div className="player-audiotrack-img" >
+                                {playerConf.trackId !== "" && <img style={{ maxWidth: "70px", maxHeight: "70px" }} src={prefix + `Previews/get/${tracksList[playerConf.trackPosInAlbum].album.previewId}`} width={"100%"} onError={({ currentTarget }) => {
+                                    currentTarget.onerror = null;
+                                }} />}
                             </div>
 
-                            <input
-                                className="player-music-track"
-                                type="range"
-                                min={0}
-                                max={0.999999}
-                                step="any"
-                                value={trackInfo.played}
-                                onChange={(e) => {
-                                    player.current.seekTo(parseFloat(e.target.value), 'fraction');
-                                }} />
+                            <div className="player-audiotrack-control">
+                                <div className="player-audiotrack-info">
+                                    <div>{tracksList[playerConf.trackPosInAlbum].name}
+                                        {playerConf.trackId !== "" && <div className="player-audiotrack-auth">{tracksList[playerConf.trackPosInAlbum].album.author.name}</div>}
+                                    </div>
 
-                            <div className="player-track-time">
-                                <div >{moment(1000 * trackInfo.played * trackInfo.duration).format('mm:ss')}</div>
-                                <div>{moment(1000 * trackInfo.duration).format('mm:ss')}</div>
+                                    <div className="player-btns">
+                                        {/*TODO: logic of this buttons */}
+                                        <input type='button' className="player-btn player-buttonRepeat" />
+                                        <input type='button' className="player-btn player-buttonMix" />
+                                        <input type='button' className="player-btn player-buttonLike" />
+                                    </div>
+                                </div>
+
+                                <input
+                                    className="player-music-track"
+                                    type="range"
+                                    min={0}
+                                    max={0.999999}
+                                    step="any"
+                                    value={trackInfo.played}
+                                    onChange={(e) => {
+                                        player.current.seekTo(parseFloat(e.target.value), 'fraction');
+                                    }} />
+
+                                <div className="player-track-time">
+                                    <div >{moment(1000 * trackInfo.played * trackInfo.duration).format('mm:ss')}</div>
+                                    <div>{moment(1000 * trackInfo.duration).format('mm:ss')}</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div className="player-volume">
-                        <img width={"23px"} height={"20px"} src={volume} />
-                        <input type="range" min="0" max="1" step="0.1" onChange={(e) =>
-                            playerConfig.volume = +e.target.value} />
+                        <div className="player-volume">
+                            <img width={"23px"} height={"20px"} src={volume} />
+                            <input type="range" min="0" max="1" step="0.1" onChange={(e) =>
+                                playerConfig.volume = +e.target.value} />
+                        </div>
                     </div>
                 </div>
-            </div>
             }
-            
+
         </>
     )
 }
