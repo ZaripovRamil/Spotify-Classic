@@ -47,6 +47,18 @@ public class PlaylistController : Controller
         await _playlistAccessor.AddTrack(playlist, track);
         return Ok();
     }
+    
+    [HttpPost]
+    [Route("[action]")]
+    public async Task<IActionResult> DeleteTrack([FromBody] PlaylistTrackAdditionData data)
+    {
+        var playlist = await _playlistAccessor.Get(data.playlistId);
+        var track = await _trackAccessor.Get(data.trackId);
+        if (playlist == null || track == null)
+            return BadRequest();
+        await _playlistAccessor.AddTrack(playlist, track);
+        return Ok();
+    }
 
     [HttpGet]
     [Route("Get/id/{id}")]

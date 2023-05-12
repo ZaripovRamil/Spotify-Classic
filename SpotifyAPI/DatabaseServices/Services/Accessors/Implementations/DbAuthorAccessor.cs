@@ -17,8 +17,6 @@ public class DbAuthorAccessor : DbAccessor, IDbAuthorAccessor
         await DbContext.SaveChangesAsync();
     }
 
-    public IEnumerable<Author> GetAll() => DbContext.Authors;
-    
     public async Task Delete(Author author)
     {
         DbContext.Authors.Remove(author);
@@ -54,5 +52,10 @@ public class DbAuthorAccessor : DbAccessor, IDbAuthorAccessor
             .Include(a => a.User)
             .Include(a => a.Albums)
             .FirstOrDefaultAsync(a => a.Name == name);
+    }
+
+    public IEnumerable<Author> GetAll()
+    {
+        return DbContext.Authors.Include(a => a.Albums);
     }
 }
