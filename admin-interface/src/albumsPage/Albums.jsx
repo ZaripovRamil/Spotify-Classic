@@ -64,10 +64,10 @@ const Albums = () => {
   const editItemsWithResultAsync = async (data) => {
     try {
       return await fetcher.put(`albums/update/${data.id}`, { id: data.id, name: data.name })
-      .then(res => JSON.parse(res.data));
+        .then(res => JSON.parse(res.data));
     } catch (err) {
       if (err.code === 401) {
-        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
       }
       return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }
@@ -76,10 +76,10 @@ const Albums = () => {
   const deleteItemsWithResultAsync = async (data) => {
     try {
       return await fetcher.delete(`albums/delete/${data.id}`)
-      .then(res => JSON.parse(res.data));
+        .then(res => JSON.parse(res.data));
     } catch (err) {
       if (err.code === 401) {
-        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
       }
       return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }
@@ -92,7 +92,7 @@ const Albums = () => {
     Object.entries(data).forEach(([prop, value]) => formData.append(prop, value));
     try {
       const newAlbumResult = await fetcher.post(`albums/add`, formData)
-        .then(r => JSON.parse(r.data));
+        .then(r => r.data);
       if (!newAlbumResult.isSuccessful) return newAlbumResult;
       const album = await getAlbumByIdAsync(newAlbumResult.albumId);
       album.tableProps = { color: '#b3cf99' }
@@ -100,7 +100,7 @@ const Albums = () => {
       return newAlbumResult;
     } catch (err) {
       if (err.code === 401) {
-        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
       }
       return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }
@@ -112,7 +112,7 @@ const Albums = () => {
       return res.data;
     } catch (error) {
       if (error.code === 401) {
-        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
       }
       return error.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }

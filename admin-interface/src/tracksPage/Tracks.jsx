@@ -78,10 +78,10 @@ const Tracks = () => {
   const editItemsWithResultAsync = async (data) => {
     try {
       return await fetcher.put(`tracks/update/${data.id}`, { id: data.id, name: data.name })
-      .then(res => JSON.parse(res.data));
+        .then(res => JSON.parse(res.data));
     } catch (err) {
       if (err.code === 401) {
-        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
       }
       return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }
@@ -90,10 +90,10 @@ const Tracks = () => {
   const deleteItemsWithResultAsync = async (data) => {
     try {
       return await fetcher.delete(`tracks/delete/${data.id}`)
-      .then(res => JSON.parse(res.data));
+        .then(res => JSON.parse(res.data));
     } catch (err) {
       if (err.code === 401) {
-        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
       }
       return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }
@@ -109,7 +109,8 @@ const Tracks = () => {
       }
     });
     try {
-      const newTrackResult = await fetcher.post(`tracks/add`, formData);
+      const newTrackResult = await fetcher.post(`tracks/add`, formData)
+        .then(r => r.data);
       if (!newTrackResult.isSuccessful) return newTrackResult;
       const track = await getTrackByIdAsync(newTrackResult.trackId);
       track.tableProps.color = '#b3cf99';
@@ -117,7 +118,7 @@ const Tracks = () => {
       return newTrackResult;
     } catch (err) {
       if (err.code === 401) {
-        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
       }
       return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }
@@ -129,7 +130,7 @@ const Tracks = () => {
       return res.data;
     } catch (err) {
       if (err.code === 401) {
-        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
       }
       return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }

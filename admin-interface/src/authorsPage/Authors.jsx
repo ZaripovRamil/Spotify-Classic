@@ -52,10 +52,10 @@ const Authors = () => {
   const editItemsWithResultAsync = async (data) => {
     try {
       return await fetcher.put(`authors/update/${data.id}`, { id: data.id, name: data.name })
-      .then(res => JSON.parse(res.data));
+        .then(res => JSON.parse(res.data));
     } catch (err) {
       if (err.code === 401) {
-        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
       }
       return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }
@@ -64,10 +64,10 @@ const Authors = () => {
   const deleteItemsWithResultAsync = async (data) => {
     try {
       return await fetcher.delete(`authors/delete/${data.id}`)
-      .then(res => JSON.parse(res.data));
+        .then(res => JSON.parse(res.data));
     } catch (err) {
       if (err.code === 401) {
-        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
       }
       return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }
@@ -84,7 +84,7 @@ const Authors = () => {
       return newAuthorResult;
     } catch (err) {
       if (err.code === 401) {
-        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
       }
       return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }
@@ -96,7 +96,7 @@ const Authors = () => {
       return res.data;
     } catch (err) {
       if (err.code === 401) {
-        return {isSuccessful: false, messageResult: "Unauthorized. Authorize please."}
+        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
       }
       return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }
