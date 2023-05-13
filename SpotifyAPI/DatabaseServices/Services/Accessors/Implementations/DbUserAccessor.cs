@@ -13,13 +13,25 @@ public class DbUserAccessor : DbAccessor, IDbUserAccessor
     }
 
     public async Task<User?> GetById(string id) =>
-        await DbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
+        await DbContext.Users
+            .Include(u => u.History)
+            .ThenInclude(t => t.Album)
+            .ThenInclude(a => a.Author)
+            .FirstOrDefaultAsync(u => u.Id == id);
 
     public async Task<User?> GetByUsername(string username) =>
-        await DbContext.Users.FirstOrDefaultAsync(u => u.UserName == username);
+        await DbContext.Users
+            .Include(u => u.History)
+            .ThenInclude(t => t.Album)
+            .ThenInclude(a => a.Author)
+            .FirstOrDefaultAsync(u => u.UserName == username);
 
     public async Task<User?> GetByEmail(string email) =>
-        await DbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
+        await DbContext.Users
+            .Include(u => u.History)
+            .ThenInclude(t => t.Album)
+            .ThenInclude(a => a.Author)
+            .FirstOrDefaultAsync(u => u.Email == email);
 
     public async Task AddUser(User user)
     {
@@ -30,6 +42,12 @@ public class DbUserAccessor : DbAccessor, IDbUserAccessor
     public async Task SetRole(User user, Role role)
     {
         user.Role = role;
+        await DbContext.SaveChangesAsync();
+    }
+
+    public async Task AddTrackToHistory(User user, Track track)
+    {
+        user.History.Add(track);
         await DbContext.SaveChangesAsync();
     }
 }

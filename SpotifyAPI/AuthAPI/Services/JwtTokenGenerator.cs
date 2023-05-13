@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using DatabaseServices.Services;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Models;
@@ -11,17 +12,17 @@ namespace AuthAPI.Services;
 public class JwtTokenGenerator : IJwtTokenGenerator
 {
     private readonly JwtTokenSettings _jwtTokenSettings;
-    private readonly IDbRequester _dbRequester;
+    private readonly IDbUserRequester _dbUserRequester;
 
-    public JwtTokenGenerator(IDbRequester dbRequester, IOptions<JwtTokenSettings> jwtTokenSettingsConfig)
+    public JwtTokenGenerator(IDbUserRequester dbUserRequester, IOptions<JwtTokenSettings> jwtTokenSettingsConfig)
     {
-        _dbRequester = dbRequester;
+        _dbUserRequester = dbUserRequester;
         _jwtTokenSettings = jwtTokenSettingsConfig.Value;
     }
 
     public async Task<string?> GenerateJwtTokenAsync(string username, TimeSpan additionalLifetime)
     {
-        var foundUser = await _dbRequester.GetUserByUsername(username);
+        var foundUser = await _dbUserRequester.GetUserByUsername(username);
         if (foundUser == null) return null;
         var now = DateTime.UtcNow;
         var jwt = new JwtSecurityToken(
@@ -39,7 +40,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
 
     public async Task<string?> GetRoleAsync(string username)
     {
-        var user = await _dbRequester.GetUserByUsername(username);
+        var user = await _dbUserRequester.GetUserByUsername(username);
         return user?.Role.ToString();
     }
 
