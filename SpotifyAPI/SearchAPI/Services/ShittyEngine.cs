@@ -23,10 +23,10 @@ public class ShittyEngine:ISearchEngine
     public Task<SearchResult> SearchAsync(string query)
     {
         return Task.FromResult(new SearchResult(
-            _trackAccessor.GetAll().Where(t=>t.Name.Contains(query)).Select(t=>new TrackLight(t)).ToList(),
-            _albumAccessor.GetAll().Where(t=>t.Name.Contains(query)).Select(t=>new AlbumLight(t)).ToList(),
-            _authorAccessor.GetAll().Where(t=>t.Name.Contains(query)).Select(t=>new AuthorLight(t)).ToList(),
-            _playlistAccessor.GetAll().Where(t=>t.Name.Contains(query)).Select(t=>new PlaylistLight(t)).ToList()));
+            _trackAccessor.GetAll().Where(t=>t.Name.Contains(query)).Select(t=>new TrackLight(t)).Take(10).ToList(),
+            _albumAccessor.GetAll().Where(t=>t.Name.Contains(query)).Select(t=>new AlbumLight(t)).Take(10).ToList(),
+            _authorAccessor.GetAll().Where(t=>t.Name.Contains(query)).Select(t=>new AuthorLight(t)).Take(10).ToList(),
+            _playlistAccessor.GetAll().Where(t=>t.Name.Contains(query)).Select(t=>new PlaylistLight(t)).Take(10).ToList()));
 
     }
 }
