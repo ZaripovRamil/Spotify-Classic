@@ -9,6 +9,7 @@ import { MainPageSection } from "./mainPage/MainPageSection";
 import { UserProfile } from "./userPage/UserProfile";
 import { UserHistory } from "./userPage/userHistory/UserHistory";
 import { UserMain } from "./userPage/userMain/UserMain";
+import GoAwayPage from "./goAwayPage";
 import { A } from "./test1";
 import { B } from "./test2";
 
@@ -18,14 +19,15 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="*" element={<PageBuilder component={<AuthorizationPage />} />} />
+          <Route path="/authorize" element={<PageBuilder component={<AuthorizationPage />} />} />
           <Route path="/register" element={<PageBuilder component={<RegistrationPage />} />} />
           <Route path="/player" element={<PageBuilder component={<Player />} />} />
           <Route path="/main" element={<PageBuilder component={<MainPageSection />} />} />
-          <Route path="/history" element={<PageBuilder component={<UserProfile component={<UserHistory/>}/>} />} />
-          <Route path="/user" element={<PageBuilder component={<UserProfile component={<UserMain/>}/>} />} />
+          <Route path="/history" element={<PageBuilder component={<UserProfile component={<UserHistory />} />} />} />
+          <Route path="/user" element={<PageBuilder component={<UserProfile component={<UserMain />} />} />} />
           <Route path="/a" element={<PageBuilder component={<A />} />} />
           <Route path="/b" element={<PageBuilder component={<B />} />} />
+          <Route path="*" element={<GoAwayPage />} />
         </Routes>
       </BrowserRouter>
     </>

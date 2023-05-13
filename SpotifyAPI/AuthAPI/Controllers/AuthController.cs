@@ -1,31 +1,43 @@
-﻿using AuthService.Services;
+﻿using AuthAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.Auth;
 using Models.DTO.FrontToBack.Auth;
 using Models.Entities;
 
-namespace AuthService.Controllers;
+namespace AuthAPI.Controllers;
 
 [ApiController]
 [Route("[controller]/[action]")]
-public class AuthController
+public class AuthController : Controller
 {
     private readonly SignInManager<User> _signInManager;
-    private IDbRequester Requester { get; }
+    private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
-    public AuthController(SignInManager<User> signInManager, IDbRequester requester)
+    public AuthController(SignInManager<User> signInManager, IJwtTokenGenerator jwtTokenGenerator)
     {
         _signInManager = signInManager;
-        Requester = requester;
+        _jwtTokenGenerator = jwtTokenGenerator;
     }
 
     [HttpPost]
-    public async Task<IActionResult> Login(LoginData lData)
+    [AllowAnonymous]
+    public async Task<IActionResult> Login(LoginData loginData)
     {
         var loginResult = await _signInManager
-            .PasswordSignInAsync(lData.Identifier, lData.Password, false, false);
-        var user = loginResult.Succeeded ? await Requester.GetUserByUsername(lData.Identifier) : null;
-        return new JsonResult(new LoginResult(loginResult.Succeeded, user));
+            .PasswordSignInAsync(loginData.Username, loginData.Password, loginData.RememberMe, false);
+        if (!loginResult.Succeeded)
+        {
+            var errorMessage = loginResult.IsLockedOut ? "You're locked" :
+                loginResult.IsNotAllowed ? "You're not allowed no sign-in" :
+                loginResult.RequiresTwoFactor ? "Two factor authentication is required" : "No such a user";
+            return new JsonResult(new LoginResult(false, "", errorMessage));
+        }
+        var additionalLifetime = loginData.RememberMe ? TimeSpan.FromDays(14) : TimeSpan.Zero;
+        var token = await _jwtTokenGenerator.GenerateJwtTokenAsync(loginData.Username, additionalLifetime);
+        return token is null
+            ? new JsonResult(new LoginResult(false, "", "Authorization failed"))
+            : new JsonResult(new LoginResult(true, token, "Successful"));
     }
 }

@@ -1,30 +1,26 @@
 import React, { useEffect, useState, useRef } from "react";
-import moment from "moment/moment";
-import ReactPlayer from "react-player/lazy";
-
 import "./Track.css";
-import Ports from "../../constants/Ports";
 
 // care of http/https
 
 const prefix = "https://localhost:7022/";
-const Track = ({props,track,idInAlbum,tracks}) => {
+const Track = ({ props, track, idInAlbum, tracks }) => {
 
-    const { tracksList, setTracksList,playerConf, setPlayerConf } = props;
+    const { tracksList, setTracksList, playerConf, setPlayerConf } = props;
 
     const trackClick = (track) => {
-        if (tracks !== tracksList){
+        if (tracks !== tracksList) {
             setTracksList(tracks)
         }
-        if (track.id === playerConf.trackId){
-          setPlayerConf((oldPlayerConf) => 
-          ({
-              ...oldPlayerConf,
-              playing: !oldPlayerConf.playing
-          }))
+        if (track.id === playerConf.trackId) {
+            setPlayerConf((oldPlayerConf) =>
+            ({
+                ...oldPlayerConf,
+                playing: !oldPlayerConf.playing
+            }))
         }
-        else{
-            setPlayerConf((oldPlayerConf) => ({...oldPlayerConf, trackId:track.id, playing: true,trackPosInAlbum:idInAlbum}))  
+        else {
+            setPlayerConf((oldPlayerConf) => ({ ...oldPlayerConf, trackId: track.id, playing: true, trackPosInAlbum: idInAlbum }))
         }
     }
 
@@ -34,18 +30,17 @@ const Track = ({props,track,idInAlbum,tracks}) => {
             <div className="track">
                 <div className="track-preview">
                     <div className="track-play-img">
-                         <img className="track-img" src={prefix + `Previews/${track.fileId}`} onError={({currentTarget}) => {
+                        <img className="track-img" src={prefix + `Previews/get/${track.album.previewId}`} onError={({ currentTarget }) => {
                             currentTarget.onerror = null;
-                            currentTarget.src = prefix+`Previews/${track.album.previewId}`;
-                        }}/>
+                        }} />
                         <input type='button'
                             className={`track-btn ${(playerConf.playing && track.id == playerConf.trackId) ? 'track-buttonStop' : 'track-buttonPlay'}`}
-                            onClick={() => {trackClick(track)}}/>
+                            onClick={() => trackClick(track)} />
                     </div>
                     <div>{track.name}
-                         <div className="track-audiotrack-auth">{track.album.author.name}</div>
-                    </div>   
-                </div> 
+                        <div className="track-audiotrack-auth">{track.album.author.name}</div>
+                    </div>
+                </div>
                 <div className="track-info">
                     {/*TODO: logic of this button */}
                     <input type='button' className="track-buttonLike" />
