@@ -19,9 +19,9 @@ public class HistoryController : Controller
 
     [HttpPost]
     [Route("Add")]
-    public async Task<IActionResult> Add([FromQuery] string userId, [FromQuery] string trackId)
+    public async Task<IActionResult> Add([FromQuery] string userName, [FromQuery] string trackId)
     {
-        var user = await _userAccessor.GetById(userId);
+        var user = await _userAccessor.GetByUsername(userName);
         var track = await _trackAccessor.Get(trackId);
         if (user == null || track == null)
             return BadRequest("Invalid ids");

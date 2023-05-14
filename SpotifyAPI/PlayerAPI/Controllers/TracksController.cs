@@ -1,3 +1,4 @@
+using System.Text.Json;
 using DatabaseServices.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -12,13 +13,17 @@ namespace PlayerAPI.Controllers;
 [Route("[controller]")]
 public class TracksController : Controller
 {
+    private static readonly JsonSerializerOptions Options = new() { PropertyNameCaseInsensitive = true };
     private readonly HttpClient _clientToDb;
     private readonly IDbUserRequester _userRequester;
     private readonly HttpClient _clientToStatic;
+    private readonly HttpClient _clientToHistory;
 
     public TracksController(IOptions<ApplicationHosts> hostsOptions, IDbUserRequester userRequester)
     {
         _userRequester = userRequester;
+        _clientToHistory = new HttpClient
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseAPI}/history/") };
         _clientToDb = new HttpClient
             { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseAPI}/track/") };
         _clientToStatic = new HttpClient
@@ -37,14 +42,35 @@ public class TracksController : Controller
     {
         try
         {
-            var responseStream = await _clientToStatic.GetStreamAsync(trackId);
             var username = HttpContext.User.Identity.Name;
-            var userId = _userRequester.GetUserByUsername(username);
-            //todo request databaseAPI
+            await AddTrackToHistory(username, trackId);
+        }
+        catch (Exception)
+        {
+            return BadRequest();
+        }
 
+        var trackInfo = await GetTrackInfo(trackId);
+
+        return await StreamTrack(trackInfo.FileId);
+    }
+
+    private async Task<TrackFull> GetTrackInfo(string trackId)
+    {
+        var message = new HttpRequestMessage(HttpMethod.Get, $"get/id/{trackId}");
+        var response = (await _clientToDb.SendAsync(message));
+        var content = await response.Content.ReadAsStringAsync();
+        return JsonSerializer.Deserialize<TrackFull>(content, Options);
+    }
+
+    private async Task<IActionResult> StreamTrack(string fileId)
+    {
+        try
+        {
+            var responseStream = await _clientToStatic.GetStreamAsync(fileId);
             return new FileStreamResult(responseStream, "application/octet-stream")
             {
-                FileDownloadName = $"{trackId}.mp3",
+                FileDownloadName = $"{fileId}.mp3",
                 EnableRangeProcessing = true
             };
         }
@@ -52,5 +78,11 @@ public class TracksController : Controller
         {
             return NotFound();
         }
+    }
+
+    private async Task AddTrackToHistory(string username, string trackId)
+    {
+        var message = new HttpRequestMessage(HttpMethod.Post, $"Add?userName={username}&trackId={trackId}");
+        await _clientToHistory.SendAsync(message);
     }
 }
