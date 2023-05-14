@@ -46,10 +46,12 @@ builder.Services.AddScoped<ITrackValidator, TrackValidator>();
 builder.Services.AddScoped<IAlbumDeleteHandler, AlbumDeleteHandler>();
 builder.Services.AddScoped<IAuthorDeleteHandler, AuthorDeleteHandler>();
 builder.Services.AddScoped<ITrackDeleteHandler, TrackDeleteHandler>();
+builder.Services.AddScoped<IPlaylistDeleteHandler, PlaylistDeleteHandler>();
 
 builder.Services.AddScoped<IAuthorUpdateHandler, AuthorUpdateHandler>();
 builder.Services.AddScoped<IAlbumUpdateHandler, AlbumUpdateHandler>();
 builder.Services.AddScoped<ITrackUpdateHandler, TrackUpdateHandler>();
+builder.Services.AddScoped<IPlaylistUpdateHandler, PlaylistUpdateHandler>();
 
 builder.Services.AddScoped<IAlbumFactory, AlbumFactory>();
 builder.Services.AddScoped<IAuthorFactory, AuthorFactory>();

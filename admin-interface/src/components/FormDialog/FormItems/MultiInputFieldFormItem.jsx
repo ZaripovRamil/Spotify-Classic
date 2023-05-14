@@ -20,8 +20,8 @@ const MultiInputFieldFormItem = ({ formData, setFormData, handleFormChange, colu
                     <FormItem formData={formData} handleFormChange={handleFormChange} column={{
                         name: `${column.name}.${idx}`,
                         label: `${column.label} ${idx + 1}`,
-                        type: column.typeProps[0].type,
-                        typeProps: column.typeProps[0].typeProps,
+                        type: column.typeProps.type,
+                        typeProps: column.typeProps.typeProps,
                         isRequired: column.isRequired && idx === 0,
                     }} />
                     <Button onClick={() => handleDeleteItem(idx)}><Delete /></Button>

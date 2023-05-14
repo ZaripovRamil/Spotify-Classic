@@ -24,7 +24,8 @@ public class AlbumDeleteHandler : IAlbumDeleteHandler
 
             return result;
         }
-        else if (album.Tracks.Count > 0)
+
+        if (album.Tracks.Count > 0)
         {
             result.IsSuccessful = false;
             result.ResultMessage =

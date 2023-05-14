@@ -8,4 +8,6 @@ public interface IDbPlaylistAccessor
     public Task<Playlist?> Get(string id);
     Task AddTrack(Playlist playlist, Track track);
     IEnumerable<Playlist> GetAll();
+    Task Delete(Playlist playlist);
+    Task Update(Playlist playlist);
 }
