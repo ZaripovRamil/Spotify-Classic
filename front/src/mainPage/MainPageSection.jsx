@@ -2,9 +2,9 @@ import React from "react";
 import "./MainPage.css";
 import wheelImgSrc from "./media/wheel.png";
 import klipartzImgSrc from "./media/klipartz.png";
-import { Playlists } from "./containers/playlists";
+import { Playlists } from "../components/Playlist/Playlists";
 
-export const MainPageSection = () => {
+export const MainPageSection = (props) => {
   return (
     <>
       <main className="main-page">
@@ -38,7 +38,9 @@ export const MainPageSection = () => {
           </div>
 
           <div className="right-btn"></div>
-         <Playlists />
+           <div className="playlists">
+         <Playlists  props={props}/>
+         </div>
           <div className="left-btn"></div>
         </section> 
       </main>
