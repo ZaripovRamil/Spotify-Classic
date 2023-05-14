@@ -29,7 +29,7 @@ export const UserHistory = (props) => {
         // TODO: add .catch()?
         fetcher.get('tracks/get').then((data) => {
             setHistoryTracks(data.data);
-            !tracksList && setTracksList(data.data);
+            // !tracksList && setTracksList(data.data);
         });
     }, [])
 

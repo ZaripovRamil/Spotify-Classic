@@ -97,6 +97,7 @@ const Player = ({ props }) => {
                             },
                         },
                     }}
+                    onEnded={playNext}
                     style={{ display: "None" }}
                 />}
             {tracksList && playerConf &&
