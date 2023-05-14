@@ -1,5 +1,4 @@
 using System.Text;
-using Microsoft.EntityFrameworkCore;
 using Database;
 using DatabaseServices.Services;
 using DatabaseServices.Services.Accessors.Implementations;
@@ -13,6 +12,7 @@ using DatabaseServices.Services.Factories.Interfaces;
 using DatabaseServices.Services.UpdateHandlers.Implementations;
 using DatabaseServices.Services.UpdateHandlers.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Models;
@@ -25,7 +25,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Spotify")).EnableThreadSafetyChecks());
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Spotify"), b => b.MigrationsAssembly("DatabaseAPI")));
 builder.Services.AddSingleton<IDtoCreator, DtoCreator>();
 
 builder.Services.AddScoped<IDbUserAccessor, DbUserAccessor>();

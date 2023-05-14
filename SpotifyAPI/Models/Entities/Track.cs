@@ -4,7 +4,7 @@ using Models.Entities.Joints;
 namespace Models.Entities;
 
 [PrimaryKey("Id")]
-public class Track:Entity
+public class Track : Entity
 {
     public string FileId { get; set; }
 
@@ -31,10 +31,12 @@ public class Track:Entity
     public Track()
     {
     }
+
     public string AlbumId { get; set; }
     public Album Album { get; set; }
     public List<Playlist> InPlaylists { get; set; }
     public List<GenreTrack> GenreTracks { get; set; }
+    public List<UserTrack> UserTracks { get; set; }
     public List<Genre> Genres { get; set; }
-    public List<User> History { get; set; }
+    public List<User> Listeners { get; set; }
 }

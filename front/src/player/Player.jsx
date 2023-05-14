@@ -81,7 +81,7 @@ const Player = ({ props }) => {
                     playing={playerConf.playing}
                     playbackRate={playerConfig.playbackRate}
                     volume={playerConfig.volume}
-                    url={tracksList && (prefix + "tracks/get/" + tracksList[playerConf.trackPosInAlbum].fileId)}
+                    url={tracksList && (prefix + "tracks/get/" + tracksList[playerConf.trackPosInAlbum].id)}
                     onDuration={(duration) => updateTrackInfo('duration', duration.toFixed(2))}
                     onProgress={(state) => {
                         updateTrackInfo('played', +state.played.toFixed(4));

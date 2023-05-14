@@ -1,6 +1,5 @@
 using DatabaseServices.Services.Accessors.Interfaces;
 using DatabaseServices.Services.DeleteHandlers.Interfaces;
-using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.EntityDeletionResult;
 
 namespace DatabaseServices.Services.DeleteHandlers.Implementations;
@@ -27,7 +26,7 @@ public class TrackDeleteHandler : ITrackDeleteHandler
         }
 
         await _trackAccessor.Delete(track);
-        
+
         return result;
     }
 }

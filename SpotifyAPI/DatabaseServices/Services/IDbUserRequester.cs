@@ -1,9 +1,9 @@
 ﻿using Models.DTO.FrontToBack.Auth;
 using Models.Entities;
 
-namespace AuthAPI.Services;
+namespace DatabaseServices.Services;
 
-public interface IDbRequester
+public interface IDbUserRequester
 {
     public Task<User?> GetUserByUsername(string username);
     public Task<User?> GetUserByEmail(string email);

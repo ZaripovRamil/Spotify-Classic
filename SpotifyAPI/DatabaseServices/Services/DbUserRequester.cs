@@ -2,9 +2,9 @@
 using Models.DTO.FrontToBack.Auth;
 using Models.Entities;
 
-namespace AuthAPI.Services;
+namespace DatabaseServices.Services;
 
-public class DbRequester : IDbRequester
+public class DbUserRequester : IDbUserRequester
 {
     private static readonly HttpClient Client = new();
 

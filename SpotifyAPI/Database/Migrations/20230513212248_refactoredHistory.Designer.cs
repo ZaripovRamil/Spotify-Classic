@@ -3,6 +3,7 @@ using System;
 using Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230513212248_refactoredHistory")]
+    partial class refactoredHistory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -622,20 +625,13 @@ namespace Database.Migrations
 
             modelBuilder.Entity("Models.Entities.Joints.UserTrack", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
                     b.Property<string>("TrackId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("TrackId");
+                    b.HasKey("TrackId", "UserId");
 
                     b.HasIndex("UserId");
 
@@ -885,14 +881,14 @@ namespace Database.Migrations
                         {
                             Id = "user1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "230199c4-e660-4dc9-89d7-250f8386d603",
+                            ConcurrencyStamp = "55c23b15-0a4f-4621-ace2-7c1739570e7f",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "John Doe",
                             PhoneNumberConfirmed = false,
                             ProfilePicId = "default_pfp",
                             Role = 0,
-                            SecurityStamp = "6ac8ca64-ed86-4d82-ae62-d933f5247299",
+                            SecurityStamp = "4eceb18b-9258-47eb-ae52-2e6c3e622a2b",
                             TwoFactorEnabled = false,
                             UserName = "defaultUser"
                         });
