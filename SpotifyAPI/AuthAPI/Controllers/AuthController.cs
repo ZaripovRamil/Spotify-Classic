@@ -8,6 +8,7 @@ using Models.Entities;
 
 namespace AuthAPI.Controllers;
 
+[AllowAnonymous]
 [ApiController]
 [Route("[controller]/[action]")]
 public class AuthController : Controller
@@ -22,7 +23,6 @@ public class AuthController : Controller
     }
 
     [HttpPost]
-    [AllowAnonymous]
     public async Task<IActionResult> Login(LoginData loginData)
     {
         var loginResult = await _signInManager
