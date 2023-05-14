@@ -1,6 +1,7 @@
 using System.Text;
 using AuthAPI.Services;
 using Database;
+using DatabaseServices.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -43,7 +44,7 @@ var solutionConfiguration = solutionConfigurationBuilder.Build();
 
 builder.Services.Configure<JwtTokenSettings>(solutionConfiguration.GetSection("JWTTokenSettings"));
 builder.Services.Configure<ApplicationHosts>(solutionConfiguration.GetSection("ApplicationHosts"));
-
+builder.Services.AddScoped<IDtoCreator, DtoCreator>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opts =>
     {

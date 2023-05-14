@@ -1,5 +1,4 @@
 using System.Text.Json;
-using DatabaseServices.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Models;
@@ -15,13 +14,11 @@ public class TracksController : Controller
 {
     private static readonly JsonSerializerOptions Options = new() { PropertyNameCaseInsensitive = true };
     private readonly HttpClient _clientToDb;
-    private readonly IDbUserRequester _userRequester;
     private readonly HttpClient _clientToStatic;
     private readonly HttpClient _clientToHistory;
 
-    public TracksController(IOptions<ApplicationHosts> hostsOptions, IDbUserRequester userRequester)
+    public TracksController(IOptions<ApplicationHosts> hostsOptions)
     {
-        _userRequester = userRequester;
         _clientToHistory = new HttpClient
             { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseAPI}/history/") };
         _clientToDb = new HttpClient

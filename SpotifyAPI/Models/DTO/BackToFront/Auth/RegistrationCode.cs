@@ -6,5 +6,6 @@ public enum RegistrationCode
     LoginTaken,
     EmailTaken,
     WeakPassword,
-    UnknownError
+    UnknownError,
+    InvalidUsername
 }
