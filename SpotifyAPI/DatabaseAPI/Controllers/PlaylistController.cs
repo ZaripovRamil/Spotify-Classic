@@ -73,7 +73,14 @@ public class PlaylistController : Controller
     {
         return new JsonResult(_dtoCreator.CreateFull(await _playlistAccessor.Get(id)));
     }
-    
+
+    [HttpGet]
+    [Route("Get")]
+    public async Task<IActionResult> GetAll()
+    {
+        return new JsonResult(_playlistAccessor.GetAll().Select(playlist => _dtoCreator.CreateFull(playlist)));
+    }
+
     [HttpDelete]
     [Route("delete/{id}")]
     public async Task<IActionResult> DeleteById(string id)

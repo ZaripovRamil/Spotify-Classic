@@ -14,4 +14,6 @@ public class UserLight
         ProfilePicId = user.ProfilePicId;
         Name = user.Name;
     }
+
+    public UserLight() { }
 }
