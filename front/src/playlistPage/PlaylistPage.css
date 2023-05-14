@@ -57,7 +57,7 @@ p {
 
 .playlist-main-part {
   height: calc(100vh - 266px);
-  width: auto;
+  width: 100%;
   max-height: 640px;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -93,4 +93,24 @@ p {
 
 .playlist-btns{
   margin: 10px 0;
+}
+
+@media (max-width: 1040px) {
+    .playlist-main{
+        flex-direction: column;
+        text-align: center;
+        align-items:center;
+    }
+
+    .playlist-main-img{
+        display: none;
+    }
+
+    .playlist-author{
+padding-top: 10px;
+    }
+
+    .playlist-btns{
+padding-bottom: 10px;
+    }
 }
