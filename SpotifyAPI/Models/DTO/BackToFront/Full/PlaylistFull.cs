@@ -19,4 +19,6 @@ public class PlaylistFull
     public string Name { get; set; }
     public UserLight Owner { get; set; }
     public List<TrackLight> Tracks { get; set; }
+
+    public PlaylistFull() { }
 }
