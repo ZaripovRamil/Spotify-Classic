@@ -7,7 +7,7 @@ public class PlaylistLight
     public string Id { get; set; }
     public string PreviewId { get; set; }
     public string Name { get; set; }
-    public User Owner { get; set; }
+    public UserLight Owner { get; set; }
     public int TrackCount { get; set; }
 
     public PlaylistLight(Playlist playlist)
@@ -16,6 +16,6 @@ public class PlaylistLight
         PreviewId = playlist.PreviewId;
         Name = playlist.Name;
         TrackCount = playlist.Tracks.Count;
-        Owner = playlist.Owner;
+        Owner = new UserLight(playlist.Owner);
     }
 }

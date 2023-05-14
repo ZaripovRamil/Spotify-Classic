@@ -10,8 +10,9 @@ const fetcher = getFetcher(Ports.AuthService);
 const AuthForm = () => {
     const navigate = useNavigate()
     const [credentials, setCredentials] = useState({
-        identifier: "",
-        password: ""
+        username: "",
+        password: "",
+        rememberMe: false,
     });
     const [loginError, setLoginError] = useState();
     const [passwordError, setPasswordError] = useState();
@@ -27,9 +28,10 @@ const AuthForm = () => {
             .catch(err => console.log(err));
     };
 
-    const handleAuthorizationInfo = (info) => {
-        if (info.name != undefined) {
-            navigate('/main')
+    const handleAuthorizationInfo = (data) => {
+        if (data && data.isSuccessful) {
+            localStorage.setItem('access-token', data.token);
+            navigate('/main');
         }
         else {
             setLoginError(AuthorizationErrors.wrongLoginOrPassword);
@@ -38,7 +40,7 @@ const AuthForm = () => {
     }
 
     const updateCredentials = (name, value) => {
-        credentials[name] = value.trim();
+        credentials[name] = value;
         setCredentials({ ...credentials });
     }
 
@@ -50,7 +52,7 @@ const AuthForm = () => {
         } else {
             setPasswordError();
         }
-        if (credentials.identifier.length < 4) {
+        if (credentials.username.length < 4) {
             setLoginError(AuthorizationErrors.needMoreCharacters(4));
         } else {
             setLoginError();
@@ -67,16 +69,16 @@ const AuthForm = () => {
             <div className="credentials-input">
                 <div>
                     <div className="error-text error-login">{loginError}</div>
-                    <input type="text" placeholder="login" onChange={e => updateCredentials("identifier", e.target.value)} />
+                    <input type="text" placeholder="login" onChange={e => updateCredentials("username", e.target.value.trim())} />
                 </div>
 
                 <div>
                     <div className="error-text error-password">{passwordError}</div>
-                    <input type="password" placeholder="password" onChange={e => updateCredentials("password", e.target.value)} />
+                    <input type="password" placeholder="password" onChange={e => updateCredentials("password", e.target.value.trim())} />
                 </div>
 
                 <div className="remember-me-span">
-                    <input type="checkbox" id="remember-me" />
+                    <input type="checkbox" id="remember-me" checked={credentials.rememberMe} onChange={e => updateCredentials("rememberMe", e.target.checked)} />
                     <label htmlFor="remember-me">Remember me</label>
                 </div>
             </div>

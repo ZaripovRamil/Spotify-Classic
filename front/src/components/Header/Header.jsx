@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 export const Header = () => {
-const[page, setPage] = useState()
+  const [page, setPage] = useState();
 
   useEffect(() => {
     let href = window.location.pathname;
@@ -15,7 +15,10 @@ const[page, setPage] = useState()
     return (
       <header className="header-main">
         <div className="header-logo">
-        <Link to="/main"> <div>Classic music</div> </Link>
+          <Link to="/main">
+            {" "}
+            <div>Classic music</div>{" "}
+          </Link>
         </div>
         <div className="header-nav">
           <div>

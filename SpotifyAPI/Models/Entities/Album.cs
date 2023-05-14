@@ -4,11 +4,9 @@ using Models.Entities.Enums;
 namespace Models.Entities;
 
 [PrimaryKey("Id")]
-public class Album
+public class Album:Entity
 {
-    public string Id { get; set; } = Guid.NewGuid().ToString();
     public string PreviewId { get; set; }
-    public string Name { get; set; }
     public string AuthorId { get; set; }
     public Author Author { get; set; }
     public int ReleaseYear { get; set; }

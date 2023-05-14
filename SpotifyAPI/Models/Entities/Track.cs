@@ -4,9 +4,8 @@ using Models.Entities.Joints;
 namespace Models.Entities;
 
 [PrimaryKey("Id")]
-public class Track
+public class Track:Entity
 {
-    public string Id { get; set; } = Guid.NewGuid().ToString();
     public string FileId { get; set; }
 
     public Track(string name, Album album, string fileId)
@@ -32,8 +31,6 @@ public class Track
     public Track()
     {
     }
-
-    public string Name { get; set; }
     public string AlbumId { get; set; }
     public Album Album { get; set; }
     public List<Playlist> InPlaylists { get; set; }
