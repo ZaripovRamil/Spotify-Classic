@@ -49,7 +49,7 @@ export const RegisterForm = () => {
         if (credentials.name.length < 4) {
             isValid = false;
             errors.name = AuthorizationErrors.needMoreCharacters(4);
-        } else if (!/^[A-Za-zа-яА-Я]+$/.test(credentials.name)) {
+        } else if (!/^[A-Za-z0-9]+$/.test(credentials.name)) {
             isValid = false;
             errors.name = AuthorizationErrors.incorrectName;
         }

@@ -3,7 +3,7 @@ class AuthorizationErrors {
     static wrongEmailFormat = "Enter correct email";
     static emailIsAlreadyTaken = "This email is already taken";
     static loginIsAlreadyTaken = "This login is already taken";
-    static incorrectName = "Only latin and cyrillic characters are allowed";
+    static incorrectName = "Only latin characters and digits are allowed";
     static wrongLoginOrPassword = "Wrong login or password";
 }
 
