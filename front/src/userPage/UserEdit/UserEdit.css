@@ -1,0 +1,48 @@
+.settings{
+    font-family: "Libre Baskerville";
+    font-weight:700;
+    letter-spacing: 0.1em;
+    color:#fff;
+    padding: 50px;
+    font-size: 20px;
+}
+.settings input{
+    font-family: "Libre Baskerville";
+    font-weight:700;
+    letter-spacing: 0.1em;
+    font-size: 16px;
+    border: none;
+}
+.email, .settings-block{
+    display: flex;
+    width: 350px;
+    margin: 20px 0px 30px;
+    border-bottom: solid #fff 1px;
+    padding: 0px 0px 10px;
+}
+.nickname-block{
+    display: flex;
+    align-items: center;
+}
+.settings-input{
+    width: 100%;
+    color: #fff;
+    background: transparent;
+}
+.settings-input:focus{
+    border: none;
+    outline: none;
+}
+.save-btn{   
+    background-color: #FCFCFC;
+    color: #FECB68;
+    padding: 10px 30px;
+    border-radius: 10px;
+}
+.error-message{
+    color: #FF4545;
+    margin: 0 30px 30px;
+}
+.noMargin-error-message{
+    margin: 0 0 20px 0;
+}
