@@ -2,6 +2,6 @@
 
 public class PlaylistTrackAdditionData
 {
-    public string playlistId { get; set; }
-    public string trackId { get; set; }
+    public string PlaylistId { get; set; }
+    public string TrackId { get; set; }
 }

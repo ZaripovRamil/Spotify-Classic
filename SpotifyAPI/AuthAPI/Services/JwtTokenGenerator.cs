@@ -1,9 +1,11 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Models;
+using Models.Entities;
 using Models.Entities.Enums;
 
 namespace AuthAPI.Services;
@@ -11,24 +13,24 @@ namespace AuthAPI.Services;
 public class JwtTokenGenerator : IJwtTokenGenerator
 {
     private readonly JwtTokenSettings _jwtTokenSettings;
-    private readonly IDbRequester _dbRequester;
+    private readonly UserManager<User> _userManager; 
 
-    public JwtTokenGenerator(IDbRequester dbRequester, IOptions<JwtTokenSettings> jwtTokenSettingsConfig)
+    public JwtTokenGenerator(IOptions<JwtTokenSettings> jwtTokenSettingsConfig, UserManager<User> userManager)
     {
-        _dbRequester = dbRequester;
+        _userManager = userManager;
         _jwtTokenSettings = jwtTokenSettingsConfig.Value;
     }
 
     public async Task<string?> GenerateJwtTokenAsync(string username, TimeSpan additionalLifetime)
     {
-        var foundUser = await _dbRequester.GetUserByUsername(username);
-        if (foundUser == null) return null;
+        var user = await _userManager.FindByNameAsync(username);
+        if (user is null) return null;
         var now = DateTime.UtcNow;
         var jwt = new JwtSecurityToken(
             issuer: _jwtTokenSettings.Issuer,
             audience: _jwtTokenSettings.Audience,
             notBefore: now,
-            claims: GetIdentity(username, foundUser.Role).Claims,
+            claims: GetIdentity(user, user.Role).Claims,
             expires: now + TimeSpan.FromMinutes(_jwtTokenSettings.Lifetime) + additionalLifetime,
             signingCredentials: new SigningCredentials(
                 new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtTokenSettings.Key)),
@@ -39,16 +41,17 @@ public class JwtTokenGenerator : IJwtTokenGenerator
 
     public async Task<string?> GetRoleAsync(string username)
     {
-        var user = await _dbRequester.GetUserByUsername(username);
+        var user = await _userManager.FindByNameAsync(username);
         return user?.Role.ToString();
     }
 
-    private static ClaimsIdentity GetIdentity(string username, Role role)
+    private static ClaimsIdentity GetIdentity(User user, Role role)
     {
         var claims = new List<Claim>
         {
-            new(ClaimsIdentity.DefaultNameClaimType, username),
-            new(ClaimsIdentity.DefaultRoleClaimType, role.ToString())
+            new(ClaimsIdentity.DefaultNameClaimType, user.UserName!),
+            new("Id", user.Id),
+            new(ClaimsIdentity.DefaultRoleClaimType, role.ToString()),
         };
         var claimsIdentity = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
             ClaimsIdentity.DefaultRoleClaimType);

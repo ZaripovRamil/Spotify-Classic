@@ -17,5 +17,13 @@ public class Playlist:Entity
         Tracks = new List<Track>();
     }
 
+    public Playlist(string id, string name, User owner, string previewId)
+    {
+        Id = id;
+        Name = name;
+        Owner = owner;
+        PreviewId = previewId;
+    }
+
     public Playlist() { }
 }

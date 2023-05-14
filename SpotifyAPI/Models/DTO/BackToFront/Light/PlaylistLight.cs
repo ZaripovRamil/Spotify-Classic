@@ -1,4 +1,5 @@
-﻿using Models.Entities;
+﻿using Models.DTO.BackToFront.Full;
+using Models.Entities;
 
 namespace Models.DTO.BackToFront.Light;
 
@@ -17,5 +18,14 @@ public class PlaylistLight
         Name = playlist.Name;
         TrackCount = playlist.Tracks.Count;
         Owner = new UserLight(playlist.Owner);
+    }
+    
+    public PlaylistLight(PlaylistFull playlist)
+    {
+        Id = playlist.Id;
+        PreviewId = playlist.PreviewId;
+        Name = playlist.Name;
+        Owner = playlist.Owner;
+        TrackCount = playlist.Tracks.Count;
     }
 }

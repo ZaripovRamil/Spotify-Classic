@@ -16,9 +16,7 @@ const Tracks = () => {
         .then(res => {
           if (res.status !== 200) return;
           setItems(res.data.map(item => {
-            item.tableProps = {
-              color: 'white'
-            };
+            item.tableProps = { color: 'white' };
             return item;
           }));
           setTableColumns([
@@ -113,7 +111,7 @@ const Tracks = () => {
         .then(r => r.data);
       if (!newTrackResult.isSuccessful) return newTrackResult;
       const track = await getTrackByIdAsync(newTrackResult.trackId);
-      track.tableProps.color = '#b3cf99';
+      track.tableProps = { color: '#b3cf99' };
       setItems([track, ...items]);
       return newTrackResult;
     } catch (err) {
