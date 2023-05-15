@@ -15,9 +15,7 @@ const useNavigateSearch = () => {
     navigate({ pathname, search: `?${createSearchParams(params)}` });
 };
 
-export const PlaylistCard = ({ playlist, props }) => {
-  const [playlistTracks, setPlaylistTracks] = useState();
-  const { tracksList, setTracksList, playerConf, setPlayerConf } = props;
+export const PlaylistCard = ({ playlist }) => {
   const playlistClick = (playlist) =>
     navigateSearch("/playlist", { playlistId: playlist.id });
 

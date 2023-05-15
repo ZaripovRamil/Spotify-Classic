@@ -47,10 +47,15 @@ export const PlaylistPage = (props) => {
   const { tracksList, setTracksList, playerConf, setPlayerConf } = props;
 
   useEffect(() => {
-    fetcher.get("Tracks/get").then((data) => {
-      setPlaylistTracks(data.data);
-    });
-    // fetcher.get(`Playlists/id/${idPlaylist}`).then((data) => {setPlaylist(data.data);setPlaylistTracks(data.data.tracks);});
+    // fetcher.get("Tracks/get").then((data) => {
+    //   setPlaylistTracks(data.data);
+    // });
+    fetcher
+      .get(`Playlists/id/${searchParams.get("playlistId")}`)
+      .then((data) => {
+        setPlaylist(data.data);
+        setPlaylistTracks(data.data.tracks);
+      });
   }, []);
 
   const playClick = () => {
@@ -90,7 +95,7 @@ export const PlaylistPage = (props) => {
             }}
           />
         </div>
-        <p className="playlist-name">{playlistTracks[0].album.name}</p>
+        <p className="playlist-name">{playlist.name}</p>
         <div></div>
       </div>
       <div className="playlist-main">
@@ -99,7 +104,6 @@ export const PlaylistPage = (props) => {
         </div>
 
         <div className="playlist-main-part">
-          <p className="playlist-author">П.И.Чайковский</p>
           <div className="playlist-btns">
             <img
               src={
