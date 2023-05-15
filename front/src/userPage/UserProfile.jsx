@@ -10,6 +10,7 @@ const fetcher = getFetcher(Ports.AuthService);
 
 export const UserProfile = (props) => {
   const navigate = useNavigate();
+  const [isLoad, setIsLoad] = useState(false);
   const [userInfo, setUserInfo] = useState({
     email: "",
     history: [],
@@ -23,35 +24,40 @@ export const UserProfile = (props) => {
   useEffect(() => {
     fetcher
       .get(`user/getme`)
-      .then((res) => setUserInfo(res.data))
+      .then((res) => {
+        setUserInfo(res.data);
+        setIsLoad(true);
+      })
       .catch((err) => console.log(err));
   }, []);
 
   return (
-    <>
-      <main className="main-page">
-        <UserProfileHeader
-          userName={userInfo.name}
-          component={
-            <NavLink to="/user/edit" className={"edit"}>
-              Edit
-            </NavLink>
-          }
-        />
-        <UserMenu
-          links={
-            <>
-              <NavLink to="/user">Playlists</NavLink>
-              <NavLink to="/history">History</NavLink>
-            </>
-          }
-        />
-        {React.cloneElement(props.component, {
-          props: props,
-          playlists: userInfo.playlists,
-          history: userInfo.history,
-        })}
-      </main>
-    </>
+    isLoad && (
+      <>
+        <main className="main-page">
+          <UserProfileHeader
+            userName={userInfo.name}
+            component={
+              <NavLink to="/user/edit" className={"edit"}>
+                Edit
+              </NavLink>
+            }
+          />
+          <UserMenu
+            links={
+              <>
+                <NavLink to="/user">Playlists</NavLink>
+                <NavLink to="/history">History</NavLink>
+              </>
+            }
+          />
+          {React.cloneElement(props.component, {
+            props: props,
+            playlists: userInfo.playlists,
+            history: userInfo.history,
+          })}
+        </main>
+      </>
+    )
   );
 };

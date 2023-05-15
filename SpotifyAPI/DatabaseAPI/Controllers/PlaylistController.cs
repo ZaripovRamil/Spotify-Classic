@@ -4,6 +4,7 @@ using DatabaseServices.Services.DeleteHandlers.Interfaces;
 using DatabaseServices.Services.Factories.Interfaces;
 using DatabaseServices.Services.UpdateHandlers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Models.DTO;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Full;
 using Models.DTO.BackToFront.Light;
@@ -26,7 +27,8 @@ public class PlaylistController : Controller
     private readonly IPlaylistUpdateHandler _playlistUpdateHandler;
 
     public PlaylistController(IDbPlaylistAccessor playlistAccessor, IDbTrackAccessor trackAccessor,
-        IPlaylistFactory playlistFactory, IDtoCreator dtoCreator, IPlaylistUpdateHandler playlistUpdateHandler, IPlaylistDeleteHandler playlistDeleteHandler)
+        IPlaylistFactory playlistFactory, IDtoCreator dtoCreator, IPlaylistUpdateHandler playlistUpdateHandler,
+        IPlaylistDeleteHandler playlistDeleteHandler)
     {
         _playlistAccessor = playlistAccessor;
         _trackAccessor = trackAccessor;
@@ -47,16 +49,18 @@ public class PlaylistController : Controller
 
     [HttpPost]
     [Route("[action]")]
-    public async Task<IActionResult> AddTrack([FromBody] PlaylistTrackAdditionData data)
+    public async Task<IActionResult> AddTrack([FromBody] PlaylistTrackAdditionDataWithUser data)
     {
         var playlist = await _playlistAccessor.Get(data.PlaylistId);
         var track = await _trackAccessor.Get(data.TrackId);
         if (playlist == null || track == null)
             return BadRequest();
+        if (playlist.Owner.UserName != data.UserName)
+            return Forbid();
         await _playlistAccessor.AddTrack(playlist, track);
         return Ok();
     }
-    
+
     [HttpPost]
     [Route("[action]")]
     public async Task<IActionResult> DeleteTrack([FromBody] PlaylistTrackAdditionData data)
@@ -89,7 +93,7 @@ public class PlaylistController : Controller
     {
         return new JsonResult(await _playlistDeleteHandler.HandleDeleteById(id));
     }
-    
+
     [HttpPut]
     [Route("update/{id}")]
     public async Task<IActionResult> UpdateById(string id, PlaylistUpdateData playlistUpdateData)

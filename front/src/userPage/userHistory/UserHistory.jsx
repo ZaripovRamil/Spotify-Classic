@@ -36,7 +36,7 @@ export const UserHistory = (props) => {
           {historyTracks.map((track, id) => (
             <Track
               key={id}
-              props={props}
+              props={props.props}
               tracks={historyTracks}
               track={track}
               idInAlbum={id}
