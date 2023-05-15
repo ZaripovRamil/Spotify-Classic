@@ -15,6 +15,11 @@ public class DbUserAccessor : DbAccessor, IDbUserAccessor
 
     public async Task<User?> GetById(string id) =>
         await DbContext.Users
+            .Include(u => u.Playlists)
+            .Include(u => u.Playlists)
+            .ThenInclude(p => p.Tracks)
+            .ThenInclude(t => t.Album)
+            .ThenInclude(a => a.Author)
             .Include(u => u.History)
             .ThenInclude(t => t.Album)
             .ThenInclude(a => a.Author)
@@ -22,6 +27,9 @@ public class DbUserAccessor : DbAccessor, IDbUserAccessor
 
     public async Task<User?> GetByUsername(string username) =>
         await DbContext.Users
+            .Include(u => u.Playlists)
+            .Include(u => u.Playlists)
+            .ThenInclude(p => p.Tracks)
             .Include(u => u.History)
             .ThenInclude(t => t.Album)
             .ThenInclude(a => a.Author)
@@ -29,6 +37,9 @@ public class DbUserAccessor : DbAccessor, IDbUserAccessor
 
     public async Task<User?> GetByEmail(string email) =>
         await DbContext.Users
+            .Include(u => u.Playlists)
+            .Include(u => u.Playlists)
+            .ThenInclude(p => p.Tracks)
             .Include(u => u.History)
             .ThenInclude(t => t.Album)
             .ThenInclude(a => a.Author)
