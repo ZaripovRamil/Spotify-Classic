@@ -19,10 +19,11 @@ public class PlaylistsController : Controller
         _clientToDb = new HttpClient
             { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseAPI}/playlist/") };
     }
+
     [HttpGet("get/{id}")]
     public async Task<IActionResult> GetByIdAsync(string id)
     {
-        var playlist = await _clientToDb.GetFromJsonAsync<PlaylistFull>($"get/{id}");
+        var playlist = await _clientToDb.GetFromJsonAsync<PlaylistFull>($"get/id/{id}");
         if (playlist is null) return NotFound();
         return new JsonResult(new PlaylistLight(playlist));
     }
