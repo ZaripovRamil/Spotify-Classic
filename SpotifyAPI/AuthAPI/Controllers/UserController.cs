@@ -29,7 +29,13 @@ public class UserController : Controller
     public async Task<IActionResult> GetHistory()
     {
         var user = await GetContextUser();
-        return new JsonResult(user.Playlists.Select(p => new PlaylistLight(p)).ToList());
+        return new JsonResult(user.UserTracks
+            .OrderByDescending(ut => ut.ListenTime)
+            .Select(ut => ut.Track)
+            .Distinct()
+            .Take(10)
+            .Select(t => new TrackLight(t))
+            .ToList());
     }
     
     [HttpGet]
@@ -102,6 +108,9 @@ public class UserController : Controller
     private async Task<User?> GetContextUser()
     {
         return await _userManager.Users
+            .Include(u=>u.Playlists)
+            .Include(u=>u.Playlists)
+            .ThenInclude(p=>p.Tracks)
             .Include(u => u.History)
             .ThenInclude(t => t.Album)
             .ThenInclude(a => a.Author)

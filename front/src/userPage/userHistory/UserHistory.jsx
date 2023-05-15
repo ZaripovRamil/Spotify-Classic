@@ -6,8 +6,11 @@ import Ports from "../../constants/Ports";
 import { useEffect, useState } from "react";
 
 const prefix = "https://localhost:7022/";
+const fetcherAuth = getFetcher(Ports.AuthService);
+const fetcherPlayer = getFetcher(Ports.MusicService);
 
 export const UserHistory = (props) => {
+  const [isLoad, setIsLoad] = useState(false);
   const [historyTracks, setHistoryTracks] = useState([
     {
       id: "",
@@ -24,26 +27,48 @@ export const UserHistory = (props) => {
       },
     },
   ]);
+
+  function GetHistory() {
+    fetcherAuth
+      .get("User/GetHistory")
+      .then((res) => setHistoryTracks(res.data))
+      .catch((res) => console.log(res));
+  }
+
   useEffect(() => {
-    setHistoryTracks(props.history);
+    GetHistory();
   }, []);
 
+  useEffect(() => {
+    props.props.playerConf.trackId !== "" && setIsLoad(true);
+    fetcherPlayer
+      .get(`Tracks/addToHistory/${props.props.playerConf.trackId}`)
+      .then((res) => {
+        GetHistory();
+      })
+      .catch((res) => console.log(res));
+
+    setIsLoad(false);
+  }, [props.props.playerConf.trackId]);
+
   return (
-    <>
-      <div className="history-block">
-        <NavLink className={"clear"}>Clear</NavLink>
-        <div>
-          {historyTracks.map((track, id) => (
-            <Track
-              key={id}
-              props={props.props}
-              tracks={historyTracks}
-              track={track}
-              idInAlbum={id}
-            />
-          ))}
+    !isLoad && (
+      <>
+        <div className="history-block">
+          <NavLink className={"clear"}>Clear</NavLink>
+          <div>
+            {historyTracks.map((track, id) => (
+              <Track
+                key={id}
+                props={props.props}
+                tracks={historyTracks}
+                track={track}
+                idInAlbum={id}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-    </>
+      </>
+    )
   );
 };

@@ -136,7 +136,7 @@ export const PlaylistPage = (props) => {
     }
     //если треки содержит играющи трек, то меняем состояние игры
     //иначе устанавливаем первый трек альбома
-    console.log(playlistTracks.length);
+    console.log(playlistTracks.length !== 0);
     if (playlistTracks.length !== 0) {
       if (playlistTracks.some((e) => e.id === playerConf.trackId)) {
         setPlayerConf((oldPlayerConf) => ({
