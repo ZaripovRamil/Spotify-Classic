@@ -7,6 +7,7 @@ import { getFetcher } from "../../axios/AxiosInstance";
 import Ports from "../../constants/Ports";
 
 const fetcher = getFetcher(Ports.MusicService);
+const prefix = "https://localhost:7022/";
 
 const useNavigateSearch = () => {
   const navigate = useNavigate();
@@ -20,47 +21,8 @@ export const PlaylistCard = ({ playlist, props }) => {
   const playlistClick = (playlist) =>
     navigateSearch("/playlist", { playlistId: playlist.id });
 
-  const playClick = () => {
-    fetcher.get("tracks").then((data) => {
-      setPlaylistTracks(data.data);
-    });
-    //если треки содержит играющи трек, то меняем состояние игры
-    //иначе устанавливаем первый трек альбома
-    if (playlistTracks.find((e) => e.id === playerConf.trackId)) {
-      setPlayerConf((oldPlayerConf) => ({
-        ...oldPlayerConf,
-        playing: !oldPlayerConf.playing,
-      }));
-    } else {
-      setPlayerConf((oldPlayerConf) => ({
-        ...oldPlayerConf,
-        trackId: playlistTracks[0].id,
-        playing: true,
-        trackPosInAlbum: 0,
-      }));
-    }
-  };
-
-  // const playlistPlayClick = (track) => {
-  //   if (tracks !== tracksList) {
-  //     setTracksList(tracks);
-  //   }
-  //   if (track.id === playerConf.trackId) {
-  //     setPlayerConf((oldPlayerConf) => ({
-  //       ...oldPlayerConf,
-  //       playing: !oldPlayerConf.playing,
-  //     }));
-  //   } else {
-  //     setPlayerConf((oldPlayerConf) => ({
-  //       ...oldPlayerConf,
-  //       trackId: track.id,
-  //       playing: true,
-  //       trackPosInAlbum: idInAlbum,
-  //     }));
-  //   }
-  // };
-
   const navigateSearch = useNavigateSearch();
+
   return (
     <div
       className="user-playlist-card"
@@ -81,9 +43,13 @@ export const PlaylistCard = ({ playlist, props }) => {
           playClick();
         }}
       /> */}
-      <img className="user-playlist-img" alt="playlist" src={compositor} />
+      <img
+        className="user-playlist-img"
+        alt="playlist"
+        src={prefix + `Previews/get/${playlist.previewId}`}
+      />
       <p className="user-playlist-title">{playlist.name}</p>
-      <p className="user-playlist-author">{playlist.owner.name}</p>
+      {/* <p className="user-playlist-author">{playlist.owner.name}</p> */}
     </div>
   );
 };

@@ -22,15 +22,15 @@ public class PlaylistsController : Controller
     [HttpGet("get/{id}")]
     public async Task<IActionResult> GetByIdAsync(string id)
     {
-        var playlist = await _clientToDb.GetFromJsonAsync<PlaylistFull>($"get/{id}");
+        var playlist = await _clientToDb.GetFromJsonAsync<PlaylistLight>($"get/id/{id}");
         if (playlist is null) return NotFound();
-        return new JsonResult(new PlaylistLight(playlist));
+        return new JsonResult(playlist);
     }
 
     [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()
     {
-        var playlists = await _clientToDb.GetFromJsonAsync<IEnumerable<PlaylistFull>>("get");
-        return new JsonResult(playlists?.Select(playlist => new PlaylistLight(playlist)));
+        var playlists = await _clientToDb.GetFromJsonAsync<IEnumerable<PlaylistLight>>("get");
+        return new JsonResult(playlists);
     }
 }

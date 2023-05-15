@@ -32,13 +32,25 @@ export const PlaylistPage = (props) => {
     },
   ]);
 
+  const [playlist, setPlaylist] = useState({
+    id: "7a9fc350-feb2-4429-ba6a-37d2af958f3a",
+    previewId: "default_playlist",
+    name: "Playlist4",
+    owner: {
+      id: "0bc22af7-4265-47ec-b3de-95588d5f56d4",
+      profilePicId: "default_pfp",
+      name: "kamilla",
+    },
+    trackCount: 0,
+  });
+
   const { tracksList, setTracksList, playerConf, setPlayerConf } = props;
 
   useEffect(() => {
-    fetcher.get("tracks").then((data) => {
+    fetcher.get("Tracks/get").then((data) => {
       setPlaylistTracks(data.data);
     });
-    // fetcher.get(`playlists/${idPlaylist}`).then((data) => {setPlaylistTracks(data.data);});
+    // fetcher.get(`Playlists/id/${idPlaylist}`).then((data) => {setPlaylist(data.data);setPlaylistTracks(data.data.tracks);});
   }, []);
 
   const playClick = () => {
@@ -83,10 +95,7 @@ export const PlaylistPage = (props) => {
       </div>
       <div className="playlist-main">
         <div className="playlist-main-img">
-          <img
-            src={prefix + `Previews/${playlistTracks[0].album.previewId}`}
-            alt=""
-          />
+          <img src={prefix + `Previews/get/${playlist.previewId}`} alt="" />
         </div>
 
         <div className="playlist-main-part">

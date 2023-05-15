@@ -28,4 +28,6 @@ public class PlaylistLight
         Owner = playlist.Owner;
         TrackCount = playlist.Tracks.Count;
     }
+
+    public PlaylistLight() { }
 }

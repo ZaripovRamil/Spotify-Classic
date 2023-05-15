@@ -5,6 +5,8 @@ using DatabaseServices.Services.Factories.Interfaces;
 using DatabaseServices.Services.UpdateHandlers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
+using Models.DTO.BackToFront.Full;
+using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.DTO.FrontToBack.EntityUpdateData;
@@ -71,14 +73,14 @@ public class PlaylistController : Controller
     [Route("Get/id/{id}")]
     public async Task<IActionResult> Get(string id)
     {
-        return new JsonResult(_dtoCreator.CreateFull(await _playlistAccessor.Get(id)));
+        return new JsonResult(new PlaylistLight(await _playlistAccessor.Get(id)));
     }
 
     [HttpGet]
     [Route("Get")]
     public async Task<IActionResult> GetAll()
     {
-        return new JsonResult(_playlistAccessor.GetAll().Select(playlist => _dtoCreator.CreateFull(playlist)));
+        return new JsonResult(_playlistAccessor.GetAll().Select(playlist => new PlaylistLight(playlist)));
     }
 
     [HttpDelete]
