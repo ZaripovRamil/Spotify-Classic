@@ -1,5 +1,4 @@
 ﻿using DatabaseServices.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -37,7 +36,7 @@ public class UserController : Controller
             .Select(t => new TrackLight(t))
             .ToList());
     }
-    
+
     [HttpGet]
     [Route("GetUserName")]
     public async Task<IActionResult> GetUserName()
@@ -73,7 +72,7 @@ public class UserController : Controller
             ? _dtoCreator.CreateFull(user)
             : _dtoCreator.CreateLight(_userManager.Users.FirstOrDefault(u => u.UserName == username)));
     }
-    
+
 
     [HttpPut]
     [Route("update/password")]
@@ -108,9 +107,9 @@ public class UserController : Controller
     private async Task<User?> GetContextUser()
     {
         return await _userManager.Users
-            .Include(u=>u.Playlists)
-            .Include(u=>u.Playlists)
-            .ThenInclude(p=>p.Tracks)
+            .Include(u => u.Playlists)
+            .Include(u => u.Playlists)
+            .ThenInclude(p => p.Tracks)
             .Include(u => u.History)
             .ThenInclude(t => t.Album)
             .ThenInclude(a => a.Author)
