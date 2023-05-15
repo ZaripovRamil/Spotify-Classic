@@ -16,6 +16,7 @@ public class Track : Entity
         FileId = fileId;
         //Genres = new List<Genre>();
         GenreTracks = new List<GenreTrack>();
+        UserTracks = new List<UserTrack>();
     }
 
     public Track(string id, string name, Album album, string fileId) : this(name, album, fileId)
@@ -35,8 +36,8 @@ public class Track : Entity
     public string AlbumId { get; set; }
     public Album Album { get; set; }
     public List<Playlist> InPlaylists { get; set; }
-    public List<GenreTrack> GenreTracks { get; set; }
-    public List<UserTrack> UserTracks { get; set; }
+    public List<GenreTrack> GenreTracks { get; set; } = new();
+    public List<UserTrack> UserTracks { get; set; } = new();
     public List<Genre> Genres { get; set; }
     public List<User> Listeners { get; set; }
 }
