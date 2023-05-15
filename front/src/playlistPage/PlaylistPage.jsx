@@ -133,6 +133,12 @@ export const PlaylistPage = (props) => {
   const playClick = () => {
     if (playlistTracks !== tracksList) {
       setTracksList(playlistTracks);
+      setPlayerConf((oldPlayerConf) => ({
+        ...oldPlayerConf,
+        trackId: playlistTracks[0].id,
+        playing: true,
+        trackPosInAlbum: 0,
+      }));
     }
     //если треки содержит играющи трек, то меняем состояние игры
     //иначе устанавливаем первый трек альбома
@@ -182,8 +188,7 @@ export const PlaylistPage = (props) => {
           <div className="playlist-btns">
             <img
               src={
-                playerConf.playing &&
-                playlistTracks.find((e) => e.id === playerConf.trackId)
+                playerConf.playing && playlistTracks === tracksList
                   ? stop
                   : play
               }
