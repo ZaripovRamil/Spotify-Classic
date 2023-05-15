@@ -12,6 +12,9 @@ import { UserMain } from "./userPage/userMain/UserMain";
 import GoAwayPage from "./goAwayPage";
 import { A } from "./test1";
 import { B } from "./test2";
+import { UserEdit } from "./userPage/UserEdit/UserEdit";
+import { UserSettings } from "./userPage/UserEdit/UserSettings";
+import { UserPassword } from "./userPage/UserEdit/UserPassword";
 
 
 function App() {
@@ -23,6 +26,8 @@ function App() {
           <Route path="/register" element={<PageBuilder component={<RegistrationPage />} />} />
           <Route path="/player" element={<PageBuilder component={<Player />} />} />
           <Route path="/main" element={<PageBuilder component={<MainPageSection />} />} />
+          <Route path="/user/edit" element={<PageBuilder component={<UserEdit content={<UserSettings/>}/>} />} />
+          <Route path="/user/password" element={<PageBuilder component={<UserEdit content={<UserPassword/>}/>} />} />
           <Route path="/history" element={<PageBuilder component={<UserProfile component={<UserHistory />} />} />} />
           <Route path="/user" element={<PageBuilder component={<UserProfile component={<UserMain />} />} />} />
           <Route path="/a" element={<PageBuilder component={<A />} />} />

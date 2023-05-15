@@ -35,4 +35,9 @@ public class DtoCreator : IDtoCreator
     {
         return playlist == null ? null : new PlaylistFull(playlist);
     }
+
+    public UserLight? CreateLight(User? user)
+    {
+        return user == null ? null : new UserLight(user);
+    }
 }
