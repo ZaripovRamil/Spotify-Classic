@@ -12,7 +12,13 @@ public class UserFull
         ProfilePicId = user.ProfilePicId;
         Name = user.Name;
         Playlists = user.Playlists.Select(p => new PlaylistLight(p)).ToList();
-        History = user.History.Select(t => new TrackLight(t)).ToList();
+        History = user.UserTracks
+            .OrderByDescending(ut => ut.ListenTime)
+            .Select(ut => ut.Track)
+            .Distinct()
+            .Take(10)
+            .Select(t => new TrackLight(t))
+            .ToList();
         Role = user.Role;
         Email = user.Email;
     }

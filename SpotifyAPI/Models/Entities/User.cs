@@ -9,7 +9,7 @@ namespace Models.Entities;
 public class User : IdentityUser
 {
     public List<Track> History { get; set; } = new();
-    public List<UserTrack> UserTracks { get; set; }
+    public List<UserTrack> UserTracks { get; set; } = new();
     public List<Playlist> Playlists { get; set; } = new();
     public string Name { get; set; }
 

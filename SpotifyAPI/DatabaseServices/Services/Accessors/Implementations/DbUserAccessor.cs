@@ -3,6 +3,7 @@ using DatabaseServices.Services.Accessors.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Models.Entities;
 using Models.Entities.Enums;
+using Models.Entities.Joints;
 
 namespace DatabaseServices.Services.Accessors.Implementations;
 
@@ -47,7 +48,11 @@ public class DbUserAccessor : DbAccessor, IDbUserAccessor
 
     public async Task AddTrackToHistory(User user, Track track)
     {
-        user.History.Add(track);
+        var userTrack = new UserTrack(user, track);
+
+        user.UserTracks.Add(userTrack);
+        track.UserTracks.Add(userTrack);
+
         await DbContext.SaveChangesAsync();
     }
 }
