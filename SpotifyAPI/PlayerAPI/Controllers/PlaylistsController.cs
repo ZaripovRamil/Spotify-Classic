@@ -40,15 +40,15 @@ public class PlaylistsController : Controller
         return new JsonResult(playlists);
     }
 
-    [HttpPost("addtrack")]
-    public async Task<IActionResult> AddTrack([FromBody] PlaylistTrackAdditionData data)
-    {
-        var json = JsonSerializer.Serialize(new PlaylistTrackAdditionDataWithUser(data, User.Identity.Name));
-        var resp = await _clientToDb.PostAsync("AddTrack", new StringContent(json, Encoding.UTF8, "application/json"));
-        if (resp.IsSuccessStatusCode)
-            return Ok();
-        if (resp.StatusCode == HttpStatusCode.Forbidden)
-            return Forbid();
-        return BadRequest();
-    }
+    // [HttpPost("addtrack")]
+    // public async Task<IActionResult> AddTrack([FromBody] PlaylistTrackAdditionData data)
+    // {
+    //     var json = JsonSerializer.Serialize(new PlaylistTrackAdditionDataWithUser(data, User.Identity.Name));
+    //     var resp = await _clientToDb.PostAsync("AddTrack", new StringContent(json, Encoding.UTF8, "application/json"));
+    //     if (resp.IsSuccessStatusCode)
+    //         return Ok();
+    //     if (resp.StatusCode == HttpStatusCode.Forbidden)
+    //         return Forbid();
+    //     return BadRequest();
+    // }
 }

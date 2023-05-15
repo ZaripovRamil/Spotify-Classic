@@ -47,31 +47,31 @@ public class PlaylistController : Controller
         return new JsonResult(new PlaylistCreationResult(state, playlist));
     }
 
-    [HttpPost]
-    [Route("[action]")]
-    public async Task<IActionResult> AddTrack([FromBody] PlaylistTrackAdditionDataWithUser data)
-    {
-        var playlist = await _playlistAccessor.Get(data.PlaylistId);
-        var track = await _trackAccessor.Get(data.TrackId);
-        if (playlist == null || track == null)
-            return BadRequest();
-        if (playlist.Owner.UserName != data.UserName)
-            return Forbid();
-        await _playlistAccessor.AddTrack(playlist, track);
-        return Ok();
-    }
-
-    [HttpPost]
-    [Route("[action]")]
-    public async Task<IActionResult> DeleteTrack([FromBody] PlaylistTrackAdditionData data)
-    {
-        var playlist = await _playlistAccessor.Get(data.PlaylistId);
-        var track = await _trackAccessor.Get(data.TrackId);
-        if (playlist == null || track == null)
-            return BadRequest();
-        await _playlistAccessor.AddTrack(playlist, track);
-        return Ok();
-    }
+    // [HttpPost]
+    // [Route("[action]")]
+    // public async Task<IActionResult> AddTrack([FromBody] PlaylistTrackAdditionDataWithUser data)
+    // {
+    //     var playlist = await _playlistAccessor.Get(data.PlaylistId);
+    //     var track = await _trackAccessor.Get(data.TrackId);
+    //     if (playlist == null || track == null)
+    //         return BadRequest();
+    //     if (playlist.Owner.UserName != data.UserName)
+    //         return Forbid();
+    //     await _playlistAccessor.AddTrack(playlist, track);
+    //     return Ok();
+    // }
+    //
+    // [HttpPost]
+    // [Route("[action]")]
+    // public async Task<IActionResult> DeleteTrack([FromBody] PlaylistTrackAdditionData data)
+    // {
+    //     var playlist = await _playlistAccessor.Get(data.PlaylistId);
+    //     var track = await _trackAccessor.Get(data.TrackId);
+    //     if (playlist == null || track == null)
+    //         return BadRequest();
+    //     await _playlistAccessor.AddTrack(playlist, track);
+    //     return Ok();
+    // }
 
     [HttpGet]
     [Route("Get/id/{id}")]
@@ -87,17 +87,17 @@ public class PlaylistController : Controller
         return new JsonResult(_playlistAccessor.GetAll().Select(playlist => new PlaylistLight(playlist)));
     }
 
-    [HttpDelete]
-    [Route("delete/{id}")]
-    public async Task<IActionResult> DeleteById(string id)
-    {
-        return new JsonResult(await _playlistDeleteHandler.HandleDeleteById(id));
-    }
-
-    [HttpPut]
-    [Route("update/{id}")]
-    public async Task<IActionResult> UpdateById(string id, PlaylistUpdateData playlistUpdateData)
-    {
-        return new JsonResult(await _playlistUpdateHandler.HandleUpdateById(id, playlistUpdateData));
-    }
+    // [HttpDelete]
+    // [Route("delete/{id}")]
+    // public async Task<IActionResult> DeleteById(string id)
+    // {
+    //     return new JsonResult(await _playlistDeleteHandler.HandleDeleteById(id));
+    // }
+    //
+    // [HttpPut]
+    // [Route("update/{id}")]
+    // public async Task<IActionResult> UpdateById(string id, PlaylistUpdateData playlistUpdateData)
+    // {
+    //     return new JsonResult(await _playlistUpdateHandler.HandleUpdateById(id, playlistUpdateData));
+    // }
 }
