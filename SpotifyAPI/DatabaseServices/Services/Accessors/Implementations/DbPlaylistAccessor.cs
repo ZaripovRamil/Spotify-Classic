@@ -38,7 +38,11 @@ public class DbPlaylistAccessor : DbAccessor, IDbPlaylistAccessor
     {
         return DbContext.Playlists
             .Include(p => p.Owner)
-            .Include(p => p.Tracks);
+            .Include(p => p.Tracks)
+            .ThenInclude(t => t.Album)
+            .ThenInclude(a => a.Author)
+            .Include(p => p.Tracks)
+            .ThenInclude(t => t.Genres);
     }
 
     public async Task Delete(Playlist playlist)
