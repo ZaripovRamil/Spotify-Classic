@@ -10,6 +10,7 @@ const fetcher = getFetcher(Ports.AuthService);
 
 export const UserProfile = (props) => {
     const navigate = useNavigate();
+    const [isLoad,setIsLoad] = useState(false)
     const [userInfo, setUserInfo] = useState({
         email: "",
         history: [],
@@ -22,12 +23,13 @@ export const UserProfile = (props) => {
 
     useEffect(()=>{
         fetcher.get(`user/getme`)
-            .then(res => setUserInfo(res.data))
+            .then(res =>{setUserInfo(res.data);setIsLoad(true)})
             .catch(err => console.log(err));
     },[])
 
     
     return (
+        isLoad &&
         <>
             <UserProfileHeader userName={userInfo.name} component={<NavLink to="/user/edit" className={"edit"} >Edit</NavLink>}/>
             <UserMenu links={
