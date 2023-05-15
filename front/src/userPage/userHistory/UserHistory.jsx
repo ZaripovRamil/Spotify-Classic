@@ -1,41 +1,74 @@
-import { NavLink } from "react-router-dom"
-import Track from "../../components/Track/Track"
-import "./UserHistory.css"
+import { NavLink } from "react-router-dom";
+import Track from "../../components/Track/Track";
+import "./UserHistory.css";
 import { getFetcher } from "../../axios/AxiosInstance";
 import Ports from "../../constants/Ports";
 import { useEffect, useState } from "react";
 
 const prefix = "https://localhost:7022/";
+const fetcherAuth = getFetcher(Ports.AuthService);
+const fetcherPlayer = getFetcher(Ports.MusicService);
 
 export const UserHistory = (props) => {
-
-    const [historyTracks, setHistoryTracks] = useState([{
+  const [isLoad, setIsLoad] = useState(false);
+  const [historyTracks, setHistoryTracks] = useState([
+    {
+      id: "",
+      fileId: "",
+      name: "",
+      album: {
         id: "",
-        fileId: "",
+        previewId: "",
         name: "",
-        album: {
-            id: "",
-            previewId: "",
-            name: "",
-            author: {
-                id: "",
-                name: ""
-            }
-        }
-    }]);
-    useEffect(() => {
-        setHistoryTracks(props.history);
-    }, [])
+        author: {
+          id: "",
+          name: "",
+        },
+      },
+    },
+  ]);
 
-    return (
-        <>
-            <div className="history-block" >
-                <NavLink className={"clear"} >Clear</NavLink>
-                <div>
-                    {historyTracks.map(((track, id) => <Track key={id} props={props.props} tracks={historyTracks} track={track} idInAlbum={id} />))}
-                </div>
-            </div>
+  function GetHistory() {
+    fetcherAuth
+      .get("User/GetHistory")
+      .then((res) => setHistoryTracks(res.data))
+      .catch((res) => console.log(res));
+  }
 
-        </>
+  useEffect(() => {
+    GetHistory();
+  }, []);
+
+  useEffect(() => {
+    props.props.playerConf.trackId !== "" && setIsLoad(true);
+    fetcherPlayer
+      .get(`Tracks/addToHistory/${props.props.playerConf.trackId}`)
+      .then((res) => {
+        GetHistory();
+      })
+      .catch((res) => console.log(res));
+
+    setIsLoad(false);
+  }, [props.props.playerConf.trackId]);
+
+  return (
+    !isLoad && (
+      <>
+        <div className="history-block">
+          <NavLink className={"clear"}>Clear</NavLink>
+          <div>
+            {historyTracks.map((track, id) => (
+              <Track
+                key={id}
+                props={props.props}
+                tracks={historyTracks}
+                track={track}
+                idInAlbum={id}
+              />
+            ))}
+          </div>
+        </div>
+      </>
     )
-}
+  );
+};

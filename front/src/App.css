@@ -6,3 +6,11 @@
     url('./fonts/PP-Hatton/PP-Hatton-Medium-500.otf') format('truetype');
   font-weight: 500;
 }
+
+.main-page {
+  width: calc(100% - 60px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0px 30px;
+}

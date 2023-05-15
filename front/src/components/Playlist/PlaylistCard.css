@@ -1,25 +1,4 @@
-/*playlists*/
-.user-playlists-block{
-    height: 700px;
-    margin-bottom: 50px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    -ms-overflow-style: none; /* IE and Edge*/
-    scrollbar-width: none;/* Firefox*/
-}
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  .user-playlists-block::-webkit-scrollbar {
-    display: none;
-}
-
-.user-playlists {
-    display: grid;
-    /* padding: 20px 20px; */
-    padding: 20px 0;
-    grid-template-columns: repeat(5,1fr);
-}
-   
-/* .user-playlist-card {
+.user-playlist-card {
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -27,6 +6,18 @@
 
     font-family: "Libre Baskerville";
     font-weight:600;
+}
+
+.user-playlist-card:hover{
+   border: 2px solid #E4B14E;
+}
+
+.track:hover .track-btn{
+    opacity: 1;
+}
+.track:hover .track-img{
+    opacity: 0.4;
+    
 }
   
 .user-playlist-img {
@@ -55,4 +46,12 @@
     align-items: center;
   
     color: rgba(252, 252, 252, 0.65);
-} */
+}
+
+.playlist-btn{
+  height: 40px;
+  width: 40px;
+  display: inline-block;
+  margin-right: 10px;
+}
+
