@@ -32,7 +32,7 @@ export const UserHistory = (props) => {
             <div className="history-block" >
                 <NavLink className={"clear"} >Clear</NavLink>
                 <div>
-                    {historyTracks.map(((track, id) => <Track key={id} props={props} tracks={historyTracks} track={track} idInAlbum={id} />))}
+                    {historyTracks.map(((track, id) => <Track key={id} props={props.props} tracks={historyTracks} track={track} idInAlbum={id} />))}
                 </div>
             </div>
 
