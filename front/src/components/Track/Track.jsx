@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./Track.css";
+import { getFetcher } from "../../axios/AxiosInstance";
+import Ports from "../../constants/Ports";
 
 // care of http/https
-
+const fetcher = getFetcher(Ports.MusicService)
 const prefix = "https://localhost:7022/";
 const Track = ({ props, track, idInAlbum, tracks }) => {
 
@@ -21,6 +23,7 @@ const Track = ({ props, track, idInAlbum, tracks }) => {
         }
         else {
             setPlayerConf((oldPlayerConf) => ({ ...oldPlayerConf, trackId: track.id, playing: true, trackPosInAlbum: idInAlbum }))
+            fetcher.get(`Tracks/addToHistory/${track.id}`).then(res => console.log(res)).catch(res => console.log(res))
         }
     }
 

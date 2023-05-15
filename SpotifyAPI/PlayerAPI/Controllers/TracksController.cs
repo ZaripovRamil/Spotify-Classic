@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Models;
@@ -37,16 +38,6 @@ public class TracksController : Controller
     [HttpGet("get/{trackId}")]
     public async Task<IActionResult> GetByIdAsStreamAsync(string trackId)
     {
-        try
-        {
-            var username = HttpContext.User.Identity.Name;
-            await AddTrackToHistory(username, trackId);
-        }
-        catch (Exception)
-        {
-            return BadRequest();
-        }
-
         var trackInfo = await GetTrackInfo(trackId);
 
         return await StreamTrack(trackInfo.FileId);
@@ -76,10 +67,21 @@ public class TracksController : Controller
             return NotFound();
         }
     }
-
-    private async Task AddTrackToHistory(string username, string trackId)
+    [HttpGet("addToHistory/{trackId}")]
+    [Authorize]
+    public async Task<IActionResult> AddTrackToHistory(string trackId)
     {
-        var message = new HttpRequestMessage(HttpMethod.Post, $"Add?userName={username}&trackId={trackId}");
-        await _clientToHistory.SendAsync(message);
+        try
+        {
+            var username = User.Identity.Name;
+            var message = new HttpRequestMessage(HttpMethod.Post, $"Add?userName={username}&trackId={trackId}");
+            await _clientToHistory.SendAsync(message);
+            return Ok();
+        }
+        catch
+        {
+            return BadRequest();
+        }
+        
     }
 }
