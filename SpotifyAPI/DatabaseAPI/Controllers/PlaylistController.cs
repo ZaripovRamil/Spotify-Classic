@@ -6,9 +6,6 @@ using DatabaseServices.Services.UpdateHandlers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO;
 using Models.DTO.BackToFront.EntityCreationResult;
-using Models.DTO.BackToFront.Full;
-using Models.DTO.BackToFront.Light;
-using Models.DTO.FrontToBack;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.DTO.FrontToBack.EntityUpdateData;
 using Models.DTO.InterServices.EntityValidationCodes;
@@ -47,57 +44,59 @@ public class PlaylistController : Controller
         return new JsonResult(new PlaylistCreationResult(state, playlist));
     }
 
-    // [HttpPost]
-    // [Route("[action]")]
-    // public async Task<IActionResult> AddTrack([FromBody] PlaylistTrackAdditionDataWithUser data)
-    // {
-    //     var playlist = await _playlistAccessor.Get(data.PlaylistId);
-    //     var track = await _trackAccessor.Get(data.TrackId);
-    //     if (playlist == null || track == null)
-    //         return BadRequest();
-    //     if (playlist.Owner.UserName != data.UserName)
-    //         return Forbid();
-    //     await _playlistAccessor.AddTrack(playlist, track);
-    //     return Ok();
-    // }
-    //
-    // [HttpPost]
-    // [Route("[action]")]
-    // public async Task<IActionResult> DeleteTrack([FromBody] PlaylistTrackAdditionData data)
-    // {
-    //     var playlist = await _playlistAccessor.Get(data.PlaylistId);
-    //     var track = await _trackAccessor.Get(data.TrackId);
-    //     if (playlist == null || track == null)
-    //         return BadRequest();
-    //     await _playlistAccessor.AddTrack(playlist, track);
-    //     return Ok();
-    // }
+    [HttpPost]
+    [Route("[action]")]
+    public async Task<IActionResult> AddTrack([FromBody] PlaylistTrackOperationDataWithUser data)
+    {
+        var playlist = await _playlistAccessor.Get(data.PlaylistId);
+        var track = await _trackAccessor.Get(data.TrackId);
+        if (playlist == null || track == null)
+            return BadRequest();
+        if (playlist.Owner.UserName != data.UserName)
+            return Forbid();
+        await _playlistAccessor.AddTrack(playlist, track);
+        return Ok();
+    }
+
+    [HttpPost]
+    [Route("[action]")]
+    public async Task<IActionResult> DeleteTrack([FromBody] PlaylistTrackOperationDataWithUser data)
+    {
+        var playlist = await _playlistAccessor.Get(data.PlaylistId);
+        var track = await _trackAccessor.Get(data.TrackId);
+        if (playlist == null || track == null)
+            return BadRequest();
+        if (playlist.Owner.UserName != data.UserName)
+            return Forbid();
+        await _playlistAccessor.DeleteTrack(playlist, track);
+        return Ok();
+    }
 
     [HttpGet]
     [Route("Get/id/{id}")]
     public async Task<IActionResult> Get(string id)
     {
-        return new JsonResult(new PlaylistLight(await _playlistAccessor.Get(id)));
+        return new JsonResult(_dtoCreator.CreateFull(await _playlistAccessor.Get(id)));
     }
 
     [HttpGet]
     [Route("Get")]
     public async Task<IActionResult> GetAll()
     {
-        return new JsonResult(_playlistAccessor.GetAll().Select(playlist => new PlaylistLight(playlist)));
+        return new JsonResult(_playlistAccessor.GetAll().Select(playlist => _dtoCreator.CreateFull(playlist)));
     }
 
-    // [HttpDelete]
-    // [Route("delete/{id}")]
-    // public async Task<IActionResult> DeleteById(string id)
-    // {
-    //     return new JsonResult(await _playlistDeleteHandler.HandleDeleteById(id));
-    // }
-    //
-    // [HttpPut]
-    // [Route("update/{id}")]
-    // public async Task<IActionResult> UpdateById(string id, PlaylistUpdateData playlistUpdateData)
-    // {
-    //     return new JsonResult(await _playlistUpdateHandler.HandleUpdateById(id, playlistUpdateData));
-    // }
+    [HttpDelete]
+    [Route("delete/{id}")]
+    public async Task<IActionResult> DeleteById(string id)
+    {
+        return new JsonResult(await _playlistDeleteHandler.HandleDeleteById(id));
+    }
+
+    [HttpPut]
+    [Route("update/{id}")]
+    public async Task<IActionResult> UpdateById(string id, PlaylistUpdateData playlistUpdateData)
+    {
+        return new JsonResult(await _playlistUpdateHandler.HandleUpdateById(id, playlistUpdateData));
+    }
 }

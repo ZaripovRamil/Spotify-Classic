@@ -8,7 +8,6 @@ export const Header = () => {
   useEffect(() => {
     let href = window.location.pathname;
     setPage(href.split("/")[1]);
-    console.log(page);
   }, [window.location.pathname]);
 
   if (page != "main") {

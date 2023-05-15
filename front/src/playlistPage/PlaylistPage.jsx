@@ -33,15 +33,86 @@ export const PlaylistPage = (props) => {
   ]);
 
   const [playlist, setPlaylist] = useState({
-    id: "7a9fc350-feb2-4429-ba6a-37d2af958f3a",
+    id: "504e5f8a-49b1-4c2f-940b-568ac3e8fef2",
     previewId: "default_playlist",
-    name: "Playlist4",
+    name: "Playlist5",
     owner: {
       id: "0bc22af7-4265-47ec-b3de-95588d5f56d4",
       profilePicId: "default_pfp",
       name: "kamilla",
     },
-    trackCount: 0,
+    tracks: [
+      {
+        id: "track1",
+        fileId: "7c561b1e-3070-4e83-b71a-2fd7a69fa040",
+        name: "Summer - Storm",
+        album: {
+          id: "album",
+          previewId: "7c561b1e-3070-4e83-b71a-2fd7a69fa040",
+          name: "The Four Seasons",
+          author: {
+            id: "author2",
+            name: "Antonio Lucio Vivaldi",
+          },
+        },
+      },
+      {
+        id: "track10",
+        fileId: "9d0a67df-6fb4-4fac-b670-49a5f590beb7",
+        name: "Lacrimosa",
+        album: {
+          id: "album8",
+          previewId: "9d0a67df-6fb4-4fac-b670-49a5f590beb7",
+          name: "Requiem",
+          author: {
+            id: "author1",
+            name: "Wolfgang Amadeus Mozart",
+          },
+        },
+      },
+      {
+        id: "track11",
+        fileId: "15fa89e4-7777-4330-b32e-62172cd398c0",
+        name: "Marriage of Figaro - Overture",
+        album: {
+          id: "album9",
+          previewId: "15fa89e4-7777-4330-b32e-62172cd398c0",
+          name: "The marriage of Figaro",
+          author: {
+            id: "author1",
+            name: "Wolfgang Amadeus Mozart",
+          },
+        },
+      },
+      {
+        id: "track12",
+        fileId: "493afb2c-eb2a-4eab-9e4e-6585eb9924ae",
+        name: "La Campanella",
+        album: {
+          id: "album10",
+          previewId: "493afb2c-eb2a-4eab-9e4e-6585eb9924ae",
+          name: "Violin Concerto No. 2",
+          author: {
+            id: "author9",
+            name: "Niccolò Paganini",
+          },
+        },
+      },
+      {
+        id: "track13",
+        fileId: "572cc6a2-a5ba-47f5-8819-8330770cf8b5",
+        name: "Never gonna give you up",
+        album: {
+          id: "album11",
+          previewId: "572cc6a2-a5ba-47f5-8819-8330770cf8b5",
+          name: "Whenever you need somebody",
+          author: {
+            id: "author10",
+            name: "Rick Astley",
+          },
+        },
+      },
+    ],
   });
 
   const { tracksList, setTracksList, playerConf, setPlayerConf } = props;
@@ -51,10 +122,11 @@ export const PlaylistPage = (props) => {
     //   setPlaylistTracks(data.data);
     // });
     fetcher
-      .get(`Playlists/id/${searchParams.get("playlistId")}`)
+      .get(`Playlists/get/${searchParams.get("playlistId")}`)
       .then((data) => {
         setPlaylist(data.data);
         setPlaylistTracks(data.data.tracks);
+        console.log(data.data.tracks);
       });
   }, []);
 
@@ -64,18 +136,21 @@ export const PlaylistPage = (props) => {
     }
     //если треки содержит играющи трек, то меняем состояние игры
     //иначе устанавливаем первый трек альбома
-    if (playlistTracks.some((e) => e.id === playerConf.trackId)) {
-      setPlayerConf((oldPlayerConf) => ({
-        ...oldPlayerConf,
-        playing: !oldPlayerConf.playing,
-      }));
-    } else {
-      setPlayerConf((oldPlayerConf) => ({
-        ...oldPlayerConf,
-        trackId: playlistTracks[0].id,
-        playing: true,
-        trackPosInAlbum: 0,
-      }));
+    console.log(playlistTracks.length);
+    if (playlistTracks.length !== 0) {
+      if (playlistTracks.some((e) => e.id === playerConf.trackId)) {
+        setPlayerConf((oldPlayerConf) => ({
+          ...oldPlayerConf,
+          playing: !oldPlayerConf.playing,
+        }));
+      } else {
+        setPlayerConf((oldPlayerConf) => ({
+          ...oldPlayerConf,
+          trackId: playlistTracks[0].id,
+          playing: true,
+          trackPosInAlbum: 0,
+        }));
+      }
     }
   };
 
