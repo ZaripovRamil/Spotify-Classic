@@ -58,4 +58,11 @@ public class DbPlaylistAccessor : DbAccessor, IDbPlaylistAccessor
         toChange.PreviewId = playlist.PreviewId;
         await DbContext.SaveChangesAsync();
     }
+
+    public async Task DeleteTrack(Playlist playlist, Track track)
+    {
+        playlist.Tracks ??= new List<Track>();
+        playlist.Tracks.Remove(track);
+        await DbContext.SaveChangesAsync();
+    }
 }

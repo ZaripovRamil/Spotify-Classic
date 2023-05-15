@@ -10,4 +10,5 @@ public interface IDbPlaylistAccessor
     IEnumerable<Playlist> GetAll();
     Task Delete(Playlist playlist);
     Task Update(Playlist playlist);
+    Task DeleteTrack(Playlist playlist, Track track);
 }

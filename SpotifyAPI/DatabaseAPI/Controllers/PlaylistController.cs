@@ -6,7 +6,6 @@ using DatabaseServices.Services.UpdateHandlers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO;
 using Models.DTO.BackToFront.EntityCreationResult;
-using Models.DTO.FrontToBack;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.DTO.FrontToBack.EntityUpdateData;
 using Models.DTO.InterServices.EntityValidationCodes;
@@ -47,7 +46,7 @@ public class PlaylistController : Controller
 
     [HttpPost]
     [Route("[action]")]
-    public async Task<IActionResult> AddTrack([FromBody] PlaylistTrackAdditionDataWithUser data)
+    public async Task<IActionResult> AddTrack([FromBody] PlaylistTrackOperationDataWithUser data)
     {
         var playlist = await _playlistAccessor.Get(data.PlaylistId);
         var track = await _trackAccessor.Get(data.TrackId);
@@ -61,13 +60,15 @@ public class PlaylistController : Controller
 
     [HttpPost]
     [Route("[action]")]
-    public async Task<IActionResult> DeleteTrack([FromBody] PlaylistTrackAdditionData data)
+    public async Task<IActionResult> DeleteTrack([FromBody] PlaylistTrackOperationDataWithUser data)
     {
         var playlist = await _playlistAccessor.Get(data.PlaylistId);
         var track = await _trackAccessor.Get(data.TrackId);
         if (playlist == null || track == null)
             return BadRequest();
-        await _playlistAccessor.AddTrack(playlist, track);
+        if (playlist.Owner.UserName != data.UserName)
+            return Forbid();
+        await _playlistAccessor.DeleteTrack(playlist, track);
         return Ok();
     }
 
