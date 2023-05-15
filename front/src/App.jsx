@@ -13,12 +13,19 @@ import GoAwayPage from "./goAwayPage";
 import { A } from "./test1";
 import { B } from "./test2";
 import { PlaylistPage } from "./playlistPage/PlaylistPage";
+import { UserEdit } from "./userPage/UserEdit/UserEdit";
+import { UserSettings } from "./userPage/UserEdit/UserSettings";
+import { UserPassword } from "./userPage/UserEdit/UserPassword";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
+          <Route
+            path="/playlist"
+            element={<PageBuilder component={<PlaylistPage />} />}
+          />
           <Route
             path="/authorize"
             element={<PageBuilder component={<AuthorizationPage />} />}
@@ -36,6 +43,22 @@ function App() {
             element={<PageBuilder component={<MainPageSection />} />}
           />
           <Route
+            path="/user/edit"
+            element={
+              <PageBuilder
+                component={<UserEdit content={<UserSettings />} />}
+              />
+            }
+          />
+          <Route
+            path="/user/password"
+            element={
+              <PageBuilder
+                component={<UserEdit content={<UserPassword />} />}
+              />
+            }
+          />
+          <Route
             path="/history"
             element={
               <PageBuilder
@@ -50,10 +73,6 @@ function App() {
                 component={<UserProfile component={<UserMain />} />}
               />
             }
-          />
-          <Route
-            path={`/playlist`}
-            element={<PageBuilder component={<PlaylistPage />} />}
           />
           <Route path="/a" element={<PageBuilder component={<A />} />} />
           <Route path="/b" element={<PageBuilder component={<B />} />} />

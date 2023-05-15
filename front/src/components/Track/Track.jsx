@@ -27,7 +27,7 @@ const Track = ({ props, track, idInAlbum, tracks }) => {
 
     return (
         <>{playerConf &&
-            <div className="track">
+            <div onClick={() => trackClick(track)} className="track">
                 <div className="track-preview">
                     <div className="track-play-img">
                         <img className="track-img" src={prefix + `Previews/get/${track.album.previewId}`} onError={({ currentTarget }) => {
@@ -35,7 +35,7 @@ const Track = ({ props, track, idInAlbum, tracks }) => {
                         }} />
                         <input type='button'
                             className={`track-btn ${(playerConf.playing && track.id == playerConf.trackId) ? 'track-buttonStop' : 'track-buttonPlay'}`}
-                            onClick={() => trackClick(track)} />
+                            />
                     </div>
                     <div>{track.name}
                         <div className="track-audiotrack-auth">{track.album.author.name}</div>

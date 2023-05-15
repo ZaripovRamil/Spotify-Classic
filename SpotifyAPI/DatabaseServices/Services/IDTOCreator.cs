@@ -11,5 +11,6 @@ public interface IDtoCreator
     GenreLight? CreateLight(Genre? getById);
     TrackFull? CreateFull(Track? getById);
     UserFull? CreateFull(User? getByUsername);
-    PlaylistFull CreateFull(Playlist get);
+    PlaylistFull? CreateFull(Playlist? get);
+    UserLight? CreateLight(User? getById);
 }

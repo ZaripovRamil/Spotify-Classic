@@ -9,7 +9,7 @@ namespace AuthAPI.Controllers;
 
 [ApiController]
 [Route("[controller]/[action]")]
-public class RegistrationController
+public class RegistrationController : Controller
 {
     private readonly UserManager<User> _userManager;
 
@@ -29,9 +29,16 @@ public class RegistrationController
         if (await _userManager.FindByNameAsync(rData.Login) != null)
             return new JsonResult(new RegistrationResult(RegistrationCode.LoginTaken, null));
         var regResult = await _userManager.CreateAsync(new User(rData.Login, rData.Email, rData.Name), rData.Password);
+        if (!ValidateUsername(rData.Login))
+            return new JsonResult(new RegistrationResult(RegistrationCode.InvalidUsername, null));
         return regResult.Succeeded
             ? new JsonResult(new RegistrationResult(RegistrationCode.Successful,
                 await _userManager.FindByEmailAsync(rData.Email)))
             : new JsonResult(new RegistrationResult(RegistrationCode.UnknownError, null));
+    }
+
+    private static bool ValidateUsername(string username)
+    {
+        return username.All(char.IsLetterOrDigit) && username.Length >= 4;
     }
 }
