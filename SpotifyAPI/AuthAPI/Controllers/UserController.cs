@@ -1,8 +1,11 @@
 ﻿using DatabaseServices.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Models.DTO.BackToFront.Light;
+using Models.DTO.FrontToBack.EntityUpdateData;
 using Models.Entities;
 
 namespace AuthAPI.Controllers;
@@ -22,10 +25,34 @@ public class UserController : Controller
     }
 
     [HttpGet]
+    [Route("GetHistory")]
+    public async Task<IActionResult> GetHistory()
+    {
+        var user = await GetContextUser();
+        return new JsonResult(user.Playlists.Select(p => new PlaylistLight(p)).ToList());
+    }
+    
+    [HttpGet]
+    [Route("GetUserName")]
+    public async Task<IActionResult> GetUserName()
+    {
+        var user = await GetContextUser();
+        return new JsonResult(user.Name);
+    }
+
+    [HttpGet]
+    [Route("GetMe")]
+    public async Task<IActionResult> GetMe()
+    {
+        var user = await GetContextUser();
+        return new JsonResult(_dtoCreator.CreateFull(user));
+    }
+
+    [HttpGet]
     [Route("Get/id/{id}")]
     public async Task<IActionResult> GetById(string id)
     {
-        var user = await GetContextUser(HttpContext.Request.Headers["Authorization"]);
+        var user = await GetContextUser();
         return new JsonResult(user.Id == id
             ? _dtoCreator.CreateFull(user)
             : _dtoCreator.CreateLight(_userManager.Users.FirstOrDefault(u => u.Id == id)));
@@ -35,18 +62,20 @@ public class UserController : Controller
     [Route("Get/username/{username}")]
     public async Task<IActionResult> GetByUsername(string username)
     {
-        var user = await GetContextUser(HttpContext.Request.Headers["Authorization"]);
+        var user = await GetContextUser();
         return new JsonResult(user.UserName == username
             ? _dtoCreator.CreateFull(user)
             : _dtoCreator.CreateLight(_userManager.Users.FirstOrDefault(u => u.UserName == username)));
     }
+    
 
     [HttpPut]
     [Route("update/password")]
-    public async Task<IActionResult> UpdatePassword([FromQuery] string oldPassword, [FromQuery] string newPassword)
+    public async Task<IActionResult> UpdatePassword([FromBody] PasswordUpdateData updateData)
     {
-        var user = await GetContextUser(HttpContext.Request.Headers["Authorization"]);
-        var result = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+        if (updateData.Password != updateData.RepeatPassword) return BadRequest();
+        var user = await GetContextUser();
+        var result = await _userManager.ChangePasswordAsync(user, updateData.OldPassword, updateData.Password);
         if (result.Succeeded) return Ok();
         return BadRequest();
     }
@@ -57,9 +86,9 @@ public class UserController : Controller
     {
         if (!ValidateUsername(username))
             return BadRequest();
-        var user = await GetContextUser(HttpContext.Request.Headers["Authorization"]);
+        var user = await GetContextUser();
 
-        user.UserName = username;
+        user.Name = username;
         var result = await _userManager.UpdateAsync(user);
         if (result.Succeeded) return Ok();
         return BadRequest();
@@ -70,13 +99,13 @@ public class UserController : Controller
         return username.All(char.IsLetterOrDigit) && username.Length >= 4;
     }
 
-    private async Task<User?> GetContextUser(string jwt)
+    private async Task<User?> GetContextUser()
     {
         return await _userManager.Users
             .Include(u => u.History)
             .ThenInclude(t => t.Album)
             .ThenInclude(a => a.Author)
             .Include(u => u.Playlists)
-            .FirstOrDefaultAsync(u => u.Id == User.Identity.Name);
+            .FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
     }
 }

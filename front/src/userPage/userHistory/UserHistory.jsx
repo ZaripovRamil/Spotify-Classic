@@ -6,7 +6,6 @@ import Ports from "../../constants/Ports";
 import { useEffect, useState } from "react";
 
 const prefix = "https://localhost:7022/";
-const fetcher = getFetcher(Ports.MusicService);
 
 export const UserHistory = (props) => {
 
@@ -24,20 +23,14 @@ export const UserHistory = (props) => {
             }
         }
     }]);
-    const { tracksList, setTracksList } = props;
     useEffect(() => {
-        // TODO: add .catch()?
-        fetcher.get('tracks/get').then((data) => {
-            setHistoryTracks(data.data);
-            // !tracksList && setTracksList(data.data);
-        });
+        setHistoryTracks(props.history);
     }, [])
 
     return (
         <>
             <div className="history-block" >
                 <NavLink className={"clear"} >Clear</NavLink>
-
                 <div>
                     {historyTracks.map(((track, id) => <Track key={id} props={props} tracks={historyTracks} track={track} idInAlbum={id} />))}
                 </div>

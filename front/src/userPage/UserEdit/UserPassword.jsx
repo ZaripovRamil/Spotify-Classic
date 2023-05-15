@@ -1,9 +1,14 @@
 import { useState } from "react"
 import passwordHideIcon from "../media/PasswordHide.png"
 import passwordShowIcon from "../media/PasswordShow.png"
+import { getFetcher } from "../../axios/AxiosInstance";
+import Ports from "../../constants/Ports";
+
+const fetcher = getFetcher(Ports.AuthService);
 
 export const UserPassword = () => {
-    const [errorMessage,setErrorMessage] = useState("oshibka")
+    const [errorMessage,setErrorMessage] = useState("")
+    const [successMessage,setSuccessMessage] = useState("")
     const [passwordBlock, setPasswordBlock] = useState({
         oldPassword: "",
         password: "",
@@ -15,32 +20,56 @@ export const UserPassword = () => {
         setPasswordBlock({ ...passwordBlock });
     }
 
+    function resetPasswordBlock(){
+        updatePasswordBlock("oldPassword","")
+        updatePasswordBlock("password","")
+        updatePasswordBlock("repeatPassword","")
+    }
+
+    const handleSubmitForm = (event) => {
+        setSuccessMessage("")
+        setErrorMessage("")
+        event.preventDefault();
+        // if (!validateCredentials()) {
+        //     return;
+        // }
+        console.log('here'); 
+        fetcher.put("User/update/password", passwordBlock)
+            .then(res => {setSuccessMessage("Пароль сменен"); resetPasswordBlock();})
+            .catch(err => {console.log(err); setErrorMessage("что то пошло не так(")});
+    };
+
     return (
         <div className="settings">
             
-            Change nickname
+            Change password
             <div className="settings-block">
                     <input className="settings-input" 
-                            type={"text"}
+                            type={"password"}
+                            value={passwordBlock.oldPassword}
+                            spellCheck={true}
                             placeholder="Old password"
-                            onChange={e => setPasswordBlock("oldPassword",e.target.value)}/>  
+                            onChange={e => updatePasswordBlock("oldPassword",e.target.value)}/>  
                       
             </div>
             <div className="settings-block">
                 <input className="settings-input" 
                         type={passwordHide?"password":"text"}
+                        value={passwordBlock.password}
                         placeholder="New password"
-                        onChange={e => setPasswordBlock("password",e.target.value)}/> 
+                        onChange={e => updatePasswordBlock("password",e.target.value)}/> 
                 <img style={{width:"25px"}} src={passwordHide?passwordHideIcon:passwordShowIcon} onClick={() => setPasswordHide(!passwordHide)} /> 
             </div>
             <div className="settings-block">
                 <input className="settings-input" 
                         type={"password"}
+                        value={passwordBlock.repeatPassword}
                         placeholder="Repeat password"
-                        onChange={e => setPasswordBlock("repeatPassword",e.target.value)}/>           
+                        onChange={e => updatePasswordBlock("repeatPassword",e.target.value)}/>           
             </div>
+            <div className="message noMargin-error-message">{successMessage}</div>  
             <div className="error-message noMargin-error-message">{errorMessage}</div>  
-            <input className="save-btn" type="button" value="Save"/>
+            <input className="save-btn" type="button" onClick={handleSubmitForm} value="Save"/>
         </div>
     )
 }

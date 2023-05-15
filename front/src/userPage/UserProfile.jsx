@@ -10,37 +10,32 @@ const fetcher = getFetcher(Ports.AuthService);
 
 export const UserProfile = (props) => {
     const navigate = useNavigate();
-    const [accessToken, setAccessToken] = useState(localStorage.getItem('access-token'));
     const [userInfo, setUserInfo] = useState({
-        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name":"testuser",
-        "http://schemas.microsoft.com/ws/2008/06/identity/claims/role":"Free",
-        "nbf":0,
-        "exp":0,
-        "iss":"",
-        "aud":""
+        email: "",
+        history: [],
+        id: "ef26e9f9-c7e3-4705-955d-ea80d0e20ef9",
+        name: "TestUser",
+        playlists: [],
+        profilePicId: "default_pfp",
+        role: 0
     });
-    // useEffect(()=>{
-    //     if (accessToken === null || accessToken === ""){
-    //         navigate('/authorize')
-    //     }
-    //     console.log(accessToken)
-    //     fetcher.get(`UserInfo/getUserInfo/${accessToken}`)
-    //         .then(res => console.log(res.data))
-    //         .catch(err => console.log(err));
 
-
-    // },[])
+    useEffect(()=>{
+        fetcher.get(`user/getme`)
+            .then(res => setUserInfo(res.data))
+            .catch(err => console.log(err));
+    },[])
 
     
     return (
         <>
-            <UserProfileHeader component={<NavLink to="/user/edit" className={"edit"} >Edit</NavLink>}/>
+            <UserProfileHeader userName={userInfo.name} component={<NavLink to="/user/edit" className={"edit"} >Edit</NavLink>}/>
             <UserMenu links={
             <>
                 <NavLink to="/user">Playlists</NavLink>
                 <NavLink to="/history">History</NavLink>
             </>}/>
-            {React.cloneElement(props.component, props)}
+            {React.cloneElement(props.component,{ props:props,playlists:userInfo.playlists,history:userInfo.history})}
         </>
         
     )
