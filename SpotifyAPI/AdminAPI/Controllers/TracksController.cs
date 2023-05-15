@@ -25,7 +25,7 @@ public class TracksController : Controller
         _clientToDb = new HttpClient
             { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseAPI}/track/") };
         _clientToStatic = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.StaticAPI}/previews/") };
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.StaticAPI}/tracks/") };
     }
     
     [HttpGet("get")]

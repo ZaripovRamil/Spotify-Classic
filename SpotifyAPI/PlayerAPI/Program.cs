@@ -1,4 +1,5 @@
 using System.Text;
+using DatabaseServices.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -15,7 +16,7 @@ var solutionConfigurationBuilder = new ConfigurationBuilder()
     .SetBasePath(Directory.GetParent(Directory.GetCurrentDirectory())!.FullName)
     .AddJsonFile("appsettings.json");
 var solutionConfiguration = solutionConfigurationBuilder.Build();
-
+builder.Services.AddScoped<IDbUserRequester, DbUserRequester>();
 builder.Services.Configure<JwtTokenSettings>(solutionConfiguration.GetSection("JWTTokenSettings"));
 builder.Services.Configure<ApplicationHosts>(solutionConfiguration.GetSection("ApplicationHosts"));
 

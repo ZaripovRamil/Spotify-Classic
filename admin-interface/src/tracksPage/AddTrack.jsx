@@ -29,19 +29,19 @@ const AddTrack = ({ insertItemsWithResultAsync }) => {
             name: 'trackFile',
             label: 'Track File',
             type: 'file',
-            typeProps: [{
+            typeProps: {
                 accept: "audio/mp3"
-            }],
+            },
             isRequired: true,
         },
         {
             name: 'genreIds',
             label: 'Genres Ids',
             type: 'array',
-            typeProps: [{
+            typeProps: {
                 type: 'text',
                 typeProps: [],
-            }],
+            },
             isRequired: true,
         },
     ];

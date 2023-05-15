@@ -8,6 +8,7 @@ using Models.Entities;
 
 namespace AuthAPI.Controllers;
 
+[AllowAnonymous]
 [ApiController]
 [Route("[controller]/[action]")]
 public class AuthController : Controller
@@ -22,7 +23,6 @@ public class AuthController : Controller
     }
 
     [HttpPost]
-    [AllowAnonymous]
     public async Task<IActionResult> Login(LoginData loginData)
     {
         var loginResult = await _signInManager
@@ -34,7 +34,12 @@ public class AuthController : Controller
                 loginResult.RequiresTwoFactor ? "Two factor authentication is required" : "No such a user";
             return new JsonResult(new LoginResult(false, "", errorMessage));
         }
-        var additionalLifetime = loginData.RememberMe ? TimeSpan.FromDays(14) : TimeSpan.Zero;
+
+        // admins are not allowed to be authorized more than one hour
+        var additionalLifetime =
+            loginData.RememberMe && await _jwtTokenGenerator.GetRoleAsync(loginData.Username) != "Admin"
+                ? TimeSpan.FromDays(14)
+                : TimeSpan.Zero;
         var token = await _jwtTokenGenerator.GenerateJwtTokenAsync(loginData.Username, additionalLifetime);
         return token is null
             ? new JsonResult(new LoginResult(false, "", "Authorization failed"))

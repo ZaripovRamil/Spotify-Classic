@@ -40,4 +40,18 @@ public class DbPlaylistAccessor : DbAccessor, IDbPlaylistAccessor
             .Include(p => p.Owner)
             .Include(p => p.Tracks);
     }
+
+    public async Task Delete(Playlist playlist)
+    {
+        DbContext.Playlists.Remove(playlist);
+        await DbContext.SaveChangesAsync();
+    }
+
+    public async Task Update(Playlist playlist)
+    {
+        var toChange = (await Get(playlist.Id))!;
+        toChange.Name = playlist.Name;
+        toChange.PreviewId = playlist.PreviewId;
+        await DbContext.SaveChangesAsync();
+    }
 }

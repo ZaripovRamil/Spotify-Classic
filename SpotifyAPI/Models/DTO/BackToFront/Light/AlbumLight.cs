@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using Models.DTO.BackToFront.Full;
 using Models.Entities;
 
@@ -11,9 +10,7 @@ public class AlbumLight
     public string Name { get; set; }
     public AuthorLight Author { get; set; }
 
-    public AlbumLight()
-    {
-    }
+    public AlbumLight() { }
 
     public AlbumLight(Album album)
     {

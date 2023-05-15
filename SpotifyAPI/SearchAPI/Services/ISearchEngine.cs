@@ -1,5 +1,4 @@
 ﻿using Models.DTO.BackToFront;
-using Models.Entities;
 
 namespace SearchAPI.Services;
 

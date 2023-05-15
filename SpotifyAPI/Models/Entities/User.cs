@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Models.Entities.Enums;
+using Models.Entities.Joints;
 
 namespace Models.Entities;
 
@@ -8,13 +9,16 @@ namespace Models.Entities;
 public class User : IdentityUser
 {
     public List<Track> History { get; set; } = new();
+    public List<UserTrack> UserTracks { get; set; }
     public List<Playlist> Playlists { get; set; } = new();
     public string Name { get; set; }
 
     public string ProfilePicId { get; set; } = "default_pfp";
     public Role Role { get; set; }
 
-    public User() { }
+    public User()
+    {
+    }
 
     public User(string login, string email, string name)
     {
@@ -23,7 +27,7 @@ public class User : IdentityUser
         UserName = login;
     }
 
-    public User(string id,string login, string email, string name):this(login, email, name)
+    public User(string id, string login, string email, string name) : this(login, email, name)
     {
         Id = id;
     }

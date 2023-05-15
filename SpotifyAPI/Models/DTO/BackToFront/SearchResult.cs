@@ -1,11 +1,11 @@
 ﻿using Models.DTO.BackToFront.Light;
-using Models.Entities;
 
 namespace Models.DTO.BackToFront;
 
 public class SearchResult
 {
-    public SearchResult(List<TrackLight> tracks, List<AlbumLight> albums, List<AuthorLight> authors, List<PlaylistLight> playlists)
+    public SearchResult(List<TrackLight> tracks, List<AlbumLight> albums, List<AuthorLight> authors,
+        List<PlaylistLight> playlists)
     {
         Tracks = tracks;
         Albums = albums;
@@ -17,6 +17,4 @@ public class SearchResult
     public List<AlbumLight> Albums { get; set; }
     public List<AuthorLight> Authors { get; set; }
     public List<PlaylistLight> Playlists { get; set; }
-    
-    
 }
