@@ -106,7 +106,7 @@
     color: #FCFCFC;
     font-size: 13px;
     opacity: 0.65;
-    margin-bottom: 5px;
+    margin: 5px 0;
 }
 .player-music-track{
     width: 100%;
@@ -138,4 +138,9 @@
     justify-content: center;
     gap: 10px;
   
+}
+
+.player-audiotrack-name:hover{
+    cursor: pointer;
+    color:#4C4E54;
 }
