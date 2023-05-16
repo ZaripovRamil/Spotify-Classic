@@ -113,7 +113,7 @@ export const PlaylistPage = (props) => {
       setPlayerConf((oldPlayerConf) => ({
         ...oldPlayerConf,
         trackId: playlistTracks[0].id,
-        playing: true,
+        playing: false,
         trackPosInAlbum: 0,
       }));
     }
