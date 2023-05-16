@@ -31,6 +31,6 @@ public class AlbumsController : Controller
     public async Task<IActionResult> GetByIdAsync(string id)
     {
         var album = await _clientToDb.GetFromJsonAsync<AlbumFull>($"get/id/{id}");
-        return new JsonResult(album is null ? null : new AlbumLight(album));
+        return new JsonResult(album is null ? null : album);
     }
 }

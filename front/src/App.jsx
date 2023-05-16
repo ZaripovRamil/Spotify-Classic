@@ -27,6 +27,10 @@ function App() {
             element={<PageBuilder component={<PlaylistPage />} />}
           />
           <Route
+            path="/album"
+            element={<PageBuilder component={<PlaylistPage />} />}
+          />
+          <Route
             path="/authorize"
             element={<PageBuilder component={<AuthorizationPage />} />}
           />

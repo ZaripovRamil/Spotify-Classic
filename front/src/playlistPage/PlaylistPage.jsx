@@ -14,7 +14,7 @@ const fetcher = getFetcher(Ports.MusicService);
 export const PlaylistPage = (props) => {
   const prefix = "https://localhost:7022/";
   const [searchParams] = useSearchParams();
-
+  const [isPlaylist, setIsPlaylist] = useState(true);
   const [playlistTracks, setPlaylistTracks] = useState([
     {
       fileId: "29ad8ca9-c791-4482-8a44-15776862b282",
@@ -31,6 +31,32 @@ export const PlaylistPage = (props) => {
       },
     },
   ]);
+
+  const [album, setAlbum] = useState({
+    id: "album",
+    previewId: "7c561b1e-3070-4e83-b71a-2fd7a69fa040",
+    name: "The Four Seasons",
+    author: {
+      id: "author2",
+      name: "Antonio Lucio Vivaldi",
+    },
+    tracks: [
+      {
+        id: "track1",
+        fileId: "7c561b1e-3070-4e83-b71a-2fd7a69fa040",
+        name: "Summer - Storm",
+        album: {
+          id: "album",
+          previewId: "7c561b1e-3070-4e83-b71a-2fd7a69fa040",
+          name: "The Four Seasons",
+          author: {
+            id: "author2",
+            name: "Antonio Lucio Vivaldi",
+          },
+        },
+      },
+    ],
+  });
 
   const [playlist, setPlaylist] = useState({
     id: "504e5f8a-49b1-4c2f-940b-568ac3e8fef2",
@@ -56,79 +82,30 @@ export const PlaylistPage = (props) => {
           },
         },
       },
-      {
-        id: "track10",
-        fileId: "9d0a67df-6fb4-4fac-b670-49a5f590beb7",
-        name: "Lacrimosa",
-        album: {
-          id: "album8",
-          previewId: "9d0a67df-6fb4-4fac-b670-49a5f590beb7",
-          name: "Requiem",
-          author: {
-            id: "author1",
-            name: "Wolfgang Amadeus Mozart",
-          },
-        },
-      },
-      {
-        id: "track11",
-        fileId: "15fa89e4-7777-4330-b32e-62172cd398c0",
-        name: "Marriage of Figaro - Overture",
-        album: {
-          id: "album9",
-          previewId: "15fa89e4-7777-4330-b32e-62172cd398c0",
-          name: "The marriage of Figaro",
-          author: {
-            id: "author1",
-            name: "Wolfgang Amadeus Mozart",
-          },
-        },
-      },
-      {
-        id: "track12",
-        fileId: "493afb2c-eb2a-4eab-9e4e-6585eb9924ae",
-        name: "La Campanella",
-        album: {
-          id: "album10",
-          previewId: "493afb2c-eb2a-4eab-9e4e-6585eb9924ae",
-          name: "Violin Concerto No. 2",
-          author: {
-            id: "author9",
-            name: "Niccolò Paganini",
-          },
-        },
-      },
-      {
-        id: "track13",
-        fileId: "572cc6a2-a5ba-47f5-8819-8330770cf8b5",
-        name: "Never gonna give you up",
-        album: {
-          id: "album11",
-          previewId: "572cc6a2-a5ba-47f5-8819-8330770cf8b5",
-          name: "Whenever you need somebody",
-          author: {
-            id: "author10",
-            name: "Rick Astley",
-          },
-        },
-      },
     ],
   });
 
   const { tracksList, setTracksList, playerConf, setPlayerConf } = props;
 
   useEffect(() => {
-    // fetcher.get("Tracks/get").then((data) => {
-    //   setPlaylistTracks(data.data);
-    // });
-    fetcher
-      .get(`Playlists/get/${searchParams.get("playlistId")}`)
-      .then((data) => {
-        setPlaylist(data.data);
+    if (searchParams.get("playlistId")) {
+      fetcher
+        .get(`Playlists/get/${searchParams.get("playlistId")}`)
+        .then((data) => {
+          setPlaylist(data.data);
+          setPlaylistTracks(data.data.tracks);
+          setIsPlaylist(true);
+          console.log(data.data, isPlaylist);
+        });
+    } else {
+      fetcher.get(`Albums/get/${searchParams.get("albumId")}`).then((data) => {
+        setAlbum(data.data);
         setPlaylistTracks(data.data.tracks);
-        console.log(data.data.tracks);
+        setIsPlaylist(false);
+        console.log(data.data, isPlaylist);
       });
-  }, []);
+    }
+  }, [searchParams]);
 
   const playClick = () => {
     if (playlistTracks !== tracksList) {
@@ -176,7 +153,10 @@ export const PlaylistPage = (props) => {
             }}
           />
         </div>
-        <p className="playlist-name">{playlist.name}</p>
+
+        <p className="playlist-name">
+          {isPlaylist ? playlist.name : album.name}
+        </p>
         <div></div>
       </div>
       <div className="playlist-main">
@@ -185,6 +165,17 @@ export const PlaylistPage = (props) => {
         </div>
 
         <div className="playlist-main-part">
+          <p className="playlist-author">
+            {isPlaylist ? (
+              <div>
+                Плейлист пользователя <b>{playlist.owner.name}</b>
+              </div>
+            ) : (
+              <div>
+                Альбом <b>{album.author.name}</b>
+              </div>
+            )}
+          </p>
           <div className="playlist-btns">
             <img
               src={
