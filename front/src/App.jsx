@@ -16,6 +16,7 @@ import { PlaylistPage } from "./playlistPage/PlaylistPage";
 import { UserEdit } from "./userPage/UserEdit/UserEdit";
 import { UserSettings } from "./userPage/UserEdit/UserSettings";
 import { UserPassword } from "./userPage/UserEdit/UserPassword";
+import { SearchPage } from "./searchPage/SerachPage";
 
 function App() {
   return (
@@ -45,6 +46,10 @@ function App() {
           <Route
             path="/main"
             element={<PageBuilder component={<MainPageSection />} />}
+          />{" "}
+          <Route
+            path="/search"
+            element={<PageBuilder component={<SearchPage />} />}
           />
           <Route
             path="/user/edit"

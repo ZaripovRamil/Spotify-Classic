@@ -1,0 +1,30 @@
+.search-suggestions-page {
+    padding: 8px 15px 8px 40px;
+    color: #FCFCFC;
+    
+    font-size: 16px;
+    font-family: Inter;
+    font-weight:400;
+    line-height: 20px;
+}
+
+
+.suggestion-page{
+  margin:10px 0px;
+    padding: 5px;
+    display: flex;
+    align-items:center;
+}
+
+.suggestion-page img{
+margin-right: 10px;
+}
+
+.suggestion-page:hover{
+border:1px solid white;
+cursor: pointer;
+}
+
+.suggestions-block{
+    padding: 0 5px;
+}
