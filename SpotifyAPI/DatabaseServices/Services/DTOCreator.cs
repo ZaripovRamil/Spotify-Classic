@@ -40,4 +40,14 @@ public class DtoCreator : IDtoCreator
     {
         return user == null ? null : new UserLight(user);
     }
+
+    public AuthorLight CreateLight(Author author)
+    {
+        return author == null ? null : new AuthorLight(author);
+    }
+
+    public TrackLight CreateLight(Track track)
+    {
+        return track == null ? null : new TrackLight(track);
+    }
 }

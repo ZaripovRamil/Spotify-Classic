@@ -1,4 +1,5 @@
-﻿using DatabaseServices.Services;
+﻿using AuthAPI.Services;
+using DatabaseServices.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,14 @@ public class UserController : Controller
 {
     private readonly UserManager<User> _userManager;
     private readonly IDtoCreator _dtoCreator;
+    private readonly IStatisticSnapshotCreator _snapshotCreator;
 
-    public UserController(UserManager<User> userManager, IDtoCreator dtoCreator)
+    public UserController(UserManager<User> userManager, IDtoCreator dtoCreator,
+        IStatisticSnapshotCreator snapshotCreator)
     {
         _userManager = userManager;
         _dtoCreator = dtoCreator;
+        _snapshotCreator = snapshotCreator;
     }
 
     [HttpGet]
@@ -28,7 +32,7 @@ public class UserController : Controller
     public async Task<IActionResult> GetHistory()
     {
         var user = await GetContextUser();
-        return new JsonResult(user.UserTracks
+        return new JsonResult(user?.UserTracks
             .OrderByDescending(ut => ut.ListenTime)
             .Select(ut => ut.Track)
             .Distinct()
@@ -42,7 +46,7 @@ public class UserController : Controller
     public async Task<IActionResult> GetUserName()
     {
         var user = await GetContextUser();
-        return new JsonResult(user.Name);
+        return new JsonResult(user?.Name);
     }
 
     [HttpGet]
@@ -58,7 +62,7 @@ public class UserController : Controller
     public async Task<IActionResult> GetById(string id)
     {
         var user = await GetContextUser();
-        return new JsonResult(user.Id == id
+        return new JsonResult(user != null && user.Id == id
             ? _dtoCreator.CreateFull(user)
             : _dtoCreator.CreateLight(_userManager.Users.FirstOrDefault(u => u.Id == id)));
     }
@@ -68,9 +72,16 @@ public class UserController : Controller
     public async Task<IActionResult> GetByUsername(string username)
     {
         var user = await GetContextUser();
-        return new JsonResult(user.UserName == username
+        return new JsonResult(user != null && user.UserName == username
             ? _dtoCreator.CreateFull(user)
             : _dtoCreator.CreateLight(_userManager.Users.FirstOrDefault(u => u.UserName == username)));
+    }
+
+    [HttpGet]
+    [Route("get/statistics")]
+    public async Task<IActionResult> GetStatistics()
+    {
+        return new JsonResult(await _snapshotCreator.Create(await GetContextUser()));
     }
 
 

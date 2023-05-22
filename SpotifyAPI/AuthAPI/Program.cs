@@ -45,6 +45,7 @@ var solutionConfiguration = solutionConfigurationBuilder.Build();
 builder.Services.Configure<JwtTokenSettings>(solutionConfiguration.GetSection("JWTTokenSettings"));
 builder.Services.Configure<ApplicationHosts>(solutionConfiguration.GetSection("ApplicationHosts"));
 builder.Services.AddScoped<IDtoCreator, DtoCreator>();
+builder.Services.AddScoped<IStatisticSnapshotCreator, StatisticSnapshotCreator>();
 builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
