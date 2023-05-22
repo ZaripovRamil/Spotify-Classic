@@ -124,6 +124,8 @@ public class UserController : Controller
             .Include(u => u.History)
             .ThenInclude(t => t.Album)
             .ThenInclude(a => a.Author)
+            .Include(u => u.History)
+            .ThenInclude(t => t.Genres)
             .Include(u => u.Playlists)
             .FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
     }
