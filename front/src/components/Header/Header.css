@@ -89,6 +89,7 @@ header ::placeholder{
     font-family: Inter;
     font-weight:400;
     line-height: 20px;
+    z-index: 10;
 }
 
 .search{
@@ -97,4 +98,18 @@ position: relative;
 
 .suggestion{
     padding: 5px;
+    display: flex;
+    align-items:center;
+}
+.suggestion img{
+margin-right: 10px;
+}
+
+.suggestion:hover{
+border:1px solid white;
+cursor: pointer;
+}
+
+.suggestions-block{
+    padding: 0 5px;
 }

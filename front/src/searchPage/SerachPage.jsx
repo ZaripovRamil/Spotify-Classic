@@ -1,22 +1,32 @@
-import "./Header.css";
-import { Link } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { getFetcher } from "../axios/AxiosInstance";
+import Ports from "../constants/Ports";
+import "./SearchPage.css";
+const fetcher = getFetcher(Ports.SearchService);
 
-export const SearchSuggestions = ({ data, value }) => {
+export const SearchPage = (props) => {
   const prefix = "https://localhost:7022/";
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const [suggestions, setSuggestions] = useState();
   const [albums, setAlbums] = useState([]);
   const [authors, setAuthors] = useState([]);
   const [playlists, setPlaylists] = useState([]);
   const [tracks, setTracks] = useState([]);
+  const [value, setValue] = useState();
 
   useEffect(() => {
-    setAlbums(data.albums.slice(0, 2));
-    setAuthors(data.authors.slice(0, 2));
-    setPlaylists(data.playlists.slice(0, 2));
-    setTracks(data.tracks.slice(0, 2));
-  }, [data]);
+    setValue(searchParams.get("value"));
+    if (value === "") setSuggestions(null);
+    fetcher.get(`Search?query=${value}`).then((data) => {
+      setSuggestions(data.data);
+      setAlbums(data.data.albums);
+      setAuthors(data.data.authors);
+      setPlaylists(data.data.playlists);
+      setTracks(data.data.tracks);
+    });
+  });
 
   const albumClick = (id) => {
     console.log(id);
@@ -34,35 +44,13 @@ export const SearchSuggestions = ({ data, value }) => {
     });
   };
 
-  const authorClick = (id) => {
-    console.log(id);
-    navigate({
-      pathname: "/album",
-      search: `?albumId=${id}`,
-    });
-  };
-
-  const searchAll = () => {
-    navigate({
-      pathname: "/search",
-      search: `?value=${value}`,
-    });
-  };
-
   return (
-    <div className="search-suggestions">
-      {albums.length === 0 && playlists.length === 0 && tracks.length === 0 ? (
-        <div>Nothing here...</div>
-      ) : (
-        <div
-          onClick={() => {
-            searchAll();
-          }}
-          className="suggestion"
-        >
-          <strong> All results for {value}</strong>
-        </div>
-      )}
+    <div className="search-suggestions-page">
+      <h3>
+        <strong> All results for {value}</strong>
+      </h3>
+      <br />
+      <br />
       <div className="suggestions-block">
         {" "}
         {albums.length !== 0 && (
@@ -72,13 +60,13 @@ export const SearchSuggestions = ({ data, value }) => {
         )}
         {albums.map((suggest) => (
           <div
-            className="suggestion"
+            className="suggestion-page"
             onClick={() => {
               albumClick(suggest.id);
             }}
           >
             <img
-              style={{ maxWidth: "50px", maxHeight: "50px" }}
+              style={{ maxWidth: "70px", maxHeight: "70px" }}
               src={prefix + `Previews/get/${suggest.previewId}`}
               alt="img"
               width={"100%"}
@@ -90,17 +78,7 @@ export const SearchSuggestions = ({ data, value }) => {
           </div>
         ))}
       </div>
-      {/* <div className="suggestions-block">
-        {" "}
-        {authors.length !== 0 && (
-          <div>
-            <strong>Authors</strong>
-          </div>
-        )}
-        {authors.map((suggest) => (
-          <div className="suggestion">{suggest.name}</div>
-        ))}
-      </div> */}
+
       <div className="suggestions-block">
         {" "}
         {tracks.length !== 0 && (
@@ -110,13 +88,13 @@ export const SearchSuggestions = ({ data, value }) => {
         )}
         {tracks.map((suggest) => (
           <div
-            className="suggestion"
+            className="suggestion-page"
             onClick={() => {
               albumClick(suggest.album.id);
             }}
           >
             <img
-              style={{ maxWidth: "50px", maxHeight: "50px" }}
+              style={{ maxWidth: "70px", maxHeight: "70px" }}
               src={prefix + `Previews/get/${suggest.album.previewId}`}
               alt="img"
               width={"100%"}
@@ -137,13 +115,13 @@ export const SearchSuggestions = ({ data, value }) => {
         )}
         {playlists.map((suggest) => (
           <div
-            className="suggestion"
+            className="suggestion-page"
             onClick={() => {
               playlistClick(suggest.id);
             }}
           >
             <img
-              style={{ maxWidth: "50px", maxHeight: "50px" }}
+              style={{ maxWidth: "70px", maxHeight: "70px" }}
               src={prefix + `Previews/get/${suggest.previewId}`}
               alt="img"
               width={"100%"}

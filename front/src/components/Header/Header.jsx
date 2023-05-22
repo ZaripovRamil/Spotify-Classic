@@ -1,5 +1,5 @@
 import "./Header.css";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { SearchSuggestions } from "./SearchSuggestions";
 import { getFetcher } from "../../axios/AxiosInstance";
@@ -9,6 +9,7 @@ const prefix = "https://localhost:7022/";
 const fetcher = getFetcher(Ports.SearchService);
 
 export const Header = () => {
+  const [searchParams] = useSearchParams();
   const [page, setPage] = useState();
   const [suggestions, setSuggestions] = useState();
   const [searchValue, setSearchValue] = useState();
@@ -16,6 +17,7 @@ export const Header = () => {
   const searchHander = (str) => {
     if (str === "") setSuggestions(null);
     fetcher.get(`Search?query=${str}`).then((data) => {
+      console.log(data.data);
       setSuggestions(data.data);
       setSearchValue(str);
     });
@@ -24,7 +26,9 @@ export const Header = () => {
   useEffect(() => {
     let href = window.location.pathname;
     setPage(href.split("/")[1]);
-  }, [window.location.pathname]);
+    setSuggestions(null);
+    setSearchValue("");
+  }, [window.location.pathname, searchParams]);
 
   if (page != "main") {
     return (
@@ -56,7 +60,16 @@ export const Header = () => {
     return (
       <header className="header">
         <div>
-          <input type="text" placeholder="Search" />
+          <div className="search">
+            <input
+              type="text"
+              placeholder="Search"
+              onChange={(e) => searchHander(e.target.value)}
+            />
+            {suggestions && (
+              <SearchSuggestions data={suggestions} value={searchValue} />
+            )}
+          </div>
         </div>
         <Link to="/authorization">
           <div className="avatar"></div>
