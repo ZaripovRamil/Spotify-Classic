@@ -17,6 +17,7 @@ import { UserEdit } from "./userPage/UserEdit/UserEdit";
 import { UserSettings } from "./userPage/UserEdit/UserSettings";
 import { UserPassword } from "./userPage/UserEdit/UserPassword";
 import { SearchPage } from "./searchPage/SerachPage";
+import { ContactPage } from "./ContactPage/ContactPage";
 
 function App() {
   return (
@@ -82,6 +83,10 @@ function App() {
                 component={<UserProfile component={<UserMain />} />}
               />
             }
+          />
+          <Route
+            path="/contacts"
+            element={<PageBuilder component={<ContactPage />} />}
           />
           <Route path="/a" element={<PageBuilder component={<A />} />} />
           <Route path="/b" element={<PageBuilder component={<B />} />} />
