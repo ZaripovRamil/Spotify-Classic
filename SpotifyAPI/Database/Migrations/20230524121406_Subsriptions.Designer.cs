@@ -3,6 +3,7 @@ using System;
 using Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230524121406_Subsriptions")]
+    partial class Subsriptions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -921,32 +924,16 @@ namespace Database.Migrations
                         {
                             Id = "user1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "68dae4e5-9ce0-4c04-98bf-470da907c669",
+                            ConcurrencyStamp = "e90e7a5c-786b-4559-a959-151ae7076294",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "John Doe",
                             PhoneNumberConfirmed = false,
                             ProfilePicId = "default_pfp",
                             Role = 0,
-                            SecurityStamp = "0c10398e-6c81-4c49-b191-5b5f192e34ec",
+                            SecurityStamp = "d32025fc-6a96-4929-bd07-5ac4dbc51363",
                             TwoFactorEnabled = false,
                             UserName = "defaultUser"
-                        },
-                        new
-                        {
-                            Id = "user2",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "a07a5915-761d-4c78-9264-ff4c1f871e20",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            Name = "Jane Doe",
-                            PhoneNumberConfirmed = false,
-                            ProfilePicId = "default_pfp",
-                            Role = 0,
-                            SecurityStamp = "bd4f1d75-7df6-4441-b6aa-bbe60f086f0d",
-                            SubscriptionId = "Premium",
-                            TwoFactorEnabled = false,
-                            UserName = "subscriptionTestUser"
                         });
                 });
 

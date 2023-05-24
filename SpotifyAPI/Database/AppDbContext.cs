@@ -14,6 +14,8 @@ public class AppDbContext : IdentityDbContext<User>
     public DbSet<Album> Albums { get; set; }
     public DbSet<Playlist> Playlists { get; set; }
 
+    public DbSet<Subscription> Subscriptions { get; set; }
+
     public AppDbContext()
     {
     }
@@ -65,10 +67,20 @@ public class AppDbContext : IdentityDbContext<User>
 
     private static void PopulateDb(ModelBuilder modelBuilder)
     {
+        #region subscription creation
+
+        var premium = new Subscription { Id = "Premium", Name = "Premium", Price = 199 };
+        modelBuilder.Entity<Subscription>()
+            .HasData(premium);
+
+        #endregion
+
         #region users creation
 
         var defaultUser = new User("user1", "defaultUser", null, "John Doe");
-        modelBuilder.Entity<User>().HasData(defaultUser);
+        var subscriptionTestUser = new User("user2", "subscriptionTestUser", null, "Jane Doe")
+            { SubscriptionId = "Premium" };
+        modelBuilder.Entity<User>().HasData(defaultUser, subscriptionTestUser);
 
         #endregion
 

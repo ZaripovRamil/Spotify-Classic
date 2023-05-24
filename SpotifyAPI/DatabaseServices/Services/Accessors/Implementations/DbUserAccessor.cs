@@ -1,6 +1,7 @@
 ﻿using Database;
 using DatabaseServices.Services.Accessors.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Models.Entities;
 using Models.Entities.Enums;
 using Models.Entities.Joints;
@@ -14,36 +15,29 @@ public class DbUserAccessor : DbAccessor, IDbUserAccessor
     }
 
     public async Task<User?> GetById(string id) =>
-        await DbContext.Users
-            .Include(u => u.Playlists)
-            .Include(u => u.Playlists)
-            .ThenInclude(p => p.Tracks)
-            .ThenInclude(t => t.Album)
-            .ThenInclude(a => a.Author)
-            .Include(u => u.History)
-            .ThenInclude(t => t.Album)
-            .ThenInclude(a => a.Author)
+        await GetUsers()
             .FirstOrDefaultAsync(u => u.Id == id);
 
     public async Task<User?> GetByUsername(string username) =>
-        await DbContext.Users
-            .Include(u => u.Playlists)
-            .Include(u => u.Playlists)
-            .ThenInclude(p => p.Tracks)
-            .Include(u => u.History)
-            .ThenInclude(t => t.Album)
-            .ThenInclude(a => a.Author)
+        await GetUsers()
             .FirstOrDefaultAsync(u => u.UserName == username);
 
     public async Task<User?> GetByEmail(string email) =>
-        await DbContext.Users
+        await GetUsers()
+            .FirstOrDefaultAsync(u => u.Email == email);
+
+    private IIncludableQueryable<User, Author> GetUsers()
+    {
+        return DbContext.Users
+            .Include(u => u.Subscription)
             .Include(u => u.Playlists)
             .Include(u => u.Playlists)
             .ThenInclude(p => p.Tracks)
             .Include(u => u.History)
             .ThenInclude(t => t.Album)
-            .ThenInclude(a => a.Author)
-            .FirstOrDefaultAsync(u => u.Email == email);
+            .ThenInclude(a => a.Author);
+    }
+
 
     public async Task AddUser(User user)
     {
