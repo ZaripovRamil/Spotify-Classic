@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchAPI", "SearchAPI\Sear
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{328F43A3-0410-4551-ADE8-0C06A3D222E9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApi", "ChatApi\ChatApi.csproj", "{21F5674C-CD56-4D3A-A928-0038F7208F8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,10 @@ Global
 		{F1B59BA3-4D55-470F-8B09-233A31F1287C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1B59BA3-4D55-470F-8B09-233A31F1287C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1B59BA3-4D55-470F-8B09-233A31F1287C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21F5674C-CD56-4D3A-A928-0038F7208F8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21F5674C-CD56-4D3A-A928-0038F7208F8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21F5674C-CD56-4D3A-A928-0038F7208F8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21F5674C-CD56-4D3A-A928-0038F7208F8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C9B1E0A1-FB54-466E-AD04-54A52C67A425} = {328F43A3-0410-4551-ADE8-0C06A3D222E9}
