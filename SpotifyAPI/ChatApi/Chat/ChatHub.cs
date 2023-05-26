@@ -7,24 +7,25 @@ namespace ChatApi.Chat;
 [Authorize]
 public class ChatHub : Hub
 {
-    public override async Task OnConnectedAsync()
-    {
-        await Groups.AddToGroupAsync(Context.ConnectionId, Context.User.Identity.Name);
-        await base.OnConnectedAsync();
-    }
-
     public async Task SendMessage(ChatMessage message)
     {
         var username = Context.User.Identity.Name;
         message.User = username;
+        if (!ChatService.MessageHistory.ContainsKey(username))
+        {
+            ChatService.MessageHistory[username] = new List<ChatMessage>();
+        }
+        ChatService.MessageHistory[username].Add(message);
+
         await Clients.Client(Context.ConnectionId).SendAsync("ReceiveMessage", message);
-        message.IsOwner = false; 
+        message.IsOwner = false;
         await Clients.GroupExcept(username,Context.ConnectionId).SendAsync("ReceiveMessage", message);
-        
-        /*var username = Context.User.Identity.Name;
-        message.User = username;
-        await Clients.Client(Context.ConnectionId).SendAsync("ReceiveMessage", message);
-        message.IsOwner = false; 
-        await Clients.AllExcept(Context.ConnectionId).SendAsync("ReceiveMessage", message);*/
+
+    }
+    
+    public async Task AddToGroup()
+    {
+        var username = Context.User.Identity.Name;
+        await Groups.AddToGroupAsync(Context.ConnectionId, username);
     }
 }
