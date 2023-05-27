@@ -1,4 +1,5 @@
 ﻿using ChatApi.Chat;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -12,8 +13,9 @@ namespace ChatApi.Controllers;
 public class ChatController : Controller
 {
     private readonly IHubContext<ChatHub> _hubCnt;
+
     [HttpGet("[action]")]
-    public List<ChatMessage> History()
+    public async Task<List<ChatMessage>> History()
     {
         var username = User.Identity.Name;
         if (!ChatService.MessageHistory.ContainsKey(username))
@@ -30,9 +32,8 @@ public class ChatController : Controller
     }
     [Authorize(Roles = "Admin")]
     [HttpGet("[action]/{groupname}")]
-    public List<ChatMessage> History(string groupname)
+    public async Task<List<ChatMessage>> History(string groupname)
     {
-        var username = User.Identity.Name;
         if (!ChatService.MessageHistory.ContainsKey(groupname))
         {
             ChatService.MessageHistory[groupname] = new List<ChatMessage>();
@@ -41,7 +42,7 @@ public class ChatController : Controller
         {
             Message = m.Message,
             User = m.User,
-            IsOwner = m.User == username
+            IsOwner = m.User != groupname
         }).ToList();
         return history;
     }

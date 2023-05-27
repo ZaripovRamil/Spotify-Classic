@@ -143,63 +143,65 @@ export const PlaylistPage = (props) => {
 
   return (
     <main className="main-page">
-      <div className="playlist-btn-header">
-        <div className="playlist-back-btn">
-          <img
-            src={back}
-            alt="back"
-            onClick={() => {
-              backClick();
-            }}
-          />
-        </div>
-
-        <p className="playlist-name">
-          {isPlaylist ? playlist.name : album.name}
-        </p>
-        <div></div>
-      </div>
-      <div className="playlist-main">
-        <div className="playlist-main-img">
-          <img src={prefix + `Previews/get/${playlist.previewId}`} alt="" />
-        </div>
-
-        <div className="playlist-main-part">
-          <p className="playlist-author">
-            {isPlaylist ? (
-              <div>
-                Плейлист пользователя <b>{playlist.owner.name}</b>
-              </div>
-            ) : (
-              <div>
-                Альбом <b>{album.author.name}</b>
-              </div>
-            )}
-          </p>
-          <div className="playlist-btns">
+      <div className="playlistPage">
+        <div className="playlist-btn-header">
+          <div className="playlist-back-btn">
             <img
-              src={
-                playerConf.playing && playlistTracks === tracksList
-                  ? stop
-                  : play
-              }
-              alt=""
-              className="playlist-btn play-btn"
+              src={back}
+              alt="back"
               onClick={() => {
-                playClick();
+                backClick();
               }}
             />
-            <img src={like} alt="" className="playlist-btn like-btn" />
           </div>
-          <div className="playlist-tracks">
-            {playlistTracks.map((track, id) => (
-              <Track
-                props={props}
-                tracks={playlistTracks}
-                track={track}
-                idInAlbum={id}
+
+          <p className="playlist-name">
+            {isPlaylist ? playlist.name : album.name}
+          </p>
+          <div></div>
+        </div>
+        <div className="playlist-main">
+          <div className="playlist-main-img">
+            <img src={prefix + `Previews/get/${playlist.previewId}`} alt="" />
+          </div>
+
+          <div className="playlist-main-part">
+            <p className="playlist-author">
+              {isPlaylist ? (
+                <div>
+                  Плейлист пользователя <b>{playlist.owner.name}</b>
+                </div>
+              ) : (
+                <div>
+                  Альбом <b>{album.author.name}</b>
+                </div>
+              )}
+            </p>
+            <div className="playlist-btns">
+              <img
+                src={
+                  playerConf.playing && playlistTracks === tracksList
+                    ? stop
+                    : play
+                }
+                alt=""
+                className="playlist-btn play-btn"
+                onClick={() => {
+                  playClick();
+                }}
               />
-            ))}
+              <img src={like} alt="" className="playlist-btn like-btn" />
+            </div>
+            <div className="playlist-tracks">
+              {playlistTracks.map((track, id) => (
+                <Track
+                  props={props}
+                  tracks={playlistTracks}
+                  track={track}
+                  idInAlbum={id}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>

@@ -11,8 +11,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-
-
 var solutionConfigurationBuilder = new ConfigurationBuilder()
     .SetBasePath(Directory.GetParent(Directory.GetCurrentDirectory())!.FullName)
     .AddJsonFile("appsettings.json");
@@ -27,7 +25,6 @@ builder.Services.AddAuthentication( options => {
 })
     .AddJwtBearer(opts =>
     {
-        
         opts.RequireHttpsMetadata = false;
         opts.TokenValidationParameters = new TokenValidationParameters
         {
@@ -65,8 +62,9 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(corsPolicyBuilder =>
     {
         corsPolicyBuilder
-            .WithOrigins($"http://localhost:{solutionConfiguration.GetSection("ApplicationHosts:UsersFrontend").Value}")
-            .AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+            .WithOrigins($"http://localhost:{solutionConfiguration.GetSection("ApplicationHosts:UsersFrontend").Value}",
+                $"http://localhost:{solutionConfiguration.GetSection("ApplicationHosts:AdminFrontend").Value}")
+            .AllowAnyHeader().AllowAnyMethod();
     });
 });
 

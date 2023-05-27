@@ -1,0 +1,104 @@
+*{
+    margin: 0;
+}
+.chat-page{
+    margin: 50px 100px ;
+    display: flex;
+    border: solid #000;
+    height: 600px;
+}
+.group-block{
+    width: 15%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border-right: solid #000;
+    background-color:#f1f1f1;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -ms-overflow-style: none; /* IE and Edge*/
+    scrollbar-width: none;
+}
+.group-link{
+    text-decoration: none;
+    font-size: 20px;
+    padding: 10px;
+}
+.chat-block{
+    display: grid;
+    grid-template-rows: 40px 510px auto;
+    grid-template-columns: 100%;
+    width: 85%;
+}
+.sentMessage-form{
+    display: flex;
+    align-items: center;
+}
+
+.sentMessage-form > .sentMessage-input{
+    background: #D9D9D9;
+    width: 90%;
+    border: none;
+    font-size: 16px;
+    padding: 6px ;
+    border-radius: 3px;
+}
+
+.sentMessage-form > .sentMessage-btn {
+    color: white;
+    border: none;
+    font-size: 16px;
+    width: 10%;
+    height: 50px;
+    border-radius: 3px;
+    background-color:#f44336 ;
+}
+
+.sentMessage-form > .sentMessage-btn:hover {
+    background-color: #FECB6899;
+}
+.sentMessage-form textarea:focus, input:focus {
+    outline: none;
+}
+
+.messages-block{
+    padding: 15px 30px;
+    border-top: thick double #bbb;
+    background-color:#f1f1f1;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -ms-overflow-style: none; /* IE and Edge*/
+    scrollbar-width: none;/* Firefox*/
+}
+.message-block{
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    width: 40%;
+    min-height: 23px;
+    color:#1E1E23;
+}
+.message-block-owner{
+    margin-left: auto;
+    margin-right: 0;
+    align-items: end;
+}
+.message-block-no-owner {
+    margin-left: 0;
+    margin-right: auto;
+    align-items: start;
+}
+.message{
+    background-color:#f44336;
+    border-radius: 7px;
+    min-height: 23px;
+    padding: 10px;
+    max-width: 100%;
+}
+.message-owner{
+    background-color:#2196f3;
+}
+.message-text{
+    word-wrap: break-word;
+    min-height: 23px;
+}
