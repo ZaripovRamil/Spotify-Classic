@@ -16,7 +16,7 @@ export const Header = () => {
 
   const searchHander = (str) => {
     if (str === "") setSuggestions(null);
-    fetcher.get(`Search?query=${str}`).then((data) => {
+    fetcher.get(`Search?query=${str.trim()}`).then((data) => {
       console.log(data.data);
       setSuggestions(data.data);
       setSearchValue(str);
