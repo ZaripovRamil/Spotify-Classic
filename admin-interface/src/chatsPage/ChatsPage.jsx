@@ -19,11 +19,13 @@ export const ChatsPage = ({component}) => {
       }, []);
 
     return (
-        <div className="chat-page">
-            <div className="group-block">
-                {users && users.map(user => <NavLink key={user.userName} className={"group-link"} to={`/chat/${user.userName}`}>{user.userName}</NavLink>)} 
-            </div>  
-            {component}
+        <div className="chats-page">
+            <div className="chat-page">
+                <div className="group-block">
+                    {users && users.map(user => <NavLink key={user.userName} className={"group-link"} to={`/chat/${user.userName}`}>{user.userName}</NavLink>)} 
+                </div>  
+                {component}
+            </div>
         </div>
 
     )

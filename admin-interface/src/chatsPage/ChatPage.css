@@ -1,15 +1,21 @@
 *{
     margin: 0;
 }
+.chats-page{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .chat-page{
-    margin: 50px 100px ;
     display: flex;
     border: solid #000;
     height: 600px;
+    width: 90%;
 }
 .group-block{
     width: 15%;
-    padding: 20px;
+    padding: 5px;
     display: flex;
     flex-direction: column;
     border-right: solid #000;
@@ -23,6 +29,7 @@
     text-decoration: none;
     font-size: 20px;
     padding: 10px;
+    word-wrap: break-word;
 }
 .chat-block{
     display: grid;

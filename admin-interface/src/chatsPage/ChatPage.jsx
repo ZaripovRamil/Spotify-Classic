@@ -18,7 +18,7 @@ export const ChatPage = () => {
 
     function updateHistory(){
         fetcher.get(`/chat/history/${userName}`)
-            .then(result =>{ setChat(result.data); console.log(result.data)})
+            .then(result =>{ setChat(result.data);})
             .catch(ex => console.log(ex));    
     }
 
@@ -42,7 +42,8 @@ export const ChatPage = () => {
             connection.start()
                 .then( (result) => {
                     console.log('Connected!');
-                    connection.send("AddToGroupByName",`${userName}`);
+                    
+                    connection.send("AddToGroupByName",userName)
 
                     connection.on('ReceiveMessage', message => {
                         const updatedChat = [...latestChat.current];
