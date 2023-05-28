@@ -13,6 +13,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddTransient<IFileProvider, FileProvider>();
+builder.Services.AddTransient<IHlsConverter, HlsConverter>();
 var solutionConfigurationBuilder = new ConfigurationBuilder()
     .SetBasePath(Directory.GetParent(Directory.GetCurrentDirectory())!.FullName)
     .AddJsonFile("appsettings.json");
@@ -69,7 +70,6 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader().AllowAnyMethod();
     });
 });
-
 
 var app = builder.Build();
 

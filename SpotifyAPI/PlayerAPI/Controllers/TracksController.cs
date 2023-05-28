@@ -65,7 +65,6 @@ public class TracksController : Controller
         }
     }
     [HttpGet("addToHistory/{trackId}")]
-    [Authorize]
     public async Task<IActionResult> AddTrackToHistory(string trackId)
     {
         try
@@ -79,6 +78,5 @@ public class TracksController : Controller
         {
             return BadRequest();
         }
-        
     }
 }
