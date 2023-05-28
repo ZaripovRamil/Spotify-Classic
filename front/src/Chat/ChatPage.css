@@ -2,6 +2,7 @@
     padding: 10px;
     width: 60%;
 }
+
 .messages-block{
     padding: 10px 30px;
     border: thick double #cea232;
@@ -79,4 +80,15 @@
 .message-text{
     word-wrap: break-word;
     min-height: 23px;
+}
+@media (max-width:625px){
+    .chat-block{
+        width: 80%;
+    }
+    .message-text{
+        font-size: 12px;
+    }
+    .messages-block{
+        padding: 5px 10px;
+    }
 }

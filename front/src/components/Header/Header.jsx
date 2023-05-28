@@ -30,15 +30,18 @@ export const Header = () => {
     setSearchValue("");
   }, [window.location.pathname, searchParams]);
 
-  if (page != "main") {
     return (
-      <header className="header-main">
+      <header className="header">
+        {page != "main" ?
         <div className="header-logo">
           <Link to="/main">
             {" "}
             <div>Classic music</div>{" "}
           </Link>
-        </div>
+        </div> 
+        : <div></div>}
+        
+        
         <div className="header-nav">
           <div className="search">
             <input
@@ -54,26 +57,6 @@ export const Header = () => {
             <div className="avatar"></div>
           </Link>
         </div>
-      </header>
-    );
-  } else
-    return (
-      <header className="header">
-        <div>
-          <div className="search">
-            <input
-              type="text"
-              placeholder="Search"
-              onChange={(e) => searchHander(e.target.value)}
-            />
-            {suggestions && (
-              <SearchSuggestions data={suggestions} value={searchValue} />
-            )}
-          </div>
-        </div>
-        <Link to="/authorization">
-          <div className="avatar"></div>
-        </Link>
       </header>
     );
 };
