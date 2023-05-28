@@ -19,6 +19,7 @@ import { UserPassword } from "./userPage/UserEdit/UserPassword";
 import { SearchPage } from "./searchPage/SerachPage";
 import { ContactPage } from "./ContactPage/ContactPage";
 import { ChatPage } from "./Chat/ChatPage";
+import { UserStatisctics } from "./userPage/userStatistic/UserStatistic";
 
 function App() {
   return (
@@ -58,6 +59,14 @@ function App() {
             element={
               <PageBuilder
                 component={<UserEdit content={<UserSettings />} />}
+              />
+            }
+          />
+          <Route
+            path="/user/statistic"
+            element={
+              <PageBuilder
+                component={<UserStatisctics content={<UserSettings />} />}
               />
             }
           />

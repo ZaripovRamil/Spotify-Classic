@@ -1,101 +1,110 @@
 /*user profile header*/
 
-.userHeader{
-    display: flex;
-    justify-content: flex-start;
-    gap: 20px;
-    /* padding: 10px 30px; */
-    padding: 10px 0px;
+.userHeader {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+  /* padding: 10px 30px; */
+  padding: 10px 0px;
 }
-.userAvatar{
-    border-radius: 50%;
-    background-color: #D9D9D9;
-    width: 125px;
-    height: 125px;
+.userAvatar {
+  border-radius: 50%;
+  background-color: #d9d9d9;
+  width: 125px;
+  height: 125px;
 }
-.userName{
-    color: #FECB68;
-    font-family: "Libre Baskerville";
-    font-weight:700;
-    letter-spacing: 0.1em;
-    font-size: 30px;
-    margin-top: 25px;
+.userName {
+  color: #fecb68;
+  font-family: "Libre Baskerville";
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  font-size: 30px;
+  /* margin-top: 25px; */
 }
-.header-info{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
-
-.edit{
-    width: 65px;
-    height: 34px;
-    padding-left: 50px;
-    padding-right: 4px;
-
-    background-size: 25px;
-
-    text-decoration: none;
-    line-height: 34px;
-    color: #FCFCFC;
-    font-size: 13px;
-    font-family: "Libre Baskerville";
-    font-weight:600;
-    
-
-    background-image: url("./media/gear.svg");   
-    background-repeat: no-repeat; 
-    background-position: 10px;
-    border: solid #FCFCFC 2px;
-    border-radius: 15px;
+.header-info a {
+  text-decoration: none;
+  color: #fcfcfc;
 }
 
+.header-info a:visited {
+  text-decoration: none;
+  color: #fcfcfc;
+}
+
+.header-info a:hover {
+  color: #fecb68;
+}
+
+.edit {
+  width: 65px;
+  height: 34px;
+  padding-left: 50px;
+  padding-right: 4px;
+
+  background-size: 25px;
+
+  text-decoration: none;
+  line-height: 34px;
+  color: #fcfcfc;
+  font-size: 13px;
+  font-family: "Libre Baskerville";
+  font-weight: 600;
+
+  background-image: url("./media/gear.svg");
+  background-repeat: no-repeat;
+  background-position: 10px;
+  border: solid #fcfcfc 2px;
+  border-radius: 15px;
+}
 
 /*user menu*/
 
-.user-menu{
-    font-family: "Libre Baskerville";
-    font-weight:600;
-    letter-spacing: 0.1em;
-    font-size: 14px;
-    color: #FCFCFC;
-    border-bottom:solid 1px #FCFCFC;
-    /* margin: 0px 30px; */
-    padding-top: 30px;
+.user-menu {
+  font-family: "Libre Baskerville";
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  font-size: 14px;
+  color: #fcfcfc;
+  border-bottom: solid 1px #fcfcfc;
+  /* margin: 0px 30px; */
+  padding-top: 30px;
 }
 
-.user-menu-list{
-    margin-bottom: 10px;
-    display: flex;
-    gap: 20px;
+.user-menu-list {
+  margin-bottom: 10px;
+  display: flex;
+  gap: 20px;
 }
 
 .user-menu-list > a {
-    color: #FCFCFC;
-    position: relative; 
-    text-decoration: none;    
+  color: #fcfcfc;
+  position: relative;
+  text-decoration: none;
 }
 
 .user-menu-list > a:after {
-    width: 0;
-    height: 2px;
-    background-color: #FECB68;
-    content: '';
-    left: 0;
-    bottom: -11px;
-    position: absolute;
-    transition: all .3s; 
+  width: 0;
+  height: 2px;
+  background-color: #fecb68;
+  content: "";
+  left: 0;
+  bottom: -11px;
+  position: absolute;
+  transition: all 0.3s;
 }
 .user-menu-list > a:hover::after {
-    width: 100%; 
+  width: 100%;
 }
 .user-menu-list > a.active:after {
-    width: 100%; 
+  width: 100%;
 }
 .user-menu-list a {
-    color: #fff; 
-    transition: all .3s; 
-    text-decoration: none;    
+  color: #fff;
+  transition: all 0.3s;
+  text-decoration: none;
 }
-
-

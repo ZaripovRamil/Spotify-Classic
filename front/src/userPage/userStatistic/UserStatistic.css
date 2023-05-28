@@ -1,0 +1,121 @@
+.print {
+  width: 65px;
+  height: 34px;
+
+  background-size: 25px;
+
+  text-decoration: none;
+  line-height: 34px;
+  color: #fcfcfc;
+  font-size: 13px;
+  font-family: "Libre Baskerville";
+  font-weight: 600;
+
+  border: solid #fcfcfc 2px;
+  border-radius: 15px;
+
+  background-color: transparent;
+}
+
+.print {
+  cursor: pointer;
+}
+
+.float__card {
+  padding: 20px 0px;
+}
+
+.float__card h3 {
+  margin-bottom: 20px;
+}
+
+.float__card hr {
+  margin: 20px 0;
+}
+
+.stat-block {
+  margin-bottom: 15px;
+}
+
+.stat-part {
+  display: flex;
+  align-items: center;
+  padding: 7px 0;
+}
+
+.stat-part img {
+  max-width: 40px;
+  max-height: 40px;
+  padding-right: 5px;
+}
+
+.total-listens {
+  display: flex;
+  align-items: center;
+}
+
+.total-listens .stat-title {
+  margin-bottom: 0;
+}
+
+.stat-ul {
+  flex-direction: column;
+  list-style: circle;
+  padding-left: 15px;
+  align-items: flex-start;
+}
+
+.stat-ul li {
+  padding: 7px 0;
+  color: #fcfcfc;
+}
+
+.stat-part-info {
+  display: flex;
+}
+
+.stat-part-info div {
+  padding-right: 5px;
+}
+
+.stat-title,
+.stat-number {
+  font-family: "Baskervville";
+  font-style: italic;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 78.68%;
+  /* or 16px */
+
+  display: flex;
+
+  align-items: center;
+  letter-spacing: 0.035em;
+}
+
+.stat-title {
+  color: #fcfcfc;
+  margin-bottom: 10px;
+  padding-right: 5px;
+}
+
+.stat-number {
+  color: #fecb68;
+}
+
+.stat-part-info {
+  font-family: "Baskervville";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 78.68%;
+  /* identical to box height, or 12px */
+  color: #fcfcfc;
+  /* display: flex;
+  align-items: center; */
+  letter-spacing: 0.035em;
+}
+
+.statistic {
+  padding: 20px;
+}

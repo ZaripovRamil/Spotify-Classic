@@ -48,6 +48,10 @@ export const Header = () => {
               type="text"
               placeholder="Search"
               onChange={(e) => searchHander(e.target.value)}
+              readonly
+              onfocus={() => {
+                this.removeAttribute("readonly");
+              }}
             />
             {suggestions && (
               <SearchSuggestions data={suggestions} value={searchValue} />
