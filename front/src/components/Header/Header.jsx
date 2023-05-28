@@ -16,11 +16,13 @@ export const Header = () => {
 
   const searchHander = (str) => {
     if (str === "") setSuggestions(null);
-    fetcher.get(`Search?query=${str}`).then((data) => {
-      console.log(data.data);
-      setSuggestions(data.data);
-      setSearchValue(str);
-    });
+    else {
+      fetcher.get(`Search?query=${str}`).then((data) => {
+        console.log(data.data);
+        setSuggestions(data.data);
+        setSearchValue(str);
+      });
+    }
   };
 
   useEffect(() => {
@@ -30,37 +32,34 @@ export const Header = () => {
     setSearchValue("");
   }, [window.location.pathname, searchParams]);
 
-    return (
-      <header className="header">
-        {page != "main" ?
+  return (
+    <header className="header">
+      {page != "main" ? (
         <div className="header-logo">
           <Link to="/main">
             {" "}
             <div>Classic music</div>{" "}
           </Link>
-        </div> 
-        : <div></div>}
-        
-        
-        <div className="header-nav">
-          <div className="search">
-            <input
-              type="text"
-              placeholder="Search"
-              onChange={(e) => searchHander(e.target.value)}
-              readonly
-              onfocus={() => {
-                this.removeAttribute("readonly");
-              }}
-            />
-            {suggestions && (
-              <SearchSuggestions data={suggestions} value={searchValue} />
-            )}
-          </div>
-          <Link to="/authorization">
-            <div className="avatar"></div>
-          </Link>
         </div>
-      </header>
-    );
+      ) : (
+        <div></div>
+      )}
+
+      <div className="header-nav">
+        <div className="search">
+          <input
+            type="text"
+            placeholder="Search"
+            onChange={(e) => searchHander(e.target.value)}
+          />
+          {suggestions && (
+            <SearchSuggestions data={suggestions} value={searchValue} />
+          )}
+        </div>
+        <Link to="/authorization">
+          <div className="avatar"></div>
+        </Link>
+      </div>
+    </header>
+  );
 };

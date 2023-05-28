@@ -10,10 +10,10 @@ export const UserProfileHeader = ({ component, userName }) => {
           <NavLink to="/user">
             <div className="userName">{userName}</div>
           </NavLink>
-
           {component}
           {/* only for authorized */}
           <NavLink to="/user/statistic">Export data</NavLink>
+          <NavLink to="/user/subscription">Subscription</NavLink>
         </div>
       </div>
     </>

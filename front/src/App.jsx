@@ -20,6 +20,7 @@ import { SearchPage } from "./searchPage/SerachPage";
 import { ContactPage } from "./ContactPage/ContactPage";
 import { ChatPage } from "./Chat/ChatPage";
 import { UserStatisctics } from "./userPage/userStatistic/UserStatistic";
+import { UserSubscription } from "./userPage/userSubscription/UserSubscription";
 
 function App() {
   return (
@@ -64,11 +65,11 @@ function App() {
           />
           <Route
             path="/user/statistic"
-            element={
-              <PageBuilder
-                component={<UserStatisctics content={<UserSettings />} />}
-              />
-            }
+            element={<PageBuilder component={<UserStatisctics />} />}
+          />
+          <Route
+            path="/user/subscription"
+            element={<PageBuilder component={<UserSubscription />} />}
           />
           <Route
             path="/user/password"
