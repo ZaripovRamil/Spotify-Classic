@@ -38,9 +38,11 @@ public class TracksController : Controller
     [HttpGet("get/{trackId}")]
     public async Task<IActionResult> GetByIdAsStreamAsync(string trackId)
     {
+        if (trackId.Contains('.')) return await StreamTrack(trackId); // if file.ts requested, not track
         var trackInfo = await GetTrackInfo(trackId);
 
         return await StreamTrack(trackInfo.FileId);
+
     }
 
     private async Task<TrackFull> GetTrackInfo(string trackId)
@@ -56,11 +58,7 @@ public class TracksController : Controller
         try
         {
             var responseStream = await _clientToStatic.GetStreamAsync(fileId);
-            return new FileStreamResult(responseStream, "application/octet-stream")
-            {
-                FileDownloadName = $"{fileId}.mp3",
-                EnableRangeProcessing = true
-            };
+            return new FileStreamResult(responseStream, "application/octet-stream");
         }
         catch (HttpRequestException)
         {

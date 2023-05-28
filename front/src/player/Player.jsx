@@ -107,7 +107,7 @@ const Player = ({ props }) => {
           }}
           config={{
             file: {
-              // forceHLS: true,
+              forceHLS: true,
               hlsOptions: {
                 xhrSetup: function (xhr, url) {
                   xhr.setRequestHeader("Authorization", `Bearer ${getToken()}`);
