@@ -8,7 +8,7 @@ using Models.DTO.BackToFront.Light;
 
 namespace PlayerAPI.Controllers;
 
-// [Authorize(Roles = "Free,Premium,Admin")]
+[Authorize(Roles = "Free,Premium,Admin")]
 [ApiController]
 [Route("[controller]")]
 public class TracksController : Controller
@@ -38,11 +38,10 @@ public class TracksController : Controller
     [HttpGet("get/{trackId}")]
     public async Task<IActionResult> GetByIdAsStreamAsync(string trackId)
     {
-        if (trackId.Contains('.')) return await StreamTrack(trackId); // if file.ts requested, not track
+        if (trackId.EndsWith(".ts")) return await StreamTrack(trackId); // if file.ts requested, not track
         var trackInfo = await GetTrackInfo(trackId);
 
         return await StreamTrack(trackInfo.FileId);
-
     }
 
     private async Task<TrackFull> GetTrackInfo(string trackId)
