@@ -19,6 +19,8 @@ public class UserFull
             .Take(10)
             .Select(t => new TrackLight(t))
             .ToList();
+        Subscription = user.Subscription == null ? null : new SubscriptionLight(user.Subscription);
+        SubscriptionExpire = user.SubscriptionExpire;
         Role = user.Role;
         Email = user.Email;
     }
@@ -28,6 +30,8 @@ public class UserFull
     public string Name { get; set; }
     public Role Role { get; set; }
     public string Email { get; set; }
+    public DateTime? SubscriptionExpire { get; set; }
+    public SubscriptionLight? Subscription { get; set; }
     public List<TrackLight> History { get; set; }
     public List<PlaylistLight> Playlists { get; set; }
 }

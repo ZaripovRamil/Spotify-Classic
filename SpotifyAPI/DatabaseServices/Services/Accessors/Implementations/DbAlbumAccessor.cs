@@ -31,20 +31,16 @@ public class DbAlbumAccessor : DbAccessor, IDbAlbumAccessor
     }
 
     public async Task<Album?> GetByName(string name) =>
-        await DbContext.Albums
-            .Include(a => a.Author)
-            .Include(a => a.Tracks)
+        await GetAll()
             .FirstOrDefaultAsync(a => a.Name == name);
 
-    public IEnumerable<Album> GetAll()
+    public IQueryable<Album> GetAll()
     {
         return DbContext.Albums.Include(a => a.Author)
             .Include(a => a.Tracks);
     }
-    
+
     public async Task<Album?> GetById(string id) =>
-        await DbContext.Albums
-            .Include(a => a.Author)
-            .Include(a => a.Tracks)
+        await GetAll()
             .FirstOrDefaultAsync(a => a.Id == id);
 }

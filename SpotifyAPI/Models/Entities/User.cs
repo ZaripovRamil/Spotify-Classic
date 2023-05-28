@@ -13,6 +13,10 @@ public class User : IdentityUser
     public List<Playlist> Playlists { get; set; } = new();
     public string Name { get; set; }
 
+    public Subscription? Subscription { get; set; }
+    public string? SubscriptionId { get; set; }
+    public DateTime? SubscriptionExpire { get; set; }
+
     public string ProfilePicId { get; set; } = "default_pfp";
     public Role Role { get; set; }
 

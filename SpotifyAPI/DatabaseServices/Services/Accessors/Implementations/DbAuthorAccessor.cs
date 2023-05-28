@@ -40,22 +40,20 @@ public class DbAuthorAccessor : DbAccessor, IDbAuthorAccessor
 
     public async Task<Author?> GetById(string id)
     {
-        return await DbContext.Authors
-            .Include(a => a.User)
-            .Include(a => a.Albums)
+        return await GetAll()
             .FirstOrDefaultAsync(a => a.Id == id);
     }
 
     public async Task<Author?> GetByName(string name)
     {
-        return await DbContext.Authors
-            .Include(a => a.User)
-            .Include(a => a.Albums)
+        return await GetAll()
             .FirstOrDefaultAsync(a => a.Name == name);
     }
 
-    public IEnumerable<Author> GetAll()
+    public IQueryable<Author> GetAll()
     {
-        return DbContext.Authors.Include(a => a.Albums);
+        return DbContext.Authors
+            .Include(a => a.User)
+            .Include(a => a.Albums);
     }
 }
