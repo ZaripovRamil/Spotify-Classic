@@ -10,9 +10,11 @@ export const Footer = ({ props }) => {
           <img className="footer-logo-img" src={footerLogo} />
           <div>Classic music</div>
         </div>
-        <div>
+        <div className="footer-links">
           <div className="footer-inc">© 2023 DotKek Bol’ Inc.</div>
-          <a href="/contacts">Контакты</a>
+          <a href="/contacts">Contacts</a>
+          <br/>
+          <a href="/chat">Support Chat</a>
         </div>
       </div>
       {tracksList && playerConf && <div className="empty-footer"></div>}

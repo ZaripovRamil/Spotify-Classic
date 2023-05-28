@@ -38,3 +38,15 @@
   text-decoration: none;
   color: white;
 }
+@media (max-width:490px){
+  .footer{
+    padding: 0 5px 0 0;
+  }
+  .footer-links{
+    font-size: 12px;
+  }
+  .footer-inc {
+    font-size: 12px;
+  }
+  
+}
