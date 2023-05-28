@@ -18,6 +18,7 @@ import { UserSettings } from "./userPage/UserEdit/UserSettings";
 import { UserPassword } from "./userPage/UserEdit/UserPassword";
 import { SearchPage } from "./searchPage/SerachPage";
 import { ContactPage } from "./ContactPage/ContactPage";
+import { ChatPage } from "./Chat/ChatPage";
 import { UserStatisctics } from "./userPage/userStatistic/UserStatistic";
 
 function App() {
@@ -97,8 +98,12 @@ function App() {
             path="/contacts"
             element={<PageBuilder component={<ContactPage />} />}
           />
-          <Route path="/a" element={<PageBuilder component={<A />} />} />
-          <Route path="/b" element={<PageBuilder component={<B />} />} />
+          <Route
+            path="/chat"
+            element={<PageBuilder component={<ChatPage />} />}
+          />
+          {/* <Route path="/a" element={<PageBuilder component={<A />} />} />
+          <Route path="/b" element={<PageBuilder component={<B />} />} /> */}
           <Route path="*" element={<GoAwayPage />} />
         </Routes>
       </BrowserRouter>

@@ -25,6 +25,20 @@ public class DbUserAccessor : DbAccessor, IDbUserAccessor
             .ThenInclude(a => a.Author)
             .FirstOrDefaultAsync(u => u.Id == id);
 
+    public IEnumerable<User> GetAllUsers()
+    {
+        var users = DbContext.Users
+            .Include(u => u.Playlists)
+            .Include(u => u.Playlists)
+            .ThenInclude(p => p.Tracks)
+            .ThenInclude(t => t.Album)
+            .ThenInclude(a => a.Author)
+            .Include(u => u.History)
+            .ThenInclude(t => t.Album)
+            .ThenInclude(a => a.Author);
+        return users.Where(user => user.Role != Role.Admin);
+    }
+
     public async Task<User?> GetByUsername(string username) =>
         await DbContext.Users
             .Include(u => u.Playlists)

@@ -1,15 +1,6 @@
 header ::placeholder{
     color:#FCFCFC;
 }
-.header-main{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 90px;
-    /* padding-right: 30px; */
-    padding: 0 30px 0 30px ;
-}
-
 .header-logo a{
     z-index: 5;
     font-family: "PP Hatton";
@@ -26,11 +17,9 @@ header ::placeholder{
 
 .header{
     display: flex;
-    justify-content: space-around;
-    justify-content: flex-end; 
+    justify-content: space-between;
     align-items: center;
     height: 90px;
-    gap: 30px;
     padding:  0 30px 0 30px;
 }
 
@@ -39,11 +28,12 @@ header ::placeholder{
     align-items: center;
     justify-content: flex-end;
     gap: 30px;
+    width: 75%;
 }
 
-.header input, .header-main input {
+.header input {
     height: 25px;
-    width:300px;
+    width: 300px;
     padding: 8px 15px 8px 40px;
 
     background: #1F1F22;
@@ -62,6 +52,9 @@ header ::placeholder{
     background-repeat: no-repeat; 
     background-position: 10px;
 }
+
+
+
 .header input:focus {
     outline: none;
 }
@@ -76,7 +69,6 @@ header ::placeholder{
 .search-suggestions {
     position: absolute;
     top:40px;
-    /* height: 25px; */
     width:300px;
     padding: 8px 15px 8px 40px;
 
@@ -93,7 +85,7 @@ header ::placeholder{
 }
 
 .search{
-position: relative;
+    position: relative;
 }
 
 .suggestion{
@@ -102,14 +94,46 @@ position: relative;
     align-items:center;
 }
 .suggestion img{
-margin-right: 10px;
+    margin-right: 10px;
 }
 
 .suggestion:hover{
-border:1px solid white;
-cursor: pointer;
+    border:1px solid white;
+    cursor: pointer;
 }
 
 .suggestions-block{
     padding: 0 5px;
 }
+
+@media (max-width: 615px) {
+    .search-suggestions {
+        width: 200px;
+        padding: 0;
+    }
+    .header input {
+      width: 200px;
+    }
+    .header-logo a{
+        font-size: 30px;
+    }
+    .header{
+        padding: 0 10px;
+    }
+  }
+  @media (max-width: 500px) {
+    .header-logo a{
+        display: none;
+    }
+    .header-nav{
+        width: 100%;
+        gap: 10px;
+    }
+    .header input {
+        width: 150px;
+      }
+    .avatar{
+        width: 30px;
+        height: 30px;
+    }
+  }
