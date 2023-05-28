@@ -7,24 +7,25 @@ namespace StaticAPI.Controllers;
 [Route("[controller]")]
 public class TracksController : Controller
 {
+    private const string AssetsName = "Assets";
     private readonly IFileProvider _fileProvider;
+    private readonly IHlsConverter _hlsConverter;
 
-    public TracksController(IFileProvider fp)
+    public TracksController(IFileProvider fp, IHlsConverter hlsConverter)
     {
         _fileProvider = fp;
+        _hlsConverter = hlsConverter;
     }
 
     // TODO: change this to receive the whole path to the file, not just id
     [HttpGet("{id}")]
     public async Task<IActionResult> DownloadByIdAsync(string id)
     {
-        var track = _fileProvider.GetFileAsStream("Tracks", $"{id}.mp3");
+        var idSplit = id.Split('.');
+        var fileName = Path.Combine(idSplit[0], idSplit.Length > 1 ? id : $"{id}.index.m3u8");
+        var track = _fileProvider.GetFileAsStream("Tracks", fileName);
         if (track is null) return NotFound();
-        return new FileStreamResult(track, "application/octet-stream")
-        {
-            FileDownloadName = $"{id}.mp3",
-            EnableRangeProcessing = true
-        };
+        return new FileStreamResult(track, "application/octet-stream");
     }
 
     [HttpPost("upload")]
@@ -34,7 +35,14 @@ public class TracksController : Controller
             return BadRequest("Empty file");
         if (file.FileName.Length == 0)
             return BadRequest("Filename is not provided");
-        await _fileProvider.UploadAsync("Tracks", file.FileName, file.OpenReadStream());
+        var fileName = Path.GetFileNameWithoutExtension(file.FileName);
+        var trackPath = Path.Combine("Tracks", fileName);
+        await _fileProvider.UploadAsync(trackPath, file.FileName, file.OpenReadStream());
+        if (!file.FileName.EndsWith(".mp3")) return Ok();
+        await _hlsConverter.SaveHlsFromMp3Async(Path.Combine(AssetsName, "Tracks", fileName, file.FileName),
+            Path.Combine(AssetsName, trackPath));
+        await _fileProvider.DeleteFileAsync(trackPath, file.FileName);
+
         return Ok();
     }
 }

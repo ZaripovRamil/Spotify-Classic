@@ -16,7 +16,7 @@ export const Header = () => {
 
   const searchHander = (str) => {
     if (str === "") setSuggestions(null);
-    fetcher.get(`Search?query=${str}`).then((data) => {
+    fetcher.get(`Search?query=${str.trim()}`).then((data) => {
       console.log(data.data);
       setSuggestions(data.data);
       setSearchValue(str);
@@ -41,7 +41,6 @@ export const Header = () => {
         </div> 
         : <div></div>}
         
-        
         <div className="header-nav">
           <div className="search">
             <input
@@ -57,7 +56,7 @@ export const Header = () => {
               <SearchSuggestions data={suggestions} value={searchValue} />
             )}
           </div>
-          <Link to="/authorization">
+          <Link to={localStorage.getItem('access-token') && page!='user' ? "/user" : "/authorize"}>
             <div className="avatar"></div>
           </Link>
         </div>

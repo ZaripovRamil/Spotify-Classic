@@ -6,4 +6,5 @@ public interface IFileProvider
     public long GetFileLength(string assetName, string fileName);
     public bool Exists(string assetName, string fileName);
     public Task UploadAsync(string assetName, string fileName, Stream fileStream);
+    public Task DeleteFileAsync(string assetName, string fileName);
 }

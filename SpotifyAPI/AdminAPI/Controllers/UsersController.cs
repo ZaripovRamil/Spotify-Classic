@@ -32,5 +32,4 @@ public class UsersController
         var users = await _clientToDb.GetFromJsonAsync<IEnumerable<UserLight?>>("getAll");
         return new JsonResult(users);
     }
-    
 }
