@@ -112,14 +112,22 @@ public class AlbumsController : Controller
         return new JsonResult(responseContent);
     }
     
-    [HttpGet("Get")]
+    [HttpGet("get")]
     public async Task<IActionResult> GetWithFiltersAsync([FromQuery] string? albumType, [FromQuery] int? tracksMin,
-        [FromQuery] int? tracksMax, int? maxCount)
+        [FromQuery] int? tracksMax, [FromQuery] int? maxCount, [FromQuery] string? sortBy, [FromQuery] string? search)
     {
         var albums =
             await _clientToDb.GetFromJsonAsync<IEnumerable<AlbumFull>>(
-                $"get?albumType={albumType}&tracksMin={tracksMin}&tracksMax={tracksMax}&maxCount={maxCount}");
-        return new JsonResult(albums);
+                $"get?albumType={albumType}&tracksMin={tracksMin}&tracksMax={tracksMax}&maxCount={maxCount}&search={search}");
+        Func<AlbumFull, IComparable> sort = sortBy?.ToLower() switch
+        {
+            "id" => album => album.Id,
+            "name" => album => album.Name,
+            "author" => album => album.Author.Name,
+            "type" => album => album.Type,
+            _ => album => album.Name
+        };
+        return new JsonResult(albums?.OrderBy(sort));
     }
 
     [HttpGet("search")]

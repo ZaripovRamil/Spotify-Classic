@@ -5,6 +5,7 @@ using DatabaseServices.Services.Factories.Interfaces;
 using DatabaseServices.Services.UpdateHandlers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.EntityCreationResult;
+using Models.DTO.BackToFront.Full;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.DTO.FrontToBack.EntityUpdateData;
 using Models.DTO.InterServices.EntityValidationCodes;
@@ -39,15 +40,15 @@ public class TrackController
         return new JsonResult(new TrackCreationResult(state, track));
     }
 
-    [HttpGet]
-    [Route("Get")]
-    public Task<IActionResult> GetAll()
-    {
-        var tracks = _trackAccessor
-            .GetAll()
-            .Select(track => _dtoCreator.CreateFull(track));
-        return Task.FromResult<IActionResult>(new JsonResult(tracks));
-    }
+    // [HttpGet]
+    // [Route("Get")]
+    // public Task<IActionResult> GetAll()
+    // {
+    //     var tracks = _trackAccessor
+    //         .GetAll()
+    //         .Select(track => _dtoCreator.CreateFull(track));
+    //     return Task.FromResult<IActionResult>(new JsonResult(tracks));
+    // }
 
     [HttpGet]
     [Route("Get/id/{id}")]
@@ -70,5 +71,14 @@ public class TrackController
     public async Task<IActionResult> UpdateById(string id, TrackUpdateData trackUpdateData)
     {
         return new JsonResult(await _trackUpdateHandler.HandleUpdateById(id, trackUpdateData));
+    }
+
+    [HttpGet("get")]
+    public async Task<IActionResult> GetWithFiltersAsync([FromQuery] int? maxCount, [FromQuery] string? search)
+    {
+        return new JsonResult(_trackAccessor.GetAll().Where(t =>
+                search is null || t.Name.ToLower().Contains(search.ToLower()))
+            .Take(new Range(0, maxCount ?? -1))
+            .Select(t => new TrackFull(t)));
     }
 }

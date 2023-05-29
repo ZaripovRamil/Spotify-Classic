@@ -5,12 +5,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Models;
-using Models.DTO.BackToFront;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Full;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.DTO.FrontToBack.EntityUpdateData;
-using Models.Entities;
 
 namespace AdminAPI.Controllers;
 
@@ -119,5 +117,22 @@ public class TracksController : Controller
         var tracks = await _clientToSearch.GetFromJsonAsync<IEnumerable<TrackFull>>(
             $"tracks/by/albumAuthor?query={query}");
         return new JsonResult(tracks);
+    }
+    
+    [HttpGet("get")]
+    public async Task<IActionResult> GetWithFiltersAsync([FromQuery] int? maxCount, [FromQuery] string? sortBy, [FromQuery] string? search)
+    {
+        var tracks =
+            await _clientToDb.GetFromJsonAsync<IEnumerable<TrackFull>>(
+                $"get?maxCount={maxCount}&search={search}");
+        Func<TrackFull, IComparable> sort = sortBy?.ToLower() switch
+        {
+            "id" => track => track.Id,
+            "name" => track => track.Name,
+            "album" => track => track.Album.Name,
+            "author" => track => track.Album.Author.Name,
+            _ => track => track.Name
+        };
+        return new JsonResult(tracks?.OrderBy(sort));
     }
 }
