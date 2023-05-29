@@ -28,12 +28,12 @@ public class AlbumsController : Controller
             { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.StaticAPI}/previews/") };
     }
     
-    [HttpGet("get")]
-    public async Task<IActionResult> GetAllAsync()
-    {
-        var albums = await _clientToDb.GetFromJsonAsync<IEnumerable<AlbumFull>>("get");
-        return new JsonResult(albums);
-    }
+    // [HttpGet("get")]
+    // public async Task<IActionResult> GetAllAsync()
+    // {
+    //     var albums = await _clientToDb.GetFromJsonAsync<IEnumerable<AlbumFull>>("get");
+    //     return new JsonResult(albums);
+    // }
 
     [HttpGet("get/{id}")]
     public async Task<IActionResult> GetByIdAsync(string id)
@@ -106,5 +106,15 @@ public class AlbumsController : Controller
             await _clientToDb.PutAsync($"update/{id}", new StringContent(json, Encoding.UTF8, "application/json"));
         var responseContent = await response.Content.ReadAsStringAsync();
         return new JsonResult(responseContent);
+    }
+    
+    [HttpGet("Get")]
+    public async Task<IActionResult> GetWithFiltersAsync([FromQuery] string? albumType, [FromQuery] int? tracksMin,
+        [FromQuery] int? tracksMax, int? maxCount)
+    {
+        var albums =
+            await _clientToDb.GetFromJsonAsync<IEnumerable<AlbumFull>>(
+                $"get?albumType={albumType}&tracksMin={tracksMin}&tracksMax={tracksMax}&maxCount={maxCount}");
+        return new JsonResult(albums);
     }
 }

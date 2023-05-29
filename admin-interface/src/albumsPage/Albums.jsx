@@ -40,6 +40,12 @@ const Albums = () => {
               isEditable: true,
             },
             {
+              type: 'type',
+              label: 'type',
+              type: 'text',
+              isEditable: false,
+            },
+            {
               name: 'author.name',
               label: 'author',
               type: 'text',

@@ -18,4 +18,16 @@ public class SearchController:Controller
     {
         return Ok(await _searchEngine.SearchAsync(query?? ""));
     }
+
+    [HttpGet("users")]
+    public async Task<IActionResult> SearchUsers([FromQuery]string? query)
+    {
+        return Ok(await _searchEngine.SearchUsersAsync(query?? ""));
+    }
+
+    [HttpGet("albums")]
+    public async Task<IActionResult> SearchAlbums([FromQuery]string? query)
+    {
+        return Ok(await _searchEngine.SearchAlbumsAsync(query?? ""));
+    }
 }

@@ -41,15 +41,15 @@ public class AlbumController
         return new JsonResult(new AlbumCreationResult(state, album));
     }
     
-    [HttpGet]
-    [Route("Get")]
-    public Task<IActionResult> GetAllAsync()
-    {
-        var albums = _albumAccessor
-            .GetAll()
-            .Select(album => new AlbumFull(album));
-        return Task.FromResult<IActionResult>(new JsonResult(albums));
-    }
+    // [HttpGet]
+    // [Route("Get")]
+    // public Task<IActionResult> GetAllAsync()
+    // {
+    //     var albums = _albumAccessor
+    //         .GetAll()
+    //         .Select(album => new AlbumFull(album));
+    //     return Task.FromResult<IActionResult>(new JsonResult(albums));
+    // }
 
     [HttpGet]
     [Route("get/id/{id}")]
@@ -77,5 +77,17 @@ public class AlbumController
     public async Task<IActionResult> UpdateById(string id, AlbumUpdateData albumUpdateData)
     {
         return new JsonResult(await _albumUpdateHandler.HandleUpdateById(id, albumUpdateData));
+    }
+
+    [HttpGet("get")]
+    public async Task<IActionResult> GetWithFiltersAsync([FromQuery] string? albumType, [FromQuery] int? tracksMin,
+        [FromQuery] int? tracksMax, int? maxCount)
+    {
+        return new JsonResult(_albumAccessor.GetAll().Where(a =>
+            (albumType is null || string.Equals(a.Type.ToString(), albumType, StringComparison.CurrentCultureIgnoreCase)) &&
+            (tracksMin is null || a.Tracks.Count >= tracksMin.Value) &&
+            (tracksMax is null || a.Tracks.Count <= tracksMax.Value))
+            .Take(new Range(0, maxCount ?? -1))
+            .Select(a => new AlbumFull(a)));
     }
 }
