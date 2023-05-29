@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Track from "../components/Track/Track";
 import { getFetcher } from "../axios/AxiosInstance";
 import Ports from "../constants/Ports";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import back from "./media/back-btn.svg";
 import play from "./media/play.png";
 import like from "./media/like.png";
@@ -12,9 +12,11 @@ import "./PlaylistPage.css";
 const fetcher = getFetcher(Ports.MusicService);
 
 export const PlaylistPage = (props) => {
+  const navigate = useNavigate();
   const prefix = "https://localhost:7022/";
   const [searchParams] = useSearchParams();
   const [isPlaylist, setIsPlaylist] = useState(true);
+  const [isLoad, setIsLoad] = useState(false);
   const [playlistTracks, setPlaylistTracks] = useState([
     {
       fileId: "29ad8ca9-c791-4482-8a44-15776862b282",
@@ -95,15 +97,25 @@ export const PlaylistPage = (props) => {
           setPlaylist(data.data);
           setPlaylistTracks(data.data.tracks);
           setIsPlaylist(true);
+          setIsLoad(true);
           console.log(data.data, isPlaylist);
+        })
+        .catch((err) => {
+          if (err.response.status === 401) navigate("/authorize");
         });
     } else {
-      fetcher.get(`Albums/get/${searchParams.get("albumId")}`).then((data) => {
-        setAlbum(data.data);
-        setPlaylistTracks(data.data.tracks);
-        setIsPlaylist(false);
-        console.log(data.data, isPlaylist);
-      });
+      fetcher
+        .get(`Albums/get/${searchParams.get("albumId")}`)
+        .then((data) => {
+          setAlbum(data.data);
+          setPlaylistTracks(data.data.tracks);
+          setIsPlaylist(false);
+          setIsLoad(true);
+          console.log(data.data, isPlaylist);
+        })
+        .catch((err) => {
+          if (err.response.status === 401) navigate("/authorize");
+        });
     }
   }, [searchParams]);
 
@@ -142,69 +154,71 @@ export const PlaylistPage = (props) => {
   };
 
   return (
-    <main className="main-page">
-      <div className="playlistPage">
-        <div className="playlist-btn-header">
-          <div className="playlist-back-btn">
-            <img
-              src={back}
-              alt="back"
-              onClick={() => {
-                backClick();
-              }}
-            />
-          </div>
-
-          <p className="playlist-name">
-            {isPlaylist ? playlist.name : album.name}
-          </p>
-          <div></div>
-        </div>
-        <div className="playlist-main">
-          <div className="playlist-main-img">
-            <img src={prefix + `Previews/get/${playlist.previewId}`} alt="" />
-          </div>
-
-          <div className="playlist-main-part">
-            <p className="playlist-author">
-              {isPlaylist ? (
-                <div>
-                  Плейлист пользователя <b>{playlist.owner.name}</b>
-                </div>
-              ) : (
-                <div>
-                  Альбом <b>{album.author.name}</b>
-                </div>
-              )}
-            </p>
-            <div className="playlist-btns">
+    isLoad && (
+      <main className="main-page">
+        <div className="playlistPage">
+          <div className="playlist-btn-header">
+            <div className="playlist-back-btn">
               <img
-                src={
-                  playerConf.playing && playlistTracks === tracksList
-                    ? stop
-                    : play
-                }
-                alt=""
-                className="playlist-btn play-btn"
+                src={back}
+                alt="back"
                 onClick={() => {
-                  playClick();
+                  backClick();
                 }}
               />
-              <img src={like} alt="" className="playlist-btn like-btn" />
             </div>
-            <div className="playlist-tracks">
-              {playlistTracks.map((track, id) => (
-                <Track
-                  props={props}
-                  tracks={playlistTracks}
-                  track={track}
-                  idInAlbum={id}
+
+            <p className="playlist-name">
+              {isPlaylist ? playlist.name : album.name}
+            </p>
+            <div></div>
+          </div>
+          <div className="playlist-main">
+            <div className="playlist-main-img">
+              <img src={prefix + `Previews/get/${playlist.previewId}`} alt="" />
+            </div>
+
+            <div className="playlist-main-part">
+              <p className="playlist-author">
+                {isPlaylist ? (
+                  <div>
+                    Плейлист пользователя <b>{playlist.owner.name}</b>
+                  </div>
+                ) : (
+                  <div>
+                    Альбом <b>{album.author.name}</b>
+                  </div>
+                )}
+              </p>
+              <div className="playlist-btns">
+                <img
+                  src={
+                    playerConf.playing && playlistTracks === tracksList
+                      ? stop
+                      : play
+                  }
+                  alt=""
+                  className="playlist-btn play-btn"
+                  onClick={() => {
+                    playClick();
+                  }}
                 />
-              ))}
+                <img src={like} alt="" className="playlist-btn like-btn" />
+              </div>
+              <div className="playlist-tracks">
+                {playlistTracks.map((track, id) => (
+                  <Track
+                    props={props}
+                    tracks={playlistTracks}
+                    track={track}
+                    idInAlbum={id}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    )
   );
 };

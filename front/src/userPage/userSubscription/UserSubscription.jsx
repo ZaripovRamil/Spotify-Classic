@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getFetcher } from "../../axios/AxiosInstance";
 import Ports from "../../constants/Ports";
+import { useSearchParams, useNavigate } from "react-router-dom";
 
 import "./UserSubscription.css";
 import { SubscribeForm } from "./SubscribeForm";
@@ -10,6 +11,7 @@ const fetcher = getFetcher(Ports.AuthService);
 const prefix = "https://localhost:7022/";
 
 export const UserSubscription = () => {
+  const navigate = useNavigate();
   const [isLoad, setIsLoad] = useState(false);
   const [userInfo, setUserInfo] = useState({
     email: "",
@@ -30,7 +32,9 @@ export const UserSubscription = () => {
         setUserInfo(res.data);
         setIsLoad(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response.status === 401) navigate("/authorize");
+      });
   }, []);
 
   return (

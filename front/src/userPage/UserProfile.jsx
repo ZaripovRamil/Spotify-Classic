@@ -34,7 +34,9 @@ export const UserProfile = (props) => {
         setUserInfo(res.data);
         setIsLoad(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response.status === 401) navigate("/authorize");
+      });
   }, []);
 
   return (

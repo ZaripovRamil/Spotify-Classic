@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { getFetcher } from "../../axios/AxiosInstance";
 import Ports from "../../constants/Ports";
-
+import { useNavigate } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 
 import "./UserStatistic.css";
@@ -9,6 +9,7 @@ import "./UserStatistic.css";
 const fetcher = getFetcher(Ports.AuthService);
 const prefix = "https://localhost:7022/";
 export const UserStatisctics = () => {
+  const navigate = useNavigate();
   const componentRef = useRef();
 
   const [isLoad, setIsLoad] = useState(false);
@@ -61,7 +62,9 @@ export const UserStatisctics = () => {
         console.log(res.data);
         setIsLoad(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response.status === 401) navigate("/authorize");
+      });
   }, []);
 
   const handlePrint = useReactToPrint({
