@@ -117,7 +117,7 @@ public class AlbumsController : Controller
         [FromQuery] int? tracksMax, [FromQuery] int? maxCount, [FromQuery] string? sortBy, [FromQuery] string? search)
     {
         var albums =
-            await _clientToDb.GetFromJsonAsync<IEnumerable<AlbumFull>>(
+            await _clientToDb.GetFromJsonAsync<List<AlbumFull>>(
                 $"get?albumType={albumType}&tracksMin={tracksMin}&tracksMax={tracksMax}&maxCount={maxCount}&search={search}");
         Func<AlbumFull, IComparable> sort = sortBy?.ToLower() switch
         {

@@ -63,7 +63,7 @@ public class ShittyEngine : ISearchEngine
     public async Task<IEnumerable<AuthorFull>> SearchAuthorsByUserAsync(string query)
     {
         return _authorAccessor.GetAll().Where(a =>
-                a.User.Name.ToLower().Contains(query.ToLower()) || a.User.NormalizedUserName is not null &&
+                a.User.Name.ToLower().Contains(query.ToLower()) || a.User.NormalizedUserName != null &&
                 a.User.NormalizedUserName.Contains(query.ToUpper()))
             .Select(a => new AuthorFull(a));
     }
