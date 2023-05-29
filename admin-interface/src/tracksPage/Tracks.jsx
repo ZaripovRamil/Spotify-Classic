@@ -9,10 +9,17 @@ const fetcher = getFetcher(Ports.AdminService);
 const Tracks = () => {
   const [items, setItems] = useState([]);
   const [tableColumns, setTableColumns] = useState([]);
+  const [filters, setFilters] = useState({
+    pageSize: "",
+    pageIndex: "",
+    sortBy: "",
+    search: "",
+  });
+  const [clicked, setClicked] = useState(false);
 
   useEffect(() => {
-    const getTracks = async () => {
-      await fetcher.get('tracks/get/')
+    const getTracks = () => {
+      fetcher.get(`tracks/get?pageSize=${filters.pageSize}&pageIndex=${filters.pageIndex}&sortBy=${filters.sortBy}&search=${filters.search}`)
         .then(res => {
           if (res.status !== 200) return;
           setItems(res.data.map(item => {
@@ -71,7 +78,7 @@ const Tracks = () => {
         });
     }
     getTracks();
-  }, []);
+  }, [clicked]);
 
   const editItemsWithResultAsync = async (data) => {
     try {
@@ -134,8 +141,33 @@ const Tracks = () => {
     }
   };
 
+  const changeFilters = (propName, propValue) => {
+    filters[propName] = propValue;
+    setFilters({ ...filters });
+  }
+
   return (
     <>
+      <div className="filter-form" style={{ display: 'flex', justifyContent: 'center' }}>
+        <div>
+          Page size: 
+          <input placeholder="page size" type="number" value={filters.pageSize} onChange={e => changeFilters('pageSize', e.target.value)} /> <br />
+          Page index: 
+          <input placeholder="page index" type="number" value={filters.pageIndex} onChange={e => changeFilters('pageIndex', e.target.value)} /> <br />
+          Search for the album name: 
+          <input placeholder="type somephin" type="text" value={filters.search.trim()} onChange={e => changeFilters('search', e.target.value)} /> <br />
+          Sort by: 
+          <select value={filters.sortBy} onChange={e => changeFilters('sortBy', e.target.value)}>
+            <option value="">None</option>
+            <option value="id">Id</option>
+            <option value="name">Name</option>
+            <option value="album">Album name</option>
+            <option value="author">Author name</option>
+          </select >
+          <br />
+        <input type="button" value="apply filters" onClick={() => setClicked(!clicked)} /> <br />
+        </div>
+      </div>
       <AddTrack insertItemsWithResultAsync={insertItemsWithResultAsync} />
       <TableDisplayer data={items} setData={setItems} editDataWithResultAsync={editItemsWithResultAsync} deleteDataWithResultAsync={deleteItemsWithResultAsync} columns={tableColumns} />
     </>
