@@ -7,7 +7,7 @@ public interface IDbAuthorAccessor
     Task Add(Author author);
     Task<Author?> GetById(string id);
     Task<Author?> GetByName(string name);
-    IEnumerable<Author> GetAll();
+    IQueryable<Author> GetAll();
     Task Delete(Author author);
     Task Update(Author author);
 }

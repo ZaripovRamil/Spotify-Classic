@@ -2,6 +2,8 @@ using System.Text;
 using AuthAPI.Services;
 using Database;
 using DatabaseServices.Services;
+using DatabaseServices.Services.Accessors.Implementations;
+using DatabaseServices.Services.Accessors.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -37,7 +39,7 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
     })
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
-
+builder.Services.AddScoped<IDbSubscriptionAccessor, DbSubscriptionAccessor>();
 var solutionConfigurationBuilder = new ConfigurationBuilder()
     .SetBasePath(Directory.GetParent(Directory.GetCurrentDirectory())!.FullName)
     .AddJsonFile("appsettings.json");
