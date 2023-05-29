@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Models;
 using Models.Entities;
+using Models.OAuth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,7 @@ var solutionConfiguration = solutionConfigurationBuilder.Build();
 
 builder.Services.Configure<JwtTokenSettings>(solutionConfiguration.GetSection("JWTTokenSettings"));
 builder.Services.Configure<ApplicationHosts>(solutionConfiguration.GetSection("ApplicationHosts"));
+builder.Services.Configure<GoogleOptions>(solutionConfiguration.GetSection("OAuth:Google"));
 builder.Services.AddScoped<IDtoCreator, DtoCreator>();
 builder.Services.AddScoped<IStatisticSnapshotCreator, StatisticSnapshotCreator>();
 builder.Services.AddAuthentication(options =>

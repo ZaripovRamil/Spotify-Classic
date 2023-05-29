@@ -20,6 +20,7 @@ import { SearchPage } from "./searchPage/SerachPage";
 import { ContactPage } from "./ContactPage/ContactPage";
 import { ChatPage } from "./Chat/ChatPage";
 import { UserStatisctics } from "./userPage/userStatistic/UserStatistic";
+import GoogleCallbackPage from "./authorization/oauth/GoogleCallbackPage";
 
 function App() {
   return (
@@ -101,6 +102,9 @@ function App() {
           <Route
             path="/chat"
             element={<PageBuilder component={<ChatPage />} />}
+          />
+          <Route path="/oauth/google/callback"
+            element={<GoogleCallbackPage />}
           />
           {/* <Route path="/a" element={<PageBuilder component={<A />} />} />
           <Route path="/b" element={<PageBuilder component={<B />} />} /> */}

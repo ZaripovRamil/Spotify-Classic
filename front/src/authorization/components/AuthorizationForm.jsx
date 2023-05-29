@@ -61,6 +61,10 @@ const AuthForm = () => {
         return !loginError && !passwordError;
     }
 
+    const handleGoogleOAuth = () => {
+        window.location.replace(`https://localhost:${Ports.AuthService}/oauth/google/entry`);
+    }
+
     return (
         <form className="auth-form" onSubmit={handleSubmitForm}>
             <div className="auth-header">
@@ -85,6 +89,7 @@ const AuthForm = () => {
             <div className="submit-btn">
                 <input type="submit" value="OK" />
             </div>
+            <input type="button" value="sign in via google" onClick={handleGoogleOAuth}/>
         </form>
     )
 }
