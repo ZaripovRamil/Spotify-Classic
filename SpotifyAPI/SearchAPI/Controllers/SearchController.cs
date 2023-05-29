@@ -30,4 +30,22 @@ public class SearchController:Controller
     {
         return Ok(await _searchEngine.SearchAlbumsAsync(query?? ""));
     }
+
+    [HttpGet("albums/by/author")]
+    public async Task<IActionResult> SearchAlbumsByAuthor([FromQuery] string? query)
+    {
+        return Ok(await _searchEngine.SearchAlbumsByAuthorsAsync(query ?? ""));
+    }
+
+    [HttpGet("authors/by/user")]
+    public async Task<IActionResult> SearchAuthorsByUser([FromQuery] string? query)
+    {
+        return Ok(await _searchEngine.SearchAuthorsByUserAsync(query ?? ""));
+    }
+
+    [HttpGet("tracks/by/albumAuthor")]
+    public async Task<IActionResult> SearchTracksByAlbumOrAuthor([FromQuery] string? query)
+    {
+        return Ok(await _searchEngine.SearchTracksByAlbumOrAuthorAsync(query ?? ""));
+    }
 }

@@ -9,6 +9,7 @@ using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Full;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.DTO.FrontToBack.EntityUpdateData;
+using Models.Entities;
 
 namespace AdminAPI.Controllers;
 
@@ -18,10 +19,13 @@ namespace AdminAPI.Controllers;
 public class AlbumsController : Controller
 {
     private readonly HttpClient _clientToDb;
+    private readonly HttpClient _clientToSearch;
     private readonly HttpClient _clientToStatic;
 
     public AlbumsController(IOptions<ApplicationHosts> hostsOptions)
     {
+        _clientToSearch = new HttpClient
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.SearchAPI}/search")};
         _clientToDb = new HttpClient
             { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseAPI}/album/") };
         _clientToStatic = new HttpClient
@@ -116,5 +120,13 @@ public class AlbumsController : Controller
             await _clientToDb.GetFromJsonAsync<IEnumerable<AlbumFull>>(
                 $"get?albumType={albumType}&tracksMin={tracksMin}&tracksMax={tracksMax}&maxCount={maxCount}");
         return new JsonResult(albums);
+    }
+
+    [HttpGet("search")]
+    public async Task<IActionResult> FindAlbumByAuthorName([FromQuery] string? query)
+    {
+        var albums = await _clientToSearch.GetFromJsonAsync<IEnumerable<Album>>(
+            $"albums/by/author?query={query}");
+        return new JsonResult(albums?.Select(a => new AlbumFull(a)));
     }
 }

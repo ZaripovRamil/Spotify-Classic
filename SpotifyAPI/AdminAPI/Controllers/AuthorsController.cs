@@ -7,6 +7,7 @@ using Models;
 using Models.DTO.BackToFront.Full;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.DTO.FrontToBack.EntityUpdateData;
+using Models.Entities;
 
 namespace AdminAPI.Controllers;
 
@@ -16,9 +17,12 @@ namespace AdminAPI.Controllers;
 public class AuthorsController : Controller
 {
     private readonly HttpClient _clientToDb;
+    private readonly HttpClient _clientToSearch;
 
     public AuthorsController(IOptions<ApplicationHosts> hostsOptions)
     {
+        _clientToSearch = new HttpClient
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.SearchAPI}/search")};
         _clientToDb = new HttpClient
             { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseAPI}/author/") };
     }
@@ -62,5 +66,13 @@ public class AuthorsController : Controller
             await _clientToDb.PutAsync($"update/{id}", new StringContent(json, Encoding.UTF8, "application/json"));
         var responseContent = await response.Content.ReadAsStringAsync();
         return new JsonResult(responseContent);
+    }
+
+    [HttpGet("search")]
+    public async Task<IActionResult> FindAuthorByUserName([FromQuery] string? query)
+    {
+        var authors = await _clientToSearch.GetFromJsonAsync<IEnumerable<Author>>(
+            $"authors/by/user?query={query}");
+        return new JsonResult(authors?.Select(a => new AuthorFull(a)));
     }
 }

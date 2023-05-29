@@ -1,5 +1,6 @@
 ﻿using DatabaseServices.Services.Accessors.Interfaces;
 using Models.DTO.BackToFront;
+using Models.DTO.BackToFront.Full;
 using Models.DTO.BackToFront.Light;
 
 namespace SearchAPI.Services;
@@ -50,5 +51,28 @@ public class ShittyEngine : ISearchEngine
         return new AlbumsSearchResult(_albumAccessor.GetAll().Where(a =>
                 a.Name.ToLower().Contains(query.ToLower()))
             .Select(a => new AlbumLight(a)).ToList());
+    }
+
+    public async Task<IEnumerable<AlbumFull>> SearchAlbumsByAuthorsAsync(string query)
+    {
+        return _albumAccessor.GetAll().Where(a => 
+                a.Author.Name.ToLower().Contains(query.ToLower()))
+            .Select(a => new AlbumFull(a));
+    }
+
+    public async Task<IEnumerable<AuthorFull>> SearchAuthorsByUserAsync(string query)
+    {
+        return _authorAccessor.GetAll().Where(a =>
+                a.User.Name.ToLower().Contains(query.ToLower()) || a.User.NormalizedUserName is not null &&
+                a.User.NormalizedUserName.Contains(query.ToUpper()))
+            .Select(a => new AuthorFull(a));
+    }
+
+    public async Task<IEnumerable<TrackFull>> SearchTracksByAlbumOrAuthorAsync(string query)
+    {
+        return _trackAccessor.GetAll().Where(t =>
+                t.Album.Name.ToLower().Contains(query.ToLower()) ||
+                t.Album.Author.Name.ToLower().Contains(query.ToLower()))
+            .Select(t => new TrackFull(t));
     }
 }

@@ -5,10 +5,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Models;
+using Models.DTO.BackToFront;
 using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Full;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.DTO.FrontToBack.EntityUpdateData;
+using Models.Entities;
 
 namespace AdminAPI.Controllers;
 
@@ -19,9 +21,12 @@ public class TracksController : Controller
 {
     private readonly HttpClient _clientToDb;
     private readonly HttpClient _clientToStatic;
+    private readonly HttpClient _clientToSearch;
 
     public TracksController(IOptions<ApplicationHosts> hostsOptions)
     {
+        _clientToSearch = new HttpClient
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.SearchAPI}/search/") };
         _clientToDb = new HttpClient
             { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseAPI}/track/") };
         _clientToStatic = new HttpClient
@@ -106,5 +111,13 @@ public class TracksController : Controller
             await _clientToDb.PutAsync($"update/{id}", new StringContent(json, Encoding.UTF8, "application/json"));
         var responseContent = await response.Content.ReadAsStringAsync();
         return new JsonResult(responseContent);
+    }
+
+    [HttpGet("search")]
+    public async Task<IActionResult> FindTrackByAlbumAuthor([FromQuery] string? query)
+    {
+        var tracks = await _clientToSearch.GetFromJsonAsync<IEnumerable<TrackFull>>(
+            $"tracks/by/albumAuthor?query={query}");
+        return new JsonResult(tracks);
     }
 }

@@ -5,7 +5,7 @@ using Nest;
 
 namespace SearchAPI.Services;
 
-public class SearchEngine:ISearchEngine
+public class SearchEngine//:ISearchEngine
 {
     private static async Task<ElasticClient> CreateElasticClient()
     {
