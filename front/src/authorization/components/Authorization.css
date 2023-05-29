@@ -1,104 +1,123 @@
 .auth-form ::placeholder,
 .register-form ::placeholder {
-    color: #FECB6899;
-    font-size: 14px;
-    font-weight: 600;
-    font-family: "Libre Baskerville";
+  color: #fecb6899;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "Libre Baskerville";
 }
 
 .auth-form,
 .register-form {
-    z-index: 1;
-    width: 480px;
-    height: 540px;
-    background: rgba(19, 19, 22, 0.3);
-    border-radius: 7px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  z-index: 1;
+  width: 480px;
+  height: 540px;
+  background: rgba(19, 19, 22, 0.3);
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    font-family: "Libre Baskerville";
-    color: #FECB6899;
-    font-style: normal;
-    letter-spacing: 0.035em;
-    align-self: center;
+  font-family: "Libre Baskerville";
+  color: #fecb6899;
+  font-style: normal;
+  letter-spacing: 0.035em;
+  align-self: center;
 }
 
 .register-form {
-    height: 620px;
+  height: 620px;
 }
 
 .auth-header,
 .register-header {
-    font-size: 40px;
-    padding: 65px 0px 40px;
+  font-size: 40px;
+  padding: 65px 0px 40px;
 }
 
 .credentials-input {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .error-text {
-    color: rgba(255, 69, 69, 0.9);
-    ;
-    padding: 0px 5px 9px 5px;
+  color: rgba(255, 69, 69, 0.9);
+  padding: 0px 5px 9px 5px;
 }
 
 .error-name {
-    opacity: 1;
+  opacity: 1;
 }
 
 .error-login {
-    opacity: 1;
+  opacity: 1;
 }
 
 .error-email {
-    opacity: 1;
+  opacity: 1;
 }
 
 .error-password {
-    opacity: 1;
+  opacity: 1;
 }
 
 .auth-form input,
 .register-form input {
-    background: rgba(72, 72, 79, 0.78);
-    width: 250px;
-    border: 1px solid #FECB68;
-    border-radius: 7px;
-    height: 27px;
-    margin: 10px 0;
-    font-size: 16px;
-    padding: 8px 15px;
+  background: rgba(72, 72, 79, 0.78);
+  width: 250px;
+  border: 1px solid #fecb68;
+  border-radius: 7px;
+  height: 27px;
+  margin: 10px 0;
+  font-size: 16px;
+  padding: 8px 15px;
 }
 
 #remember-me {
-    width: 20px;
-    margin: 20px 10px;
-    accent-color: #FECB6899;
+  width: 20px;
+  margin: 20px 10px;
+  accent-color: #fecb6899;
 }
 
 .remember-me-span {
-    font-size: 16px;
-    display: flex;
-    align-items: center;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
 }
 
 .submit-btn input[type="submit"] {
-    color: #FECB6899;
-    height: 45px;
-    border: none;
-    width: 100px;
+  color: #fecb6899;
+  height: 45px;
+  border: none;
+  width: 100px;
 }
 
 .auth-form input:hover,
 .register-form input:hover {
-    background: rgba(87, 87, 94, 0.78);
+  background: rgba(87, 87, 94, 0.78);
 }
 
 .auth-form input:focus,
 .register-form input:focus {
-    outline: none;
+  outline: none;
+}
+
+.oauthBtn {
+  background-image: url("../media/google.png");
+  background-size: cover;
+  width: 30px;
+  height: 30px;
+  background-color: #fecb6899;
+  border-radius: 7px;
+  cursor: pointer;
+  margin: 10px 0;
+}
+.auth-form a,
+.register-form a {
+  color: #fecb68;
+}
+
+.auth-form a:visited,
+.register-form a:visited {
+  color: #fecb68;
 }
