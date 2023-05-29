@@ -45,6 +45,32 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         return user?.Role.ToString();
     }
 
+    public async Task<bool> ValidateTokenAsync(string token)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+
+        var validationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = _jwtTokenSettings.Issuer,
+            ValidAudience = _jwtTokenSettings.Audience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtTokenSettings.Key))
+        };
+
+        try
+        {
+            tokenHandler.ValidateToken(token, validationParameters, out _);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
     private static ClaimsIdentity GetIdentity(User user, Role role)
     {
         var claims = new List<Claim>
