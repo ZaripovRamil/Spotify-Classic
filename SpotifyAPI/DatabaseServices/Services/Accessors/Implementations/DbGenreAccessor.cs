@@ -5,15 +5,15 @@ using Models.Entities;
 
 namespace DatabaseServices.Services.Accessors.Implementations;
 
-public class DbGenreAccessor:DbAccessor, IDbGenreAccessor
+public class DbGenreAccessor : DbAccessor, IDbGenreAccessor
 {
     public DbGenreAccessor(AppDbContext dbContext) : base(dbContext)
     {
     }
 
     public async Task<Genre?> GetById(string id) =>
-        await DbContext.Genres.FirstOrDefaultAsync(g => g.Id == id);
-    
+        await GetAll().FirstOrDefaultAsync(g => g.Id == id);
+
 
     public async Task Add(Genre genre)
     {
@@ -21,6 +21,11 @@ public class DbGenreAccessor:DbAccessor, IDbGenreAccessor
         await DbContext.SaveChangesAsync();
     }
 
+    public IQueryable<Genre> GetAll()
+    {
+        return DbContext.Genres;
+    }
+
     public async Task<Genre?> GetByName(string name) =>
-        await DbContext.Genres.FirstOrDefaultAsync(g => g.Name == name);
+        await GetAll().FirstOrDefaultAsync(g => g.Name == name);
 }

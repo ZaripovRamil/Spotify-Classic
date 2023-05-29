@@ -20,6 +20,7 @@ import { SearchPage } from "./searchPage/SerachPage";
 import { ContactPage } from "./ContactPage/ContactPage";
 import { ChatPage } from "./Chat/ChatPage";
 import { UserStatisctics } from "./userPage/userStatistic/UserStatistic";
+import { UserSubscription } from "./userPage/userSubscription/UserSubscription";
 import GoogleCallbackPage from "./authorization/oauth/GoogleCallbackPage";
 
 function App() {
@@ -65,11 +66,11 @@ function App() {
           />
           <Route
             path="/user/statistic"
-            element={
-              <PageBuilder
-                component={<UserStatisctics content={<UserSettings />} />}
-              />
-            }
+            element={<PageBuilder component={<UserStatisctics />} />}
+          />
+          <Route
+            path="/user/subscription"
+            element={<PageBuilder component={<UserSubscription />} />}
           />
           <Route
             path="/user/password"
@@ -103,7 +104,8 @@ function App() {
             path="/chat"
             element={<PageBuilder component={<ChatPage />} />}
           />
-          <Route path="/oauth/google/callback"
+          <Route
+            path="/oauth/google/callback"
             element={<GoogleCallbackPage />}
           />
           {/* <Route path="/a" element={<PageBuilder component={<A />} />} />

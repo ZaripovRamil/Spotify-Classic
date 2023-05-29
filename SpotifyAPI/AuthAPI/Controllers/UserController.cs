@@ -1,10 +1,12 @@
 ﻿using AuthAPI.Services;
 using DatabaseServices.Services;
+using DatabaseServices.Services.Accessors.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models.DTO.BackToFront.Light;
+using Models.DTO.FrontToBack;
 using Models.DTO.FrontToBack.EntityUpdateData;
 using Models.Entities;
 
@@ -18,13 +20,15 @@ public class UserController : Controller
     private readonly UserManager<User> _userManager;
     private readonly IDtoCreator _dtoCreator;
     private readonly IStatisticSnapshotCreator _snapshotCreator;
+    private readonly IDbSubscriptionAccessor _subscriptionAccessor;
 
     public UserController(UserManager<User> userManager, IDtoCreator dtoCreator,
-        IStatisticSnapshotCreator snapshotCreator)
+        IStatisticSnapshotCreator snapshotCreator, IDbSubscriptionAccessor subscriptionAccessor)
     {
         _userManager = userManager;
         _dtoCreator = dtoCreator;
         _snapshotCreator = snapshotCreator;
+        _subscriptionAccessor = subscriptionAccessor;
     }
 
     [HttpGet]
@@ -81,7 +85,21 @@ public class UserController : Controller
     [Route("get/statistics")]
     public async Task<IActionResult> GetStatistics()
     {
-        return new JsonResult(await _snapshotCreator.Create(await GetContextUser()));
+        var user = await GetContextUser();
+        if (!ValidateSubscription(user!))
+            return Forbid();
+        return new JsonResult(await _snapshotCreator.Create(user));
+    }
+
+    [HttpPut]
+    [Route("subscription/update")]
+    public async Task<IActionResult> UpdateSubscription([FromBody] SubscriptionUpdateData data)
+    {
+        var subscription = await _subscriptionAccessor.GetById(data.SubscriptionId);
+        if (subscription == null) return BadRequest();
+        var user = await GetContextUser();
+        await _subscriptionAccessor.SetToUser(user, subscription);
+        return Ok();
     }
 
 
@@ -103,11 +121,15 @@ public class UserController : Controller
         if (!ValidateUsername(username))
             return BadRequest();
         var user = await GetContextUser();
-
         user.Name = username;
         var result = await _userManager.UpdateAsync(user);
         if (result.Succeeded) return Ok();
         return BadRequest();
+    }
+
+    private static bool ValidateSubscription(User user)
+    {
+        return user.Subscription != null && user.SubscriptionExpire > DateTime.Now;
     }
 
     private static bool ValidateUsername(string username)
@@ -118,6 +140,7 @@ public class UserController : Controller
     private async Task<User?> GetContextUser()
     {
         return await _userManager.Users
+            .Include(u => u.Subscription)
             .Include(u => u.Playlists)
             .Include(u => u.Playlists)
             .ThenInclude(p => p.Tracks)

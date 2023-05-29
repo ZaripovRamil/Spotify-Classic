@@ -19,14 +19,11 @@ public class DbTrackAccessor : DbAccessor, IDbTrackAccessor
 
     public async Task<Track?> Get(string id)
     {
-        return await DbContext.Tracks
-            .Include(t => t.Album)
-            .Include(t => t.Album.Author)
-            .Include(t => t.Genres)
+        return await GetAll()
             .FirstOrDefaultAsync(track => track.Id == id);
     }
 
-    public IEnumerable<Track> GetAll()
+    public IQueryable<Track> GetAll()
     {
         return DbContext.Tracks
             .Include(t => t.Album)
