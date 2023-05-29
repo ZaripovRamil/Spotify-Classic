@@ -17,8 +17,6 @@ const GoogleCallbackPage = () => {
         }
         fetcher.post(`https://localhost:${Ports.AuthService}/oauth/google/callback`, { code })
             .then(resp => {
-                localStorage.setItem('google_access_token', resp.data.access_token);
-                localStorage.setItem('google_id_token', resp.data.id_token);
                 return fetcher.post('oauth/google/login', {access_token: resp.data.access_token, id_token: resp.data.id_token});
             })
             .then(resp => {
