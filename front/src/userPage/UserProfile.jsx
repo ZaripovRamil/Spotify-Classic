@@ -17,6 +17,12 @@ export const UserProfile = (props) => {
     id: "ef26e9f9-c7e3-4705-955d-ea80d0e20ef9",
     name: "TestUser",
     playlists: [],
+    subscriptionExpire: "0",
+    subscription: {
+      id: "",
+      name: "",
+      price: 0,
+    },
     profilePicId: "default_pfp",
     role: 0,
   });
@@ -37,6 +43,7 @@ export const UserProfile = (props) => {
         <main className="main-page">
           <UserProfileHeader
             userName={userInfo.name}
+            subscribtionName={userInfo.subscription.name}
             component={
               <NavLink to="/user/edit" className={"edit"}>
                 Edit
