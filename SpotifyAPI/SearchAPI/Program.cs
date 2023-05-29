@@ -29,6 +29,7 @@ builder.Services.AddScoped<IDbAlbumAccessor, DbAlbumAccessor>();
 builder.Services.AddScoped<IDbAuthorAccessor, DbAuthorAccessor>();
 builder.Services.AddScoped<IDbPlaylistAccessor, DbPlaylistAccessor>();
 builder.Services.AddScoped<IDbTrackAccessor, DbTrackAccessor>();
+builder.Services.AddScoped<IDbUserAccessor, DbUserAccessor>();
 builder.Services.AddScoped<ISearchEngine, ShittyEngine>();
 var app = builder.Build();
 

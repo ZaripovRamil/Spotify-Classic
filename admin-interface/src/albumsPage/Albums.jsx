@@ -9,9 +9,18 @@ const fetcher = getFetcher(Ports.AdminService);
 const Albums = () => {
   const [items, setItems] = useState([]);
   const [tableColumns, setTableColumns] = useState([]);
+  const [filters, setFilters] = useState({
+    albumType: "",
+    tracksMin: "",
+    tracksMax: "",
+    maxCount: "",
+    search: "",
+    sortBy: ""
+  });
+  const [clicked, setClicked] = useState(false);
   useEffect(() => {
-    const getTracks = async () => {
-      await fetcher.get('albums/get/')
+    const getTracks = () => {
+      fetcher.get(`albums/get?albumType=${filters.albumType}&tracksMin=${filters.tracksMin}&tracksMax=${filters.tracksMax}&maxCount=${filters.maxCount}&search=${filters.search.trim()}&sortBy=${filters.sortBy}`)
         .then(res => {
           if (res.status !== 200) return;
           setItems(res.data.map(item => {
@@ -40,6 +49,12 @@ const Albums = () => {
               isEditable: true,
             },
             {
+              name: 'type',
+              label: 'type',
+              type: 'text',
+              isEditable: false,
+            },
+            {
               name: 'author.name',
               label: 'author',
               type: 'text',
@@ -58,8 +73,9 @@ const Albums = () => {
           }])
         });
     }
+
     getTracks();
-  }, []);
+  }, [clicked]);
 
   const editItemsWithResultAsync = async (data) => {
     try {
@@ -118,8 +134,42 @@ const Albums = () => {
     }
   }
 
+  const changeFilters = (propName, propValue) => {
+    filters[propName] = propValue;
+    setFilters({ ...filters });
+  }
+
   return (
     <>
+      <div className="filter-form" style={{ display: 'flex', justifyContent: 'center' }}>
+        <div>
+          Album type:
+          <select value={filters.albumType} onChange={e => changeFilters('albumType', e.target.value)}>
+            <option value={""}>All</option>
+            <option value={"Single"}>Single</option>
+            <option value={"Album"}>ALbum</option>
+          </select >
+          <br />
+          Minimum tracks for album:
+          <input placeholder="minimum number of tracks" type="number" value={filters.tracksMin} onChange={e => changeFilters('tracksMin', e.target.value)} /> <br />
+          Maximum tracks for album:
+          <input placeholder="maximum number of tracks" type="number" value={filters.tracksMax} onChange={e => changeFilters('tracksMax', e.target.value)} /> <br />
+          Maximum number of displayed albums:
+          <input placeholder="max count" type="number" value={filters.maxCount} onChange={e => changeFilters('maxCount', e.target.value)} /> <br />
+          Search for the album name:
+          <input placeholder="type somephin" type="text" value={filters.search} onChange={e => changeFilters('search', e.target.value)} /> <br />
+          Sort by:
+          <select value={filters.sortBy} onChange={e => changeFilters('sortBy', e.target.value)}>
+            <option value="">None</option>
+            <option value="id">Id</option>
+            <option value="name">Name</option>
+            <option value="type">Album type</option>
+            <option value="author">Author name</option>
+          </select >
+          <br />
+          <input type="button" value="apply filters" onClick={() => setClicked(!clicked)} /> <br />
+        </div>
+      </div>
       <AddAlbum insertItemsWithResultAsync={insertItemsWithResultAsync} />
       <TableDisplayer data={items} setData={setItems} editDataWithResultAsync={editItemsWithResultAsync} deleteDataWithResultAsync={deleteItemsWithResultAsync} columns={tableColumns} />
     </>

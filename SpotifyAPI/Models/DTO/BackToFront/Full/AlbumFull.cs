@@ -10,6 +10,7 @@ public class AlbumFull
     public string Name { get; set; }
     public AuthorLight Author { get; set; }
     public List<TrackLight> Tracks { get; set; }
+    public string Type { get; set; }
 
     public AlbumFull() { }
 
@@ -20,5 +21,6 @@ public class AlbumFull
         Author = new AuthorLight(album.Author);
         Tracks = album.Tracks.Select(track => new TrackLight(track)).ToList();
         PreviewId = album.PreviewId;
+        Type = album.Type.ToString();
     }
 }

@@ -19,21 +19,24 @@ public class TracksController : Controller
 {
     private readonly HttpClient _clientToDb;
     private readonly HttpClient _clientToStatic;
+    private readonly HttpClient _clientToSearch;
 
     public TracksController(IOptions<ApplicationHosts> hostsOptions)
     {
+        _clientToSearch = new HttpClient
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.SearchAPI}/search/") };
         _clientToDb = new HttpClient
             { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseAPI}/track/") };
         _clientToStatic = new HttpClient
             { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.StaticAPI}/tracks/") };
     }
     
-    [HttpGet("get")]
-    public async Task<IActionResult> GetAllAsync()
-    {
-        var tracks = await _clientToDb.GetFromJsonAsync<IEnumerable<TrackFull>>("get");
-        return new JsonResult(tracks);
-    }
+    // [HttpGet("get")]
+    // public async Task<IActionResult> GetAllAsync()
+    // {
+    //     var tracks = await _clientToDb.GetFromJsonAsync<IEnumerable<TrackFull>>("get");
+    //     return new JsonResult(tracks);
+    // }
 
     [HttpGet("get/{id}")]
     public async Task<IActionResult> GetByIdAsync(string id)
@@ -106,5 +109,30 @@ public class TracksController : Controller
             await _clientToDb.PutAsync($"update/{id}", new StringContent(json, Encoding.UTF8, "application/json"));
         var responseContent = await response.Content.ReadAsStringAsync();
         return new JsonResult(responseContent);
+    }
+
+    [HttpGet("search")]
+    public async Task<IActionResult> FindTrackByAlbumAuthor([FromQuery] string? query)
+    {
+        var tracks = await _clientToSearch.GetFromJsonAsync<IEnumerable<TrackFull>>(
+            $"tracks/by/albumAuthor?query={query}");
+        return new JsonResult(tracks);
+    }
+    
+    [HttpGet("get")]
+    public async Task<IActionResult> GetWithFiltersAsync([FromQuery] int? pageSize, [FromQuery] int? pageIndex, [FromQuery] string? sortBy, [FromQuery] string? search)
+    {
+        var tracks =
+            await _clientToDb.GetFromJsonAsync<IEnumerable<TrackFull>>(
+                $"get?pageSize={pageSize}&pageIndex={pageIndex}&search={search}");
+        Func<TrackFull, IComparable> sort = sortBy?.ToLower() switch
+        {
+            "id" => track => track.Id,
+            "name" => track => track.Name,
+            "album" => track => track.Album.Name,
+            "author" => track => track.Album.Author.Name,
+            _ => track => track.Name
+        };
+        return new JsonResult(tracks?.OrderBy(sort));
     }
 }

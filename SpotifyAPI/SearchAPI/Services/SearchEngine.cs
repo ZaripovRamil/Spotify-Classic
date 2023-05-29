@@ -5,7 +5,7 @@ using Nest;
 
 namespace SearchAPI.Services;
 
-public class SearchEngine:ISearchEngine
+public class SearchEngine//:ISearchEngine
 {
     private static async Task<ElasticClient> CreateElasticClient()
     {
@@ -112,5 +112,15 @@ public class SearchEngine:ISearchEngine
             ? $"Search error: {searchResponse.DebugInformation}"
             : $"Search successful: {searchResponse.DebugInformation}");
         return null; //Enumerable.Empty<Entity>().Concat(searchResponse.Documents).ToList();
+    }
+
+    public Task<UsersSearchResult> SearchUsersAsync(string query)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<AlbumsSearchResult> SearchAlbumsAsync(string query)
+    {
+        throw new NotImplementedException();
     }
 }

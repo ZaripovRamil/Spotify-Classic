@@ -9,6 +9,7 @@ using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Full;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.DTO.FrontToBack.EntityUpdateData;
+using Models.Entities;
 
 namespace AdminAPI.Controllers;
 
@@ -18,22 +19,25 @@ namespace AdminAPI.Controllers;
 public class AlbumsController : Controller
 {
     private readonly HttpClient _clientToDb;
+    private readonly HttpClient _clientToSearch;
     private readonly HttpClient _clientToStatic;
 
     public AlbumsController(IOptions<ApplicationHosts> hostsOptions)
     {
+        _clientToSearch = new HttpClient
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.SearchAPI}/search")};
         _clientToDb = new HttpClient
             { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseAPI}/album/") };
         _clientToStatic = new HttpClient
             { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.StaticAPI}/previews/") };
     }
     
-    [HttpGet("get")]
-    public async Task<IActionResult> GetAllAsync()
-    {
-        var albums = await _clientToDb.GetFromJsonAsync<IEnumerable<AlbumFull>>("get");
-        return new JsonResult(albums);
-    }
+    // [HttpGet("get")]
+    // public async Task<IActionResult> GetAllAsync()
+    // {
+    //     var albums = await _clientToDb.GetFromJsonAsync<IEnumerable<AlbumFull>>("get");
+    //     return new JsonResult(albums);
+    // }
 
     [HttpGet("get/{id}")]
     public async Task<IActionResult> GetByIdAsync(string id)
@@ -106,5 +110,31 @@ public class AlbumsController : Controller
             await _clientToDb.PutAsync($"update/{id}", new StringContent(json, Encoding.UTF8, "application/json"));
         var responseContent = await response.Content.ReadAsStringAsync();
         return new JsonResult(responseContent);
+    }
+    
+    [HttpGet("get")]
+    public async Task<IActionResult> GetWithFiltersAsync([FromQuery] string? albumType, [FromQuery] int? tracksMin,
+        [FromQuery] int? tracksMax, [FromQuery] int? maxCount, [FromQuery] string? sortBy, [FromQuery] string? search)
+    {
+        var albums =
+            await _clientToDb.GetFromJsonAsync<IEnumerable<AlbumFull>>(
+                $"get?albumType={albumType}&tracksMin={tracksMin}&tracksMax={tracksMax}&maxCount={maxCount}&search={search}");
+        Func<AlbumFull, IComparable> sort = sortBy?.ToLower() switch
+        {
+            "id" => album => album.Id,
+            "name" => album => album.Name,
+            "author" => album => album.Author.Name,
+            "type" => album => album.Type,
+            _ => album => album.Name
+        };
+        return new JsonResult(albums?.OrderBy(sort));
+    }
+
+    [HttpGet("search")]
+    public async Task<IActionResult> FindAlbumByAuthorName([FromQuery] string? query)
+    {
+        var albums = await _clientToSearch.GetFromJsonAsync<IEnumerable<Album>>(
+            $"albums/by/author?query={query}");
+        return new JsonResult(albums?.Select(a => new AlbumFull(a)));
     }
 }

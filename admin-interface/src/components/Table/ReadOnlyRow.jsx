@@ -11,7 +11,7 @@ import {
 import { TableStyles } from "./TableStyles";
 
 const getCompoundProperty = (object, property, delimeter = '.') => {
-	return property.split(delimeter).reduce((obj, propName) => obj ? obj[propName] : obj, object) || "";
+	return property?.split(delimeter).reduce((obj, propName) => obj ? obj[propName] : obj, object) || "";
 }
 
 const ReadOnlyRow = ({ data, setData, columns, setEditIndex, item, index, setNewData, deleteDataWithResultAsync }) => {
