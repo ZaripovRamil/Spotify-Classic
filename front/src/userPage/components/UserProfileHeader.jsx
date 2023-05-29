@@ -21,10 +21,10 @@ export const UserProfileHeader = ({
           <NavLink to="/user">
             <div style={{ display: "flex" }}>
               <div className="userName">{userName}</div>
-              {subscribtionName !== "" && (
+              {subscribtionName && (
                 <img
                   src={crown}
-                  alt={subscribtionName}
+                  alt={subscribtionName.name}
                   style={{ width: "40px" }}
                 />
               )}

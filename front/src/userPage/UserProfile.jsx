@@ -45,7 +45,7 @@ export const UserProfile = (props) => {
         <main className="main-page">
           <UserProfileHeader
             userName={userInfo.name}
-            subscribtionName={userInfo.subscription.name}
+            subscribtionName={userInfo.subscription}
             component={
               <NavLink to="/user/edit" className={"edit"}>
                 Edit
