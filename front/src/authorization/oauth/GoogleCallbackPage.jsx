@@ -19,7 +19,16 @@ const GoogleCallbackPage = () => {
             .then(resp => {
                 localStorage.setItem('google_access_token', resp.data.access_token);
                 localStorage.setItem('google_id_token', resp.data.id_token);
-                navigate('/home');
+                return fetcher.post('oauth/google/login', {access_token: resp.data.access_token, id_token: resp.data.id_token});
+            })
+            .then(resp => {
+                if (resp.data.isSuccessful) {
+                    localStorage.setItem('access-token', resp.data.token);
+                    navigate('/main');
+                }
+                else {
+                    alert(resp.data.resultMessage);
+                }
             });
     }, [])
     return (

@@ -69,7 +69,7 @@ public class OAuthController : Controller
         return new JsonResult(user);
     }
 
-    [HttpGet("google/login")]
+    [HttpPost("google/login")]
     public async Task<IActionResult> LoginAsync([FromBody] GoogleLoginData loginData)
     {
         try
@@ -81,10 +81,12 @@ public class OAuthController : Controller
                 var registerResult = await RegisterAsync(loginData);
                 if (registerResult is BadRequestResult) return registerResult;
             }
+
+            user = await _userManager.FindByEmailAsync(payload.Email);
             var additionalLifetime = await _jwtTokenGenerator.GetRoleAsync(payload.Subject) != "Admin"
                 ? TimeSpan.FromDays(14)
                 : TimeSpan.Zero;
-            var token = await _jwtTokenGenerator.GenerateJwtTokenAsync(payload.Subject, additionalLifetime);
+            var token = await _jwtTokenGenerator.GenerateJwtTokenAsync(user!.UserName!, additionalLifetime);
             return token is null
                 ? new JsonResult(new LoginResult(false, "", "Authorization failed"))
                 : new JsonResult(new LoginResult(true, token, "Successful"));
@@ -95,7 +97,7 @@ public class OAuthController : Controller
         }
     }
 
-    [HttpGet("google/register")]
+    [HttpPost("google/register")]
     public async Task<IActionResult> RegisterAsync([FromBody] GoogleLoginData loginData)
     {
         try
