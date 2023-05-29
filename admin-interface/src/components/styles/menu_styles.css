@@ -1,0 +1,11 @@
+nav {
+    float: left;
+    padding: 20px;
+}
+
+nav a {
+    display: block;
+    color: #333;
+    text-decoration: none;
+    padding: 10px;
+}

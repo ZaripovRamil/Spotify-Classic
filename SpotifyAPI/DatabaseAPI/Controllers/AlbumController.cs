@@ -88,7 +88,7 @@ public class AlbumController
             (tracksMin is null || a.Tracks.Count >= tracksMin.Value) &&
             (tracksMax is null || a.Tracks.Count <= tracksMax.Value) &&
             (search is null || a.Name.ToLower().Contains(search.ToLower())))
-            .Take(new Range(0, maxCount ?? -1))
+            .Take(new Range(0, maxCount ?? ^1))
             .Select(a => new AlbumFull(a)));
     }
 }

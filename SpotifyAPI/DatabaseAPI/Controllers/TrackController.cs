@@ -74,11 +74,11 @@ public class TrackController
     }
 
     [HttpGet("get")]
-    public async Task<IActionResult> GetWithFiltersAsync([FromQuery] int? maxCount, [FromQuery] string? search)
+    public async Task<IActionResult> GetWithFiltersAsync([FromQuery] int? pageSize, [FromQuery] int? pageIndex, [FromQuery] string? search)
     {
         return new JsonResult(_trackAccessor.GetAll().Where(t =>
                 search is null || t.Name.ToLower().Contains(search.ToLower()))
-            .Take(new Range(0, maxCount ?? -1))
+            .Take(new Range((pageSize ?? 20) * (pageIndex ?? 1 - 1), (pageIndex ?? 1) * (pageSize ?? 20)))
             .Select(t => new TrackFull(t)));
     }
 }

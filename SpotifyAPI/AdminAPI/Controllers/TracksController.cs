@@ -31,12 +31,12 @@ public class TracksController : Controller
             { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.StaticAPI}/tracks/") };
     }
     
-    [HttpGet("get")]
-    public async Task<IActionResult> GetAllAsync()
-    {
-        var tracks = await _clientToDb.GetFromJsonAsync<IEnumerable<TrackFull>>("get");
-        return new JsonResult(tracks);
-    }
+    // [HttpGet("get")]
+    // public async Task<IActionResult> GetAllAsync()
+    // {
+    //     var tracks = await _clientToDb.GetFromJsonAsync<IEnumerable<TrackFull>>("get");
+    //     return new JsonResult(tracks);
+    // }
 
     [HttpGet("get/{id}")]
     public async Task<IActionResult> GetByIdAsync(string id)
@@ -120,11 +120,11 @@ public class TracksController : Controller
     }
     
     [HttpGet("get")]
-    public async Task<IActionResult> GetWithFiltersAsync([FromQuery] int? maxCount, [FromQuery] string? sortBy, [FromQuery] string? search)
+    public async Task<IActionResult> GetWithFiltersAsync([FromQuery] int? pageSize, [FromQuery] int? pageIndex, [FromQuery] string? sortBy, [FromQuery] string? search)
     {
         var tracks =
             await _clientToDb.GetFromJsonAsync<IEnumerable<TrackFull>>(
-                $"get?maxCount={maxCount}&search={search}");
+                $"get?pageSize={pageSize}&pageIndex={pageIndex}&search={search}");
         Func<TrackFull, IComparable> sort = sortBy?.ToLower() switch
         {
             "id" => track => track.Id,
