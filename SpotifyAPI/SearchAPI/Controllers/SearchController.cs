@@ -14,8 +14,8 @@ public class SearchController:Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Search([FromQuery]string query)
+    public async Task<IActionResult> Search([FromQuery]string? query)
     {
-        return Ok(await _searchEngine.SearchAsync(query));
+        return Ok(await _searchEngine.SearchAsync(query?? ""));
     }
 }

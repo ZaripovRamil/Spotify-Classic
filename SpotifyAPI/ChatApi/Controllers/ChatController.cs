@@ -30,6 +30,7 @@ public class ChatController : Controller
         }).ToList();
         return history;
     }
+    
     [Authorize(Roles = "Admin")]
     [HttpGet("[action]/{groupname}")]
     public async Task<List<ChatMessage>> History(string groupname)

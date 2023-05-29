@@ -56,7 +56,13 @@ export const Header = () => {
             <SearchSuggestions data={suggestions} value={searchValue} />
           )}
         </div>
-        <Link to="/authorization">
+        <Link
+          to={
+            localStorage.getItem("access-token") && page != "user"
+              ? "/user"
+              : "/authorize"
+          }
+        >
           <div className="avatar"></div>
         </Link>
       </div>

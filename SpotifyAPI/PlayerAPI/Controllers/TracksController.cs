@@ -38,6 +38,7 @@ public class TracksController : Controller
     [HttpGet("get/{trackId}")]
     public async Task<IActionResult> GetByIdAsStreamAsync(string trackId)
     {
+        if (trackId.EndsWith(".ts")) return await StreamTrack(trackId); // if file.ts requested, not track
         var trackInfo = await GetTrackInfo(trackId);
 
         return await StreamTrack(trackInfo.FileId);
@@ -56,11 +57,7 @@ public class TracksController : Controller
         try
         {
             var responseStream = await _clientToStatic.GetStreamAsync(fileId);
-            return new FileStreamResult(responseStream, "application/octet-stream")
-            {
-                FileDownloadName = $"{fileId}.mp3",
-                EnableRangeProcessing = true
-            };
+            return new FileStreamResult(responseStream, "application/octet-stream");
         }
         catch (HttpRequestException)
         {
@@ -68,7 +65,6 @@ public class TracksController : Controller
         }
     }
     [HttpGet("addToHistory/{trackId}")]
-    [Authorize]
     public async Task<IActionResult> AddTrackToHistory(string trackId)
     {
         try
@@ -82,6 +78,5 @@ public class TracksController : Controller
         {
             return BadRequest();
         }
-        
     }
 }
