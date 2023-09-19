@@ -29,9 +29,13 @@ export const UserExistedSubscription = ({
         <div className="sub_info">
           <div className="subscribe__name">Subscribtion info</div>
           <ul>
-            <li>Name: {subscription.name}</li>
-            <li>Price: {subscription.price}rub</li>
-            <li>Expires: {subscriptionExpire.slice(0, 10)}</li>
+            {subscription && (
+              <div>
+                <li>Name: {subscription.name}</li>
+                <li>Price: {subscription.price}rub</li>
+                <li>Expires: {subscriptionExpire.slice(0, 10)}</li>
+              </div>
+            )}
           </ul>
         </div>
         <div className="subscribe__subname">

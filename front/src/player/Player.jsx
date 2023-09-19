@@ -87,7 +87,7 @@ const Player = ({ props }) => {
 
   return (
     <>
-      {tracksList && playerConf && (
+      {localStorage.getItem("access-token") && tracksList && playerConf && (
         <ReactPlayer
           ref={player}
           controls={playerConfig.controls}
@@ -119,7 +119,7 @@ const Player = ({ props }) => {
           style={{ display: "None" }}
         />
       )}
-      {tracksList && playerConf && (
+      {localStorage.getItem("access-token") && tracksList && playerConf && (
         <div className="player">
           <div className="player-controls">
             <div className="player-switch-btns player-btns">

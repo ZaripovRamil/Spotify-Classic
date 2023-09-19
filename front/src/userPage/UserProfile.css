@@ -45,7 +45,7 @@
   height: 34px;
   padding-left: 50px;
   padding-right: 4px;
-
+  margin-right: 10px;
   background-size: 25px;
 
   text-decoration: none;
@@ -107,4 +107,13 @@
   color: #fff;
   transition: all 0.3s;
   text-decoration: none;
+}
+
+.signOutBtn {
+  width: 30px;
+  height: 30px;
+}
+
+.signOutBtn:hover {
+  cursor: pointer;
 }

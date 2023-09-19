@@ -1,12 +1,18 @@
-import { useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import crown from "./crown.png";
+import logout from "./logout.png";
 
 export const UserProfileHeader = ({
   component,
   userName,
   subscribtionName,
 }) => {
+  const navigate = useNavigate();
+  const SignOut = () => {
+    localStorage.removeItem("access-token");
+    navigate("/");
+  };
   return (
     <>
       <div className="userHeader">
@@ -15,16 +21,34 @@ export const UserProfileHeader = ({
           <NavLink to="/user">
             <div style={{ display: "flex" }}>
               <div className="userName">{userName}</div>
-              {subscribtionName !== "" && (
+              {subscribtionName && (
                 <img
                   src={crown}
-                  alt={subscribtionName}
+                  alt={subscribtionName.name}
                   style={{ width: "40px" }}
                 />
               )}
             </div>
           </NavLink>
-          {component}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            {component}
+            <img
+              className="signOutBtn"
+              width="30px"
+              height="30px"
+              src={logout}
+              alt="Sign out"
+              onClick={() => {
+                SignOut();
+              }}
+            />
+          </div>
+
           {/* only for authorized */}
           {subscribtionName !== "" && (
             <NavLink to="/user/statistic">Export data</NavLink>
