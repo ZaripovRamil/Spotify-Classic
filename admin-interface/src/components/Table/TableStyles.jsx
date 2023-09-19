@@ -1,10 +1,11 @@
-import { makeStyles } from '@mui/material';
+// import { makeStyles } from '@mui/styles';
 
-export const TableStyles = makeStyles((theme) => ({
+// export const TableStyles = makeStyles((theme) => ({
+export const TableStyles = () => ({
   root: {
     maxWidth: '60%',
     margin: '0 auto',
-    backgroundColor: theme.palette.background.paper,
+    // backgroundColor: theme.palette.background.paper,
   },
   table: {
     minWidth: 650,
@@ -47,4 +48,4 @@ export const TableStyles = makeStyles((theme) => ({
     backgroundColor: '#f9f9f9',
     border: '1px solid #ddd'
   }
-}));
+});
