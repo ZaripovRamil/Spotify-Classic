@@ -83,7 +83,7 @@ public class AlbumController
     public async Task<IActionResult> GetWithFiltersAsync([FromQuery] string? albumType, [FromQuery] int? tracksMin,
         [FromQuery] int? tracksMax, [FromQuery] int? maxCount, [FromQuery] string? search)
     {
-        return new JsonResult(_albumAccessor.GetAll().Where(a =>
+        return new JsonResult(_albumAccessor.GetAll().AsEnumerable().Where(a =>
                 (albumType == null || string.Equals(a.Type.ToString(), albumType, StringComparison.CurrentCultureIgnoreCase)) &&
                 (tracksMin == null || a.Tracks.Count >= tracksMin.Value) &&
                 (tracksMax == null || a.Tracks.Count <= tracksMax.Value) &&
