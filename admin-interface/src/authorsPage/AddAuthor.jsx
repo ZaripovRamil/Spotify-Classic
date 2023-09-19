@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import FormDialog from "../components/FormDialog/FormDialog";
-import { Button } from "@material-ui/core";
-import { Add as AddIcon } from "@material-ui/icons";
+import { Button } from "@mui/material";
+import { Add as AddIcon } from "@mui/icons-material";
 import { TableStyles } from "../components/Table/TableStyles";
 
 const AddAuthor = ({ insertItemsWithResultAsync }) => {

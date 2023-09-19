@@ -1,4 +1,4 @@
-import { Table } from '@material-ui/core';
+import { Table } from '@mui/material';
 import { TableStyles } from "./TableStyles";
 import TableHeader from "./TableHeadDisplayer";
 import TableBodyDisplayer from "./TableBodyDisplayer";

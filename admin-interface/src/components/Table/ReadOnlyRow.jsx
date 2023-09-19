@@ -3,11 +3,11 @@ import {
 	TableRow,
 	TableCell,
 	IconButton,
-} from '@material-ui/core';
+} from '@mui/material';
 import {
 	Edit as EditIcon,
 	Delete as DeleteIcon
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import { TableStyles } from "./TableStyles";
 
 const getCompoundProperty = (object, property, delimeter = '.') => {

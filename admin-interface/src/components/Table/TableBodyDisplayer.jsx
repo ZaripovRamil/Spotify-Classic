@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import EditableRow from "./EditableRow";
 import ReadOnlyRow from "./ReadOnlyRow";
-import { TableBody } from "@material-ui/core";
+import { TableBody } from "@mui/material";
 
 const TableBodyDisplayer = ({ data, setData, editDataWithResultAsync, deleteDataWithResultAsync, columns }) => {
   const [editIndex, setEditIndex] = useState(-1);

@@ -3,7 +3,7 @@ import {
     TableHead,
     TableRow,
     TableCell
-} from "@material-ui/core";
+} from "@mui/material";
 
 const TableHeader = ({ columns }) => {
     return (

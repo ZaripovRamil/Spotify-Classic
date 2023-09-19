@@ -1,7 +1,7 @@
 import React from "react";
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 import FormItem from "./FormItem";
-import { Delete } from "@material-ui/icons";
+import { Delete } from "@mui/icons-material";
 
 const MultiInputFieldFormItem = ({ formData, setFormData, handleFormChange, column }) => {
     const handleAddItem = () => {

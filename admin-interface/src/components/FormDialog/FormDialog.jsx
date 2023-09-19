@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Dialog, DialogTitle } from '@material-ui/core';
+import { Dialog, DialogTitle } from '@mui/material';
 import FormDialogActions from './FormDialogActions';
 import FormDialogContent from './FormDialogContent';
 

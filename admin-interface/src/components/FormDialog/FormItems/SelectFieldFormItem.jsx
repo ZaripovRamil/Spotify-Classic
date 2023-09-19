@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 const getCompoundProperty = (object, property, delimeter = '.') => {
     return property.split(delimeter).reduce((obj, propName) => obj ? obj[propName] : obj, object) || "";

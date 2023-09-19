@@ -1,5 +1,5 @@
 import React from "react";
-import { TextField } from "@material-ui/core";
+import { TextField } from "@mui/material";
 
 const getCompoundProperty = (object, property, delimeter='.') => {
     return property.split(delimeter).reduce((obj, propName) => obj ? obj[propName] : obj, object) || "";

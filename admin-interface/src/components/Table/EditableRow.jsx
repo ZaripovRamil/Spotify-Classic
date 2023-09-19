@@ -4,11 +4,11 @@ import {
   TableCell,
   TextField,
   Button,
-} from '@material-ui/core';
+} from '@mui/material';
 import {
   Save as SaveIcon,
   Cancel as CancelIcon
-} from '@material-ui/icons';
+} from '@mui/icons-material';
 import { TableStyles } from "./TableStyles";
 
 const getCompoundProperty = (object, property, delimeter='.') => {
