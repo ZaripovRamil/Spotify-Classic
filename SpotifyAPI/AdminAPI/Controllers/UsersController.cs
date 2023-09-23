@@ -23,7 +23,7 @@ public class UsersController
     public UsersController(IOptions<Hosts> hostsOptions)
     {
         _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseApi}/user/") };
+            { BaseAddress = new Uri($"http://{hostsOptions.Value.DatabaseApi}/user/") };
     }
     
     [HttpGet("get")]

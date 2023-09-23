@@ -5,9 +5,9 @@ namespace Models.Entities;
 [PrimaryKey("Id")]
 public class Playlist:Entity
 {
-    public required string PreviewId { get; set; }
-    public required User Owner { get; set; }
-    public required List<Track> Tracks { get; set; }
+    public string PreviewId { get; set; }
+    public User Owner { get; set; }
+    public List<Track> Tracks { get; set; }
 
     public Playlist(string name, User owner, string previewId = "default_playlist")
     {

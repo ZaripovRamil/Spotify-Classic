@@ -17,6 +17,8 @@ services:
       - SpotifyAPI/.postgres-secrets
       - SpotifyAPI/.secrets
       - .hostnames
+    ports:
+      - "${DatabaseApiPort}:80"
     depends_on:
       - postgres
   
@@ -29,6 +31,8 @@ services:
     env_file:
       - SpotifyAPI/.secrets
       - .hostnames
+    ports:
+      - "${AdminApiPort}:80"
     depends_on:
       - db_api
   
@@ -39,8 +43,11 @@ services:
       context: SpotifyAPI
       dockerfile: AuthAPI/Dockerfile
     env_file:
+      - SpotifyAPI/.postgres-secrets
       - SpotifyAPI/.secrets
       - .hostnames
+    ports:
+      - "${AuthApiPort}:80"
     depends_on:
       - db_api
   
@@ -53,6 +60,8 @@ services:
     env_file:
       - SpotifyAPI/.secrets
       - .hostnames
+    ports:
+      - "${ChatApiPort}:80"
     depends_on:
       - db_api
   
@@ -65,6 +74,8 @@ services:
     env_file:
       - SpotifyAPI/.secrets
       - .hostnames
+    ports:
+      - "${PlayerApiPort}:80"
     depends_on:
       - db_api
   
@@ -77,6 +88,8 @@ services:
     env_file:
       - SpotifyAPI/.secrets
       - .hostnames
+    ports:
+      - "${SearchApiPort}:80"
     depends_on:
       - db_api
   
@@ -89,6 +102,10 @@ services:
     env_file:
       - SpotifyAPI/.secrets
       - .hostnames
+    ports:
+      - "${StaticApiPort}:80"
+    volumes:
+      - ./SpotifyAPI/StaticAPI/Assets:/src/SpotifyAPI/StaticAPI/Assets
     depends_on:
       - db_api
   

@@ -3,7 +3,7 @@ import axios from "axios";
 // care of http/https
 export const getFetcher = (port) => {
   const instance = axios.create({
-    baseURL: `https://localhost:${port}/`,
+    baseURL: `http://localhost:${port}/`,
   });
 
   instance.interceptors.request.use((config) => {

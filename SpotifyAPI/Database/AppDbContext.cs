@@ -16,21 +16,19 @@ public class AppDbContext : IdentityDbContext<User>
 
     public DbSet<Subscription> Subscriptions { get; set; }
 
-    public AppDbContext()
-    {
-    }
+    public AppDbContext() => Migrate();
 
-    public AppDbContext(DbContextOptions options) : base(options)
-    {
-    }
+    public AppDbContext(DbContextOptions options) : base(options) => Migrate();
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-            optionsBuilder.UseNpgsql("Server=localhost;Database=Spotify;Port=5432;username = postgres;SSLMode=Prefer");
-        base.OnConfiguring(optionsBuilder);
-        optionsBuilder.EnableSensitiveDataLogging();
-    }
+    private void Migrate() => Database.Migrate();
+
+    // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    // {
+    //     // if (!optionsBuilder.IsConfigured)
+    //     //     optionsBuilder.UseNpgsql("Server=localhost;Database=Spotify;Port=5432;username = postgres;SSLMode=Prefer");
+    //     base.OnConfiguring(optionsBuilder);
+    //     optionsBuilder.EnableSensitiveDataLogging();
+    // }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

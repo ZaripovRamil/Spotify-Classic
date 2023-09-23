@@ -11,7 +11,6 @@ import { ChatsPage } from './chatsPage/ChatsPage';
 function App() {
   return (
     <>
-      <p>env var: {process.env.REACT_APP_AuthApi}</p>
       <BrowserRouter>
         <Menu />
         <Routes>

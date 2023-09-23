@@ -17,13 +17,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Configuration.AddEnvironmentVariables();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Spotify")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString(builder.Configuration["POSTGRES_DB"]!), b => b.MigrationsAssembly("DatabaseAPI")));
 builder.Services.AddIdentity<User, IdentityRole>(options =>
     {
         if (!builder.Environment.IsDevelopment()) return;
@@ -40,8 +42,6 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 builder.Services.AddScoped<IDbSubscriptionAccessor, DbSubscriptionAccessor>();
-
-builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.Configure<JwtTokenSettings>(builder.Configuration.GetSection("JWTTokenSettings"));
 builder.Services.Configure<Hosts>(builder.Configuration.GetSection("Hosts"));

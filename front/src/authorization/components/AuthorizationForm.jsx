@@ -108,7 +108,7 @@ const AuthForm = () => {
       </div>
       <div className="oauthBtn" onClick={handleGoogleOAuth}></div>
       <div>
-        Don't have an account? <a href="/authorize">Register here</a>
+        Don't have an account? <a href="/register">Register here</a>
       </div>
     </form>
   );

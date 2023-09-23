@@ -25,7 +25,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Spotify"), b => b.MigrationsAssembly("DatabaseAPI")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString(builder.Configuration["POSTGRES_DB"]!), b => b.MigrationsAssembly("DatabaseAPI")));
 builder.Services.AddSingleton<IDtoCreator, DtoCreator>();
 
 builder.Services.AddScoped<IDbUserAccessor, DbUserAccessor>();
