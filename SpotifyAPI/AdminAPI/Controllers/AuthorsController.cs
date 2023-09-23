@@ -19,12 +19,12 @@ public class AuthorsController : Controller
     private readonly HttpClient _clientToDb;
     private readonly HttpClient _clientToSearch;
 
-    public AuthorsController(IOptions<ApplicationHosts> hostsOptions)
+    public AuthorsController(IOptions<Hosts> hostsOptions)
     {
         _clientToSearch = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.SearchAPI}/search")};
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.SearchApi}/search")};
         _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseAPI}/author/") };
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseApi}/author/") };
     }
     
     [HttpGet("get")]

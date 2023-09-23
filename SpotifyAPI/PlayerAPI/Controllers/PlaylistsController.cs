@@ -19,10 +19,10 @@ public class PlaylistsController : Controller
 {
     private readonly HttpClient _clientToDb;
 
-    public PlaylistsController(IOptions<ApplicationHosts> hostsOptions)
+    public PlaylistsController(IOptions<Hosts> hostsOptions)
     {
         _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseAPI}/playlist/") };
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseApi}/playlist/") };
     }
 
     [HttpGet("get/{id}")]

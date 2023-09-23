@@ -1,0 +1,122 @@
+﻿version: '3'
+
+services:
+  postgres:
+    image: postgres:alpine
+    hostname: postgres
+    env_file:
+      - SpotifyAPI/.postgres-secrets
+  
+  db_api:
+    image: db_api
+    hostname: ${DatabaseApiHostname}
+    build:
+      context: SpotifyAPI
+      dockerfile: DatabaseAPI/Dockerfile
+    env_file:
+      - SpotifyAPI/.postgres-secrets
+      - SpotifyAPI/.secrets
+      - .hostnames
+    depends_on:
+      - postgres
+  
+  admin_api:
+    image: admin_api
+    hostname: ${AdminApiHostname}
+    build:
+      context: SpotifyAPI
+      dockerfile: AdminAPI/Dockerfile
+    env_file:
+      - SpotifyAPI/.secrets
+      - .hostnames
+    depends_on:
+      - db_api
+  
+  auth_api:
+    image: auth_api
+    hostname: ${AuthApiHostname}
+    build:
+      context: SpotifyAPI
+      dockerfile: AuthAPI/Dockerfile
+    env_file:
+      - SpotifyAPI/.secrets
+      - .hostnames
+    depends_on:
+      - db_api
+  
+  chat_api:
+    image: chat_api
+    hostname: ${ChatApiHostname}
+    build:
+      context: SpotifyAPI
+      dockerfile: ChatApi/Dockerfile
+    env_file:
+      - SpotifyAPI/.secrets
+      - .hostnames
+    depends_on:
+      - db_api
+  
+  player_api:
+    image: player_api
+    hostname: ${PlayerApiHostname}
+    build:
+      context: SpotifyAPI
+      dockerfile: PlayerAPI/Dockerfile
+    env_file:
+      - SpotifyAPI/.secrets
+      - .hostnames
+    depends_on:
+      - db_api
+  
+  search_api:
+    image: search_api
+    hostname: ${SearchApiHostname}
+    build:
+      context: SpotifyAPI
+      dockerfile: SearchAPI/Dockerfile
+    env_file:
+      - SpotifyAPI/.secrets
+      - .hostnames
+    depends_on:
+      - db_api
+  
+  static_api:
+    image: static_api
+    hostname: ${StaticApiHostname}
+    build:
+      context: SpotifyAPI
+      dockerfile: StaticAPI/Dockerfile
+    env_file:
+      - SpotifyAPI/.secrets
+      - .hostnames
+    depends_on:
+      - db_api
+  
+  admin_front:
+    image: admin_front
+    hostname: ${AdminFrontendHostname}
+    build:
+      context: admin-interface
+      dockerfile: Dockerfile
+    ports:
+      - "5124:3000"
+    env_file:
+      - .hostnames
+    depends_on:
+      - admin_api
+  
+  users_front:
+    image: users_front
+    hostname: ${UsersFrontendHostname}
+    build:
+      context: front
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    env_file:
+      - .hostnames
+    depends_on:
+      - player_api
+  
+  ffmpeg:
+    image: jrottenberg/ffmpeg

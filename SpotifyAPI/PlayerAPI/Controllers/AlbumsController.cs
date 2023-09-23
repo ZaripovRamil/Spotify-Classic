@@ -14,10 +14,10 @@ public class AlbumsController : Controller
 {
     private readonly HttpClient _clientToDb;
 
-    public AlbumsController(IOptions<ApplicationHosts> hostsOptions)
+    public AlbumsController(IOptions<Hosts> hostsOptions)
     {
         _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseAPI}/album/") };
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseApi}/album/") };
     }
     
     [HttpGet("get")]
