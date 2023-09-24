@@ -6,13 +6,13 @@ namespace DatabaseServices.Services;
 
 public interface IDtoCreator
 {
-    AlbumFull? CreateFull(Album? getById);
-    AuthorFull? CreateFull(Author? getById);
-    GenreLight? CreateLight(Genre? getById);
-    TrackFull? CreateFull(Track? getById);
-    UserFull? CreateFull(User? getByUsername);
-    PlaylistFull? CreateFull(Playlist? get);
-    UserLight? CreateLight(User? getById);
-    AuthorLight CreateLight(Author authorTracksKey);
-    TrackLight CreateLight(Track authorTracksKey);
+    AlbumFull? CreateFull(Album? album);
+    AuthorFull? CreateFull(Author? author);
+    TrackFull? CreateFull(Track? track);
+    UserFull? CreateFull(User? user);
+    PlaylistFull? CreateFull(Playlist? playlist);
+    GenreLight? CreateLight(Genre? genre);
+    UserLight? CreateLight(User? user);
+    AuthorLight? CreateLight(Author author);
+    TrackLight? CreateLight(Track track);
 }

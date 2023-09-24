@@ -4,11 +4,11 @@ namespace Models.DTO.BackToFront.Light;
 
 public class UserLight
 {
-    public string Id { get; set; }
-    public string ProfilePicId { get; set; }
-    public string Name { get; set; }
-    
-    public string UserName { get; set; }
+    public string Id { get; set; } = default!;
+    public string ProfilePicId { get; set; } = default!;
+    public string Name { get; set; } = default!;
+
+    public string? UserName { get; set; }
 
     public UserLight(User user)
     {
@@ -18,5 +18,7 @@ public class UserLight
         UserName = user.UserName;
     }
 
-    public UserLight() { }
+    public UserLight()
+    {
+    }
 }

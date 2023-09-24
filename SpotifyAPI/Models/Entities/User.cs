@@ -6,16 +6,16 @@ using Models.Entities.Joints;
 namespace Models.Entities;
 
 [PrimaryKey("Id")]
-public class User : IdentityUser
+public sealed class User : IdentityUser
 {
     public List<Track> History { get; set; } = new();
     public List<UserTrack> UserTracks { get; set; } = new();
     public List<Playlist> Playlists { get; set; } = new();
-    public string Name { get; set; }
+    public string Name { get; set; } = default!;
 
     public Subscription? Subscription { get; set; }
     public string? SubscriptionId { get; set; }
-    public DateTime? SubscriptionExpire { get; set; }
+    public DateTime SubscriptionExpire { get; set; }
 
     public string ProfilePicId { get; set; } = "default_pfp";
     public Role Role { get; set; }

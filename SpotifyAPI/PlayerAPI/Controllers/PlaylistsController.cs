@@ -22,7 +22,7 @@ public class PlaylistsController : Controller
     public PlaylistsController(IOptions<ApplicationHosts> hostsOptions)
     {
         _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseAPI}/playlist/") };
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseApi}/playlist/") };
     }
 
     [HttpGet("get/{id}")]

@@ -14,11 +14,13 @@ public class PlaylistFull
         Tracks = playlist.Tracks.Select(t => new TrackLight(t)).ToList();
     }
 
-    public string Id { get; set; }
-    public string PreviewId { get; set; }
-    public string Name { get; set; }
-    public UserLight Owner { get; set; }
-    public List<TrackLight> Tracks { get; set; }
+    public PlaylistFull()
+    {
+    }
 
-    public PlaylistFull() { }
+    public string Id { get; set; } = default!;
+    public string PreviewId { get; set; } = default!;
+    public string Name { get; set; } = default!;
+    public UserLight Owner { get; set; } = default!;
+    public List<TrackLight> Tracks { get; set; } = default!;
 }

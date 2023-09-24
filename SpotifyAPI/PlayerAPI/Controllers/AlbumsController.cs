@@ -17,16 +17,16 @@ public class AlbumsController : Controller
     public AlbumsController(IOptions<ApplicationHosts> hostsOptions)
     {
         _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseAPI}/album/") };
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseApi}/album/") };
     }
-    
+
     [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()
     {
         var albums = await _clientToDb.GetFromJsonAsync<IEnumerable<AlbumFull>>("get");
         return new JsonResult(albums?.Select(album => new AlbumLight(album)));
     }
-    
+
     [HttpGet("get/{id}")]
     public async Task<IActionResult> GetByIdAsync(string id)
     {

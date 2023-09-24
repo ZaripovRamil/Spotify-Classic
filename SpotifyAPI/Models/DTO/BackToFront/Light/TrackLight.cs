@@ -5,12 +5,14 @@ namespace Models.DTO.BackToFront.Light;
 
 public class TrackLight
 {
-    public string Id { get; set; }
-    public string FileId { get; set; }
-    public string Name { get; set; }
-    public AlbumLight Album { get; set; }
+    public string Id { get; set; } = default!;
+    public string FileId { get; set; } = default!;
+    public string Name { get; set; } = default!;
+    public AlbumLight Album { get; set; } = default!;
 
-    public TrackLight() { }
+    public TrackLight()
+    {
+    }
 
     public TrackLight(Track track)
     {

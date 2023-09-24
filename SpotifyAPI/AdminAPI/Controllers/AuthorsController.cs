@@ -22,11 +22,11 @@ public class AuthorsController : Controller
     public AuthorsController(IOptions<ApplicationHosts> hostsOptions)
     {
         _clientToSearch = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.SearchAPI}/search")};
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.SearchApi}/search") };
         _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseAPI}/author/") };
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseApi}/author/") };
     }
-    
+
     [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()
     {

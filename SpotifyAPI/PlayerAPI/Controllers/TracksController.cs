@@ -1,5 +1,4 @@
 using System.Text.Json;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Models;
@@ -21,11 +20,11 @@ public class TracksController : Controller
     public TracksController(IOptions<ApplicationHosts> hostsOptions)
     {
         _clientToHistory = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseAPI}/history/") };
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseApi}/history/") };
         _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseAPI}/track/") };
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseApi}/track/") };
         _clientToStatic = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.StaticAPI}/tracks/") };
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.StaticApi}/tracks/") };
     }
 
     [HttpGet("get")]
@@ -64,6 +63,7 @@ public class TracksController : Controller
             return NotFound();
         }
     }
+
     [HttpGet("addToHistory/{trackId}")]
     public async Task<IActionResult> AddTrackToHistory(string trackId)
     {
