@@ -2,6 +2,6 @@
 
 public class TrackCreationData : EntityCreationData
 {
-    public string AlbumId { get; set; }
-    public string[] GenreIds { get; set; }
+    public string AlbumId { get; set; } = default!;
+    public string[] GenreIds { get; set; } = Array.Empty<string>();
 }

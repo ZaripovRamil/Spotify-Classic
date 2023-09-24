@@ -26,7 +26,7 @@ public class AuthorsController : Controller
         _clientToDb = new HttpClient
             { BaseAddress = new Uri($"http://{hostsOptions.Value.DatabaseApi}/author/") };
     }
-    
+
     [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()
     {

@@ -6,12 +6,11 @@ namespace Models.Entities;
 [PrimaryKey("Id")]
 public class Track : Entity
 {
-    public string FileId { get; set; }
+    public string FileId { get; set; } = default!;
 
     public Track(string name, Album album, string fileId)
     {
         Name = name;
-        // Album = album;
         AlbumId = album.Id;
         FileId = fileId;
     }
@@ -30,11 +29,11 @@ public class Track : Entity
     {
     }
 
-    public string AlbumId { get; set; }
-    public Album Album { get; set; }
-    public List<Playlist> InPlaylists { get; set; }
+    public string AlbumId { get; set; } = default!;
+    public Album Album { get; set; } = default!;
+    public List<Playlist> InPlaylists { get; set; } = new();
     public List<GenreTrack> GenreTracks { get; set; } = new();
     public List<UserTrack> UserTracks { get; set; } = new();
     public List<Genre> Genres { get; set; } = new();
-    public List<User> Listeners { get; set; }
+    public List<User> Listeners { get; set; } = new();
 }

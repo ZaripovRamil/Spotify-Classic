@@ -16,11 +16,6 @@ public class DtoCreator : IDtoCreator
         return author == null ? null : new AuthorFull(author);
     }
 
-    public GenreLight? CreateLight(Genre? genre)
-    {
-        return genre == null ? null : new GenreLight(genre);
-    }
-
     public TrackFull? CreateFull(Track? track)
     {
         return track == null ? null : new TrackFull(track);
@@ -31,7 +26,7 @@ public class DtoCreator : IDtoCreator
         return user == null ? null : new UserFull(user);
     }
 
-    public PlaylistFull CreateFull(Playlist? playlist)
+    public PlaylistFull? CreateFull(Playlist? playlist)
     {
         return playlist == null ? null : new PlaylistFull(playlist);
     }
@@ -41,13 +36,18 @@ public class DtoCreator : IDtoCreator
         return user == null ? null : new UserLight(user);
     }
 
-    public AuthorLight CreateLight(Author author)
+    public AuthorLight? CreateLight(Author? author)
     {
         return author == null ? null : new AuthorLight(author);
     }
 
-    public TrackLight CreateLight(Track track)
+    public TrackLight? CreateLight(Track? track)
     {
         return track == null ? null : new TrackLight(track);
+    }
+
+    public GenreLight? CreateLight(Genre? genre)
+    {
+        return genre == null ? null : new GenreLight(genre);
     }
 }

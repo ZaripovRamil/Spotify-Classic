@@ -31,7 +31,7 @@ public class AlbumsController : Controller
         _clientToStatic = new HttpClient
             { BaseAddress = new Uri($"http://{hostsOptions.Value.StaticApi}/previews/") };
     }
-    
+
     // [HttpGet("get")]
     // public async Task<IActionResult> GetAllAsync()
     // {
@@ -59,7 +59,7 @@ public class AlbumsController : Controller
         var staticResponse =
             await UploadContentToStaticAsync(creationDataWithFile.PreviewFile, album!.PreviewId);
         if (staticResponse.IsSuccessStatusCode) return new JsonResult(albumCreationResult);
-        
+
         // if static API rejected uploading, delete album from database. what if this fails too? cry, i suppose.
         await DeleteAsync(albumCreationResult.AlbumId!);
         return BadRequest(new AlbumCreationResult
@@ -111,7 +111,7 @@ public class AlbumsController : Controller
         var responseContent = await response.Content.ReadAsStringAsync();
         return new JsonResult(responseContent);
     }
-    
+
     [HttpGet("get")]
     public async Task<IActionResult> GetWithFiltersAsync([FromQuery] string? albumType, [FromQuery] int? tracksMin,
         [FromQuery] int? tracksMax, [FromQuery] int? maxCount, [FromQuery] string? sortBy, [FromQuery] string? search)

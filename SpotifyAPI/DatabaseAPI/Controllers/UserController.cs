@@ -37,12 +37,12 @@ public class UserController
     {
         return new JsonResult(_dtoCreator.CreateFull(await _userAccessor.GetById(id)));
     }
-    
+
     [HttpGet]
     [Route("getAll")]
-    public async Task<JsonResult> GetAllUsers()
+    public Task<JsonResult> GetAllUsers()
     {
         var users = _userAccessor.GetAllUsers().Select(user => _dtoCreator.CreateLight(user)).ToList();
-        return new JsonResult(users);
+        return Task.FromResult(new JsonResult(users));
     }
 }

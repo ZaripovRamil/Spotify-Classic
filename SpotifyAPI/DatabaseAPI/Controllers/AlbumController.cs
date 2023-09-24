@@ -40,16 +40,6 @@ public class AlbumController
         if (state == AlbumValidationCode.Successful) await _albumAccessor.Add(album!);
         return new JsonResult(new AlbumCreationResult(state, album));
     }
-    
-    // [HttpGet]
-    // [Route("Get")]
-    // public Task<IActionResult> GetAllAsync()
-    // {
-    //     var albums = _albumAccessor
-    //         .GetAll()
-    //         .Select(album => new AlbumFull(album));
-    //     return Task.FromResult<IActionResult>(new JsonResult(albums));
-    // }
 
     [HttpGet]
     [Route("get/id/{id}")]
@@ -80,16 +70,17 @@ public class AlbumController
     }
 
     [HttpGet("get")]
-    public async Task<IActionResult> GetWithFiltersAsync([FromQuery] string? albumType, [FromQuery] int? tracksMin,
+    public Task<IActionResult> GetWithFiltersAsync([FromQuery] string? albumType, [FromQuery] int? tracksMin,
         [FromQuery] int? tracksMax, [FromQuery] int? maxCount, [FromQuery] string? search)
     {
-        return new JsonResult(_albumAccessor.GetAll().AsEnumerable().Where(a =>
-                (albumType == null || string.Equals(a.Type.ToString(), albumType, StringComparison.CurrentCultureIgnoreCase)) &&
+        return Task.FromResult<IActionResult>(new JsonResult(_albumAccessor.GetAll().AsEnumerable().Where(a =>
+                (albumType == null ||
+                 string.Equals(a.Type.ToString(), albumType, StringComparison.CurrentCultureIgnoreCase)) &&
                 (tracksMin == null || a.Tracks.Count >= tracksMin.Value) &&
                 (tracksMax == null || a.Tracks.Count <= tracksMax.Value) &&
                 (search == null || a.Name.ToLower().Contains(search.ToLower())))
             .Take(new Range(0, maxCount ?? ^1))
             .Select(a => new AlbumFull(a))
-            .ToList());
+            .ToList()));
     }
 }

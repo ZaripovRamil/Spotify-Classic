@@ -19,14 +19,14 @@ public class AlbumsController : Controller
         _clientToDb = new HttpClient
             { BaseAddress = new Uri($"http://{hostsOptions.Value.DatabaseApi}/album/") };
     }
-    
+
     [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()
     {
         var albums = await _clientToDb.GetFromJsonAsync<IEnumerable<AlbumFull>>("get");
         return new JsonResult(albums?.Select(album => new AlbumLight(album)));
     }
-    
+
     [HttpGet("get/{id}")]
     public async Task<IActionResult> GetByIdAsync(string id)
     {

@@ -1,15 +1,8 @@
-﻿using System.Text;
-using System.Text.Json;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Models;
-using Models.DTO.BackToFront.Full;
 using Models.DTO.BackToFront.Light;
-using Models.DTO.FrontToBack.EntityCreationData;
-using Models.DTO.FrontToBack.EntityUpdateData;
 
 namespace AdminAPI.Controllers;
 
@@ -25,7 +18,7 @@ public class UsersController
         _clientToDb = new HttpClient
             { BaseAddress = new Uri($"http://{hostsOptions.Value.DatabaseApi}/user/") };
     }
-    
+
     [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()
     {

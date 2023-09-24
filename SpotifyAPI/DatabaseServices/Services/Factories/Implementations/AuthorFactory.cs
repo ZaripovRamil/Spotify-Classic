@@ -19,6 +19,6 @@ public class AuthorFactory : IAuthorFactory
     {
         var validationResult = await _authorValidator.Validate(data);
         return ((AuthorValidationCode)validationResult.ValidationCode,
-            validationResult.IsValid ? new Author(data.Name, validationResult.Owner) : null);
+            validationResult.IsValid ? new Author(data.Name, validationResult.Owner!) : null);
     }
 }

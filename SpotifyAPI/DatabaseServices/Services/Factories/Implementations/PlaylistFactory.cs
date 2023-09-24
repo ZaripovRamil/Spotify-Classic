@@ -8,13 +8,10 @@ namespace DatabaseServices.Services.Factories.Implementations;
 
 public class PlaylistFactory : IPlaylistFactory
 {
-    private readonly IFileIdGenerator _idGenerator;
     private readonly IPlaylistValidator _playlistValidator;
 
-    public PlaylistFactory(IFileIdGenerator idGenerator,
-        IPlaylistValidator playlistValidator)
+    public PlaylistFactory(IPlaylistValidator playlistValidator)
     {
-        _idGenerator = idGenerator;
         _playlistValidator = playlistValidator;
     }
 
@@ -22,6 +19,6 @@ public class PlaylistFactory : IPlaylistFactory
     {
         var validationResult = await _playlistValidator.Validate(data);
         return ((PlaylistValidationCode)validationResult.ValidationCode,
-            validationResult.IsValid ? new Playlist(data.Name, validationResult.Owner) : null);
+            validationResult.IsValid ? new Playlist(data.Name, validationResult.Owner!) : null);
     }
 }

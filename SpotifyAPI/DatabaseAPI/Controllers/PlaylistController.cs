@@ -81,9 +81,10 @@ public class PlaylistController : Controller
 
     [HttpGet]
     [Route("Get")]
-    public async Task<IActionResult> GetAll()
+    public Task<IActionResult> GetAll()
     {
-        return new JsonResult(_playlistAccessor.GetAll().Select(playlist => _dtoCreator.CreateFull(playlist)));
+        return Task.FromResult<IActionResult>(new JsonResult(_playlistAccessor.GetAll()
+            .Select(playlist => _dtoCreator.CreateFull(playlist))));
     }
 
     [HttpDelete]

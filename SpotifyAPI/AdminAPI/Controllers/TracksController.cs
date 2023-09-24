@@ -30,7 +30,7 @@ public class TracksController : Controller
         _clientToStatic = new HttpClient
             { BaseAddress = new Uri($"http://{hostsOptions.Value.StaticApi}/tracks/") };
     }
-    
+
     // [HttpGet("get")]
     // public async Task<IActionResult> GetAllAsync()
     // {
@@ -58,7 +58,7 @@ public class TracksController : Controller
         var staticResponse =
             await UploadContentToStaticAsync(creationDataWithFile.TrackFile, track!.FileId);
         if (staticResponse.IsSuccessStatusCode) return new JsonResult(trackCreationResult);
-        
+
         // if static API rejected uploading, delete track from database. what if this fails too? cry, i suppose.
         await DeleteAsync(trackCreationResult.TrackId!);
         return BadRequest(new TrackCreationResult
@@ -118,9 +118,10 @@ public class TracksController : Controller
             $"tracks/by/albumAuthor?query={query}");
         return new JsonResult(tracks);
     }
-    
+
     [HttpGet("get")]
-    public async Task<IActionResult> GetWithFiltersAsync([FromQuery] int? pageSize, [FromQuery] int? pageIndex, [FromQuery] string? sortBy, [FromQuery] string? search)
+    public async Task<IActionResult> GetWithFiltersAsync([FromQuery] int? pageSize, [FromQuery] int? pageIndex,
+        [FromQuery] string? sortBy, [FromQuery] string? search)
     {
         var tracks =
             await _clientToDb.GetFromJsonAsync<IEnumerable<TrackFull>>(

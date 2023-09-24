@@ -5,10 +5,10 @@ namespace Models.DTO.BackToFront.Light;
 
 public class PlaylistLight
 {
-    public string Id { get; set; }
-    public string PreviewId { get; set; }
-    public string Name { get; set; }
-    public UserLight Owner { get; set; }
+    public string Id { get; set; } = default!;
+    public string PreviewId { get; set; } = default!;
+    public string Name { get; set; } = default!;
+    public UserLight Owner { get; set; } = default!;
     public int TrackCount { get; set; }
 
     public PlaylistLight(Playlist playlist)
@@ -19,7 +19,7 @@ public class PlaylistLight
         TrackCount = playlist.Tracks.Count;
         Owner = new UserLight(playlist.Owner);
     }
-    
+
     public PlaylistLight(PlaylistFull playlist)
     {
         Id = playlist.Id;
@@ -29,5 +29,7 @@ public class PlaylistLight
         TrackCount = playlist.Tracks.Count;
     }
 
-    public PlaylistLight() { }
+    public PlaylistLight()
+    {
+    }
 }

@@ -38,41 +38,41 @@ public class ShittyEngine : ISearchEngine
                 .ToList()));
     }
 
-    public async Task<UsersSearchResult> SearchUsersAsync(string query)
+    public Task<UsersSearchResult> SearchUsersAsync(string query)
     {
-        return new UsersSearchResult(_userAccessor.GetAllUsers()
+        return Task.FromResult(new UsersSearchResult(_userAccessor.GetAllUsers()
             .Where(u => u.Name.ToLower().Contains(query.ToLower()) ||
                         u.NormalizedUserName is not null && u.NormalizedUserName.Contains(query.ToUpper()))
-            .Select(u => new UserLight(u)).ToList());
+            .Select(u => new UserLight(u)).ToList()));
     }
 
-    public async Task<AlbumsSearchResult> SearchAlbumsAsync(string query)
+    public Task<AlbumsSearchResult> SearchAlbumsAsync(string query)
     {
-        return new AlbumsSearchResult(_albumAccessor.GetAll().Where(a =>
+        return Task.FromResult(new AlbumsSearchResult(_albumAccessor.GetAll().Where(a =>
                 a.Name.ToLower().Contains(query.ToLower()))
-            .Select(a => new AlbumLight(a)).ToList());
+            .Select(a => new AlbumLight(a)).ToList()));
     }
 
-    public async Task<IEnumerable<AlbumFull>> SearchAlbumsByAuthorsAsync(string query)
+    public Task<IEnumerable<AlbumFull>> SearchAlbumsByAuthorsAsync(string query)
     {
-        return _albumAccessor.GetAll().Where(a => 
+        return Task.FromResult<IEnumerable<AlbumFull>>(_albumAccessor.GetAll().Where(a =>
                 a.Author.Name.ToLower().Contains(query.ToLower()))
-            .Select(a => new AlbumFull(a));
+            .Select(a => new AlbumFull(a)));
     }
 
-    public async Task<IEnumerable<AuthorFull>> SearchAuthorsByUserAsync(string query)
+    public Task<IEnumerable<AuthorFull>> SearchAuthorsByUserAsync(string query)
     {
-        return _authorAccessor.GetAll().Where(a =>
+        return Task.FromResult<IEnumerable<AuthorFull>>(_authorAccessor.GetAll().Where(a =>
                 a.User.Name.ToLower().Contains(query.ToLower()) || a.User.NormalizedUserName != null &&
                 a.User.NormalizedUserName.Contains(query.ToUpper()))
-            .Select(a => new AuthorFull(a));
+            .Select(a => new AuthorFull(a)));
     }
 
-    public async Task<IEnumerable<TrackFull>> SearchTracksByAlbumOrAuthorAsync(string query)
+    public Task<IEnumerable<TrackFull>> SearchTracksByAlbumOrAuthorAsync(string query)
     {
-        return _trackAccessor.GetAll().Where(t =>
+        return Task.FromResult<IEnumerable<TrackFull>>(_trackAccessor.GetAll().Where(t =>
                 t.Album.Name.ToLower().Contains(query.ToLower()) ||
                 t.Album.Author.Name.ToLower().Contains(query.ToLower()))
-            .Select(t => new TrackFull(t));
+            .Select(t => new TrackFull(t)));
     }
 }
