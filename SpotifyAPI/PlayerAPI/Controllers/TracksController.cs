@@ -48,7 +48,7 @@ public class TracksController : Controller
         var message = new HttpRequestMessage(HttpMethod.Get, $"get/id/{trackId}");
         var response = (await _clientToDb.SendAsync(message));
         var content = await response.Content.ReadAsStringAsync();
-        return JsonSerializer.Deserialize<TrackFull>(content, Options);
+        return JsonSerializer.Deserialize<TrackFull>(content, Options)!;
     }
 
     private async Task<IActionResult> StreamTrack(string fileId)
@@ -69,7 +69,7 @@ public class TracksController : Controller
     {
         try
         {
-            var username = User.Identity.Name;
+            var username = User.Identity?.Name!;
             var message = new HttpRequestMessage(HttpMethod.Post, $"Add?userName={username}&trackId={trackId}");
             await _clientToHistory.SendAsync(message);
             return Ok();
