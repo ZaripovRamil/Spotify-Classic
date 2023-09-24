@@ -1,8 +1,6 @@
 import React from "react";
 import "./Track.css";
 
-
-
 const prefix = "https://localhost:7022/";
 const Track = ({ props, track, idInAlbum, tracks }) => {
   const { tracksList, setTracksList, playerConf, setPlayerConf } = props;
@@ -29,7 +27,6 @@ const Track = ({ props, track, idInAlbum, tracks }) => {
         playing: true,
         trackPosInAlbum: idInAlbum,
       }));
-      // fetcher.get(`Tracks/addToHistory/${track.id}`).then(res => console.log(res)).catch(res => console.log(res))
     }
   };
 
@@ -39,7 +36,8 @@ const Track = ({ props, track, idInAlbum, tracks }) => {
         <div onClick={() => trackClick(track)} className="track">
           <div className="track-preview">
             <div className="track-play-img">
-              <img alt=""
+              <img
+                alt="track"
                 className="track-img"
                 src={prefix + `Previews/get/${track.album.previewId}`}
                 onError={({ currentTarget }) => {

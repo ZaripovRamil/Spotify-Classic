@@ -7,13 +7,13 @@ export const Footer = ({ props }) => {
     <footer>
       <div className="footer">
         <div className="footer-logo">
-          <img alt="" className="footer-logo-img" src={footerLogo} />
+          <img alt="logo" className="footer-logo-img" src={footerLogo} />
           <div>Classic music</div>
         </div>
         <div className="footer-links">
           <div className="footer-inc">© 2023 DotKek Bol’ Inc.</div>
           <a href="/contacts">Contacts</a>
-          <br/>
+          <br />
           <a href="/chat">Support Chat</a>
         </div>
       </div>

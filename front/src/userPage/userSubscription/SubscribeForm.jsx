@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { getFetcher } from "../../axios/AxiosInstance";
 import Ports from "../../constants/Ports";
 import InputMask from "react-input-mask";
@@ -80,6 +80,7 @@ export const SubscribeForm = () => {
             required
           />
           <img
+            alt="show password"
             style={{ width: "25px" }}
             src={cvsHide ? passwordHideIcon : passwordShowIcon}
             onClick={() => setCvsHide(!cvsHide)}

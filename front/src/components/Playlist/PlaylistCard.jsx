@@ -1,12 +1,5 @@
-import React, { useEffect, useState } from "react";
-import compositor from "./media/compositor.png";
+import React from "react";
 import { useNavigate, createSearchParams } from "react-router-dom";
-import play from "./media/play.png";
-import stop from "./media/stop.png";
-import { getFetcher } from "../../axios/AxiosInstance";
-import Ports from "../../constants/Ports";
-
-const fetcher = getFetcher(Ports.MusicService);
 const prefix = "https://localhost:7022/";
 
 const useNavigateSearch = () => {

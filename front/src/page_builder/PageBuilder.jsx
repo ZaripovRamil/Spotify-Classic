@@ -4,8 +4,6 @@ import { Footer } from "../components/Footer/Footer";
 import "./PageBuilder.css";
 import Player from "../player/Player";
 
-
-
 export const PageBuilder = ({ component }) => {
   const [tracksList, setTracksList] = useState(
     JSON.parse(localStorage.getItem("player-tracklist"))

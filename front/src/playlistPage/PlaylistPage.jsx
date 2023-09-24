@@ -117,7 +117,7 @@ export const PlaylistPage = (props) => {
           if (err.response.status === 401) navigate("/authorize");
         });
     }
-  }, [searchParams]);
+  }, [searchParams, isPlaylist, navigate]);
 
   const playClick = () => {
     if (playlistTracks !== tracksList) {

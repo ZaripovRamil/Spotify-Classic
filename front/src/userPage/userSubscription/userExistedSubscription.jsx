@@ -1,12 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { getFetcher } from "../../axios/AxiosInstance";
-import Ports from "../../constants/Ports";
+import React, { useEffect } from "react";
 
 import "./UserSubscription.css";
 import { SubscribeForm } from "./SubscribeForm";
-
-const fetcher = getFetcher(Ports.AuthService);
-const prefix = "https://localhost:7022/";
 
 export const UserExistedSubscription = ({
   subscription,

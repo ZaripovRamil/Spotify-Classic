@@ -14,7 +14,7 @@ import { PlaylistPage } from "./playlistPage/PlaylistPage";
 import { UserEdit } from "./userPage/UserEdit/UserEdit";
 import { UserSettings } from "./userPage/UserEdit/UserSettings";
 import { UserPassword } from "./userPage/UserEdit/UserPassword";
-import { SearchPage } from "./searchPage/SerachPage";
+import { SearchPage } from "./searchPage/SearchPage";
 import { ContactPage } from "./ContactPage/ContactPage";
 import { ChatPage } from "./Chat/ChatPage";
 import { UserStatisctics } from "./userPage/userStatistic/UserStatistic";
