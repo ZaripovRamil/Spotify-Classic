@@ -1,4 +1,4 @@
-name: SonarCloud
+name: linters
 on:
   push:
     branches:
@@ -6,6 +6,11 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
+  eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: stefanoeb/eslint-action@1.0.2
   build:
     name: Build and analyze
     runs-on: windows-latest
@@ -45,4 +50,4 @@ jobs:
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"ZaripovRamil_Spotify-Classic" /o:"zaripovramil" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build SpotifyAPI/SpotifyAPI.sln
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}
