@@ -23,7 +23,6 @@ public class DbPlaylistAccessor : DbAccessor, IDbPlaylistAccessor
 
     public async Task AddTrack(Playlist playlist, Track track)
     {
-        playlist.Tracks ??= new List<Track>();
         playlist.Tracks.Add(track);
         await DbContext.SaveChangesAsync();
     }
@@ -55,7 +54,6 @@ public class DbPlaylistAccessor : DbAccessor, IDbPlaylistAccessor
 
     public async Task DeleteTrack(Playlist playlist, Track track)
     {
-        playlist.Tracks ??= new List<Track>();
         playlist.Tracks.Remove(track);
         await DbContext.SaveChangesAsync();
     }

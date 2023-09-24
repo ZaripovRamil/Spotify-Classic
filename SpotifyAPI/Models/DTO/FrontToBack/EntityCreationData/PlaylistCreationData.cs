@@ -2,5 +2,5 @@
 
 public class PlaylistCreationData : EntityCreationData
 {
-    public string OwnerId { get; set; }
+    public string OwnerId { get; set; } = default!;
 }

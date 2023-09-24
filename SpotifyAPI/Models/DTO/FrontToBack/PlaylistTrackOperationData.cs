@@ -2,6 +2,6 @@
 
 public class PlaylistTrackOperationData
 {
-    public string PlaylistId { get; set; }
-    public string TrackId { get; set; }
+    public string PlaylistId { get; set; } = default!;
+    public string TrackId { get; set; } = default!;
 }

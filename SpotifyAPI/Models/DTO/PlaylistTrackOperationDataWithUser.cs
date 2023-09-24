@@ -4,7 +4,7 @@ namespace Models.DTO;
 
 public class PlaylistTrackOperationDataWithUser : PlaylistTrackOperationData
 {
-    public string UserName { get; set; }
+    public string UserName { get; set; } = default!;
 
     public PlaylistTrackOperationDataWithUser(PlaylistTrackOperationData data, string userName)
     {

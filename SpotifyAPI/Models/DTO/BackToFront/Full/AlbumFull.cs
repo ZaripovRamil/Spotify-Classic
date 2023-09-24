@@ -5,14 +5,16 @@ namespace Models.DTO.BackToFront.Full;
 
 public class AlbumFull
 {
-    public string Id { get; set; }
-    public string PreviewId { get; set; }
-    public string Name { get; set; }
-    public AuthorLight Author { get; set; }
-    public List<TrackLight> Tracks { get; set; }
-    public string Type { get; set; }
+    public string Id { get; set; } = default!;
+    public string PreviewId { get; set; } = default!;
+    public string Name { get; set; } = default!;
+    public AuthorLight Author { get; set; } = default!;
+    public List<TrackLight> Tracks { get; set; } = default!;
+    public string Type { get; set; } = default!;
 
-    public AlbumFull() { }
+    public AlbumFull()
+    {
+    }
 
     public AlbumFull(Album album)
     {

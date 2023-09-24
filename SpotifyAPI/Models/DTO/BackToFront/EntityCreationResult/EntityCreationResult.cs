@@ -3,5 +3,5 @@
 public abstract class EntityCreationResult
 {
     public bool IsSuccessful { get; set; }
-    public string ResultMessage { get; set; }
+    public string ResultMessage { get; set; } = default!;
 }

@@ -3,11 +3,11 @@
 namespace Models.Entities;
 
 [PrimaryKey("Id")]
-public class Playlist:Entity
+public class Playlist : Entity
 {
-    public string PreviewId { get; set; }
-    public User Owner { get; set; }
-    public List<Track> Tracks { get; set; }
+    public string PreviewId { get; set; } = default!;
+    public User Owner { get; set; } = default!;
+    public List<Track> Tracks { get; set; } = new();
 
     public Playlist(string name, User owner, string previewId = "default_playlist")
     {
@@ -25,5 +25,7 @@ public class Playlist:Entity
         PreviewId = previewId;
     }
 
-    public Playlist() { }
+    public Playlist()
+    {
+    }
 }
