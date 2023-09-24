@@ -25,7 +25,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString(builder.Configuration["POSTGRES_DB"]!), b => b.MigrationsAssembly("DatabaseAPI")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString(builder.Configuration["POSTGRES_DB"]!)));
 builder.Services.AddIdentity<User, IdentityRole>(options =>
     {
         if (!builder.Environment.IsDevelopment()) return;
@@ -115,7 +115,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors();
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseAuthentication();
 

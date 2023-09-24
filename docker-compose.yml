@@ -6,6 +6,8 @@ services:
     hostname: postgres
     env_file:
       - SpotifyAPI/.postgres-secrets
+    volumes:
+      - ~/apps/Spotify/postgres-data:/var/lib/postgresql/data
   
   db_api:
     image: db_api
@@ -17,8 +19,9 @@ services:
       - SpotifyAPI/.postgres-secrets
       - SpotifyAPI/.secrets
       - .hostnames
+      - SpotifyAPI/.kestrel-conf
     ports:
-      - "${DatabaseApiPort}:80"
+      - "${DatabaseApiPort}:443"
     depends_on:
       - postgres
   
@@ -31,8 +34,9 @@ services:
     env_file:
       - SpotifyAPI/.secrets
       - .hostnames
+      - SpotifyAPI/.kestrel-conf
     ports:
-      - "${AdminApiPort}:80"
+      - "${AdminApiPort}:443"
     depends_on:
       - db_api
   
@@ -46,8 +50,9 @@ services:
       - SpotifyAPI/.postgres-secrets
       - SpotifyAPI/.secrets
       - .hostnames
+      - SpotifyAPI/.kestrel-conf
     ports:
-      - "${AuthApiPort}:80"
+      - "${AuthApiPort}:443"
     depends_on:
       - db_api
   
@@ -60,8 +65,9 @@ services:
     env_file:
       - SpotifyAPI/.secrets
       - .hostnames
+      - SpotifyAPI/.kestrel-conf
     ports:
-      - "${ChatApiPort}:80"
+      - "${ChatApiPort}:443"
     depends_on:
       - db_api
   
@@ -74,8 +80,9 @@ services:
     env_file:
       - SpotifyAPI/.secrets
       - .hostnames
+      - SpotifyAPI/.kestrel-conf
     ports:
-      - "${PlayerApiPort}:80"
+      - "${PlayerApiPort}:443"
     depends_on:
       - db_api
   
@@ -86,10 +93,12 @@ services:
       context: SpotifyAPI
       dockerfile: SearchAPI/Dockerfile
     env_file:
+      - SpotifyAPI/.postgres-secrets
       - SpotifyAPI/.secrets
       - .hostnames
+      - SpotifyAPI/.kestrel-conf
     ports:
-      - "${SearchApiPort}:80"
+      - "${SearchApiPort}:443"
     depends_on:
       - db_api
   
@@ -102,10 +111,11 @@ services:
     env_file:
       - SpotifyAPI/.secrets
       - .hostnames
+      - SpotifyAPI/.kestrel-conf
     ports:
-      - "${StaticApiPort}:80"
+      - "${StaticApiPort}:443"
     volumes:
-      - ./SpotifyAPI/StaticAPI/Assets:/src/SpotifyAPI/StaticAPI/Assets
+      - ./SpotifyAPI/StaticAPI/Assets:/assets
     depends_on:
       - db_api
   

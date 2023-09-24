@@ -74,7 +74,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseCors();
 app.MapHub<ChatHub>("/chat");
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

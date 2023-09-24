@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Models.Entities;
 using Models.Entities.Enums;
 using Models.Entities.Joints;
@@ -16,11 +17,27 @@ public class AppDbContext : IdentityDbContext<User>
 
     public DbSet<Subscription> Subscriptions { get; set; }
 
-    public AppDbContext() => Migrate();
+    private readonly IServiceProvider _serviceProvider;
 
-    public AppDbContext(DbContextOptions options) : base(options) => Migrate();
+    public AppDbContext(IServiceProvider serviceProvider)
+    {
+        _serviceProvider = serviceProvider;
+    }
 
-    private void Migrate() => Database.Migrate();
+    public AppDbContext(DbContextOptions options, IServiceProvider serviceProvider) : base(options)
+    {
+        _serviceProvider = serviceProvider;
+    }
+
+    public void Migrate()
+    {
+        foreach (var migration in Database.GetPendingMigrations())
+        {
+            Console.WriteLine(migration);
+        }
+
+        Database.Migrate();
+    }
 
     // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     // {
