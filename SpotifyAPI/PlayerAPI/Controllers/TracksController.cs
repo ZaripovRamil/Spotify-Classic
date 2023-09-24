@@ -1,5 +1,4 @@
 using System.Text.Json;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Models;
@@ -21,11 +20,11 @@ public class TracksController : Controller
     public TracksController(IOptions<ApplicationHosts> hostsOptions)
     {
         _clientToHistory = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseAPI}/history/") };
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseApi}/history/") };
         _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseAPI}/track/") };
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseApi}/track/") };
         _clientToStatic = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.StaticAPI}/tracks/") };
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.StaticApi}/tracks/") };
     }
 
     [HttpGet("get")]
@@ -49,7 +48,7 @@ public class TracksController : Controller
         var message = new HttpRequestMessage(HttpMethod.Get, $"get/id/{trackId}");
         var response = (await _clientToDb.SendAsync(message));
         var content = await response.Content.ReadAsStringAsync();
-        return JsonSerializer.Deserialize<TrackFull>(content, Options);
+        return JsonSerializer.Deserialize<TrackFull>(content, Options)!;
     }
 
     private async Task<IActionResult> StreamTrack(string fileId)
@@ -64,12 +63,13 @@ public class TracksController : Controller
             return NotFound();
         }
     }
+
     [HttpGet("addToHistory/{trackId}")]
     public async Task<IActionResult> AddTrackToHistory(string trackId)
     {
         try
         {
-            var username = User.Identity.Name;
+            var username = User.Identity?.Name!;
             var message = new HttpRequestMessage(HttpMethod.Post, $"Add?userName={username}&trackId={trackId}");
             await _clientToHistory.SendAsync(message);
             return Ok();

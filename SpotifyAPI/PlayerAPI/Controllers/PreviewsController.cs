@@ -14,7 +14,7 @@ public class PreviewsController : Controller
     public PreviewsController(IOptions<ApplicationHosts> hostsOptions)
     {
         _clientToStatic = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.StaticAPI}/previews/") };
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.StaticApi}/previews/") };
     }
 
     [HttpGet("get/{id}")]

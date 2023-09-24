@@ -3,12 +3,12 @@ using Models.Entities;
 
 namespace Models.DTO.InterServices.ValidationResult;
 
-public class AlbumValidationResult:EntityValidationResult
+public class AlbumValidationResult : EntityValidationResult
 {
-    public AlbumValidationResult(AlbumValidationCode code, Author author) : base((int) code)
+    public AlbumValidationResult(AlbumValidationCode code, Author? author) : base((int)code)
     {
         Author = author;
     }
-    
-    public Author Author { get; set; }
+
+    public Author? Author { get; set; }
 }

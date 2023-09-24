@@ -28,7 +28,7 @@ public class DbSubscriptionAccessor : DbAccessor, IDbSubscriptionAccessor
 
     public async Task SetToUser(User user, Subscription subscription)
     {
-        user!.Subscription = subscription;
+        user.Subscription = subscription;
         if (ValidateSubscription(user))
             user.SubscriptionExpire += TimeSpan.FromDays(30);
         else user.SubscriptionExpire = (DateTime.Now + TimeSpan.FromDays(30)).ToUniversalTime();

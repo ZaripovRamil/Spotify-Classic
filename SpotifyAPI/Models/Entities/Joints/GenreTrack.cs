@@ -2,12 +2,14 @@
 
 public class GenreTrack
 {
-    public string GenreId { get; set; }
-    public string TrackId { get; set; }
-    public Genre Genre { get; set; }
-    public Track Track { get; set; }
+    public string GenreId { get; set; } = default!;
+    public string TrackId { get; set; } = default!;
+    public Genre Genre { get; set; } = default!;
+    public Track Track { get; set; } = default!;
 
-    public GenreTrack() { }
+    public GenreTrack()
+    {
+    }
 
     public GenreTrack(Genre genre, Track track)
     {

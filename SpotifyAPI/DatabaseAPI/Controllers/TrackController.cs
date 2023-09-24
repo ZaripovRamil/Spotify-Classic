@@ -22,7 +22,8 @@ public class TrackController
     private readonly ITrackDeleteHandler _trackDeleteHandler;
     private readonly ITrackUpdateHandler _trackUpdateHandler;
 
-    public TrackController(ITrackFactory trackFactory, IDbTrackAccessor trackAccessor, IDtoCreator dtoCreator, ITrackDeleteHandler trackDeleteHandler, ITrackUpdateHandler trackUpdateHandler)
+    public TrackController(ITrackFactory trackFactory, IDbTrackAccessor trackAccessor, IDtoCreator dtoCreator,
+        ITrackDeleteHandler trackDeleteHandler, ITrackUpdateHandler trackUpdateHandler)
     {
         _trackFactory = trackFactory;
         _trackAccessor = trackAccessor;
@@ -40,23 +41,11 @@ public class TrackController
         return new JsonResult(new TrackCreationResult(state, track));
     }
 
-    // [HttpGet]
-    // [Route("Get")]
-    // public Task<IActionResult> GetAll()
-    // {
-    //     var tracks = _trackAccessor
-    //         .GetAll()
-    //         .Select(track => _dtoCreator.CreateFull(track));
-    //     return Task.FromResult<IActionResult>(new JsonResult(tracks));
-    // }
-
     [HttpGet]
     [Route("Get/id/{id}")]
     public async Task<IActionResult> Get(string id)
     {
         return new JsonResult(_dtoCreator.CreateFull(await _trackAccessor.Get(id)));
-        // var track = await _trackAccessor.Get(id);
-        // return track is null ? new NotFoundResult() : new JsonResult(new TrackLight(track));
     }
 
     [HttpDelete]
@@ -74,11 +63,12 @@ public class TrackController
     }
 
     [HttpGet("get")]
-    public async Task<IActionResult> GetWithFiltersAsync([FromQuery] int? pageSize, [FromQuery] int? pageIndex, [FromQuery] string? search)
+    public Task<IActionResult> GetWithFiltersAsync([FromQuery] int? pageSize, [FromQuery] int? pageIndex,
+        [FromQuery] string? search)
     {
-        return new JsonResult(_trackAccessor.GetAll().AsEnumerable().Where(t =>
+        return Task.FromResult<IActionResult>(new JsonResult(_trackAccessor.GetAll().AsEnumerable().Where(t =>
                 search == null || t.Name.ToLower().Contains(search.ToLower()))
-            .Take(new Range((pageSize ?? 20) * (pageIndex ?? 1 - 1), (pageIndex ?? 1) * (pageSize ?? 20)))
-            .Select(t => new TrackFull(t)));
+            .Take(new Range((pageSize ?? 20) * ((pageIndex ?? 1) - 1), (pageIndex ?? 1) * (pageSize ?? 20)))
+            .Select(t => new TrackFull(t))));
     }
 }

@@ -5,11 +5,13 @@ namespace Models.DTO.BackToFront.Full;
 
 public class AuthorFull
 {
-    public string Id { get; set; }
-    public string Name { get; set; }
-    public List<AlbumLight> Albums { get; set; }
+    public string Id { get; set; } = default!;
+    public string Name { get; set; } = default!;
+    public List<AlbumLight> Albums { get; set; } = default!;
 
-    public AuthorFull() { }
+    public AuthorFull()
+    {
+    }
 
     public AuthorFull(Author author)
     {

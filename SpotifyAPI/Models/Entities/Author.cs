@@ -3,7 +3,7 @@
 namespace Models.Entities;
 
 [PrimaryKey("Id")]
-public class Author:Entity
+public class Author : Entity
 {
     public Author(string name, User user)
     {
@@ -16,14 +16,15 @@ public class Author:Entity
         Id = id;
         Name = name;
         UserId = user.Id;
-        // User = user;
+    }
+
+    public Author()
+    {
     }
 
     public void AddAlbums(params Album[] albums) => Albums.AddRange(albums);
-    
-    public string UserId { get; set; }
-    public User User { get; set; }
+
+    public string UserId { get; set; } = default!;
+    public User User { get; set; } = default!;
     public List<Album> Albums { get; set; } = new();
-    
-    public Author() { }
 }

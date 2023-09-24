@@ -2,5 +2,5 @@
 
 public class SubscriptionUpdateData
 {
-    public string SubscriptionId { get; set; }
+    public string SubscriptionId { get; set; } = default!;
 }

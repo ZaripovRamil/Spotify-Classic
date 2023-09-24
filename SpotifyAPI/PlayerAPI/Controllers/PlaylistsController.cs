@@ -22,7 +22,7 @@ public class PlaylistsController : Controller
     public PlaylistsController(IOptions<ApplicationHosts> hostsOptions)
     {
         _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseAPI}/playlist/") };
+            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseApi}/playlist/") };
     }
 
     [HttpGet("get/{id}")]
@@ -43,7 +43,7 @@ public class PlaylistsController : Controller
     [HttpPost("addtrack")]
     public async Task<IActionResult> AddTrack([FromBody] PlaylistTrackOperationData data)
     {
-        var json = JsonSerializer.Serialize(new PlaylistTrackOperationDataWithUser(data, User.Identity.Name));
+        var json = JsonSerializer.Serialize(new PlaylistTrackOperationDataWithUser(data, User.Identity?.Name!));
         var resp = await _clientToDb.PostAsync("AddTrack", new StringContent(json, Encoding.UTF8, "application/json"));
         if (resp.IsSuccessStatusCode)
             return Ok();
@@ -55,7 +55,7 @@ public class PlaylistsController : Controller
     [HttpPost("DeleteTrack")]
     public async Task<IActionResult> DeleteTrack([FromBody] PlaylistTrackOperationData data)
     {
-        var json = JsonSerializer.Serialize(new PlaylistTrackOperationDataWithUser(data, User.Identity.Name));
+        var json = JsonSerializer.Serialize(new PlaylistTrackOperationDataWithUser(data, User.Identity?.Name!));
         var resp = await _clientToDb.PostAsync("DeleteTrack",
             new StringContent(json, Encoding.UTF8, "application/json"));
         if (resp.IsSuccessStatusCode)

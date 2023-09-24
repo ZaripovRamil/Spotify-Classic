@@ -2,7 +2,7 @@
 
 public class PasswordUpdateData
 {
-    public string OldPassword { get; set; }
-    public string Password { get; set; }
-    public string RepeatPassword { get; set; }
+    public string OldPassword { get; set; } = default!;
+    public string Password { get; set; } = default!;
+    public string RepeatPassword { get; set; } = default!;
 }

@@ -8,13 +8,13 @@ namespace Database;
 
 public class AppDbContext : IdentityDbContext<User>
 {
-    public DbSet<Genre> Genres { get; set; }
-    public DbSet<Track> Tracks { get; set; }
-    public DbSet<Author> Authors { get; set; }
-    public DbSet<Album> Albums { get; set; }
-    public DbSet<Playlist> Playlists { get; set; }
+    public DbSet<Genre> Genres { get; set; } = default!;
+    public DbSet<Track> Tracks { get; set; } = default!;
+    public DbSet<Author> Authors { get; set; } = default!;
+    public DbSet<Album> Albums { get; set; } = default!;
+    public DbSet<Playlist> Playlists { get; set; } = default!;
 
-    public DbSet<Subscription> Subscriptions { get; set; }
+    public DbSet<Subscription> Subscriptions { get; set; } = default!;
 
     public AppDbContext()
     {
@@ -32,55 +32,55 @@ public class AppDbContext : IdentityDbContext<User>
         optionsBuilder.EnableSensitiveDataLogging();
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        base.OnModelCreating(modelBuilder);
-        modelBuilder.Entity<User>()
+        base.OnModelCreating(builder);
+        builder.Entity<User>()
             .HasIndex(p => new { p.UserName, p.Email })
             .IsUnique();
-        modelBuilder.Entity<Genre>()
+        builder.Entity<Genre>()
             .HasIndex(g => g.Name)
             .IsUnique();
-        modelBuilder.Entity<Author>()
+        builder.Entity<Author>()
             .HasMany(x => x.Albums)
             .WithOne(album => album.Author)
             .HasForeignKey(album => album.AuthorId)
             .HasPrincipalKey(author => author.Id)
             .IsRequired();
-        modelBuilder.Entity<Album>()
+        builder.Entity<Album>()
             .HasMany(x => x.Tracks)
             .WithOne(t => t.Album)
             .HasForeignKey(track => track.AlbumId)
             .HasPrincipalKey(album => album.Id)
             .IsRequired();
-        modelBuilder.Entity<Track>()
+        builder.Entity<Track>()
             .HasMany(t => t.Genres)
             .WithMany(g => g.Tracks)
             .UsingEntity<GenreTrack>();
-        modelBuilder.Entity<Track>()
+        builder.Entity<Track>()
             .HasMany(t => t.Listeners)
             .WithMany(u => u.History)
             .UsingEntity<UserTrack>();
 
-        PopulateDb(modelBuilder);
+        PopulateDb(builder);
     }
 
-    private static void PopulateDb(ModelBuilder modelBuilder)
+    private static void PopulateDb(ModelBuilder builder)
     {
         #region subscription creation
 
         var premium = new Subscription { Id = "Premium", Name = "Premium", Price = 199 };
-        modelBuilder.Entity<Subscription>()
+        builder.Entity<Subscription>()
             .HasData(premium);
 
         #endregion
 
         #region users creation
 
-        var defaultUser = new User("user1", "defaultUser", null, "John Doe");
-        var subscriptionTestUser = new User("user2", "subscriptionTestUser", null, "Jane Doe")
+        var defaultUser = new User("user1", "defaultUser", "foo@bar.com", "John Doe");
+        var subscriptionTestUser = new User("user2", "subscriptionTestUser", "bar@foo.com", "Jane Doe")
             { SubscriptionId = "Premium" };
-        modelBuilder.Entity<User>().HasData(defaultUser, subscriptionTestUser);
+        builder.Entity<User>().HasData(defaultUser, subscriptionTestUser);
 
         #endregion
 
@@ -97,7 +97,7 @@ public class AppDbContext : IdentityDbContext<User>
         var paganiniAuthor = new Author("author9", defaultUser, "Niccolò Paganini");
         var memeGodAuthor = new Author("author10", defaultUser, "Rick Astley");
         var tchaikovskyAuthor = new Author("author11", defaultUser, "Pyotr Tchaikovsky");
-        modelBuilder.Entity<Author>().HasData(mozartAuthor, vivaldiAuthor, beethovenAuthor, shostakovichAuthor,
+        builder.Entity<Author>().HasData(mozartAuthor, vivaldiAuthor, beethovenAuthor, shostakovichAuthor,
             chopinAuthor, rimskyKorsakovAuthor, lisztAuthor, sennevilleAuthor, paganiniAuthor, memeGodAuthor,
             tchaikovskyAuthor);
 
@@ -190,12 +190,12 @@ public class AppDbContext : IdentityDbContext<User>
 
         #region db populating
 
-        modelBuilder.Entity<Genre>().HasData(classicGenre, instrumentalGenre, jazzGenre, newAgeGenre, popGenre);
-        modelBuilder.Entity<Album>().HasData(fourSeasonsAlbum, moonlightAlbum, waltzNo2Album, fantaisieImpromptuAlbum,
+        builder.Entity<Genre>().HasData(classicGenre, instrumentalGenre, jazzGenre, newAgeGenre, popGenre);
+        builder.Entity<Album>().HasData(fourSeasonsAlbum, moonlightAlbum, waltzNo2Album, fantaisieImpromptuAlbum,
             taleofTsarSaltanAlbum, grandesEtudesDePaganiniAlbum, liebestraumAlbum, lettreAMaMereAlbum,
             requiemMozartAlbum, marriageOfFigaroAlbum, violinConcertoNo2Album, wheneverYouNeedSomebodyAlbum,
             valseScherzoAlbum, pianoSonataNo11Album, hungarianRhapsodiesAlbum);
-        modelBuilder.Entity<Track>().HasData(storm, spring, moonlight, waltzNo2, fantasieImpromptu, flightOfBumblemee,
+        builder.Entity<Track>().HasData(storm, spring, moonlight, waltzNo2, fantasieImpromptu, flightOfBumblemee,
             laCampanellaLiszt, loveDream, marriegeDAmour, lacrimosa, marriageOfFigaro, laCampanellaPaganini, rickroll,
             valseSentimental, turkishMarch, hungarianRhapsodyNo2);
 
@@ -203,7 +203,7 @@ public class AppDbContext : IdentityDbContext<User>
 
         #region genretracks creation
 
-        modelBuilder.Entity<GenreTrack>()
+        builder.Entity<GenreTrack>()
             .HasData(new GenreTrack(classicGenre, storm), new GenreTrack(instrumentalGenre, storm),
                 new GenreTrack(classicGenre, spring), new GenreTrack(instrumentalGenre, spring),
                 new GenreTrack(classicGenre, moonlight), new GenreTrack(instrumentalGenre, moonlight),
