@@ -32,13 +32,6 @@ public class AlbumsController : Controller
             { BaseAddress = new Uri($"http://{hostsOptions.Value.StaticApi}/previews/") };
     }
 
-    // [HttpGet("get")]
-    // public async Task<IActionResult> GetAllAsync()
-    // {
-    //     var albums = await _clientToDb.GetFromJsonAsync<IEnumerable<AlbumFull>>("get");
-    //     return new JsonResult(albums);
-    // }
-
     [HttpGet("get/{id}")]
     public async Task<IActionResult> GetByIdAsync(string id)
     {

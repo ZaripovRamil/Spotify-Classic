@@ -18,14 +18,12 @@ public class OAuthController : Controller
 {
     private readonly GoogleOptions _googleOptions;
     private readonly Hosts _hosts;
-    private readonly SignInManager<User> _signInManager;
     private readonly UserManager<User> _userManager;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
     public OAuthController(IOptions<GoogleOptions> googleOptions, IOptions<Hosts> applicationHosts,
-        SignInManager<User> signInManager, UserManager<User> userManager, IJwtTokenGenerator jwtTokenGenerator)
+        UserManager<User> userManager, IJwtTokenGenerator jwtTokenGenerator)
     {
-        _signInManager = signInManager;
         _userManager = userManager;
         _jwtTokenGenerator = jwtTokenGenerator;
         _googleOptions = googleOptions.Value;
@@ -33,11 +31,13 @@ public class OAuthController : Controller
     }
 
     [HttpGet("google/entry")]
-    public async Task<IActionResult> GoogleEntry()
+    public Task<IActionResult> GoogleEntry()
     {
         const string scope = "openid email profile";
-        return Redirect(
-            $"https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id={_googleOptions.ClientId}&redirect_uri=http://localhost:{_hosts.UsersFrontend}/oauth/google/callback&scope={scope}&state={_googleOptions.State}&nonce={new Random().Next()}");
+        return Task.FromResult<IActionResult>(Redirect(
+            $"https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id={_googleOptions.ClientId}" +
+            $"&redirect_uri=http://localhost:{_hosts.UsersFrontend}/oauth/google/callback&scope={scope}" +
+            $"&state={_googleOptions.State}&nonce={new Random().Next()}"));
     }
 
     [HttpPost("google/callback")]

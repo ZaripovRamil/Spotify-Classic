@@ -31,13 +31,6 @@ public class TracksController : Controller
             { BaseAddress = new Uri($"http://{hostsOptions.Value.StaticApi}/tracks/") };
     }
 
-    // [HttpGet("get")]
-    // public async Task<IActionResult> GetAllAsync()
-    // {
-    //     var tracks = await _clientToDb.GetFromJsonAsync<IEnumerable<TrackFull>>("get");
-    //     return new JsonResult(tracks);
-    // }
-
     [HttpGet("get/{id}")]
     public async Task<IActionResult> GetByIdAsync(string id)
     {

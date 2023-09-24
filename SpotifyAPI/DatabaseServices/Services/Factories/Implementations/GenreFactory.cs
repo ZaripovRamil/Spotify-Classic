@@ -8,7 +8,7 @@ namespace DatabaseServices.Services.Factories.Implementations;
 
 public class GenreFactory : IGenreFactory
 {
-    private IGenreValidator _genreValidator;
+    private readonly IGenreValidator _genreValidator;
 
     public GenreFactory(IGenreValidator genreValidator)
     {

@@ -32,9 +32,9 @@ public class DbUserAccessor : DbAccessor, IDbUserAccessor
         return users.Where(user => user.Role != Role.Admin);
     }
 
-    public async Task<User?> GetByUsername(string username) =>
+    public async Task<User?> GetByUsername(string login) =>
         await GetUsers()
-            .FirstOrDefaultAsync(u => u.UserName == username);
+            .FirstOrDefaultAsync(u => u.UserName == login);
 
     public async Task<User?> GetByEmail(string email) =>
         await GetUsers()

@@ -26,6 +26,6 @@ public class DbGenreAccessor : DbAccessor, IDbGenreAccessor
         return DbContext.Genres;
     }
 
-    public async Task<Genre?> GetByName(string name) =>
-        await GetAll().FirstOrDefaultAsync(g => g.Name == name);
+    public async Task<Genre?> GetByName(string genreName) =>
+        await GetAll().FirstOrDefaultAsync(g => g.Name == genreName);
 }
