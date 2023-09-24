@@ -9,7 +9,7 @@ public class SearchEngine//:ISearchEngine
 {
     private static async Task<ElasticClient> CreateElasticClient()
     {
-        var settings = new ConnectionSettings(new Uri("http://9200"))
+        var settings = new ConnectionSettings(new Uri("https://localhost:9200"))
             .DisableDirectStreaming()
             .BasicAuthentication("elastic", "changeme")
             .DefaultMappingFor<Track>(m=>m.IndexName("tracks"))
