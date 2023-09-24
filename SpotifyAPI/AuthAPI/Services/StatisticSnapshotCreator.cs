@@ -13,7 +13,7 @@ public class StatisticSnapshotCreator : IStatisticSnapshotCreator
         _dtoCreator = dtoCreator;
     }
 
-    public Task<StatisticSnapshot?> Create(User? user)
+    public Task<StatisticSnapshot> Create(User? user)
     {
         var tracks = user.History
             .Distinct()
