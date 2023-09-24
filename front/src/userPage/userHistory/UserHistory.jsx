@@ -5,7 +5,6 @@ import { getFetcher } from "../../axios/AxiosInstance";
 import Ports from "../../constants/Ports";
 import { useEffect, useState } from "react";
 
-const prefix = "https://localhost:7022/";
 const fetcherAuth = getFetcher(Ports.AuthService);
 const fetcherPlayer = getFetcher(Ports.MusicService);
 

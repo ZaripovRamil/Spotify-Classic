@@ -69,7 +69,7 @@ export const UserPassword = () => {
           placeholder="New password"
           onChange={(e) => updatePasswordBlock("password", e.target.value)}
         />
-        <img
+        <img alt=""
           style={{ width: "25px" }}
           src={passwordHide ? passwordHideIcon : passwordShowIcon}
           onClick={() => setPasswordHide(!passwordHide)}

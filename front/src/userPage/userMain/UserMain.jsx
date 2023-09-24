@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
 import { Playlists } from "../../components/Playlist/Playlists";
 import "./UserMain.css";
 

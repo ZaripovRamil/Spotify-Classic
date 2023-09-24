@@ -10,7 +10,7 @@ export const RegistrationPage = () => {
                 <div className="circle" id="first" /> 
                 <div className="circle" id="second" />
                 <div className="wheel-container" >
-                    <img className="wheel-img" src={wheel}  />
+                    <img alt="" className="wheel-img" src={wheel}  />
                 </div>
                 
                 <RegisterForm />

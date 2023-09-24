@@ -100,7 +100,7 @@
 .player-audiotrack-info{
     display: flex;
     justify-content: space-between;
-    align-items: end;
+    align-items: flex-end;
 }
 .player-audiotrack-auth{
     color: #FCFCFC;
@@ -115,6 +115,7 @@
 .player input[type='range'] {
     overflow: hidden;
     -webkit-appearance: none;
+    appearance: none;
     background-color: #4C4E54;
     height: 4px;
 }

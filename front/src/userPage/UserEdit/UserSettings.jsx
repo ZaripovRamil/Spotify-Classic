@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import Ports from "../../constants/Ports";
 import { getFetcher } from "../../axios/AxiosInstance";
 
@@ -9,9 +9,6 @@ export const UserSettings =({userInfo}) => {
     const [errorMessage,setErrorMessage] = useState("")
     const [successMessage,setSuccessMessage] = useState("")
 
-    useEffect(()=>{
-        console.log(userInfo)
-    },[])
     const handleSubmitForm = (event) => {
         event.preventDefault();
         setSuccessMessage("")

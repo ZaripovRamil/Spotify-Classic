@@ -13,7 +13,7 @@ export const AuthorizationPage = () => {
                 {/* play with these circles' top, left, width and height so that they won't affect overflow */}
                 <div className="circle" id="second" />
                 <div className="wheel-container" >
-                    <img className="wheel-img" src={wheel} />
+                    <img alt="" className="wheel-img" src={wheel} />
                 </div>
 
                 <AuthForm />

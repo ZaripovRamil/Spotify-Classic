@@ -3,10 +3,8 @@ import { Header } from "../components/Header/Header";
 import { Footer } from "../components/Footer/Footer";
 import "./PageBuilder.css";
 import Player from "../player/Player";
-import { getFetcher } from "../axios/AxiosInstance";
-import Ports from "../constants/Ports";
 
-const fetcher = getFetcher(Ports.MusicService);
+
 
 export const PageBuilder = ({ component }) => {
   const [tracksList, setTracksList] = useState(
@@ -26,15 +24,11 @@ export const PageBuilder = ({ component }) => {
       }));
     }
     localStorage.setItem("player-config", JSON.stringify(playerConf));
-  }, []);
+  }, [playerConf]);
 
   useEffect(() => {
     localStorage.setItem("player-tracklist", JSON.stringify(tracksList));
   }, [tracksList]);
-
-  useEffect(() => {
-    localStorage.setItem("player-config", JSON.stringify(playerConf));
-  }, [playerConf]);
 
   const tracksProps = { tracksList, setTracksList, playerConf, setPlayerConf };
 

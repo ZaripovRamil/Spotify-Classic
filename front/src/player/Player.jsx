@@ -1,42 +1,41 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import moment from "moment/moment";
 import ReactPlayer from "react-player/lazy";
-import { getFetcher } from "../axios/AxiosInstance";
 import "./PlayerStyles.css";
 import volume from "./PlayerImages/volume.svg";
-import Ports from "../constants/Ports";
 import { useNavigate } from "react-router-dom";
 
 // care of http/https
 const prefix = "https://localhost:7022/";
-const fetcher = getFetcher(Ports.MusicService);
 
 const Player = ({ props }) => {
   const navigate = useNavigate();
-  const { tracksList, setTracksList, playerConf, setPlayerConf } = props;
-  const [tracks, setTracks] = useState([
-    {
-      id: "",
-      fileId: "",
-      name: "",
-      album: {
-        id: "",
-        name: "",
-        previewId: "",
-        author: {
-          id: "",
-          name: "",
-        },
-      },
-    },
-  ]);
+  const { tracksList, playerConf, setPlayerConf } = props;
+  // const [tracks, setTracks] = useState([
+  //   {
+  //     id: "",
+  //     fileId: "",
+  //     name: "",
+  //     album: {
+  //       id: "",
+  //       name: "",
+  //       previewId: "",
+  //       author: {
+  //         id: "",
+  //         name: "",
+  //       },
+  //     },
+  //   },
+  // ]);
+  // const player = useRef(null);
+  // useEffect(() => {
+  //   // TODO: add .catch()?
+  //   fetcher.get("tracks/get").then((data) => setTracks(data.data));
+  //   setTracksList(tracks);
+  // }, []);
   const player = useRef(null);
-  useEffect(() => {
-    // TODO: add .catch()?
-    fetcher.get("tracks/get").then((data) => setTracks(data.data));
-  }, []);
 
-  const [playerConfig, setPlayerCongig] = useState({
+  const [playerConfig] = useState({
     controls: false,
     volume: 0.8,
     playbackRate: 1.0,
