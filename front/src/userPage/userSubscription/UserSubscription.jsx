@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { getFetcher } from "../../axios/AxiosInstance";
 import Ports from "../../constants/Ports";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import "./UserSubscription.css";
 import { SubscribeForm } from "./SubscribeForm";
 import { UserExistedSubscription } from "./userExistedSubscription";
 
 const fetcher = getFetcher(Ports.AuthService);
-const prefix = "https://localhost:7022/";
 
 export const UserSubscription = () => {
   const navigate = useNavigate();
@@ -35,7 +34,7 @@ export const UserSubscription = () => {
       .catch((err) => {
         if (err.response.status === 401) navigate("/authorize");
       });
-  }, []);
+  }, [navigate]);
 
   return (
     isLoad && (

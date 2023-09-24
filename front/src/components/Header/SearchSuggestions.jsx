@@ -6,13 +6,11 @@ export const SearchSuggestions = ({ data, value }) => {
   const prefix = "https://localhost:7022/";
   const navigate = useNavigate();
   const [albums, setAlbums] = useState([]);
-  const [authors, setAuthors] = useState([]);
   const [playlists, setPlaylists] = useState([]);
   const [tracks, setTracks] = useState([]);
 
   useEffect(() => {
     setAlbums(data.albums.slice(0, 2));
-    setAuthors(data.authors.slice(0, 2));
     setPlaylists(data.playlists.slice(0, 2));
     setTracks(data.tracks.slice(0, 2));
   }, [data]);
@@ -30,14 +28,6 @@ export const SearchSuggestions = ({ data, value }) => {
     navigate({
       pathname: "/playlist",
       search: `?playlistId=${id}`,
-    });
-  };
-
-  const authorClick = (id) => {
-    console.log(id);
-    navigate({
-      pathname: "/album",
-      search: `?albumId=${id}`,
     });
   };
 
@@ -89,17 +79,6 @@ export const SearchSuggestions = ({ data, value }) => {
           </div>
         ))}
       </div>
-      {/* <div className="suggestions-block">
-        {" "}
-        {authors.length !== 0 && (
-          <div>
-            <strong>Authors</strong>
-          </div>
-        )}
-        {authors.map((suggest) => (
-          <div className="suggestion">{suggest.name}</div>
-        ))}
-      </div> */}
       <div className="suggestions-block">
         {" "}
         {tracks.length !== 0 && (

@@ -1,10 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
+import React from "react";
 import "./Track.css";
-import { getFetcher } from "../../axios/AxiosInstance";
-import Ports from "../../constants/Ports";
 
 // care of http/https
-const fetcher = getFetcher(Ports.MusicService);
 const prefix = "https://localhost:7022/";
 const Track = ({ props, track, idInAlbum, tracks }) => {
   const { tracksList, setTracksList, playerConf, setPlayerConf } = props;
@@ -31,7 +28,6 @@ const Track = ({ props, track, idInAlbum, tracks }) => {
         playing: true,
         trackPosInAlbum: idInAlbum,
       }));
-      // fetcher.get(`Tracks/addToHistory/${track.id}`).then(res => console.log(res)).catch(res => console.log(res))
     }
   };
 
@@ -42,6 +38,7 @@ const Track = ({ props, track, idInAlbum, tracks }) => {
           <div className="track-preview">
             <div className="track-play-img">
               <img
+                alt="track"
                 className="track-img"
                 src={prefix + `Previews/get/${track.album.previewId}`}
                 onError={({ currentTarget }) => {
@@ -51,7 +48,7 @@ const Track = ({ props, track, idInAlbum, tracks }) => {
               <input
                 type="button"
                 className={`track-btn ${
-                  playerConf.playing && track.id == playerConf.trackId
+                  playerConf.playing && track.id === playerConf.trackId
                     ? "track-buttonStop"
                     : "track-buttonPlay"
                 }`}

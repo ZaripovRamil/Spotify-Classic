@@ -1,146 +1,145 @@
-.player{
-    z-index: 1000;
-    width: 100%;
-    height: 90px;
-    background-color:rgba(19, 19, 22);
-    /* background-color: rgba(21, 21, 25, 0.5); */
-    color: #FCFCFC;
-    font-family: "Inter";
-    font-size: 14px;
-    font-weight: normal;
-    position: fixed;
-    left: 0;
-    bottom: 0;
+.player {
+  z-index: 1000;
+  width: 100%;
+  height: 90px;
+  background-color: rgba(19, 19, 22);
+  /* background-color: rgba(21, 21, 25, 0.5); */
+  color: #fcfcfc;
+  font-family: "Inter";
+  font-size: 14px;
+  font-weight: normal;
+  position: fixed;
+  left: 0;
+  bottom: 0;
 }
-.player-controls{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 13px 10px;
-    gap:20px;
-    height: 64px;
+.player-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 10px;
+  gap: 20px;
+  height: 64px;
 }
-.player-btns{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap:18px;
+.player-btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
 }
-@media (max-width: 505px) { 
-    .player-btns{
-        gap:7px;
-    }
-    .player-controls{
-
-        gap:10px
-    }
-}
-.player-btn{
-    background-color: transparent;
-    border: none;
-}
-.player-switch-btns{
-    width: 18%;
-}
-.player-buttonNext{
-    width: 17px;
-    height: 22px;
-    background-image: url(./PlayerImages/ButtonNext.svg);
-}
-.player-buttonPrevious{
-    width: 17px;
-    height: 22px;
-    background-image: url(./PlayerImages/ButtonPrevious.svg);
-}
-.player-buttonPlay{
-    width: 20px;
-    height: 27px;
-    background-image: url(./PlayerImages/ButtonPlay.svg);
-}
-.player-buttonStop{
-    width: 20px;
-    height: 20px;
-    background-image: url(./PlayerImages/ButtonStop.svg);
-}
-.player-buttonRepeat{
-    width: 15px;
-    height: 15px;
-    background-image: url(./PlayerImages/repeat-btn.svg);
-}
-.player-buttonMix{
-    width: 15px;
-    height: 15px;
-    background-image: url(./PlayerImages/mix-btn.svg);
-}
-.player-buttonLike{
-    width: 15px;
-    height: 15px;
-    background-image: url(./PlayerImages/like-btn.svg);
-}
-.player-audiotrack{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    gap:20px
-}
-.player-audiotrack-control{
-    width:100%;
-}
-.player-audiotrack-img{
-    width: "70px";
-    height: "74px";
-    background-color: "#FCFCFC"; 
-}
-@media (max-width: 600px) { 
-    .player-audiotrack-img{
-        display: none;
-    }
-}
-.player-audiotrack-info{
-    display: flex;
-    justify-content: space-between;
-    align-items: end;
-}
-.player-audiotrack-auth{
-    color: #FCFCFC;
-    font-size: 13px;
-    opacity: 0.65;
-    margin: 5px 0;
-}
-.player-music-track{
-    width: 100%;
-    margin: 0;
-}
-.player input[type='range'] {
-    overflow: hidden;
-    -webkit-appearance: none;
-    background-color: #4C4E54;
-    height: 4px;
-}
-.player input[type='range']::-webkit-slider-thumb {
-    width: 0px;
-    -webkit-appearance: none;
-    height: 10px;
-    cursor:pointer;
-    box-shadow: -500px 0 0 500px #FCFCFC;
-}
-.player-track-time{
-    display: flex;
-    font-size: 10px;
-    justify-content: space-between;
-    color: #D9D9D9;
-}
-.player-volume{
-    width: 22%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+@media (max-width: 505px) {
+  .player-btns {
+    gap: 7px;
+  }
+  .player-controls {
     gap: 10px;
-  
+  }
+}
+.player-btn {
+  background-color: transparent;
+  border: none;
+}
+.player-switch-btns {
+  width: 18%;
+}
+.player-buttonNext {
+  width: 17px;
+  height: 22px;
+  background-image: url(./PlayerImages/ButtonNext.svg);
+}
+.player-buttonPrevious {
+  width: 17px;
+  height: 22px;
+  background-image: url(./PlayerImages/ButtonPrevious.svg);
+}
+.player-buttonPlay {
+  width: 20px;
+  height: 27px;
+  background-image: url(./PlayerImages/ButtonPlay.svg);
+}
+.player-buttonStop {
+  width: 20px;
+  height: 20px;
+  background-image: url(./PlayerImages/ButtonStop.svg);
+}
+.player-buttonRepeat {
+  width: 15px;
+  height: 15px;
+  background-image: url(./PlayerImages/repeat-btn.svg);
+}
+.player-buttonMix {
+  width: 15px;
+  height: 15px;
+  background-image: url(./PlayerImages/mix-btn.svg);
+}
+.player-buttonLike {
+  width: 15px;
+  height: 15px;
+  background-image: url(./PlayerImages/like-btn.svg);
+}
+.player-audiotrack {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+}
+.player-audiotrack-control {
+  width: 100%;
+}
+.player-audiotrack-img {
+  width: "70px";
+  height: "74px";
+  background-color: "#FCFCFC";
+}
+@media (max-width: 600px) {
+  .player-audiotrack-img {
+    display: none;
+  }
+}
+.player-audiotrack-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.player-audiotrack-auth {
+  color: #fcfcfc;
+  font-size: 13px;
+  opacity: 0.65;
+  margin: 5px 0;
+}
+.player-music-track {
+  width: 100%;
+  margin: 0;
+}
+.player input[type="range"] {
+  overflow: hidden;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #4c4e54;
+  height: 4px;
+}
+.player input[type="range"]::-webkit-slider-thumb {
+  width: 0px;
+  -webkit-appearance: none;
+  height: 10px;
+  cursor: pointer;
+  box-shadow: -500px 0 0 500px #fcfcfc;
+}
+.player-track-time {
+  display: flex;
+  font-size: 10px;
+  justify-content: space-between;
+  color: #d9d9d9;
+}
+.player-volume {
+  width: 22%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
-.player-audiotrack-name:hover{
-    cursor: pointer;
-    color:#4C4E54;
+.player-audiotrack-name:hover {
+  cursor: pointer;
+  color: #4c4e54;
 }

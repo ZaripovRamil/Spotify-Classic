@@ -65,7 +65,7 @@ export const UserStatisctics = () => {
       .catch((err) => {
         if (err.response.status === 401) navigate("/authorize");
       });
-  }, []);
+  }, [navigate]);
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,

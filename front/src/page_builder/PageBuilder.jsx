@@ -3,10 +3,6 @@ import { Header } from "../components/Header/Header";
 import { Footer } from "../components/Footer/Footer";
 import "./PageBuilder.css";
 import Player from "../player/Player";
-import { getFetcher } from "../axios/AxiosInstance";
-import Ports from "../constants/Ports";
-
-const fetcher = getFetcher(Ports.MusicService);
 
 export const PageBuilder = ({ component }) => {
   const [tracksList, setTracksList] = useState(

@@ -2,18 +2,18 @@ import "./Footer.css";
 import footerLogo from "./footer-logo.svg";
 
 export const Footer = ({ props }) => {
-  const { tracksList, setTracksList, playerConf, setPlayerConf } = props;
+  const { tracksList, playerConf } = props;
   return (
     <footer>
       <div className="footer">
         <div className="footer-logo">
-          <img className="footer-logo-img" src={footerLogo} />
+          <img alt="logo" className="footer-logo-img" src={footerLogo} />
           <div>Classic music</div>
         </div>
         <div className="footer-links">
           <div className="footer-inc">© 2023 DotKek Bol’ Inc.</div>
           <a href="/contacts">Contacts</a>
-          <br/>
+          <br />
           <a href="/chat">Support Chat</a>
         </div>
       </div>

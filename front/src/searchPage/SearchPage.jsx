@@ -9,24 +9,19 @@ export const SearchPage = (props) => {
   const prefix = "https://localhost:7022/";
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [suggestions, setSuggestions] = useState();
   const [albums, setAlbums] = useState([]);
-  const [authors, setAuthors] = useState([]);
   const [playlists, setPlaylists] = useState([]);
   const [tracks, setTracks] = useState([]);
   const [value, setValue] = useState();
 
   useEffect(() => {
     setValue(searchParams.get("value"));
-    if (value === "") setSuggestions(null);
     fetcher.get(`Search?query=${value}`).then((data) => {
-      setSuggestions(data.data);
       setAlbums(data.data.albums);
-      setAuthors(data.data.authors);
       setPlaylists(data.data.playlists);
       setTracks(data.data.tracks);
     });
-  });
+  }, [searchParams, value]);
 
   const albumClick = (id) => {
     console.log(id);

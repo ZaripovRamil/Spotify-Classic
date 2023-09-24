@@ -1,57 +1,55 @@
 .user-playlist-card {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px;
 
-    font-family: "Libre Baskerville";
-    font-weight:600;
-}
-
-.user-playlist-card:hover{
-   border: 2px solid #E4B14E;
+  font-family: "Libre Baskerville";
+  font-weight: 600;
 }
 
-.track:hover .track-btn{
-    opacity: 1;
+.user-playlist-card:hover {
+  border: 2px solid #e4b14e;
 }
-.track:hover .track-img{
-    opacity: 0.4;
-    
+
+.track:hover .track-btn {
+  opacity: 1;
 }
-  
+.track:hover .track-img {
+  opacity: 0.4;
+}
+
 .user-playlist-img {
-    object-fit: contain;
-    height: 230px;
-    border-radius: 7px;
-    margin-bottom: 10px;
+  object-fit: contain;
+  height: 230px;
+  border-radius: 7px;
+  margin-bottom: 10px;
 }
-  
+
 .user-playlist-title {
-    font-size: 16px;
-    line-height: 18px;
-  
-    display: flex;
-    align-items: center;
-  
-    color: #fcfcfc;
-    margin-bottom: 5px;
+  font-size: 16px;
+  line-height: 18px;
+
+  display: flex;
+  align-items: center;
+
+  color: #fcfcfc;
+  margin-bottom: 5px;
 }
-  
+
 .user-playlist-author {
-    font-size: 14px;
-    line-height: 16px;
+  font-size: 14px;
+  line-height: 16px;
 
-    display: flex;
-    align-items: center;
-  
-    color: rgba(252, 252, 252, 0.65);
+  display: flex;
+  align-items: center;
+
+  color: rgba(252, 252, 252, 0.65);
 }
 
-.playlist-btn{
+.playlist-btn {
   height: 40px;
   width: 40px;
   display: inline-block;
   margin-right: 10px;
 }
-

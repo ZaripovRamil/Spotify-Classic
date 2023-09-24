@@ -5,7 +5,6 @@ import { SearchSuggestions } from "./SearchSuggestions";
 import { getFetcher } from "../../axios/AxiosInstance";
 import Ports from "../../constants/Ports";
 
-const prefix = "https://localhost:7022/";
 const fetcher = getFetcher(Ports.SearchService);
 
 export const Header = () => {
@@ -30,11 +29,12 @@ export const Header = () => {
     setPage(href.split("/")[1]);
     setSuggestions(null);
     setSearchValue("");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [window.location.pathname, searchParams]);
 
   return (
     <header className="header">
-      {page != "main" ? (
+      {page !== "main" ? (
         <div className="header-logo">
           <Link to="/main">
             {" "}
@@ -58,7 +58,7 @@ export const Header = () => {
         </div>
         <Link
           to={
-            localStorage.getItem("access-token") && page != "user"
+            localStorage.getItem("access-token") && page !== "user"
               ? "/user"
               : "/authorize"
           }
