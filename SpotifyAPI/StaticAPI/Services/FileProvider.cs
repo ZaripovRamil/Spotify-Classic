@@ -2,7 +2,7 @@ namespace StaticAPI.Services;
 
 public class FileProvider : IFileProvider
 {
-    private const string AssetsPath = "Assets";
+    private const string AssetsPath = "/assets";
     
     public Stream? GetFileAsStream(string assetName, string fileName)
     {

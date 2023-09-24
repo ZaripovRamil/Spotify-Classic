@@ -17,13 +17,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Configuration.AddEnvironmentVariables();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Spotify")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString(builder.Configuration["POSTGRES_DB"]!)));
 builder.Services.AddIdentity<User, IdentityRole>(options =>
     {
         if (!builder.Environment.IsDevelopment()) return;
@@ -40,14 +42,10 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 builder.Services.AddScoped<IDbSubscriptionAccessor, DbSubscriptionAccessor>();
-var solutionConfigurationBuilder = new ConfigurationBuilder()
-    .SetBasePath(Directory.GetParent(Directory.GetCurrentDirectory())!.FullName)
-    .AddJsonFile("appsettings.json");
-var solutionConfiguration = solutionConfigurationBuilder.Build();
 
-builder.Services.Configure<JwtTokenSettings>(solutionConfiguration.GetSection("JWTTokenSettings"));
-builder.Services.Configure<ApplicationHosts>(solutionConfiguration.GetSection("ApplicationHosts"));
-builder.Services.Configure<GoogleOptions>(solutionConfiguration.GetSection("OAuth:Google"));
+builder.Services.Configure<JwtTokenSettings>(builder.Configuration.GetSection("JWTTokenSettings"));
+builder.Services.Configure<Hosts>(builder.Configuration.GetSection("Hosts"));
+builder.Services.Configure<GoogleOptions>(builder.Configuration.GetSection("OAuth:Google"));
 builder.Services.AddScoped<IDtoCreator, DtoCreator>();
 builder.Services.AddScoped<IStatisticSnapshotCreator, StatisticSnapshotCreator>();
 builder.Services.AddAuthentication(options =>
@@ -65,11 +63,11 @@ builder.Services.AddAuthentication(options =>
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = solutionConfiguration["JWTTokenSettings:Issuer"],
-            ValidAudience = solutionConfiguration["JWTTokenSettings:Audience"],
+            ValidIssuer = builder.Configuration["JWTTokenSettings:Issuer"],
+            ValidAudience = builder.Configuration["JWTTokenSettings:Audience"],
             IssuerSigningKey =
                 new SymmetricSecurityKey(
-                    Encoding.ASCII.GetBytes(solutionConfiguration.GetValue<string>("JWTTokenSettings:Key")!))
+                    Encoding.ASCII.GetBytes(builder.Configuration.GetValue<string>("JWTTokenSettings:Key")!))
         };
     });
 
@@ -100,11 +98,12 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(corsPolicyBuilder =>
     {
         corsPolicyBuilder
-            .WithOrigins($"http://localhost:{solutionConfiguration.GetSection("ApplicationHosts:UsersFrontend").Value}",
-                $"http://localhost:{solutionConfiguration.GetSection("ApplicationHosts:AdminFrontend").Value}")
-            .AllowAnyHeader().AllowAnyMethod();
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
     });
 });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -116,7 +115,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors();
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseAuthentication();
 

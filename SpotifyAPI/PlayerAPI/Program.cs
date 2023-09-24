@@ -11,12 +11,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-var solutionConfigurationBuilder = new ConfigurationBuilder()
-    .SetBasePath(Directory.GetParent(Directory.GetCurrentDirectory())!.FullName)
-    .AddJsonFile("appsettings.json");
-var solutionConfiguration = solutionConfigurationBuilder.Build();
-builder.Services.Configure<JwtTokenSettings>(solutionConfiguration.GetSection("JWTTokenSettings"));
-builder.Services.Configure<ApplicationHosts>(solutionConfiguration.GetSection("ApplicationHosts"));
+builder.Configuration.AddEnvironmentVariables();
+builder.Services.Configure<JwtTokenSettings>(builder.Configuration.GetSection("JWTTokenSettings"));
+builder.Services.Configure<Hosts>(builder.Configuration.GetSection("Hosts"));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opts =>
@@ -28,11 +25,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = solutionConfiguration["JWTTokenSettings:Issuer"],
-            ValidAudience = solutionConfiguration["JWTTokenSettings:Audience"],
+            ValidIssuer = builder.Configuration["JWTTokenSettings:Issuer"],
+            ValidAudience = builder.Configuration["JWTTokenSettings:Audience"],
             IssuerSigningKey =
                 new SymmetricSecurityKey(
-                    Encoding.ASCII.GetBytes(solutionConfiguration.GetValue<string>("JWTTokenSettings:Key")!))
+                    Encoding.ASCII.GetBytes(builder.Configuration.GetValue<string>("JWTTokenSettings:Key")!))
         };
     });
 
@@ -57,13 +54,15 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(corsPolicyBuilder =>
     {
         corsPolicyBuilder
-            .WithOrigins($"http://localhost:{solutionConfiguration.GetSection("ApplicationHosts:UsersFrontend").Value}")
-            .AllowAnyHeader().AllowAnyMethod();
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
     });
 });
 
@@ -78,7 +77,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors();
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
