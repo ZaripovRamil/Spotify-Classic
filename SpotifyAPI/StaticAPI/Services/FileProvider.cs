@@ -7,7 +7,8 @@ public class FileProvider : IFileProvider
     public Stream? GetFileAsStream(string assetName, string fileName)
     {
         var path = Path.Combine(AssetsPath, assetName, fileName);
-        if (!Path.GetFullPath(path).StartsWith(AssetsPath, StringComparison.Ordinal)) return null;
+        path = Path.GetFullPath(path);
+        if (!path.StartsWith(AssetsPath, StringComparison.Ordinal)) return null;
         return !File.Exists(path)
             ? null
             : new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, FileOptions.Asynchronous);
