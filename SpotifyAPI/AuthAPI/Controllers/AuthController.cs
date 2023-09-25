@@ -29,9 +29,15 @@ public class AuthController : Controller
             .PasswordSignInAsync(loginData.Username, loginData.Password, loginData.RememberMe, false);
         if (!loginResult.Succeeded)
         {
-            var errorMessage = loginResult.IsLockedOut ? "You're locked" :
-                loginResult.IsNotAllowed ? "You're not allowed no sign-in" :
-                loginResult.RequiresTwoFactor ? "Two factor authentication is required" : "No such a user";
+            string errorMessage;
+            if (loginResult.IsLockedOut)
+                errorMessage = "You're locked";
+            else if (loginResult.IsNotAllowed)
+                errorMessage = "You're not allowed no sign-in";
+            else
+                errorMessage = loginResult.RequiresTwoFactor
+                    ? "Two factor authentication is required"
+                    : "No such a user";
             return new JsonResult(new LoginResult(false, "", errorMessage));
         }
 

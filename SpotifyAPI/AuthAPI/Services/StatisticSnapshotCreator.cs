@@ -6,32 +6,35 @@ namespace AuthAPI.Services;
 
 public class StatisticSnapshotCreator : IStatisticSnapshotCreator
 {
-    private IDtoCreator _dtoCreator;
-
-
+    private readonly IDtoCreator _dtoCreator;
+    
     public StatisticSnapshotCreator(IDtoCreator dtoCreator)
     {
         _dtoCreator = dtoCreator;
     }
 
-    public async Task<StatisticSnapshot?> Create(User? user)
+    public Task<StatisticSnapshot> Create(User? user)
     {
         var tracks = user.History
             .Distinct()
             .Select(track => (track, count: user.UserTracks.Count(ut => ut.Track == track)));
-        var genres = tracks.SelectMany(t => t.track.Genres).Distinct();
-        var dict = genres.Where(g => g != null).ToDictionary(g => g, g => 0);
-        foreach (var genreList in tracks.Select(t => t.track.Genres))
-        foreach (var genre in genreList)
-            dict[genre] += 1;
-        return new StatisticSnapshot
+        var trackCounts = tracks.ToList();
+        var genres = trackCounts.SelectMany(t => t.track.Genres).Distinct();
+        var dict = genres.Where(g => g is not null).ToDictionary(g => g, g => 0);
+        foreach (var genreList in trackCounts.Select(t => t.track.Genres))
+        {
+            foreach (var genre in genreList)
+                dict[genre] += 1;
+        }
+
+        return Task.FromResult(new StatisticSnapshot
         {
             TotalListens = user.UserTracks.Count,
-            Tracks = tracks
+            Tracks = trackCounts
                 .Select(trackData => new TrackData(_dtoCreator.CreateLight(trackData.track), trackData.count))
                 .OrderByDescending(data => data.Count)
                 .ToArray(),
-            Authors = tracks
+            Authors = trackCounts
                 .GroupBy(trackData => trackData.track.Album.Author)
                 .Select(authorTracks
                     => new AuthorData(_dtoCreator.CreateLight(authorTracks.Key), authorTracks
@@ -41,6 +44,6 @@ public class StatisticSnapshotCreator : IStatisticSnapshotCreator
             Genres = dict.Select(pair => new GenreData(_dtoCreator.CreateLight(pair.Key), pair.Value))
                 .OrderByDescending(data => data.Count)
                 .ToArray()
-        };
+        });
     }
 }

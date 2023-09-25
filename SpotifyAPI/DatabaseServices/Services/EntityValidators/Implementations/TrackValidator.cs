@@ -27,7 +27,7 @@ public class TrackValidator:EntityValidator,ITrackValidator
         var genres = new List<Genre?>();
         foreach (var id in data.GenreIds)
             genres.Add(await _genreAccessor.GetById(id));
-        if (genres.Any(g => g == null))
+        if (genres.Contains(null))
             state = TrackValidationCode.InvalidGenres;
         return new TrackValidationResult(state, album!, genres.ToArray()!);
     }
