@@ -54,6 +54,6 @@ jobs:
       - name: Install modules
         run: yarn
       - name: Run ESLint admin-interface
-        run: yarn eslint admin-interface --ext .js,.jsx
+        run: yarn eslint ./admin-interface
       - name: Run ESLint front
-        run: yarn eslint front --ext .js,.jsx
+        run: yarn eslint ./front
