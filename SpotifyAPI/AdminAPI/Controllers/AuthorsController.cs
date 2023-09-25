@@ -34,8 +34,8 @@ public class AuthorsController : Controller
         return new JsonResult(authors);
     }
 
-    [HttpGet("get/{id}")]
-    public async Task<IActionResult> GetByIdAsync(string id)
+    [HttpGet("get/{id:guid}")]
+    public async Task<IActionResult> GetByIdAsync(Guid id)
     {
         var author = await _clientToDb.GetFromJsonAsync<AuthorFull>($"get/id/{id}");
         return new JsonResult(author);
@@ -50,16 +50,16 @@ public class AuthorsController : Controller
         return new JsonResult(responseContent);
     }
 
-    [HttpDelete("delete/{id}")]
-    public async Task<IActionResult> DeleteAsync(string id)
+    [HttpDelete("delete/{id:guid}")]
+    public async Task<IActionResult> DeleteAsync(Guid id)
     {
         var response = await _clientToDb.DeleteAsync($"delete/{id}");
         var responseContent = await response.Content.ReadAsStringAsync();
         return new JsonResult(responseContent);
     }
 
-    [HttpPut("update/{id}")]
-    public async Task<IActionResult> UpdateAsync(string id, AuthorUpdateData authorUpdateData)
+    [HttpPut("update/{id:guid}")]
+    public async Task<IActionResult> UpdateAsync(Guid id, AuthorUpdateData authorUpdateData)
     {
         var json = JsonSerializer.Serialize(authorUpdateData);
         var response =

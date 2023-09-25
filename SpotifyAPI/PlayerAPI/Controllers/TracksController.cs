@@ -34,9 +34,10 @@ public class TracksController : Controller
         return new JsonResult(tracks?.Select(trackFull => new TrackLight(trackFull)));
     }
 
-    [HttpGet("get/{trackId}")]
-    public async Task<IActionResult> GetByIdAsStreamAsync(string trackId)
+    [HttpGet("get/{id:guid}")]
+    public async Task<IActionResult> GetByIdAsStreamAsync(Guid id)
     {
+        var trackId = id.ToString();
         if (trackId.EndsWith(".ts")) return await StreamTrack(trackId); // if file.ts requested, not track
         var trackInfo = await GetTrackInfo(trackId);
 

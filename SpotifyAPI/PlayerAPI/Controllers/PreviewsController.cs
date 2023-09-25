@@ -17,10 +17,10 @@ public class PreviewsController : Controller
             { BaseAddress = new Uri($"http://{hostsOptions.Value.StaticApi}/previews/") };
     }
 
-    [HttpGet("get/{id}")]
-    public async Task<IActionResult> GetByIdAsync(string id)
+    [HttpGet("get/{id:guid}")]
+    public async Task<IActionResult> GetByIdAsync(Guid id)
     {
-        var response = await _clientToStatic.GetAsync(id);
+        var response = await _clientToStatic.GetAsync(id.ToString());
         if (!response.IsSuccessStatusCode) return NotFound();
         return File(await response.Content.ReadAsStreamAsync(), "application/octet-stream");
     }

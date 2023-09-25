@@ -32,8 +32,8 @@ public class AlbumsController : Controller
             { BaseAddress = new Uri($"http://{hostsOptions.Value.StaticApi}/previews/") };
     }
 
-    [HttpGet("get/{id}")]
-    public async Task<IActionResult> GetByIdAsync(string id)
+    [HttpGet("get/{id:guid}")]
+    public async Task<IActionResult> GetByIdAsync(Guid id)
     {
         var album = await _clientToDb.GetFromJsonAsync<AlbumFull>($"get/id/{id}");
         return new JsonResult(album);
@@ -54,7 +54,7 @@ public class AlbumsController : Controller
         if (staticResponse.IsSuccessStatusCode) return new JsonResult(albumCreationResult);
 
         // if static API rejected uploading, delete album from database. what if this fails too? cry, i suppose.
-        await DeleteAsync(albumCreationResult.AlbumId!);
+        await DeleteAsync(Guid.Parse(albumCreationResult.AlbumId!));
         return BadRequest(new AlbumCreationResult
         {
             IsSuccessful = false,
@@ -87,16 +87,16 @@ public class AlbumsController : Controller
         return await _clientToStatic.PostAsync("upload", formData);
     }
 
-    [HttpDelete("delete/{id}")]
-    public async Task<IActionResult> DeleteAsync(string id)
+    [HttpDelete("delete/{id:guid}")]
+    public async Task<IActionResult> DeleteAsync(Guid id)
     {
         var response = await _clientToDb.DeleteAsync($"delete/{id}");
         var responseContent = await response.Content.ReadAsStringAsync();
         return new JsonResult(responseContent);
     }
 
-    [HttpPut("update/{id}")]
-    public async Task<IActionResult> UpdateAsync(string id, [FromBody] AlbumUpdateData albumUpdateData)
+    [HttpPut("update/{id:guid}")]
+    public async Task<IActionResult> UpdateAsync(Guid id, [FromBody] AlbumUpdateData albumUpdateData)
     {
         var json = JsonSerializer.Serialize(albumUpdateData);
         var response =
