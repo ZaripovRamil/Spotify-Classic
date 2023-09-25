@@ -17,7 +17,7 @@ public class AlbumValidator:EntityValidator,IAlbumValidator
 
     public async Task<AlbumValidationResult> Validate(AlbumCreationData data)
     {
-        var state = (AlbumValidationCode) base.Validate(data).ValidationCode;
+        var state = (AlbumValidationCode) EntityValidator.Validate(data).ValidationCode;
         var author = await _authorAccessor.GetById(data.AuthorId);
         if (data.ReleaseYear > DateTime.Now.Year||data.ReleaseYear<0)
             state = AlbumValidationCode.InvalidReleaseYear;

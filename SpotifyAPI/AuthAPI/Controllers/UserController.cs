@@ -98,7 +98,7 @@ public class UserController : Controller
         var subscription = await _subscriptionAccessor.GetById(data.SubscriptionId);
         if (subscription == null) return BadRequest();
         var user = await GetContextUser();
-        await _subscriptionAccessor.SetToUser(user, subscription);
+        await _subscriptionAccessor.SetToUser(user!, subscription);
         return Ok();
     }
 
@@ -109,7 +109,7 @@ public class UserController : Controller
     {
         if (updateData.Password != updateData.RepeatPassword) return BadRequest();
         var user = await GetContextUser();
-        var result = await _userManager.ChangePasswordAsync(user, updateData.OldPassword, updateData.Password);
+        var result = await _userManager.ChangePasswordAsync(user!, updateData.OldPassword, updateData.Password);
         if (result.Succeeded) return Ok();
         return BadRequest();
     }
@@ -121,7 +121,7 @@ public class UserController : Controller
         if (!ValidateUsername(username))
             return BadRequest();
         var user = await GetContextUser();
-        user.Name = username;
+        user!.Name = username;
         var result = await _userManager.UpdateAsync(user);
         if (result.Succeeded) return Ok();
         return BadRequest();
@@ -150,6 +150,6 @@ public class UserController : Controller
             .Include(u => u.History)
             .ThenInclude(t => t.Genres)
             .Include(u => u.Playlists)
-            .FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+            .FirstOrDefaultAsync(u => u.UserName == User.Identity!.Name);
     }
 }

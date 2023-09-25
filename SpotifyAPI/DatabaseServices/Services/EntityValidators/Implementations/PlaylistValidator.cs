@@ -17,7 +17,7 @@ public class PlaylistValidator :EntityValidator,IPlaylistValidator
 
     public async Task<PlaylistValidationResult> Validate(PlaylistCreationData data)
     {
-        var state = (PlaylistValidationCode) base.Validate(data).ValidationCode;
+        var state = (PlaylistValidationCode) EntityValidator.Validate(data).ValidationCode;
         var user = await _userAccessor.GetById(data.OwnerId);
         if (user == null)
             state = PlaylistValidationCode.InvalidUser;

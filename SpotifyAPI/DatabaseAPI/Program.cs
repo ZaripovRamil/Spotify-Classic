@@ -99,7 +99,7 @@ builder.Services.AddSwaggerGen(c =>
             {
                 Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
             },
-            new string[] { }
+            Array.Empty<string>()
         }
     });
 });

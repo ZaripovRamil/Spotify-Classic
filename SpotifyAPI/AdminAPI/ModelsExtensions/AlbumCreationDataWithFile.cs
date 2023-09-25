@@ -4,5 +4,5 @@ namespace AdminAPI.ModelsExtensions;
 
 public class AlbumCreationDataWithFile : AlbumCreationData
 {
-    public IFormFile PreviewFile { get; set; }
+    public IFormFile PreviewFile { get; set; } = default!;
 }
