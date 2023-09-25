@@ -25,6 +25,8 @@ public class AuthController : Controller
     [HttpPost]
     public async Task<IActionResult> Login(LoginData loginData)
     {
+        if (loginData.Username is null || loginData.Password is null)
+            return new JsonResult(new LoginResult(false, "", "Empty login or/and password"));
         var loginResult = await _signInManager
             .PasswordSignInAsync(loginData.Username, loginData.Password, loginData.RememberMe, false);
         if (!loginResult.Succeeded)

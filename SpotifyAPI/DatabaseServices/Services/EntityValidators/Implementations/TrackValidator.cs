@@ -20,7 +20,7 @@ public class TrackValidator:EntityValidator,ITrackValidator
 
     public async Task<TrackValidationResult> Validate(TrackCreationData data)
     {
-        var state = (TrackValidationCode) base.Validate(data).ValidationCode;
+        var state = (TrackValidationCode) EntityValidator.Validate(data).ValidationCode;
         var album = await _albumAccessor.GetById(data.AlbumId);
         if (album == null)
             state = TrackValidationCode.InvalidAlbum;

@@ -6,7 +6,7 @@ namespace DatabaseServices.Services.EntityValidators.Implementations;
 
 public class EntityValidator
 {
-    public EntityValidationResult Validate(EntityCreationData data)
+    protected static EntityValidationResult Validate(EntityCreationData data)
     {
         var state = EntityValidationCode.Successful;
         if (data.Name == string.Empty)
