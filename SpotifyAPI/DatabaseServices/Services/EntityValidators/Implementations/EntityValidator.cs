@@ -6,6 +6,10 @@ namespace DatabaseServices.Services.EntityValidators.Implementations;
 
 public class EntityValidator
 {
+    protected EntityValidator()
+    {
+    }
+
     protected static EntityValidationResult Validate(EntityCreationData data)
     {
         var state = EntityValidationCode.Successful;
