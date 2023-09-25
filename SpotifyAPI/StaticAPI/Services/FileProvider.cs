@@ -7,14 +7,11 @@ public class FileProvider : IFileProvider
     public Stream? GetFileAsStream(string assetName, string fileName)
     {
         var path = Path.Combine(AssetsPath, assetName, fileName);
-        if (!IsPathOk(AssetsPath, path)) return null;
+        if (!Path.GetFullPath(path).StartsWith(AssetsPath, StringComparison.Ordinal)) return null;
         return !File.Exists(path)
             ? null
             : new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, FileOptions.Asynchronous);
     }
-
-    private static bool IsPathOk(string shouldStartWith, string path) =>
-        Path.GetFullPath(path).StartsWith(shouldStartWith);
 
     public long GetFileLength(string assetName, string fileName)
     {
