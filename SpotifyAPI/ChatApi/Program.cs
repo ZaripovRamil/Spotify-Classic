@@ -43,7 +43,7 @@ builder.Services.AddAuthentication( options => {
             OnMessageReceived = context =>
             {
                 var accessToken = context.Request.Query["access_token"];
-                if (string.IsNullOrEmpty(accessToken) == false)
+                if (!string.IsNullOrEmpty(accessToken))
                 {
                     context.Token = accessToken;
                 }
@@ -77,8 +77,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseCors();
+
 app.MapHub<ChatHub>("/chat");
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
