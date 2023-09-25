@@ -8,24 +8,24 @@ namespace ChatApi.Chat;
 [Authorize]
 public class ChatHub : Hub
 {
-    private static Dictionary<string,string> ActiveAdminConnections = new Dictionary<string, string>();
-    private static List<string> ConnectedAdminGroups= new List<string>();
+    private static readonly Dictionary<string,string> ActiveAdminConnections = new Dictionary<string, string>();
+    private static List<string> _connectedAdminGroups= new List<string>();
     public async Task SendMessage(ChatMessage message)
     {
-        var username = Context.User.Identity.Name;
-        message.User = username;
+        var username = Context.User!.Identity!.Name;
+        message.User = username!;
         
-        AddMessageToHistory(username,message);
+        AddMessageToHistory(username!,message);
 
         await Clients.Client(Context.ConnectionId).SendAsync("ReceiveMessage", message);
         message.IsOwner = false;
-        await Clients.GroupExcept(username,Context.ConnectionId).SendAsync("ReceiveMessage", message);
+        await Clients.GroupExcept(username!,Context.ConnectionId).SendAsync("ReceiveMessage", message);
     }
 
     public async Task AddToGroup()
     {
-        var username = Context.User.Identity.Name;
-        await Groups.AddToGroupAsync(Context.ConnectionId, username);
+        var username = Context.User!.Identity!.Name;
+        await Groups.AddToGroupAsync(Context.ConnectionId, username!);
     }
 
     [Authorize(Roles = "Admin")]
@@ -44,14 +44,14 @@ public class ChatHub : Hub
     [Authorize(Roles = "Admin")]
     public async Task AddToGroupByName(string groupname)
     {
-        foreach (var group in ConnectedAdminGroups)
+        foreach (var group in _connectedAdminGroups)
         {
             await Groups.RemoveFromGroupAsync(ActiveAdminConnections[group], group);
         }
 
-        ConnectedAdminGroups = new List<string>();
+        _connectedAdminGroups = new List<string>();
         ActiveAdminConnections[groupname] = Context.ConnectionId;
-        ConnectedAdminGroups.Add(groupname);
+        _connectedAdminGroups.Add(groupname);
         await Groups.AddToGroupAsync(Context.ConnectionId, groupname);
     }
 
