@@ -15,8 +15,8 @@ public class PreviewsController : Controller
     }
 
     // TO DO: change this to receive the whole path to the file, not just id
-    [HttpGet("{id}")]
-    public IActionResult GetById(string id)
+    [HttpGet("{id:guid}")]
+    public IActionResult GetById(Guid id)
     {
         var preview = _fileProvider.GetFileAsStream("Previews", $"{id}.jpg");
         if (preview is null) return NotFound();
