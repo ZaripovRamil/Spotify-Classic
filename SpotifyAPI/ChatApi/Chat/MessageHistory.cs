@@ -2,7 +2,7 @@
 
 namespace ChatApi.Chat;
 
-public static class ChatService
+internal static class ChatService
 {
-    public static Dictionary<string,List<ChatMessage>> MessageHistory = new Dictionary<string,List<ChatMessage>>();
+    public static readonly Dictionary<string, List<ChatMessage>> MessageHistory = new();
 }

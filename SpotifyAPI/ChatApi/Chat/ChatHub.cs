@@ -8,8 +8,8 @@ namespace ChatApi.Chat;
 [Authorize]
 public class ChatHub : Hub
 {
-    private static readonly Dictionary<string,string> ActiveAdminConnections = new Dictionary<string, string>();
-    private static List<string> _connectedAdminGroups= new List<string>();
+    private static readonly Dictionary<string,string> ActiveAdminConnections = new();
+    private static readonly List<string> ConnectedAdminGroups= new();
     public async Task SendMessage(ChatMessage message)
     {
         var username = Context.User!.Identity!.Name;
@@ -44,18 +44,18 @@ public class ChatHub : Hub
     [Authorize(Roles = "Admin")]
     public async Task AddToGroupByName(string groupname)
     {
-        foreach (var group in _connectedAdminGroups)
+        foreach (var group in ConnectedAdminGroups)
         {
             await Groups.RemoveFromGroupAsync(ActiveAdminConnections[group], group);
         }
 
-        _connectedAdminGroups = new List<string>();
+        ConnectedAdminGroups.Clear();
         ActiveAdminConnections[groupname] = Context.ConnectionId;
-        _connectedAdminGroups.Add(groupname);
+        ConnectedAdminGroups.Add(groupname);
         await Groups.AddToGroupAsync(Context.ConnectionId, groupname);
     }
 
-    private void AddMessageToHistory(string groupname, ChatMessage message)
+    private static void AddMessageToHistory(string groupname, ChatMessage message)
     {
         if (!ChatService.MessageHistory.ContainsKey(groupname))
         {
