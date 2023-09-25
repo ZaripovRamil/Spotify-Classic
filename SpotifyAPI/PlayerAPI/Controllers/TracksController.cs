@@ -17,14 +17,14 @@ public class TracksController : Controller
     private readonly HttpClient _clientToStatic;
     private readonly HttpClient _clientToHistory;
 
-    public TracksController(IOptions<ApplicationHosts> hostsOptions)
+    public TracksController(IOptions<Hosts> hostsOptions)
     {
         _clientToHistory = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseApi}/history/") };
+            { BaseAddress = new Uri($"http://{hostsOptions.Value.DatabaseApi}/history/") };
         _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseApi}/track/") };
+            { BaseAddress = new Uri($"http://{hostsOptions.Value.DatabaseApi}/track/") };
         _clientToStatic = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.StaticApi}/tracks/") };
+            { BaseAddress = new Uri($"http://{hostsOptions.Value.StaticApi}/tracks/") };
     }
 
     [HttpGet("get")]

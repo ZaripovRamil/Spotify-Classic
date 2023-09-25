@@ -22,22 +22,15 @@ public class AlbumsController : Controller
     private readonly HttpClient _clientToSearch;
     private readonly HttpClient _clientToStatic;
 
-    public AlbumsController(IOptions<ApplicationHosts> hostsOptions)
+    public AlbumsController(IOptions<Hosts> hostsOptions)
     {
         _clientToSearch = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.SearchApi}/search") };
+            { BaseAddress = new Uri($"http://{hostsOptions.Value.SearchApi}/search")};
         _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.DatabaseApi}/album/") };
+            { BaseAddress = new Uri($"http://{hostsOptions.Value.DatabaseApi}/album/") };
         _clientToStatic = new HttpClient
-            { BaseAddress = new Uri($"https://localhost:{hostsOptions.Value.StaticApi}/previews/") };
+            { BaseAddress = new Uri($"http://{hostsOptions.Value.StaticApi}/previews/") };
     }
-
-    // [HttpGet("get")]
-    // public async Task<IActionResult> GetAllAsync()
-    // {
-    //     var albums = await _clientToDb.GetFromJsonAsync<IEnumerable<AlbumFull>>("get");
-    //     return new JsonResult(albums);
-    // }
 
     [HttpGet("get/{id}")]
     public async Task<IActionResult> GetByIdAsync(string id)

@@ -5,5 +5,5 @@ namespace AuthAPI.Services;
 
 public interface IStatisticSnapshotCreator
 {
-    public Task<StatisticSnapshot?> Create(User? user);
+    public Task<StatisticSnapshot> Create(User? user);
 }

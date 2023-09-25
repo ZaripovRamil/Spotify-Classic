@@ -10,8 +10,6 @@ import { UserProfile } from "./userPage/UserProfile";
 import { UserHistory } from "./userPage/userHistory/UserHistory";
 import { UserMain } from "./userPage/userMain/UserMain";
 import GoAwayPage from "./goAwayPage";
-import { A } from "./test1";
-import { B } from "./test2";
 import { PlaylistPage } from "./playlistPage/PlaylistPage";
 import { UserEdit } from "./userPage/UserEdit/UserEdit";
 import { UserSettings } from "./userPage/UserEdit/UserSettings";

@@ -35,7 +35,7 @@ public class AuthorUpdateHandler : IAuthorUpdateHandler
             return result;
         }
 
-        // TODO: see comment to DbAuthorAccessor.Update
+        // see comment to DbAuthorAccessor.Update
         await _authorAccessor.Update(new Author(id, author.User, updateData.Name));
         return result;
     }

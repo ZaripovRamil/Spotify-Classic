@@ -45,7 +45,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         return user?.Role.ToString();
     }
 
-    public async Task<bool> ValidateTokenAsync(string token)
+    public Task<bool> ValidateTokenAsync(string token)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -63,11 +63,11 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         try
         {
             tokenHandler.ValidateToken(token, validationParameters, out _);
-            return true;
+            return Task.FromResult(true);
         }
         catch
         {
-            return false;
+            return Task.FromResult(false);
         }
     }
 

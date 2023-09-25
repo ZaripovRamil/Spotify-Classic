@@ -17,7 +17,7 @@ public class AuthorValidator:EntityValidator,IAuthorValidator
 
     public async Task<AuthorValidationResult> Validate(AuthorCreationData data)
     {
-        var state = (AuthorValidationCode) base.Validate(data).ValidationCode;
+        var state = (AuthorValidationCode) EntityValidator.Validate(data).ValidationCode;
         var user = await _userAccessor.GetById(data.UserId);
         if (user == null)
             state = AuthorValidationCode.InvalidUser;

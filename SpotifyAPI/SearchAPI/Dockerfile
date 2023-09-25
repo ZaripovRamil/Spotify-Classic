@@ -3,9 +3,14 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
+ADD ../https/aspnetapp.pfx /https/aspnetapp.pfx
+
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["SearchAPI/SearchAPI.csproj", "SearchAPI/"]
+COPY ["DatabaseServices/DatabaseServices.csproj", "DatabaseServices/"]
+COPY ["Database/Database.csproj", "Database/"]
+COPY ["Models/Models.csproj", "Models/"]
 RUN dotnet restore "SearchAPI/SearchAPI.csproj"
 COPY . .
 WORKDIR "/src/SearchAPI"

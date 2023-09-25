@@ -3,7 +3,8 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-/SpotifyAPI/appsettings.json
+*.*secrets
+*.kestrel-conf
 
 # User-specific files
 *.rsuser

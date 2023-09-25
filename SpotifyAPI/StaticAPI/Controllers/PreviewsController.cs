@@ -14,7 +14,7 @@ public class PreviewsController : Controller
         _fileProvider = fp;
     }
 
-    // TODO: change this to receive the whole path to the file, not just id
+    // TO DO: change this to receive the whole path to the file, not just id
     [HttpGet("{id}")]
     public IActionResult GetById(string id)
     {

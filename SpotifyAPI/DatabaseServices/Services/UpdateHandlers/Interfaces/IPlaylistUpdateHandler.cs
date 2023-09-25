@@ -5,5 +5,5 @@ namespace DatabaseServices.Services.UpdateHandlers.Interfaces;
 
 public interface IPlaylistUpdateHandler
 {
-    Task<PlaylistUpdateResult> HandleUpdateById(string id, PlaylistUpdateData playlistUpdateData);
+    Task<PlaylistUpdateResult> HandleUpdateById(string id, PlaylistUpdateData updateData);
 }

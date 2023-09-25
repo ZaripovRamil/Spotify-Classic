@@ -25,13 +25,21 @@ public class AuthController : Controller
     [HttpPost]
     public async Task<IActionResult> Login(LoginData loginData)
     {
+        if (loginData.Username is null || loginData.Password is null)
+            return new JsonResult(new LoginResult(false, "", "Empty login or/and password"));
         var loginResult = await _signInManager
             .PasswordSignInAsync(loginData.Username, loginData.Password, loginData.RememberMe, false);
         if (!loginResult.Succeeded)
         {
-            var errorMessage = loginResult.IsLockedOut ? "You're locked" :
-                loginResult.IsNotAllowed ? "You're not allowed no sign-in" :
-                loginResult.RequiresTwoFactor ? "Two factor authentication is required" : "No such a user";
+            string errorMessage;
+            if (loginResult.IsLockedOut)
+                errorMessage = "You're locked";
+            else if (loginResult.IsNotAllowed)
+                errorMessage = "You're not allowed no sign-in";
+            else
+                errorMessage = loginResult.RequiresTwoFactor
+                    ? "Two factor authentication is required"
+                    : "No such a user";
             return new JsonResult(new LoginResult(false, "", errorMessage));
         }
 
