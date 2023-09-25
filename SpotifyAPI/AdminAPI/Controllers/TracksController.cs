@@ -31,8 +31,8 @@ public class TracksController : Controller
             { BaseAddress = new Uri($"http://{hostsOptions.Value.StaticApi}/tracks/") };
     }
 
-    [HttpGet("get/{id}")]
-    public async Task<IActionResult> GetByIdAsync(string id)
+    [HttpGet("get/{id:guid}")]
+    public async Task<IActionResult> GetByIdAsync(Guid id)
     {
         var track = await _clientToDb.GetFromJsonAsync<TrackFull>($"get/id/{id}");
         return new JsonResult(track);
@@ -49,11 +49,11 @@ public class TracksController : Controller
 
         var track = await _clientToDb.GetFromJsonAsync<TrackFull>($"get/id/{trackCreationResult.TrackId}");
         var staticResponse =
-            await UploadContentToStaticAsync(creationDataWithFile.TrackFile, track!.FileId);
+            await UploadContentToStaticAsync(creationDataWithFile.TrackFile, Guid.Parse(track!.FileId));
         if (staticResponse.IsSuccessStatusCode) return new JsonResult(trackCreationResult);
 
         // if static API rejected uploading, delete track from database. what if this fails too? cry, i suppose.
-        await DeleteAsync(trackCreationResult.TrackId!);
+        await DeleteAsync(Guid.Parse(trackCreationResult.TrackId!));
         return BadRequest(new TrackCreationResult
         {
             IsSuccessful = false,
@@ -77,7 +77,7 @@ public class TracksController : Controller
         return trackCreationResult;
     }
 
-    private async Task<HttpResponseMessage> UploadContentToStaticAsync(IFormFile track, string trackId)
+    private async Task<HttpResponseMessage> UploadContentToStaticAsync(IFormFile track, Guid trackId)
     {
         var formData = new MultipartFormDataContent();
         var trackContent = new StreamContent(track.OpenReadStream());
@@ -86,16 +86,16 @@ public class TracksController : Controller
         return await _clientToStatic.PostAsync("upload", formData);
     }
 
-    [HttpDelete("delete/{id}")]
-    public async Task<IActionResult> DeleteAsync(string id)
+    [HttpDelete("delete/{id:guid}")]
+    public async Task<IActionResult> DeleteAsync(Guid id)
     {
         var response = await _clientToDb.DeleteAsync($"delete/{id}");
         var responseContent = await response.Content.ReadAsStringAsync();
         return new JsonResult(responseContent);
     }
 
-    [HttpPut("update/{id}")]
-    public async Task<IActionResult> UpdateAsync(string id, TrackUpdateData trackUpdateData)
+    [HttpPut("update/{id:guid}")]
+    public async Task<IActionResult> UpdateAsync(Guid id, TrackUpdateData trackUpdateData)
     {
         var json = JsonSerializer.Serialize(trackUpdateData);
         var response =
