@@ -1,11 +1,11 @@
-AdminApiHostname=admin-api
+AdminApiHostname=localhost
 AdminFrontendHostname=localhost
-AuthApiHostname=auth-api
-ChatApiHostname=chat-api
-DatabaseApiHostname=database-api
-PlayerApiHostname=player-api
-SearchApiHostname=search-api
-StaticApiHostname=static-api
+AuthApiHostname=localhost
+ChatApiHostname=localhost
+DatabaseApiHostname=localhost
+PlayerApiHostname=localhost
+SearchApiHostname=localhost
+StaticApiHostname=localhost
 UsersFrontendHostname=localhost
 
 AdminApiPortHttps=7066
@@ -18,13 +18,13 @@ SearchApiPortHttps=7039
 StaticApiPortHttps=7153
 UsersFrontendPort=3000
 
-AdminApiPortHttp=5066
-AuthApiPortHttp=5249
-ChatApiPortHttp=5077
-DatabaseApiPortHttp=5248
-PlayerApiPortHttp=5022
-SearchApiPortHttp=5039
-StaticApiPortHttp=5153
+AdminApiPortHttp=5090
+AuthApiPortHttp=5209
+ChatApiPortHttp=5273
+DatabaseApiPortHttp=5251
+PlayerApiPortHttp=5075
+SearchApiPortHttp=5282
+StaticApiPortHttp=5201
 
 Hosts__AdminApi=${AdminApiHostname}:${AdminApiPortHttp}
 Hosts__AdminFrontend=${AdminFrontendHostname}:${AdminFrontendPort}

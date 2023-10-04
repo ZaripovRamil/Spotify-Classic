@@ -16,8 +16,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Models;
+using Utils;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// EnvFileLoader.Load("local.hostnames");
+var parent = Directory.GetParent(Directory.GetCurrentDirectory())!.FullName;
+var files = EnvFileLoader.CombinePaths(parent, ".postgres-secrets", ".secrets", "local.hostnames", ".kestrel-conf");
+foreach (var file in files)
+{
+    EnvFileLoader.Load(file);
+}
+builder.Configuration.AddEnvironmentVariables();
 
 // Add services to the container.
 
@@ -58,8 +68,6 @@ builder.Services.AddScoped<IAuthorFactory, AuthorFactory>();
 builder.Services.AddScoped<IPlaylistFactory, PlaylistFactory>();
 builder.Services.AddScoped<ITrackFactory, TrackFactory>();
 builder.Services.AddScoped<IGenreFactory, GenreFactory>();
-
-builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.Configure<JwtTokenSettings>(builder.Configuration.GetSection("JWTTokenSettings"));
 builder.Services.Configure<Hosts>(builder.Configuration.GetSection("Hosts"));

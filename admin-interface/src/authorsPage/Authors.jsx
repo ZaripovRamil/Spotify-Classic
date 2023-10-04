@@ -4,7 +4,7 @@ import TableDisplayer from "../components/Table/TableDisplayer";
 import { getFetcher } from '../axios/AxiosInstance';
 import Ports from "../constants/Ports";
 
-const fetcher = getFetcher(Ports.AdminService);
+const fetcher = getFetcher(Ports.AdminApi);
 
 const Authors = () => {
   const [items, setItems] = useState([]);

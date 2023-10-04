@@ -4,7 +4,7 @@ import Ports from "../constants/Ports";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
-const fetcher = getFetcher(Ports.AdminService)
+const fetcher = getFetcher(Ports.AdminApi)
 export const ChatsPage = ({component}) => {
 
     const [users, setUsers] = useState(null);

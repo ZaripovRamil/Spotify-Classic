@@ -3,8 +3,17 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Models;
+using Utils;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// EnvFileLoader.Load("local.hostnames");
+var parent = Directory.GetParent(Directory.GetCurrentDirectory())!.FullName;
+var files = EnvFileLoader.CombinePaths(parent, ".secrets", "local.hostnames", ".kestrel-conf");
+foreach (var file in files)
+{
+    EnvFileLoader.Load(file);
+}
 
 // Add services to the container.
 

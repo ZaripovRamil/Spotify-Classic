@@ -6,7 +6,7 @@ import Player from "../player/Player";
 import { getFetcher } from "../axios/AxiosInstance";
 import Ports from "../constants/Ports";
 
-const fetcher = getFetcher(Ports.MusicService);
+const fetcher = getFetcher(Ports.PlayerApi);
 
 export const PageBuilder = ({ component }) => {
   const [tracksList, setTracksList] = useState(

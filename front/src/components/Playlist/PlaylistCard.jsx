@@ -6,8 +6,8 @@ import stop from "./media/stop.png";
 import { getFetcher } from "../../axios/AxiosInstance";
 import Ports from "../../constants/Ports";
 
-const fetcher = getFetcher(Ports.MusicService);
-const prefix = "https://localhost:7022/";
+const fetcher = getFetcher(Ports.PlayerApi);
+const prefix = `https://localhost:${Ports.PlayerApi}/`;
 
 const useNavigateSearch = () => {
   const navigate = useNavigate();

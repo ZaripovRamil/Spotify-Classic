@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import Ports from "../../constants/Ports";
 import { getFetcher } from "../../axios/AxiosInstance";
 
-const fetcher = getFetcher(Ports.AuthService);
+const fetcher = getFetcher(Ports.AuthApi);
 export const UserSettings =({userInfo}) => {
 
     const [nickname,setNickname] = useState(userInfo.name)

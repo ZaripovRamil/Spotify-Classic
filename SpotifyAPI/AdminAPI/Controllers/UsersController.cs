@@ -8,7 +8,6 @@ namespace AdminAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize(Roles = "Admin")]
 public class UsersController
 {
     private readonly HttpClient _clientToDb;
@@ -19,10 +18,34 @@ public class UsersController
             { BaseAddress = new Uri($"http://{hostsOptions.Value.DatabaseApi}/user/") };
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()
     {
         var users = await _clientToDb.GetFromJsonAsync<IEnumerable<UserLight?>>("getAll");
         return new JsonResult(users);
     }
+    
+    // shitcode yeah
+    [HttpPost("promote")]
+    public async Task<IActionResult> PromoteAsync([FromBody] PromoteToAdminDto dto)
+    {
+        var isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
+        if (!isDevelopment) return new NotFoundResult();
+        var data = $"{{\"login\":\"{dto.Username}\"}}";
+        var content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+        
+        try
+        {
+            await _clientToDb.PostAsync("promote", content);
+        }
+        catch
+        {
+            return new NotFoundResult();
+        }
+
+        return new OkResult();
+    }
+    
+    public record PromoteToAdminDto(string Username);
 }

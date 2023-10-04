@@ -13,5 +13,5 @@ public interface IDbUserAccessor
     public Task<User?> GetByEmail(string email);
     public Task AddUser(User user);
     public Task SetRole(User user, Role role);
-    Task AddTrackToHistory(User user, Track track);
+    public Task AddTrackToHistory(User user, Track track);
 }

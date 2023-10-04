@@ -9,11 +9,11 @@ import like from "./media/like.png";
 import stop from "./media/stop.png";
 import "./PlaylistPage.css";
 
-const fetcher = getFetcher(Ports.MusicService);
+const fetcher = getFetcher(Ports.PlayerApi);
 
 export const PlaylistPage = (props) => {
   const navigate = useNavigate();
-  const prefix = "https://localhost:7022/";
+  const prefix = `https://localhost:${Ports.PlayerApi}/`;
   const [searchParams] = useSearchParams();
   const [isPlaylist, setIsPlaylist] = useState(true);
   const [isLoad, setIsLoad] = useState(false);

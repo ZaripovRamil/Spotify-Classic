@@ -8,20 +8,25 @@ services:
       - SpotifyAPI/.postgres-secrets
     volumes:
       - ~/apps/Spotify/postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
   
   db_api:
     image: db_api
     hostname: ${DatabaseApiHostname}
     build:
       context: SpotifyAPI
-      dockerfile: DatabaseAPI/Dockerfile
+      dockerfile: DatabaseAPI/Dockerfile.${RunningEnvironment}
     env_file:
       - SpotifyAPI/.postgres-secrets
       - SpotifyAPI/.secrets
       - .hostnames
       - SpotifyAPI/.kestrel-conf
     ports:
-      - "${DatabaseApiPort}:443"
+      - "${DatabaseApiPortHttps}:${DatabaseApiPortHttps}"
+    volumes:
+      - ./SpotifyAPI/DatabaseAPI:/app
+      - ./SpotifyAPI:/src
     depends_on:
       - postgres
   
@@ -30,13 +35,16 @@ services:
     hostname: ${AdminApiHostname}
     build:
       context: SpotifyAPI
-      dockerfile: AdminAPI/Dockerfile
+      dockerfile: AdminAPI/Dockerfile.${RunningEnvironment}
     env_file:
       - SpotifyAPI/.secrets
       - .hostnames
       - SpotifyAPI/.kestrel-conf
     ports:
-      - "${AdminApiPort}:443"
+      - "${AdminApiPortHttps}:${AdminApiPortHttps}"
+    volumes:
+      - ./SpotifyAPI/AdminAPI:/app
+      - ./SpotifyAPI:/src
     depends_on:
       - db_api
   
@@ -45,14 +53,17 @@ services:
     hostname: ${AuthApiHostname}
     build:
       context: SpotifyAPI
-      dockerfile: AuthAPI/Dockerfile
+      dockerfile: AuthAPI/Dockerfile.${RunningEnvironment}
     env_file:
       - SpotifyAPI/.postgres-secrets
       - SpotifyAPI/.secrets
       - .hostnames
       - SpotifyAPI/.kestrel-conf
     ports:
-      - "${AuthApiPort}:443"
+      - "${AuthApiPortHttps}:${AuthApiPortHttps}"
+    volumes:
+      - ./SpotifyAPI/AuthAPI:/app
+      - ./SpotifyAPI:/src
     depends_on:
       - db_api
   
@@ -61,13 +72,16 @@ services:
     hostname: ${ChatApiHostname}
     build:
       context: SpotifyAPI
-      dockerfile: ChatApi/Dockerfile
+      dockerfile: ChatApi/Dockerfile.${RunningEnvironment}
     env_file:
       - SpotifyAPI/.secrets
       - .hostnames
       - SpotifyAPI/.kestrel-conf
     ports:
-      - "${ChatApiPort}:443"
+      - "${ChatApiPortHttps}:${ChatApiPortHttps}"
+    volumes:
+      - ./SpotifyAPI/ChatApi:/app
+      - ./SpotifyAPI:/src
     depends_on:
       - db_api
   
@@ -76,13 +90,16 @@ services:
     hostname: ${PlayerApiHostname}
     build:
       context: SpotifyAPI
-      dockerfile: PlayerAPI/Dockerfile
+      dockerfile: PlayerAPI/Dockerfile.${RunningEnvironment}
     env_file:
       - SpotifyAPI/.secrets
       - .hostnames
       - SpotifyAPI/.kestrel-conf
     ports:
-      - "${PlayerApiPort}:443"
+      - "${PlayerApiPortHttps}:${PlayerApiPortHttps}"
+    volumes:
+      - ./SpotifyAPI/PlayerAPI:/app
+      - ./SpotifyAPI:/src
     depends_on:
       - db_api
   
@@ -91,14 +108,17 @@ services:
     hostname: ${SearchApiHostname}
     build:
       context: SpotifyAPI
-      dockerfile: SearchAPI/Dockerfile
+      dockerfile: SearchAPI/Dockerfile.${RunningEnvironment}
     env_file:
       - SpotifyAPI/.postgres-secrets
       - SpotifyAPI/.secrets
       - .hostnames
       - SpotifyAPI/.kestrel-conf
     ports:
-      - "${SearchApiPort}:443"
+      - "${SearchApiPortHttps}:${SearchApiPortHttps}"
+    volumes:
+      - ./SpotifyAPI/SearchAPI:/app
+      - ./SpotifyAPI:/src
     depends_on:
       - db_api
   
@@ -107,15 +127,17 @@ services:
     hostname: ${StaticApiHostname}
     build:
       context: SpotifyAPI
-      dockerfile: StaticAPI/Dockerfile
+      dockerfile: StaticAPI/Dockerfile.${RunningEnvironment}
     env_file:
       - SpotifyAPI/.secrets
       - .hostnames
       - SpotifyAPI/.kestrel-conf
     ports:
-      - "${StaticApiPort}:443"
+      - "${StaticApiPortHttps}:${StaticApiPortHttps}"
     volumes:
       - ./SpotifyAPI/StaticAPI/Assets:/assets
+      - ./SpotifyAPI/StaticAPI:/app
+      - ./SpotifyAPI:/src
     depends_on:
       - db_api
   
@@ -129,6 +151,10 @@ services:
       - "5124:3000"
     env_file:
       - .hostnames
+    environment:
+      - WATCHPACK_POLLING=true
+    volumes:
+      - ./admin-interface/src:/app/src
     depends_on:
       - admin_api
   
@@ -142,6 +168,10 @@ services:
       - "3000:3000"
     env_file:
       - .hostnames
+    environment:
+      - WATCHPACK_POLLING=true
+    volumes:
+      - ./front/src:/app/src
     depends_on:
       - player_api
   

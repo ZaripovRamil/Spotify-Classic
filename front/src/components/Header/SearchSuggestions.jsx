@@ -1,9 +1,10 @@
 import "./Header.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Ports from "../../constants/Ports";
 
 export const SearchSuggestions = ({ data, value }) => {
-  const prefix = "https://localhost:7022/";
+  const prefix = `https://localhost:${Ports.PlayerApi}/`;
   const navigate = useNavigate();
   const [albums, setAlbums] = useState([]);
   const [authors, setAuthors] = useState([]);

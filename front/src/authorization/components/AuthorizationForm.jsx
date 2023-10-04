@@ -5,7 +5,7 @@ import AuthorizationErrors from "../../constants/AuthorizationErrors";
 import { getFetcher } from "../../axios/AxiosInstance";
 import { useNavigate } from "react-router";
 
-const fetcher = getFetcher(Ports.AuthService);
+const fetcher = getFetcher(Ports.AuthApi);
 
 const AuthForm = () => {
   const navigate = useNavigate();
@@ -63,7 +63,7 @@ const AuthForm = () => {
 
   const handleGoogleOAuth = () => {
     window.location.replace(
-      `https://localhost:${Ports.AuthService}/oauth/google/entry`
+      `https://localhost:${Ports.AuthApi}/oauth/google/entry`
     );
   };
 

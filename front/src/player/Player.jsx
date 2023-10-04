@@ -8,8 +8,8 @@ import Ports from "../constants/Ports";
 import { useNavigate } from "react-router-dom";
 
 // care of http/https
-const prefix = "https://localhost:7022/";
-const fetcher = getFetcher(Ports.MusicService);
+const prefix = `https://localhost:${Ports.PlayerApi}/`;
+const fetcher = getFetcher(Ports.PlayerApi);
 
 const Player = ({ props }) => {
   const navigate = useNavigate();
@@ -46,14 +46,14 @@ const Player = ({ props }) => {
   const playNext = () => {
     playerConf.trackPosInAlbum =
       (playerConf.trackPosInAlbum + 1) % tracksList.length;
-    playerConf.trackId = tracksList[playerConf.trackPosInAlbum].id;
+    playerConf.trackId = tracksList[playerConf.trackPosInAlbum].fileId;
     setPlayerConf({ ...playerConf });
   };
 
   const playPrevious = () => {
     playerConf.trackPosInAlbum =
       (playerConf.trackPosInAlbum - 1 + tracksList.length) % tracksList.length;
-    playerConf.trackId = tracksList[playerConf.trackPosInAlbum].id;
+    playerConf.trackId = tracksList[playerConf.trackPosInAlbum].fileId;
     setPlayerConf({ ...playerConf });
   };
 
@@ -96,7 +96,7 @@ const Player = ({ props }) => {
           volume={playerConfig.volume}
           url={
             tracksList &&
-            prefix + "tracks/get/" + tracksList[playerConf.trackPosInAlbum].id
+            prefix + "tracks/get/" + tracksList[playerConf.trackPosInAlbum].fileId
           }
           onDuration={(duration) =>
             updateTrackInfo("duration", duration.toFixed(2))

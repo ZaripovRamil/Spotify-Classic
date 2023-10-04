@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import Ports from "../../constants/Ports";
 import { getFetcher } from "../../axios/AxiosInstance";
 
-const fetcher = getFetcher(Ports.AuthService);
+const fetcher = getFetcher(Ports.AuthApi);
 export const UserEdit = ({ content }) => {
   const [isLoad, setIsLoad] = useState(false);
 

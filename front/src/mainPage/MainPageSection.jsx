@@ -6,7 +6,7 @@ import { Playlists } from "../components/Playlist/Playlists";
 import { getFetcher } from "../axios/AxiosInstance";
 import Ports from "../constants/Ports";
 
-const fetcher = getFetcher(Ports.MusicService);
+const fetcher = getFetcher(Ports.PlayerApi);
 
 export const MainPageSection = (props) => {
   const playlistsArray = [
@@ -33,6 +33,7 @@ export const MainPageSection = (props) => {
 
   return (
     <>
+      <p>{Ports.AuthApi}</p>
       <main className="main-page">
         <section className="main_section">
           <div className="main-circle" id="first" />

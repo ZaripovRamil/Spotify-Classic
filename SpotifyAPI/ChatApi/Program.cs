@@ -3,14 +3,24 @@ using ChatApi.Chat;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Models;
+using Utils;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// EnvFileLoader.Load("local.hostnames");
+var parent = Directory.GetParent(Directory.GetCurrentDirectory())!.FullName;
+var files = EnvFileLoader.CombinePaths(parent, ".secrets", "local.hostnames", ".kestrel-conf");
+foreach (var file in files)
+{
+    EnvFileLoader.Load(file);
+}
 
 // Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Configuration.AddEnvironmentVariables();
 builder.Services.Configure<JwtTokenSettings>(builder.Configuration.GetSection("JWTTokenSettings"));
 builder.Services.Configure<Hosts>(builder.Configuration.GetSection("Hosts"));

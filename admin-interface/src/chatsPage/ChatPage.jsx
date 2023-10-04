@@ -6,7 +6,7 @@ import { HttpTransportType, HubConnectionBuilder } from "@microsoft/signalr";
 import { ChatWindow } from "./ChatWindow";
 import { ChatInput } from "./ChatInput";
 
-const fetcher = getFetcher(Ports.ChatService)
+const fetcher = getFetcher(Ports.ChatApi)
 export const ChatPage = () => {
 
     const [ connection, setConnection ] = useState(null);
@@ -25,7 +25,7 @@ export const ChatPage = () => {
     useEffect( () => {
         const authToken = localStorage.getItem("access-token") ?? "";
         const newConnection = new HubConnectionBuilder()
-            .withUrl('https://localhost:7077/chat',{
+            .withUrl(`https://localhost:${Ports.ChatApi}/chat`,{
                 transport: HttpTransportType.WebSockets,
                 skipNegotiation: true,
                 accessTokenFactory: () => `${authToken}`

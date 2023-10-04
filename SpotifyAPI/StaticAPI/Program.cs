@@ -4,8 +4,17 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Models;
 using StaticAPI.Services;
+using Utils;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// EnvFileLoader.Load("local.hostnames");
+var parent = Directory.GetParent(Directory.GetCurrentDirectory())!.FullName;
+var files = EnvFileLoader.CombinePaths(parent, ".secrets", "local.hostnames", ".kestrel-conf");
+foreach (var file in files)
+{
+    EnvFileLoader.Load(file);
+}
 
 // Add services to the container.
 
@@ -14,6 +23,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddTransient<IFileProvider, FileProvider>();
 builder.Services.AddTransient<IHlsConverter, HlsConverter>();
+
 builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.Configure<JwtTokenSettings>(builder.Configuration.GetSection("JWTTokenSettings"));
