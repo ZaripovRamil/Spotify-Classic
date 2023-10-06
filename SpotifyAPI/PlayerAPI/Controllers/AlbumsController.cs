@@ -17,7 +17,7 @@ public class AlbumsController : Controller
     public AlbumsController(IOptions<Hosts> hostsOptions)
     {
         _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"https://{hostsOptions.Value.DatabaseApi}/album/") };
+            { BaseAddress = new Uri($"http://{hostsOptions.Value.DatabaseApi}/album/") };
     }
 
     [HttpGet("get")]

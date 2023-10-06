@@ -24,11 +24,11 @@ public class TracksController : Controller
     public TracksController(IOptions<Hosts> hostsOptions)
     {
         _clientToSearch = new HttpClient
-            { BaseAddress = new Uri($"https://{hostsOptions.Value.SearchApi}/search/") };
+            { BaseAddress = new Uri($"http://{hostsOptions.Value.SearchApi}/search/") };
         _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"https://{hostsOptions.Value.DatabaseApi}/track/") };
+            { BaseAddress = new Uri($"http://{hostsOptions.Value.DatabaseApi}/track/") };
         _clientToStatic = new HttpClient
-            { BaseAddress = new Uri($"https://{hostsOptions.Value.StaticApi}/tracks/") };
+            { BaseAddress = new Uri($"http://{hostsOptions.Value.StaticApi}/tracks/") };
     }
 
     [HttpGet("get/{id:guid}")]

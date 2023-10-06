@@ -20,11 +20,11 @@ public class TracksController : Controller
     public TracksController(IOptions<Hosts> hostsOptions)
     {
         _clientToHistory = new HttpClient
-            { BaseAddress = new Uri($"https://{hostsOptions.Value.DatabaseApi}/history/") };
+            { BaseAddress = new Uri($"http://{hostsOptions.Value.DatabaseApi}/history/") };
         _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"https://{hostsOptions.Value.DatabaseApi}/track/") };
+            { BaseAddress = new Uri($"http://{hostsOptions.Value.DatabaseApi}/track/") };
         _clientToStatic = new HttpClient
-            { BaseAddress = new Uri($"https://{hostsOptions.Value.StaticApi}/tracks/") };
+            { BaseAddress = new Uri($"http://{hostsOptions.Value.StaticApi}/tracks/") };
     }
 
     [HttpGet("get")]
