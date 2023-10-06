@@ -22,9 +22,9 @@ public class AuthorsController : Controller
     public AuthorsController(IOptions<Hosts> hostsOptions)
     {
         _clientToSearch = new HttpClient
-            { BaseAddress = new Uri($"http://{hostsOptions.Value.SearchApi}/search")};
+            { BaseAddress = new Uri($"https://{hostsOptions.Value.SearchApi}/search")};
         _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"http://{hostsOptions.Value.DatabaseApi}/author/") };
+            { BaseAddress = new Uri($"https://{hostsOptions.Value.DatabaseApi}/author/") };
     }
 
     [HttpGet("get")]

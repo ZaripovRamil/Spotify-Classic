@@ -26,14 +26,14 @@ PlayerApiPortHttp=5022
 SearchApiPortHttp=5039
 StaticApiPortHttp=5153
 
-Hosts__AdminApi=${AdminApiHostname}:${AdminApiPortHttp}
+Hosts__AdminApi=${AdminApiHostname}:${AdminApiPortHttps}
 Hosts__AdminFrontend=${AdminFrontendHostname}:${AdminFrontendPort}
-Hosts__AuthApi=${AuthApiHostname}:${AuthApiPortHttp}
-Hosts__ChatApi=${ChatApiHostname}:${ChatApiPortHttp}
-Hosts__DatabaseApi=${DatabaseApiHostname}:${DatabaseApiPortHttp}
-Hosts__PlayerApi=${PlayerApiHostname}:${PlayerApiPortHttp}
-Hosts__SearchApi=${SearchApiHostname}:${SearchApiPortHttp}
-Hosts__StaticApi=${StaticApiHostname}:${StaticApiPortHttp}
+Hosts__AuthApi=${AuthApiHostname}:${AuthApiPortHttps}
+Hosts__ChatApi=${ChatApiHostname}:${ChatApiPortHttps}
+Hosts__DatabaseApi=${DatabaseApiHostname}:${DatabaseApiPortHttps}
+Hosts__PlayerApi=${PlayerApiHostname}:${PlayerApiPortHttps}
+Hosts__SearchApi=${SearchApiHostname}:${SearchApiPortHttps}
+Hosts__StaticApi=${StaticApiHostname}:${StaticApiPortHttps}
 Hosts__UsersFrontend=${UsersFrontendHostname}:${UsersFrontendPort}
 
 REACT_APP_AuthApi=${AuthApiPortHttps}

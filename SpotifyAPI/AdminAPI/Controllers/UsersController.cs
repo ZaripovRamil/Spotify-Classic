@@ -15,7 +15,7 @@ public class UsersController
     public UsersController(IOptions<Hosts> hostsOptions)
     {
         _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"http://{hostsOptions.Value.DatabaseApi}/user/") };
+            { BaseAddress = new Uri($"https://{hostsOptions.Value.DatabaseApi}/user/") };
     }
 
     [Authorize(Roles = "Admin")]

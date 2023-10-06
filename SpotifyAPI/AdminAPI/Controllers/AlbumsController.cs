@@ -25,11 +25,11 @@ public class AlbumsController : Controller
     public AlbumsController(IOptions<Hosts> hostsOptions)
     {
         _clientToSearch = new HttpClient
-            { BaseAddress = new Uri($"http://{hostsOptions.Value.SearchApi}/search")};
+            { BaseAddress = new Uri($"https://{hostsOptions.Value.SearchApi}/search")};
         _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"http://{hostsOptions.Value.DatabaseApi}/album/") };
+            { BaseAddress = new Uri($"https://{hostsOptions.Value.DatabaseApi}/album/") };
         _clientToStatic = new HttpClient
-            { BaseAddress = new Uri($"http://{hostsOptions.Value.StaticApi}/previews/") };
+            { BaseAddress = new Uri($"https://{hostsOptions.Value.StaticApi}/previews/") };
     }
 
     [HttpGet("get/{id:guid}")]
