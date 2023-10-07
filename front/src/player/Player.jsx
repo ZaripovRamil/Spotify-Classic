@@ -46,14 +46,14 @@ const Player = ({ props }) => {
   const playNext = () => {
     playerConf.trackPosInAlbum =
       (playerConf.trackPosInAlbum + 1) % tracksList.length;
-    playerConf.trackId = tracksList[playerConf.trackPosInAlbum].fileId;
+    playerConf.trackId = tracksList[playerConf.trackPosInAlbum].id;
     setPlayerConf({ ...playerConf });
   };
 
   const playPrevious = () => {
     playerConf.trackPosInAlbum =
       (playerConf.trackPosInAlbum - 1 + tracksList.length) % tracksList.length;
-    playerConf.trackId = tracksList[playerConf.trackPosInAlbum].fileId;
+    playerConf.trackId = tracksList[playerConf.trackPosInAlbum].id;
     setPlayerConf({ ...playerConf });
   };
 
@@ -96,7 +96,7 @@ const Player = ({ props }) => {
           volume={playerConfig.volume}
           url={
             tracksList &&
-            prefix + "tracks/get/" + tracksList[playerConf.trackPosInAlbum].fileId
+            prefix + "tracks/get/" + tracksList[playerConf.trackPosInAlbum].id
           }
           onDuration={(duration) =>
             updateTrackInfo("duration", duration.toFixed(2))

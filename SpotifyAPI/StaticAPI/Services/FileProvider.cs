@@ -2,7 +2,7 @@ namespace StaticAPI.Services;
 
 public class FileProvider : IFileProvider
 {
-    private readonly string _assetsPath = GetAssetsPath();
+    private readonly string _assetsPath = GetAssetsFullPath();
     
     public Stream? GetFileAsStream(string assetName, string fileName)
     {
@@ -41,9 +41,9 @@ public class FileProvider : IFileProvider
         await Task.Run(() => File.Delete(Path.Combine(_assetsPath, assetName, fileName)));
     }
 
-    private static string GetAssetsPath()
+    private static string GetAssetsFullPath()
     {
         var inContainer = bool.Parse(Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") ?? "false");
-        return inContainer ? "/assets" : "Assets";
+        return Path.GetFullPath(inContainer ? "/assets" : "Assets");
     }
 }
