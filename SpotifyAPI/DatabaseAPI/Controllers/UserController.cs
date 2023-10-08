@@ -49,11 +49,13 @@ public class UserController
 
     [HttpPost]
     [Route("promote")]
-    public async Task<IActionResult> MakeAdminAsync([FromBody] string login)
+    public async Task<IActionResult> MakeAdminAsync([FromBody] PromoteToAdminDto dto)
     {
-        var user = await _userAccessor.GetByUsername(login);
+        var user = await _userAccessor.GetByUsername(dto.login);
         if (user is null) return new NotFoundResult();
         await _userAccessor.SetRole(user, Role.Admin);
         return new OkResult();
     }
+    
+    public record PromoteToAdminDto(string login);
 }

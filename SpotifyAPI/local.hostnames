@@ -41,4 +41,4 @@ REACT_APP_ChatApi=${ChatApiPortHttps}
 REACT_APP_PlayerApi=${PlayerApiPortHttps}
 REACT_APP_SearchApi=${SearchApiPortHttps}
 
-RunningEnvironment=Production
+RunningEnvironment=Development

@@ -32,12 +32,13 @@ public class UsersController
     {
         var isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
         if (!isDevelopment) return new NotFoundResult();
-        var data = $"{{\"login\":\"{dto.Username}\"}}";
+        var data = $"{{\"login\":\"{dto.username}\"}}";
         var content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
         
         try
         {
-            await _clientToDb.PostAsync("promote", content);
+            var res = await _clientToDb.PostAsync("promote", content);
+            if (!res.IsSuccessStatusCode) return new NotFoundResult();
         }
         catch
         {
@@ -47,5 +48,5 @@ public class UsersController
         return new OkResult();
     }
     
-    public record PromoteToAdminDto(string Username);
+    public record PromoteToAdminDto(string username);
 }
