@@ -1,8 +1,9 @@
-﻿using DatabaseServices.Services.Accessors.Interfaces;
+﻿using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Models.DTO.FrontToBack.Chat;
 using Models.Entities;
+using Models.MessagingContracts;
 
 namespace ChatApi.Chat;
 
@@ -11,11 +12,11 @@ public class ChatHub : Hub
 {
     private static readonly Dictionary<string,string> ActiveAdminConnections = new();
     private static readonly List<string> ConnectedAdminGroups= new();
-    private readonly IDbSupportChatHistoryAccessor _historyAccessor;
+    private readonly IBus _bus;
 
-    public ChatHub(IDbSupportChatHistoryAccessor historyAccessor)
+    public ChatHub(IBus bus)
     {
-        _historyAccessor = historyAccessor;
+        _bus = bus;
     }
 
     public async Task SendMessage(ChatMessage message)
@@ -76,6 +77,6 @@ public class ChatHub : Hub
             Timestamp = DateTime.UtcNow,
             SenderId = userId
         };
-        await _historyAccessor.AddMessageToUserHistory(sm);
+        await _bus.Publish(new SaveHistoryMessageToDb { Message = sm });
     }
 }

@@ -3,6 +3,7 @@ using ChatApi.Chat;
 using Database;
 using DatabaseServices.Services.Accessors.Implementations;
 using DatabaseServices.Services.Accessors.Interfaces;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -23,6 +24,17 @@ builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Spotify")).EnableThreadSafetyChecks());
+
+builder.Services.AddMassTransit(c =>
+{
+    c.SetKebabCaseEndpointNameFormatter();
+    var assembly = typeof(Program).Assembly;
+    c.AddConsumers(assembly);
+    c.UsingInMemory((ctx, cfg) =>
+    {
+        cfg.ConfigureEndpoints(ctx);
+    });
+});
 
 // Add services to the container.
 
