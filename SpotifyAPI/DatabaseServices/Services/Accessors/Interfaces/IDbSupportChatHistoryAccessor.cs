@@ -4,6 +4,6 @@ namespace DatabaseServices.Services.Accessors.Interfaces;
 
 public interface IDbSupportChatHistoryAccessor
 {
-    public IQueryable<SupportChatMessage> GetHistoryForUserId(string userId);
+    public IQueryable<SupportChatMessage> GetHistoryForUserId(string roomId);
     public Task AddMessageToUserHistory(SupportChatMessage message);
 }

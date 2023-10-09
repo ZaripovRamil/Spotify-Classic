@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 
 namespace Utils;
 
-public static class EnvFileLoader
+public static partial class EnvFileLoader
 {
     public static void Load(string filePath)
     {
@@ -23,9 +23,7 @@ public static class EnvFileLoader
     
     private static string SubstituteEnvironmentVariables(string input)
     {
-        const string pattern = @"\$\{(.+?)\}";
-
-        var result = Regex.Replace(input, pattern, match =>
+        var result = EnvironmentVariableSubstRegex().Replace(input, match =>
         {
             var variableName = match.Groups[1].Value;
 
@@ -37,7 +35,7 @@ public static class EnvFileLoader
         return result;
     }
 
-    public static string[] CombinePaths(string pathPart1, params string[] pathParts2)
+    public static IEnumerable<string> CombinePaths(string pathPart1, params string[] pathParts2)
     {
         var result = new string[pathParts2.Length];
         for (var i = 0; i < pathParts2.Length; i++)
@@ -47,4 +45,7 @@ public static class EnvFileLoader
 
         return result;
     }
+
+    [GeneratedRegex(@"\$\{(.+?)\}", default, 500)]
+    private static partial Regex EnvironmentVariableSubstRegex();
 }

@@ -9,7 +9,7 @@ using Utils;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// EnvFileLoader.Load("local.hostnames");
+
 var parent = Directory.GetParent(Directory.GetCurrentDirectory())!.FullName;
 var files = EnvFileLoader.CombinePaths(parent, ".secrets", "local.hostnames", ".kestrel-conf");
 foreach (var file in files)

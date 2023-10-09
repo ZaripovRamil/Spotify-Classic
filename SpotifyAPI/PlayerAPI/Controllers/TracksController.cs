@@ -37,10 +37,17 @@ public class TracksController : Controller
     [HttpGet("get/{id}")]
     public async Task<IActionResult> GetByIdAsStreamAsync(string id)
     {
-        if (id.EndsWith(".ts")) return await StreamTrack(id); // if file.ts requested, not track
-        var trackInfo = await GetTrackInfo(id);
+        if (Guid.TryParse(id, out var trackId))
+        {
+            var trackInfo = await GetTrackInfo(trackId.ToString());
+            return await StreamTrack(trackInfo.FileId);
+        }
+        if (Guid.TryParse(id[..^3], out var fileId))
+        {
+            return await StreamTrack(fileId + ".ts");
+        }
 
-        return await StreamTrack(trackInfo.FileId);
+        return BadRequest();
     }
 
     private async Task<TrackFull> GetTrackInfo(string trackId)
@@ -64,13 +71,13 @@ public class TracksController : Controller
         }
     }
 
-    [HttpGet("addToHistory/{id}")]
+    [HttpGet("addToHistory/{trackId}")]
     public async Task<IActionResult> AddTrackToHistory(string trackId)
     {
         try
         {
             var username = User.Identity?.Name!;
-            var message = new HttpRequestMessage(HttpMethod.Post, $"Add?userName={username}&id={trackId}");
+            var message = new HttpRequestMessage(HttpMethod.Post, $"Add?userName={username}&trackId={trackId}");
             await _clientToHistory.SendAsync(message);
             return Ok();
         }
