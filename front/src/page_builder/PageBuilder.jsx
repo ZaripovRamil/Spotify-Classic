@@ -5,6 +5,7 @@ import "./PageBuilder.css";
 import Player from "../player/Player";
 import { getFetcher } from "../axios/AxiosInstance";
 import Ports from "../constants/Ports";
+import { ChatBox } from "../components/ChatBox/ChatBox";
 
 const fetcher = getFetcher(Ports.PlayerApi);
 
@@ -44,6 +45,7 @@ export const PageBuilder = ({ component }) => {
       <div className="content">
         {React.cloneElement(component, tracksProps)}
       </div>
+      {localStorage.getItem("isAuth") ? <ChatBox /> : <div></div>}
       <Footer props={tracksProps} />
       <Player props={tracksProps} />
     </>

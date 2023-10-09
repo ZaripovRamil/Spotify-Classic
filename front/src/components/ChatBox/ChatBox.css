@@ -1,0 +1,86 @@
+body {
+  background-color: black;
+}
+
+.chat-button {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  background-color: gold;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.chat-box {
+  display: none;
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  width: 300px;
+  height: 400px;
+  background-color: black;
+  color: white;
+  border: solid gold 2px;
+  flex-direction: column;
+}
+
+.chat-header {
+  background-color: gold;
+  padding: 10px;
+}
+
+.chat-header h2 {
+  margin: 0;
+  font-size: 25px;
+}
+
+.close-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: transparent;
+  color: black;
+  border: none;
+  cursor: pointer;
+}
+
+.chat-messages {
+  height: 230px;
+  overflow-y: scroll;
+  padding: 10px;
+}
+
+.send-button {
+  width: 100%;
+  background-color: gold;
+  color: black;
+  /* border: none; */
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.message-input {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.chat-end {
+  width: 100%;
+  align-self: flex-end;
+}
+
+.chat {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  z-index: 100;
+}
+
+.chat-end textarea:focus,
+input:focus {
+  outline: none;
+}
