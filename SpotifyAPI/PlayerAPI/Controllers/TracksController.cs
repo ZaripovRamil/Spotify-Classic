@@ -38,9 +38,9 @@ public partial class TracksController : Controller
     [HttpGet("get/{id}")]
     public async Task<IActionResult> GetByIdAsStreamAsync(string id)
     {
-        if (Guid.TryParse(id[..^3], out var fileId)) // if file.ts requested, not track
-            return await StreamTrack(fileId + ".ts");
         if (!TrackIdRegex().IsMatch(id)) return BadRequest();
+        if (id.EndsWith(".ts")) // if file.ts requested, not track
+            return await StreamTrack(id);
         var trackInfo = await GetTrackInfo(id);
 
         return await StreamTrack(trackInfo.FileId);
