@@ -3,15 +3,14 @@ using ChatApi.Chat;
 using Database;
 using DatabaseServices.Services.Accessors.Implementations;
 using DatabaseServices.Services.Accessors.Interfaces;
-using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Models;
+using Models.Configuration;
 using Utils;
+using Utils.ServiceCollectionExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 var parent = Directory.GetParent(Directory.GetCurrentDirectory())!.FullName;
 var files = EnvFileLoader.CombinePaths(parent, ".secrets", "local.hostnames", ".kestrel-conf");
@@ -25,21 +24,11 @@ builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Spotify")).EnableThreadSafetyChecks());
 
-builder.Services.AddMassTransit(c =>
-{
-    c.SetKebabCaseEndpointNameFormatter();
-    var assembly = typeof(Program).Assembly;
-    c.AddConsumers(assembly);
-    c.UsingInMemory((ctx, cfg) =>
-    {
-        cfg.ConfigureEndpoints(ctx);
-    });
-});
 
-// Add services to the container.
+var rabbitMqConfig = builder.Configuration.GetSection("RabbitMqConfig").Get<RabbitMqConfig>()!;
+builder.Services.AddMasstransitRabbitMq(rabbitMqConfig, typeof(Program).Assembly);
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.Configure<JwtTokenSettings>(builder.Configuration.GetSection("JWTTokenSettings"));
@@ -99,7 +88,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

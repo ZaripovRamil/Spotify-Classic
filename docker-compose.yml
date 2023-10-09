@@ -175,5 +175,16 @@ services:
     depends_on:
       - player_api
   
+  rabbitmq:
+    image: rabbitmq:3-alpine
+    hostname: rabbitmq
+    restart: always
+    env_file:
+      - ./SpotifyAPI/.rabbitmq-secrets
+      - ./SpotifyAPI/.secrets
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+  
   ffmpeg:
     image: jrottenberg/ffmpeg

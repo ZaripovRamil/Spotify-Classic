@@ -5,7 +5,7 @@ using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Models;
+using Models.Configuration;
 using Models.DTO.BackToFront.Auth;
 using Models.Entities;
 using Models.OAuth;

@@ -1,4 +1,4 @@
-namespace Models;
+namespace Models.Configuration;
 
 public class JwtTokenSettings
 {
