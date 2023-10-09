@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Models;
-using Models.DTO.BackToFront.Light;
 
 namespace AdminAPI.Controllers;
 
@@ -15,14 +14,14 @@ public class UsersController
     public UsersController(IOptions<Hosts> hostsOptions)
     {
         _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"http://{hostsOptions.Value.DatabaseApi}/user/") };
+            { BaseAddress = new Uri($"http://{hostsOptions.Value.DatabaseApi}/chatUsers/") };
     }
 
     [Authorize(Roles = "Admin")]
     [HttpGet("get")]
     public async Task<IActionResult> GetAllAsync()
     {
-        var users = await _clientToDb.GetFromJsonAsync<IEnumerable<UserLight?>>("getAll");
+        var users = await _clientToDb.GetFromJsonAsync<IEnumerable<string>>("getAllRooms");
         return new JsonResult(users);
     }
     

@@ -25,4 +25,9 @@ public class DbSupportChatHistoryAccessor : IDbSupportChatHistoryAccessor
         await _dbContext.SupportChatMessagesHistory.AddAsync(message);
         await _dbContext.SaveChangesAsync();
     }
+
+    public IQueryable<SupportChatMessage> GetAll()
+    {
+        return _dbContext.SupportChatMessagesHistory;
+    }
 }

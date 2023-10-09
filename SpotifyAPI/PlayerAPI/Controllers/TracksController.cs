@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Models;
@@ -10,7 +11,7 @@ namespace PlayerAPI.Controllers;
 // [Authorize(Roles = "Free,Premium,Admin")]
 [ApiController]
 [Route("[controller]")]
-public class TracksController : Controller
+public partial class TracksController : Controller
 {
     private static readonly JsonSerializerOptions Options = new() { PropertyNameCaseInsensitive = true };
     private readonly HttpClient _clientToDb;
@@ -37,23 +38,18 @@ public class TracksController : Controller
     [HttpGet("get/{id}")]
     public async Task<IActionResult> GetByIdAsStreamAsync(string id)
     {
-        if (Guid.TryParse(id, out var trackId))
-        {
-            var trackInfo = await GetTrackInfo(trackId.ToString());
-            return await StreamTrack(trackInfo.FileId);
-        }
-        if (Guid.TryParse(id[..^3], out var fileId))
-        {
+        if (Guid.TryParse(id[..^3], out var fileId)) // if file.ts requested, not track
             return await StreamTrack(fileId + ".ts");
-        }
+        if (!TrackIdRegex().IsMatch(id)) return BadRequest();
+        var trackInfo = await GetTrackInfo(id);
 
-        return BadRequest();
+        return await StreamTrack(trackInfo.FileId);
     }
 
     private async Task<TrackFull> GetTrackInfo(string trackId)
     {
         var message = new HttpRequestMessage(HttpMethod.Get, $"get/id/{trackId}");
-        var response = (await _clientToDb.SendAsync(message));
+        var response = await _clientToDb.SendAsync(message);
         var content = await response.Content.ReadAsStringAsync();
         return JsonSerializer.Deserialize<TrackFull>(content, Options)!;
     }
@@ -86,4 +82,7 @@ public class TracksController : Controller
             return BadRequest();
         }
     }
+
+    [GeneratedRegex("^[a-zA-Z0-9_.-]+$", default, 500)]
+    private static partial Regex TrackIdRegex();
 }

@@ -44,6 +44,7 @@ builder.Services.AddScoped<IDbAuthorAccessor, DbAuthorAccessor>();
 builder.Services.AddScoped<IDbPlaylistAccessor, DbPlaylistAccessor>();
 builder.Services.AddScoped<IDbGenreAccessor, DbGenreAccessor>();
 builder.Services.AddScoped<IDbTrackAccessor, DbTrackAccessor>();
+builder.Services.AddScoped<IDbSupportChatHistoryAccessor, DbSupportChatHistoryAccessor>();
 
 builder.Services.AddScoped<IFileIdGenerator, FileIdGenerator>();
 
