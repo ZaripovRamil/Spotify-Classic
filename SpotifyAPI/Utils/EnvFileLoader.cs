@@ -6,6 +6,8 @@ public static partial class EnvFileLoader
 {
     public static void Load(string filePath)
     {
+        if (bool.Parse(Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") ?? "false"))
+            return;
         if (!File.Exists(filePath))
             return;
 
