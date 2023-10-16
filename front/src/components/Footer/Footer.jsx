@@ -13,7 +13,7 @@ export const Footer = ({ props }) => {
         <div className="footer-links">
           <div className="footer-inc">© 2023 DotKek Bol’ Inc.</div>
           <a href="/contacts">Contacts</a>
-          <br/>
+          <br />
           <a href="/chat">Support Chat</a>
         </div>
       </div>
