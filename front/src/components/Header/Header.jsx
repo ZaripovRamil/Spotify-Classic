@@ -5,8 +5,8 @@ import { SearchSuggestions } from "./SearchSuggestions";
 import { getFetcher } from "../../axios/AxiosInstance";
 import Ports from "../../constants/Ports";
 
-const prefix = "https://localhost:7022/";
-const fetcher = getFetcher(Ports.SearchService);
+const prefix = `https://localhost:${Ports.PlayerApi}/`;
+const fetcher = getFetcher(Ports.SearchApi);
 
 export const Header = () => {
   const [searchParams] = useSearchParams();

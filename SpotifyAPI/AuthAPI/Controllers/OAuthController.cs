@@ -36,7 +36,7 @@ public class OAuthController : Controller
         const string scope = "openid email profile";
         return Task.FromResult<IActionResult>(Redirect(
             $"https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id={_googleOptions.ClientId}" +
-            $"&redirect_uri=http://localhost:{_hosts.UsersFrontend}/oauth/google/callback&scope={scope}" +
+            $"&redirect_uri=http://{_hosts.UsersFrontend}/oauth/google/callback&scope={scope}" +
             $"&state={_googleOptions.State}&nonce={new Random().Next()}"));
     }
 
@@ -48,7 +48,7 @@ public class OAuthController : Controller
         {
             new("client_id", _googleOptions.ClientId),
             new("client_secret", _googleOptions.ClientSecret),
-            new("redirect_uri", $"http://localhost:{_hosts.UsersFrontend}/oauth/google/callback"),
+            new("redirect_uri", $"http://{_hosts.UsersFrontend}/oauth/google/callback"),
             new("grant_type", "authorization_code"),
             new("code", dto.Code)
         });

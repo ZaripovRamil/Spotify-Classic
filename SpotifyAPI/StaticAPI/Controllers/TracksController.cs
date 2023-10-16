@@ -18,11 +18,11 @@ public class TracksController : Controller
     }
 
     // TO DO: change this to receive the whole path to the file, not just id
-    [HttpGet("{id:guid}")]
-    public Task<IActionResult> DownloadByIdAsync(Guid id)
+    [HttpGet("{id}")]
+    public Task<IActionResult> DownloadByIdAsync(string id)
     {
-        var idSplit = id.ToString().Split('.');
-        var fileName = Path.Combine(idSplit[0], idSplit.Length > 1 ? id.ToString() : $"{id}.index.m3u8");
+        var idSplit = id.Split('.');
+        var fileName = Path.Combine(idSplit[0], idSplit.Length > 1 ? id : $"{id}.index.m3u8");
         var track = _fileProvider.GetFileAsStream("Tracks", fileName);
         return track is null
             ? Task.FromResult<IActionResult>(NotFound())

@@ -6,7 +6,7 @@ import passwordHideIcon from "../media/PasswordHide.png";
 import passwordShowIcon from "../media/PasswordShow.png";
 import "./UserSubscription.css";
 
-const fetcher = getFetcher(Ports.AuthService);
+const fetcher = getFetcher(Ports.AuthApi);
 
 export const SubscribeForm = () => {
   const [errorMessage, setErrorMessage] = useState("");

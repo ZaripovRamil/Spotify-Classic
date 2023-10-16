@@ -4,7 +4,7 @@ import passwordShowIcon from "../media/PasswordShow.png";
 import { getFetcher } from "../../axios/AxiosInstance";
 import Ports from "../../constants/Ports";
 
-const fetcher = getFetcher(Ports.AuthService);
+const fetcher = getFetcher(Ports.AuthApi);
 
 export const UserPassword = () => {
   const [errorMessage, setErrorMessage] = useState("");

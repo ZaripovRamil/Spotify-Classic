@@ -1,8 +1,8 @@
 class Ports {
-  static MusicService = "7022";
-  static AuthService = "7249";
-  static SearchService = "7039";
-  static ChatService = "7077";
+  static PlayerApi = process.env.REACT_APP_PlayerApi;
+  static AuthApi = process.env.REACT_APP_AuthApi;
+  static SearchApi = process.env.REACT_APP_SearchApi;
+  static ChatApi = process.env.REACT_APP_ChatApi;
 }
 
 export default Ports;

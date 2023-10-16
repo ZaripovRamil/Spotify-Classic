@@ -1,19 +1,52 @@
 using System.Text;
 using ChatApi.Chat;
+using Database;
+using DatabaseServices.Services.Accessors.Implementations;
+using DatabaseServices.Services.Accessors.Interfaces;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Models;
+using Utils;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+var parent = Directory.GetParent(Directory.GetCurrentDirectory())!.FullName;
+var files = EnvFileLoader.CombinePaths(parent, ".secrets", "local.hostnames", ".kestrel-conf");
+foreach (var file in files)
+{
+    EnvFileLoader.Load(file);
+}
+
+builder.Configuration.AddEnvironmentVariables();
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Spotify")).EnableThreadSafetyChecks());
+
+builder.Services.AddMassTransit(c =>
+{
+    c.SetKebabCaseEndpointNameFormatter();
+    var assembly = typeof(Program).Assembly;
+    c.AddConsumers(assembly);
+    c.UsingInMemory((ctx, cfg) =>
+    {
+        cfg.ConfigureEndpoints(ctx);
+    });
+});
 
 // Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Configuration.AddEnvironmentVariables();
+
 builder.Services.Configure<JwtTokenSettings>(builder.Configuration.GetSection("JWTTokenSettings"));
 builder.Services.Configure<Hosts>(builder.Configuration.GetSection("Hosts"));
+
+builder.Services.AddScoped<IDbSupportChatHistoryAccessor, DbSupportChatHistoryAccessor>();
+builder.Services.AddScoped<IDbUserAccessor, DbUserAccessor>();
 
 builder.Services.AddAuthentication( options => {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

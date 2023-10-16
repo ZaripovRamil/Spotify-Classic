@@ -7,8 +7,8 @@ import "./UserSubscription.css";
 import { SubscribeForm } from "./SubscribeForm";
 import { UserExistedSubscription } from "./userExistedSubscription";
 
-const fetcher = getFetcher(Ports.AuthService);
-const prefix = "https://localhost:7022/";
+const fetcher = getFetcher(Ports.AuthApi);
+const prefix = `https://localhost:${Ports.PlayerApi}/`;
 
 export const UserSubscription = () => {
   const navigate = useNavigate();

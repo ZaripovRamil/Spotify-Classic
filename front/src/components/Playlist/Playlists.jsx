@@ -6,7 +6,7 @@ import "../../components/Playlist/PlaylistCard.css";
 import { getFetcher } from "../../axios/AxiosInstance";
 import Ports from "../../constants/Ports";
 
-const fetcher = getFetcher(Ports.MusicService);
+const fetcher = getFetcher(Ports.PlayerApi);
 
 export const Playlists = ({ playlists }) => {
   // const playlistsArray = [

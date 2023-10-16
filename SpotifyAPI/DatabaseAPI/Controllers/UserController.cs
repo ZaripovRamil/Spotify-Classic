@@ -1,6 +1,7 @@
 ﻿using DatabaseServices.Services;
 using DatabaseServices.Services.Accessors.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Models.Entities.Enums;
 
 namespace DatabaseAPI.Controllers;
 
@@ -45,4 +46,16 @@ public class UserController
         var users = _userAccessor.GetAllUsers().Select(user => _dtoCreator.CreateLight(user)).ToList();
         return Task.FromResult(new JsonResult(users));
     }
+
+    [HttpPost]
+    [Route("promote")]
+    public async Task<IActionResult> MakeAdminAsync([FromBody] PromoteToAdminDto dto)
+    {
+        var user = await _userAccessor.GetByUsername(dto.login);
+        if (user is null) return new NotFoundResult();
+        await _userAccessor.SetRole(user, Role.Admin);
+        return new OkResult();
+    }
+    
+    public record PromoteToAdminDto(string login);
 }

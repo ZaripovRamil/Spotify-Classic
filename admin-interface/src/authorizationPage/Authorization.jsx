@@ -4,7 +4,7 @@ import FormDialog from "../components/FormDialog/FormDialog";
 import { getFetcher } from "../axios/AxiosInstance";
 import Ports from "../constants/Ports";
 
-const fetcher = getFetcher(Ports.AuthService);
+const fetcher = getFetcher(Ports.AuthApi);
 
 const Authorization = () => {
     const [openAuthForm, setOpenAuthForm] = useState(false);

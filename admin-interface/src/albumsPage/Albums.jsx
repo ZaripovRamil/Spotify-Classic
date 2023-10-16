@@ -4,7 +4,7 @@ import { getFetcher } from '../axios/AxiosInstance';
 import Ports from "../constants/Ports";
 import AddAlbum from "./AddAlbum";
 
-const fetcher = getFetcher(Ports.AdminService);
+const fetcher = getFetcher(Ports.AdminApi);
 
 const Albums = () => {
   const [items, setItems] = useState([]);

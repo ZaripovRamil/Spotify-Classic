@@ -6,8 +6,8 @@ import { useReactToPrint } from "react-to-print";
 
 import "./UserStatistic.css";
 
-const fetcher = getFetcher(Ports.AuthService);
-const prefix = "https://localhost:7022/";
+const fetcher = getFetcher(Ports.AuthApi);
+const prefix = `https://localhost:${Ports.PlayerApi}/`;
 export const UserStatisctics = () => {
   const navigate = useNavigate();
   const componentRef = useRef();

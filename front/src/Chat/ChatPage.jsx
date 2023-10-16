@@ -6,7 +6,7 @@ import "./ChatPage.css";
 import { getFetcher } from '../axios/AxiosInstance';
 import Ports from '../constants/Ports';
 
-const fetcher = getFetcher(Ports.ChatService);
+const fetcher = getFetcher(Ports.ChatApi);
 export const ChatPage = ({props}) => {
     const [ connection, setConnection ] = useState(null);
     const [ chat, setChat ] = useState([]);
@@ -24,7 +24,7 @@ export const ChatPage = ({props}) => {
     useEffect( () => {
         const authToken = localStorage.getItem("access-token") ?? "";
         const newConnection = new HubConnectionBuilder()
-            .withUrl('https://localhost:7077/chat',{
+            .withUrl(`https://localhost:${Ports.ChatApi}/chat`,{
                 transport: HttpTransportType.WebSockets,
                 skipNegotiation: true,
                 accessTokenFactory: () => `${authToken}`

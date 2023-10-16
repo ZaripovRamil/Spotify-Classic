@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Models;
@@ -10,7 +11,7 @@ namespace PlayerAPI.Controllers;
 // [Authorize(Roles = "Free,Premium,Admin")]
 [ApiController]
 [Route("[controller]")]
-public class TracksController : Controller
+public partial class TracksController : Controller
 {
     private static readonly JsonSerializerOptions Options = new() { PropertyNameCaseInsensitive = true };
     private readonly HttpClient _clientToDb;
@@ -34,12 +35,13 @@ public class TracksController : Controller
         return new JsonResult(tracks?.Select(trackFull => new TrackLight(trackFull)));
     }
 
-    [HttpGet("get/{id:guid}")]
-    public async Task<IActionResult> GetByIdAsStreamAsync(Guid id)
+    [HttpGet("get/{id}")]
+    public async Task<IActionResult> GetByIdAsStreamAsync(string id)
     {
-        var trackId = id.ToString();
-        if (trackId.EndsWith(".ts")) return await StreamTrack(trackId); // if file.ts requested, not track
-        var trackInfo = await GetTrackInfo(trackId);
+        if (!TrackIdRegex().IsMatch(id)) return BadRequest();
+        if (id.EndsWith(".ts")) // if file.ts requested, not track
+            return await StreamTrack(id);
+        var trackInfo = await GetTrackInfo(id);
 
         return await StreamTrack(trackInfo.FileId);
     }
@@ -47,7 +49,7 @@ public class TracksController : Controller
     private async Task<TrackFull> GetTrackInfo(string trackId)
     {
         var message = new HttpRequestMessage(HttpMethod.Get, $"get/id/{trackId}");
-        var response = (await _clientToDb.SendAsync(message));
+        var response = await _clientToDb.SendAsync(message);
         var content = await response.Content.ReadAsStringAsync();
         return JsonSerializer.Deserialize<TrackFull>(content, Options)!;
     }
@@ -80,4 +82,7 @@ public class TracksController : Controller
             return BadRequest();
         }
     }
+
+    [GeneratedRegex("^[a-zA-Z0-9_.-]+$", default, 500)]
+    private static partial Regex TrackIdRegex();
 }

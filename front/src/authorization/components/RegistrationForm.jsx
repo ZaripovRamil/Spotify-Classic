@@ -5,7 +5,7 @@ import Ports from "../../constants/Ports";
 import AuthorizationErrors from "../../constants/AuthorizationErrors";
 import { useNavigate } from "react-router";
 
-const fetcher = getFetcher(Ports.AuthService);
+const fetcher = getFetcher(Ports.AuthApi);
 
 export const RegisterForm = () => {
   const navigate = useNavigate();

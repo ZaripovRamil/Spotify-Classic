@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\DatabaseServices\DatabaseServices.csproj" />
+      <ProjectReference Include="..\Utils\Utils.csproj" />
     </ItemGroup>
 
     <ItemGroup>

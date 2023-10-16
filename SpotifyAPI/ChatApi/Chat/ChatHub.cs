@@ -1,7 +1,9 @@
-﻿
+﻿using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Models.DTO.FrontToBack.Chat;
+using Models.Entities;
+using Models.MessagingContracts;
 
 namespace ChatApi.Chat;
 
@@ -10,15 +12,22 @@ public class ChatHub : Hub
 {
     private static readonly Dictionary<string,string> ActiveAdminConnections = new();
     private static readonly List<string> ConnectedAdminGroups= new();
+    private readonly IBus _bus;
+
+    public ChatHub(IBus bus)
+    {
+        _bus = bus;
+    }
+
     public async Task SendMessage(ChatMessage message)
     {
         var username = Context.User!.Identity!.Name;
         message.User = username!;
+        message.IsOwner = true;
         
-        AddMessageToHistory(username!,message);
+        await AddMessageToHistory(username!,message);
 
         await Clients.Client(Context.ConnectionId).SendAsync("ReceiveMessage", message);
-        message.IsOwner = false;
         await Clients.GroupExcept(username!,Context.ConnectionId).SendAsync("ReceiveMessage", message);
     }
 
@@ -32,12 +41,12 @@ public class ChatHub : Hub
     public async Task SendAdminMessage(ChatMessage message)
     {
         message.User = "Admin";
+        message.IsOwner = false;
         var groupname = message.GroupName;
         
-        AddMessageToHistory(groupname,message);
+        await AddMessageToHistory(groupname,message);
 
         await Clients.Client(Context.ConnectionId).SendAsync("ReceiveMessage", message);
-        message.IsOwner = false;
         await Clients.GroupExcept(groupname,Context.ConnectionId).SendAsync("ReceiveMessage", message);
     }
     
@@ -55,12 +64,19 @@ public class ChatHub : Hub
         await Groups.AddToGroupAsync(Context.ConnectionId, groupname);
     }
 
-    private static void AddMessageToHistory(string groupname, ChatMessage message)
+    private async Task AddMessageToHistory(string groupname, ChatMessage message)
     {
-        if (!ChatService.MessageHistory.ContainsKey(groupname))
+        var userId = Context.User?.Claims.First(c => c.Type == "Id").Value;
+        if (userId is null) return;
+        var sm = new SupportChatMessage
         {
-            ChatService.MessageHistory[groupname] = new List<ChatMessage>();
-        }
-        ChatService.MessageHistory[groupname].Add(message);
+            Id = Guid.NewGuid().ToString(),
+            RoomId = groupname,
+            IsOwner = message.IsOwner,
+            Message = message.Message,
+            Timestamp = DateTime.UtcNow,
+            SenderId = userId
+        };
+        await _bus.Publish(new SaveHistoryMessageToDb { Message = sm });
     }
 }

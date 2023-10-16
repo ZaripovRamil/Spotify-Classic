@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Ports from "../../constants/Ports";
 import { getFetcher } from "../../axios/AxiosInstance";
 
-const fetcher = getFetcher(Ports.AuthService);
+const fetcher = getFetcher(Ports.AuthApi);
 
 const GoogleCallbackPage = () => {
     const navigate = useNavigate();
@@ -15,7 +15,7 @@ const GoogleCallbackPage = () => {
             console.log('watta fuck');
             return;
         }
-        fetcher.post(`https://localhost:${Ports.AuthService}/oauth/google/callback`, { code })
+        fetcher.post(`https://localhost:${Ports.AuthApi}/oauth/google/callback`, { code })
             .then(resp => {
                 return fetcher.post('oauth/google/login', {access_token: resp.data.access_token, id_token: resp.data.id_token});
             })
