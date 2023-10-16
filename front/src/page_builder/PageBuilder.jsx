@@ -45,7 +45,7 @@ export const PageBuilder = ({ component }) => {
       <div className="content">
         {React.cloneElement(component, tracksProps)}
       </div>
-      {localStorage.getItem("isAuth") ? <ChatBox /> : <div></div>}
+      {localStorage.getItem("access-token") ? <ChatBox /> : <></>}
       <Footer props={tracksProps} />
       <Player props={tracksProps} />
     </>

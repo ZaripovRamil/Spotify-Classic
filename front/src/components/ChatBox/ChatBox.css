@@ -84,3 +84,9 @@ body {
 input:focus {
   outline: none;
 }
+.chat-user{
+  color: #FFF;
+}
+.chat-lable{
+  color: #FFF;
+}

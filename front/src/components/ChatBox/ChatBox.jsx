@@ -13,9 +13,10 @@ export const ChatBox = ({ props }) => {
   const latestChat = useRef(null);
   const [chatBoxStyle, setChatBoxStyle] = useState("none");
   const [chatButtonStyle, setChatButtonStyle] = useState("block");
+  const [chatIsOpen, setChatIsOpen] = useState(false);
 
   function toggleChat() {
-    console.log("я тут");
+    if (!chatIsOpen) setChatIsOpen(true);
     if (chatBoxStyle === "none") {
       setChatBoxStyle("block");
       setChatButtonStyle("none");
@@ -46,7 +47,7 @@ export const ChatBox = ({ props }) => {
       .build();
     setConnection(newConnection);
     updateHistory();
-  }, []);
+  }, [chatIsOpen]);
 
   useEffect(() => {
     if (connection) {
@@ -97,7 +98,7 @@ export const ChatBox = ({ props }) => {
       </button>
       <div style={{ display: chatBoxStyle }} className="chat-box" id="chat-box">
         <div className="chat-header">
-          <h2>Chat</h2>
+          <h2 className="chat-lable">Chat</h2>
           <button
             className="close-button"
             id="close-button"

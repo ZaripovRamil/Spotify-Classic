@@ -11,7 +11,7 @@ export const ChatBoxMessage = (props) => {
         }
       >
         <p>
-          <strong>{props.user}</strong>
+          <strong className="chat-user">{props.user}</strong>
         </p>
         <div className={props.isOwner ? "message message-owner" : "message "}>
           <p className={"message-text"}>{props.message}</p>
