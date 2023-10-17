@@ -11,6 +11,7 @@ COPY ["PlayerAPI/PlayerAPI.csproj", "PlayerAPI/"]
 COPY ["DatabaseServices/DatabaseServices.csproj", "DatabaseServices/"]
 COPY ["Database/Database.csproj", "Database/"]
 COPY ["Models/Models.csproj", "Models/"]
+COPY ["Utils/Utils.csproj", "Utils/"]
 RUN dotnet restore "PlayerAPI/PlayerAPI.csproj"
 COPY . .
 WORKDIR "/src/PlayerAPI"

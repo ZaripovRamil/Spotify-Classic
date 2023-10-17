@@ -9,6 +9,7 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["AdminAPI/AdminAPI.csproj", "AdminAPI/"]
 COPY ["Models/Models.csproj", "Models/"]
+COPY ["Utils/Utils.csproj", "Utils/"]
 RUN dotnet restore "AdminAPI/AdminAPI.csproj"
 COPY . .
 WORKDIR "/src/AdminAPI"
