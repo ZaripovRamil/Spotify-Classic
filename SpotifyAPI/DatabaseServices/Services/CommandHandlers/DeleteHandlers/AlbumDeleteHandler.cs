@@ -1,0 +1,45 @@
+using DatabaseServices.Services.Repositories.Implementations;
+using Models.DTO.BackToFront.EntityDeletionResult;
+
+namespace DatabaseServices.Services.CommandHandlers.DeleteHandlers;
+
+public interface IAlbumDeleteHandler
+{
+    Task<AlbumDeletionResult> Delete(string id);
+}
+
+public class AlbumDeleteHandler : IAlbumDeleteHandler
+{
+    private readonly IAlbumRepository _albumRepository;
+
+    public AlbumDeleteHandler(IAlbumRepository albumRepository)
+    {
+        _albumRepository = albumRepository;
+    }
+
+    public async Task<AlbumDeletionResult> Delete(string id)
+    {
+        var album = await _albumRepository.GetById(id);
+        var result = new AlbumDeletionResult { IsSuccessful = true, ResultMessage = "Successful" };
+        if (album is null)
+        {
+            result.IsSuccessful = false;
+            result.ResultMessage = "The requested album doesn't exist";
+
+            return result;
+        }
+
+        if (album.Tracks.Count > 0)
+        {
+            result.IsSuccessful = false;
+            result.ResultMessage =
+                "The requested album contains at least one track. It should be empty for safe delete.";
+
+            return result;
+        }
+
+        await _albumRepository.Delete(album);
+
+        return result;
+    }
+}

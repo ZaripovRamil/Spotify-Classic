@@ -1,24 +1,24 @@
-﻿using DatabaseServices.Services.Accessors.Interfaces;
-using DatabaseServices.Services.EntityValidators.Interfaces;
+﻿using DatabaseServices.Services.EntityValidators.Interfaces;
+using DatabaseServices.Services.Repositories.Implementations;
 using Models.DTO.FrontToBack.EntityCreationData;
 using Models.DTO.InterServices.EntityValidationCodes;
 using Models.DTO.InterServices.ValidationResult;
 
 namespace DatabaseServices.Services.EntityValidators.Implementations;
 
-public class GenreValidator:EntityValidator,IGenreValidator
+public class GenreValidator : EntityValidator, IGenreValidator
 {
-    private readonly IDbGenreAccessor _genreAccessor;
+    private readonly IGenreRepository _genreRepository;
 
-    public GenreValidator(IDbGenreAccessor genreAccessor)
+    public GenreValidator(IGenreRepository genreRepository)
     {
-        _genreAccessor = genreAccessor;
+        _genreRepository = genreRepository;
     }
 
     public async Task<GenreValidationResult> Validate(GenreCreationData data)
     {
-        var state = (GenreValidationCode) EntityValidator.Validate(data).ValidationCode;
-        if (await _genreAccessor.GetByName(data.Name) != null)
+        var state = (GenreValidationCode)EntityValidator.Validate(data).ValidationCode;
+        if (await _genreRepository.GetByName(data.Name) != null)
             state = GenreValidationCode.AlreadyExists;
         return new GenreValidationResult(state);
     }

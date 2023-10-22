@@ -1,6 +1,6 @@
 ﻿using AuthAPI.Services;
 using DatabaseServices.Services;
-using DatabaseServices.Services.Accessors.Interfaces;
+using DatabaseServices.Services.Repositories.Implementations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,15 +20,15 @@ public class UserController : Controller
     private readonly UserManager<User> _userManager;
     private readonly IDtoCreator _dtoCreator;
     private readonly IStatisticSnapshotCreator _snapshotCreator;
-    private readonly IDbSubscriptionAccessor _subscriptionAccessor;
+    private readonly ISubscriptionRepository _subscriptionRepository;
 
     public UserController(UserManager<User> userManager, IDtoCreator dtoCreator,
-        IStatisticSnapshotCreator snapshotCreator, IDbSubscriptionAccessor subscriptionAccessor)
+        IStatisticSnapshotCreator snapshotCreator, ISubscriptionRepository subscriptionRepository)
     {
         _userManager = userManager;
         _dtoCreator = dtoCreator;
         _snapshotCreator = snapshotCreator;
-        _subscriptionAccessor = subscriptionAccessor;
+        _subscriptionRepository = subscriptionRepository;
     }
 
     [HttpGet]
@@ -95,10 +95,10 @@ public class UserController : Controller
     [Route("subscription/update")]
     public async Task<IActionResult> UpdateSubscription([FromBody] SubscriptionUpdateData data)
     {
-        var subscription = await _subscriptionAccessor.GetById(data.SubscriptionId);
+        var subscription = await _subscriptionRepository.GetById(data.SubscriptionId);
         if (subscription == null) return BadRequest();
         var user = await GetContextUser();
-        await _subscriptionAccessor.SetToUser(user!, subscription);
+        await _subscriptionRepository.SetToUser(user!, subscription);
         return Ok();
     }
 

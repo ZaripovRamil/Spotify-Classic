@@ -1,7 +1,6 @@
 using Database;
 using DatabaseServices.Services;
-using DatabaseServices.Services.Accessors.Implementations;
-using DatabaseServices.Services.Accessors.Interfaces;
+using DatabaseServices.Services.Repositories.Implementations;
 using Microsoft.EntityFrameworkCore;
 using SearchAPI.Services;
 
@@ -28,11 +27,11 @@ builder.Services.AddCors(options =>
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Spotify")).EnableThreadSafetyChecks());
 builder.Services.AddSingleton<IDtoCreator, DtoCreator>();
-builder.Services.AddScoped<IDbAlbumAccessor, DbAlbumAccessor>();
-builder.Services.AddScoped<IDbAuthorAccessor, DbAuthorAccessor>();
-builder.Services.AddScoped<IDbPlaylistAccessor, DbPlaylistAccessor>();
-builder.Services.AddScoped<IDbTrackAccessor, DbTrackAccessor>();
-builder.Services.AddScoped<IDbUserAccessor, DbUserAccessor>();
+builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
+builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+builder.Services.AddScoped<IPlaylistRepository, PlaylistRepository>();
+builder.Services.AddScoped<ITrackRepository, TrackRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ISearchEngine, ShittyEngine>();
 var app = builder.Build();
 
@@ -42,6 +41,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseCors();
 
 app.UseAuthorization();

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Models.Entities;
 using Models.Entities.Enums;
 using Models.Entities.Joints;
@@ -24,7 +23,7 @@ public class AppDbContext : IdentityDbContext<User>
     public AppDbContext(DbContextOptions options) : base(options)
     {
     }
-    
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
