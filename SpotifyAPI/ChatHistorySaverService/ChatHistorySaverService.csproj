@@ -11,8 +11,6 @@
       <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.1" />
     </ItemGroup>
 
-
-
     <ItemGroup>
       <ProjectReference Include="..\DatabaseServices\DatabaseServices.csproj" />
       <ProjectReference Include="..\Database\Database.csproj" />
@@ -25,14 +23,5 @@
             <Link>.dockerignore</Link>
         </Content>
     </ItemGroup>
-
-
-
-
-
-
-
-
-
 
 </Project>

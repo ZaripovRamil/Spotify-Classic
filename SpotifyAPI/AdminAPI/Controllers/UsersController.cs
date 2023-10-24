@@ -32,4 +32,6 @@ public class UsersController
         var users = await _clientToDb.GetFromJsonAsync<IEnumerable<UserLight?>>("user/getAll");
         return new JsonResult(users);
     }
+    
+    // add user promotion controller when refactoring db 
 }
