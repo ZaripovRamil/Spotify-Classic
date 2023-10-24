@@ -1,14 +1,13 @@
 using ChatApi.Chat;
 using ChatApi.ServiceCollectionExtensions;
-using ChatApi.Startup;
 using DatabaseServices.Services.Accessors.Implementations;
 using DatabaseServices.Services.Accessors.Interfaces;
 using Models.Configuration;
+using Utils;
 using Utils.ServiceCollectionExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
-
-LocalEnvFiles.Load(Directory.GetParent(Directory.GetCurrentDirectory())!.FullName);
+LocalEnvFileLoader.LoadFilesFromParentDirectory("local.secrets", "local.hostnames", "local.kestrel-conf");
 
 builder.Configuration.AddEnvironmentVariables();
 

@@ -4,6 +4,12 @@ namespace Utils;
 
 public static partial class LocalEnvFileLoader
 {
+    public static void LoadFilesFromParentDirectory(params string[] filePaths)
+    {
+        var files = CombinePaths(Directory.GetParent(Directory.GetCurrentDirectory())!.FullName, filePaths);
+        foreach (var file in files) Load(file);
+    }
+    
     public static void Load(string filePath)
     {
         if (bool.Parse(Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") ?? "false"))

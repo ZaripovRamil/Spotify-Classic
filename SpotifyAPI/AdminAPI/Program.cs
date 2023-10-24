@@ -1,10 +1,10 @@
-using AdminAPI.Startup;
 using Models.Configuration;
+using Utils;
 using Utils.ServiceCollectionExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-LocalEnvFiles.Load(Directory.GetParent(Directory.GetCurrentDirectory())!.FullName);
+LocalEnvFileLoader.LoadFilesFromParentDirectory("local.secrets", "local.hostnames", "local.kestrel-conf");
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

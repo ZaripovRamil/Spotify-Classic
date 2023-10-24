@@ -2,12 +2,12 @@ using DatabaseServices.Services;
 using DatabaseServices.Services.Accessors.Implementations;
 using DatabaseServices.Services.Accessors.Interfaces;
 using SearchAPI.Services;
-using SearchAPI.Startup;
+using Utils;
 using Utils.ServiceCollectionExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-LocalEnvFiles.Load(Directory.GetParent(Directory.GetCurrentDirectory())!.FullName);
+LocalEnvFileLoader.LoadFilesFromParentDirectory("local.secrets", "local.hostnames", "local.kestrel-conf");
 
 builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddControllers();

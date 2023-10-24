@@ -1,5 +1,4 @@
 using Database;
-using DatabaseAPI.Startup;
 using DatabaseServices.Services;
 using DatabaseServices.Services.Accessors.Implementations;
 using DatabaseServices.Services.Accessors.Interfaces;
@@ -13,16 +12,18 @@ using DatabaseServices.Services.UpdateHandlers.Implementations;
 using DatabaseServices.Services.UpdateHandlers.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Models.Configuration;
+using Utils;
 using Utils.ServiceCollectionExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-LocalEnvFiles.Load(Directory.GetParent(Directory.GetCurrentDirectory())!.FullName);
+LocalEnvFileLoader.LoadFilesFromParentDirectory(".postgres-secrets", "local.secrets", "local.hostnames", "local.kestrel-conf");
 
 builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();builder.Services.AddDbContext(builder.Configuration);
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddDbContext(builder.Configuration);
 builder.Services.AddSingleton<IDtoCreator, DtoCreator>();
 
 builder.Services.AddScoped<IDbUserAccessor, DbUserAccessor>();

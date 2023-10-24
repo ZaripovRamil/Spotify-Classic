@@ -1,15 +1,15 @@
 using AuthAPI.Services;
-using AuthAPI.Startup;
 using DatabaseServices.Services;
 using DatabaseServices.Services.Accessors.Implementations;
 using DatabaseServices.Services.Accessors.Interfaces;
 using Models.Configuration;
 using Models.OAuth;
+using Utils;
 using Utils.ServiceCollectionExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-LocalEnvFiles.Load(Directory.GetParent(Directory.GetCurrentDirectory())!.FullName);
+LocalEnvFileLoader.LoadFilesFromParentDirectory(".postgres-secrets", "local.secrets", "local.hostnames", "local.kestrel-conf");
 
 builder.Configuration.AddEnvironmentVariables();
 
