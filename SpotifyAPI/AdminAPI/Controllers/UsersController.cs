@@ -32,31 +32,4 @@ public class UsersController
         var users = await _clientToDb.GetFromJsonAsync<IEnumerable<UserLight?>>("user/getAll");
         return new JsonResult(users);
     }
-    
-    
-    
-    
-    // shitcode yeah
-    [HttpPost("promote")]
-    public async Task<IActionResult> PromoteAsync([FromBody] PromoteToAdminDto dto)
-    {
-        var isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
-        if (!isDevelopment) return new NotFoundResult();
-        var data = $"{{\"login\":\"{dto.username}\"}}";
-        var content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-        
-        try
-        {
-            var res = await _clientToDb.PostAsync("promote", content);
-            if (!res.IsSuccessStatusCode) return new NotFoundResult();
-        }
-        catch
-        {
-            return new NotFoundResult();
-        }
-
-        return new OkResult();
-    }
-    
-    public record PromoteToAdminDto(string username);
 }

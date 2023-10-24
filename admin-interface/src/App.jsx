@@ -5,7 +5,6 @@ import Albums from './albumsPage/Albums';
 import Authors from './authorsPage/Authors';
 import Menu from './components/MenuComponent';
 import Authorization from './authorizationPage/Authorization';
-import PromotionPage from './promotionPage/Promotion';
 import { ChatPage } from './chatsPage/ChatPage';
 import { ChatsPage } from './chatsPage/ChatsPage';
 
@@ -21,7 +20,6 @@ function App() {
           <Route path="/chats" element={<ChatsPage />} />
           <Route path="/chat/:userName" element={<ChatsPage component={<ChatPage/>} />} />
           <Route path="/authorize" element={<Authorization />} />
-          <Route path="/promote" element={<PromotionPage />} />
         </Routes>
       </BrowserRouter>
     </>
