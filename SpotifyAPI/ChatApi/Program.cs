@@ -1,28 +1,18 @@
-using System.Text;
 using ChatApi.Chat;
-using Database;
+using ChatApi.ServiceCollectionExtensions;
+using ChatApi.Startup;
 using DatabaseServices.Services.Accessors.Implementations;
 using DatabaseServices.Services.Accessors.Interfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Models.Configuration;
-using Utils;
 using Utils.ServiceCollectionExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var parent = Directory.GetParent(Directory.GetCurrentDirectory())!.FullName;
-var files = EnvFileLoader.CombinePaths(parent, ".secrets", "local.hostnames", ".kestrel-conf");
-foreach (var file in files)
-{
-    EnvFileLoader.Load(file);
-}
+LocalEnvFiles.Load(Directory.GetParent(Directory.GetCurrentDirectory())!.FullName);
 
 builder.Configuration.AddEnvironmentVariables();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Spotify")).EnableThreadSafetyChecks());
+builder.Services.AddDbContext(builder.Configuration);
 
 
 var rabbitMqConfig = builder.Configuration.GetSection("RabbitMqConfig").Get<RabbitMqConfig>()!;
@@ -37,54 +27,11 @@ builder.Services.Configure<Hosts>(builder.Configuration.GetSection("Hosts"));
 builder.Services.AddScoped<IDbSupportChatHistoryAccessor, DbSupportChatHistoryAccessor>();
 builder.Services.AddScoped<IDbUserAccessor, DbUserAccessor>();
 
-builder.Services.AddAuthentication( options => {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-    .AddJwtBearer(opts =>
-    {
-        opts.RequireHttpsMetadata = false;
-        opts.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["JWTTokenSettings:Issuer"],
-            ValidAudience = builder.Configuration["JWTTokenSettings:Audience"],
-            IssuerSigningKey =
-                new SymmetricSecurityKey(
-                    Encoding.ASCII.GetBytes(builder.Configuration.GetValue<string>("JWTTokenSettings:Key")!))
-        };
-        opts.Events = new JwtBearerEvents
-        {
-            OnMessageReceived = context =>
-            {
-                var accessToken = context.Request.Query["access_token"];
-                if (!string.IsNullOrEmpty(accessToken))
-                {
-                    context.Token = accessToken;
-                }
-
-                return Task.CompletedTask;
-            }
-        };
-        
-    });
 builder.Services.AddSignalR();
-builder.Services.AddSwaggerGen();
 
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(corsPolicyBuilder =>
-    {
-        corsPolicyBuilder
-            .AllowAnyOrigin()
-            .AllowAnyHeader()
-            .AllowAnyMethod();
-    });
-});
+builder.Services.AddJwtAuthenticationWithSignalR(builder.Configuration);
+builder.Services.AddSwaggerWithAuthorization();
+builder.Services.AddAllCors();
 
 var app = builder.Build();
 

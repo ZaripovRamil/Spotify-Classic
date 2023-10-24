@@ -2,14 +2,14 @@ using System.Text.RegularExpressions;
 
 namespace Utils;
 
-public static partial class EnvFileLoader
+public static partial class LocalEnvFileLoader
 {
     public static void Load(string filePath)
     {
         if (bool.Parse(Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") ?? "false"))
             return;
         if (!File.Exists(filePath))
-            return;
+            throw new FileNotFoundException(filePath);
 
         foreach (var line in File.ReadAllLines(filePath))
         {
@@ -48,6 +48,7 @@ public static partial class EnvFileLoader
         return result;
     }
 
+    // finds ${} entries
     [GeneratedRegex(@"\$\{(.+?)\}", default, 500)]
     private static partial Regex EnvironmentVariableSubstRegex();
 }

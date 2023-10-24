@@ -32,6 +32,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CI-CD", "CI-CD", "{C5ED6832
 		.kestrel-conf = .kestrel-conf
 		local.hostnames = local.hostnames
 		.rabbitmq-secrets = .rabbitmq-secrets
+		local.kestrel-conf = local.kestrel-conf
+		local.secrets = local.secrets
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "Utils\Utils.csproj", "{800EF182-9197-445A-94DD-88981A1A200F}"

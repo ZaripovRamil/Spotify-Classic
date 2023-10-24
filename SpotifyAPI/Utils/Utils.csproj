@@ -8,6 +8,7 @@
 
 
     <ItemGroup>
+      <ProjectReference Include="..\Database\Database.csproj" />
       <ProjectReference Include="..\Models\Models.csproj" />
     </ItemGroup>
 
@@ -15,6 +16,8 @@
     <ItemGroup>
       <PackageReference Include="MassTransit" Version="8.1.1" />
       <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.1" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
 
 </Project>

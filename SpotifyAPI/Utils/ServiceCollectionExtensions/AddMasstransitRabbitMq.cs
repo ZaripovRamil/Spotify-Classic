@@ -5,7 +5,7 @@ using Models.Configuration;
 
 namespace Utils.ServiceCollectionExtensions;
 
-public static class AddMasstransitRabbitMqExtensions
+public static class AddMasstransitRabbitMqExtension
 {
     public static IServiceCollection AddMasstransitRabbitMq(this IServiceCollection services,
         RabbitMqConfig rabbitConfiguration, Assembly consumersAssembly)
