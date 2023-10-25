@@ -1,8 +1,8 @@
 using System.Text.RegularExpressions;
 
-namespace Utils;
+namespace Utils.LocalRunDependencies;
 
-public static partial class LocalEnvFileLoader
+public static partial class EnvFileLoader
 {
     public static void LoadFilesFromParentDirectory(params string[] filePaths)
     {
@@ -12,7 +12,7 @@ public static partial class LocalEnvFileLoader
     
     public static void Load(string filePath)
     {
-        if (bool.Parse(Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") ?? "false"))
+        if (ApplicationEnvironment.IsContainer)
             return;
         if (!File.Exists(filePath))
             throw new FileNotFoundException(filePath);

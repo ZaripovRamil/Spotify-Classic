@@ -3,16 +3,15 @@ using ChatApi.ServiceCollectionExtensions;
 using DatabaseServices.Services.Accessors.Implementations;
 using DatabaseServices.Services.Accessors.Interfaces;
 using Models.Configuration;
-using Utils;
+using Utils.LocalRunDependencies;
 using Utils.ServiceCollectionExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
-LocalEnvFileLoader.LoadFilesFromParentDirectory("local.secrets", "local.hostnames", "local.kestrel-conf");
+EnvFileLoader.LoadFilesFromParentDirectory("local.secrets", "local.hostnames", "local.kestrel-conf");
 
 builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.AddDbContext(builder.Configuration);
-
 
 var rabbitMqConfig = builder.Configuration.GetSection("RabbitMqConfig").Get<RabbitMqConfig>()!;
 builder.Services.AddMasstransitRabbitMq(rabbitMqConfig, typeof(Program).Assembly);
@@ -47,4 +46,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+LocalDependencies.EnsureStarted(builder.Configuration);
+
 app.Run();
+
+LocalDependencies.EnsureExited();
