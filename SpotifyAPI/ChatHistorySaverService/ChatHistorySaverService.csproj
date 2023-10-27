@@ -8,15 +8,20 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DatabaseServices\DatabaseServices.csproj" />
-      <ProjectReference Include="..\Models\Models.csproj" />
-      <ProjectReference Include="..\Utils\Utils.csproj" />
+      <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.1" />
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
+      <ProjectReference Include="..\DatabaseServices\DatabaseServices.csproj" />
+      <ProjectReference Include="..\Database\Database.csproj" />
+      <ProjectReference Include="..\Models\Models.csproj" />
+      <ProjectReference Include="..\Utils\Utils.csproj" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <Content Include="..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
     </ItemGroup>
 
 </Project>

@@ -47,7 +47,7 @@ export const ChatBox = ({ props }) => {
       .build();
     setConnection(newConnection);
     updateHistory();
-  }, [chatIsOpen]);
+  }, []);
 
   useEffect(() => {
     if (connection) {

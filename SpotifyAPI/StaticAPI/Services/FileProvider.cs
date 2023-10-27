@@ -1,3 +1,5 @@
+using Utils.LocalRun;
+
 namespace StaticAPI.Services;
 
 public class FileProvider : IFileProvider
@@ -43,7 +45,6 @@ public class FileProvider : IFileProvider
 
     private static string GetAssetsFullPath()
     {
-        var inContainer = bool.Parse(Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") ?? "false");
-        return Path.GetFullPath(inContainer ? "/assets" : "Assets");
+        return Path.GetFullPath(ApplicationEnvironment.IsContainer ? "/assets" : "Assets");
     }
 }

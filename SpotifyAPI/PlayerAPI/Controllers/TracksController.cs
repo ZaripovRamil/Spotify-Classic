@@ -2,7 +2,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Models;
+using Models.Configuration;
 using Models.DTO.BackToFront.Full;
 using Models.DTO.BackToFront.Light;
 

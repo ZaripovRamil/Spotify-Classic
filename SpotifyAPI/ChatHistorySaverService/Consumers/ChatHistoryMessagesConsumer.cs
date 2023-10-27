@@ -2,13 +2,13 @@ using DatabaseServices.Services.Accessors.Interfaces;
 using MassTransit;
 using Models.MessagingContracts;
 
-namespace ChatApi.Consumers;
+namespace ChatHistorySaverService.Consumers;
 
-public class SupportChatHistorySaverConsumer : IConsumer<SaveHistoryMessageToDb>
+public class ChatHistoryMessagesConsumer : IConsumer<SaveHistoryMessageToDb>
 {
     private readonly IDbSupportChatHistoryAccessor _historyAccessor;
 
-    public SupportChatHistorySaverConsumer(IDbSupportChatHistoryAccessor historyAccessor)
+    public ChatHistoryMessagesConsumer(IDbSupportChatHistoryAccessor historyAccessor)
     {
         _historyAccessor = historyAccessor;
     }

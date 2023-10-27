@@ -1,13 +1,21 @@
 using System.Text.RegularExpressions;
 
-namespace Utils;
+namespace Utils.LocalRun;
 
 public static partial class EnvFileLoader
 {
+    public static void LoadFilesFromParentDirectory(params string[] filePaths)
+    {
+        var files = CombinePaths(Directory.GetParent(Directory.GetCurrentDirectory())!.FullName, filePaths);
+        foreach (var file in files) Load(file);
+    }
+
     public static void Load(string filePath)
     {
-        if (!File.Exists(filePath))
+        if (ApplicationEnvironment.IsContainer)
             return;
+        if (!File.Exists(filePath))
+            throw new FileNotFoundException(filePath);
 
         foreach (var line in File.ReadAllLines(filePath))
         {
@@ -35,7 +43,7 @@ public static partial class EnvFileLoader
         return result;
     }
 
-    public static IEnumerable<string> CombinePaths(string pathPart1, params string[] pathParts2)
+    private static IEnumerable<string> CombinePaths(string pathPart1, params string[] pathParts2)
     {
         var result = new string[pathParts2.Length];
         for (var i = 0; i < pathParts2.Length; i++)
@@ -46,6 +54,7 @@ public static partial class EnvFileLoader
         return result;
     }
 
+    // finds ${} entries
     [GeneratedRegex(@"\$\{(.+?)\}", default, 500)]
     private static partial Regex EnvironmentVariableSubstRegex();
 }

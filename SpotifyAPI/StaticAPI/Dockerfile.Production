@@ -9,6 +9,7 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["StaticAPI/StaticAPI.csproj", "StaticAPI/"]
 COPY ["Models/Models.csproj", "Models/"]
+COPY ["Utils/Utils.csproj", "Utils/"]
 RUN dotnet restore "StaticAPI/StaticAPI.csproj"
 COPY . .
 WORKDIR "/src/StaticAPI"

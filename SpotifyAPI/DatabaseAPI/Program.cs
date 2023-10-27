@@ -1,4 +1,3 @@
-using System.Text;
 using Database;
 using DatabaseServices.Services;
 using DatabaseServices.Services.Accessors.Implementations;
@@ -11,31 +10,20 @@ using DatabaseServices.Services.Factories.Implementations;
 using DatabaseServices.Services.Factories.Interfaces;
 using DatabaseServices.Services.UpdateHandlers.Implementations;
 using DatabaseServices.Services.UpdateHandlers.Interfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using Models;
-using Utils;
+using Models.Configuration;
+using Utils.LocalRun;
+using Utils.ServiceCollectionExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+EnvFileLoader.LoadFilesFromParentDirectory(".postgres-secrets", "local.secrets", Path.Combine("..", "local.hostnames"), "local.kestrel-conf");
 
-var parent = Directory.GetParent(Directory.GetCurrentDirectory())!.FullName;
-var files = EnvFileLoader.CombinePaths(parent, ".postgres-secrets", ".secrets", "local.hostnames", ".kestrel-conf");
-foreach (var file in files)
-{
-    EnvFileLoader.Load(file);
-}
 builder.Configuration.AddEnvironmentVariables();
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString(builder.Configuration["POSTGRES_DB"]!), b => b.MigrationsAssembly("Database")));
+builder.Services.AddDbContext(builder.Configuration);
 builder.Services.AddSingleton<IDtoCreator, DtoCreator>();
 
 builder.Services.AddScoped<IDbUserAccessor, DbUserAccessor>();
@@ -73,60 +61,12 @@ builder.Services.AddScoped<IGenreFactory, GenreFactory>();
 builder.Services.Configure<JwtTokenSettings>(builder.Configuration.GetSection("JWTTokenSettings"));
 builder.Services.Configure<Hosts>(builder.Configuration.GetSection("Hosts"));
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(opts =>
-    {
-        opts.RequireHttpsMetadata = false;
-        opts.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["JWTTokenSettings:Issuer"],
-            ValidAudience = builder.Configuration["JWTTokenSettings:Audience"],
-            IssuerSigningKey =
-                new SymmetricSecurityKey(
-                    Encoding.ASCII.GetBytes(builder.Configuration.GetValue<string>("JWTTokenSettings:Key")!))
-        };
-    });
-
-builder.Services.AddSwaggerGen(c =>
-{
-    c.AddSecurityDefinition("Bearer",
-        new OpenApiSecurityScheme
-        {
-            In = ParameterLocation.Header,
-            Description = "Please insert JWT with Bearer into field",
-            Name = "Authorization",
-            Type = SecuritySchemeType.ApiKey
-        });
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
-            },
-            Array.Empty<string>()
-        }
-    });
-});
-
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(corsPolicyBuilder =>
-    {
-        corsPolicyBuilder
-            .AllowAnyOrigin()
-            .AllowAnyHeader()
-            .AllowAnyMethod();
-    });
-});
+builder.Services.AddJwtAuthorization(builder.Configuration);
+builder.Services.AddSwaggerWithAuthorization();
+builder.Services.AddAllCors();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
