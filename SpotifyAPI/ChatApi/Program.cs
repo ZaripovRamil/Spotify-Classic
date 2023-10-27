@@ -1,72 +1,37 @@
-using System.Text;
 using ChatApi.Chat;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using Models;
+using ChatApi.ServiceCollectionExtensions;
+using DatabaseServices.Services.Repositories.Implementations;
+using Models.Configuration;
+using Utils.LocalRun;
+using Utils.ServiceCollectionExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
+EnvFileLoader.LoadFilesFromParentDirectory(".rabbitmq-secrets", "local.secrets", Path.Combine("..", "local.hostnames"), "local.kestrel-conf");
 
-// Add services to the container.
+builder.Configuration.AddEnvironmentVariables();
+
+builder.Services.AddDbContext(builder.Configuration);
+
+var rabbitMqConfig = builder.Configuration.GetSection("RabbitMqConfig").Get<RabbitMqConfig>()!;
+builder.Services.AddMasstransitRabbitMq(rabbitMqConfig, typeof(Program).Assembly);
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Configuration.AddEnvironmentVariables();
+
 builder.Services.Configure<JwtTokenSettings>(builder.Configuration.GetSection("JWTTokenSettings"));
 builder.Services.Configure<Hosts>(builder.Configuration.GetSection("Hosts"));
 
-builder.Services.AddAuthentication( options => {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-    .AddJwtBearer(opts =>
-    {
-        opts.RequireHttpsMetadata = false;
-        opts.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["JWTTokenSettings:Issuer"],
-            ValidAudience = builder.Configuration["JWTTokenSettings:Audience"],
-            IssuerSigningKey =
-                new SymmetricSecurityKey(
-                    Encoding.ASCII.GetBytes(builder.Configuration.GetValue<string>("JWTTokenSettings:Key")!))
-        };
-        opts.Events = new JwtBearerEvents
-        {
-            OnMessageReceived = context =>
-            {
-                var accessToken = context.Request.Query["access_token"];
-                if (!string.IsNullOrEmpty(accessToken))
-                {
-                    context.Token = accessToken;
-                }
+builder.Services.AddScoped<IDbSupportChatHistoryRepository, DbSupportChatHistoryRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-                return Task.CompletedTask;
-            }
-        };
-        
-    });
 builder.Services.AddSignalR();
-builder.Services.AddSwaggerGen();
 
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(corsPolicyBuilder =>
-    {
-        corsPolicyBuilder
-            .AllowAnyOrigin()
-            .AllowAnyHeader()
-            .AllowAnyMethod();
-    });
-});
+builder.Services.AddJwtAuthenticationWithSignalR(builder.Configuration);
+builder.Services.AddSwaggerWithAuthorization();
+builder.Services.AddAllCors();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

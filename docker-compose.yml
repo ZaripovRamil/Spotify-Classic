@@ -8,116 +8,126 @@ services:
       - SpotifyAPI/.postgres-secrets
     volumes:
       - ~/apps/Spotify/postgres-data:/var/lib/postgresql/data
-  
-  db_api:
-    image: db_api
-    hostname: ${DatabaseApiHostname}
-    build:
-      context: SpotifyAPI
-      dockerfile: DatabaseAPI/Dockerfile
-    env_file:
-      - SpotifyAPI/.postgres-secrets
-      - SpotifyAPI/.secrets
-      - .hostnames
-      - SpotifyAPI/.kestrel-conf
     ports:
-      - "${DatabaseApiPort}:443"
-    depends_on:
-      - postgres
+      - "5432:5432"
   
   admin_api:
     image: admin_api
     hostname: ${AdminApiHostname}
     build:
       context: SpotifyAPI
-      dockerfile: AdminAPI/Dockerfile
+      dockerfile: AdminAPI/Dockerfile.${RunningEnvironment}
     env_file:
       - SpotifyAPI/.secrets
       - .hostnames
       - SpotifyAPI/.kestrel-conf
     ports:
-      - "${AdminApiPort}:443"
+      - "${AdminApiPortHttps}:443"
     depends_on:
       - db_api
+    working_dir: "/app"
   
   auth_api:
     image: auth_api
     hostname: ${AuthApiHostname}
     build:
       context: SpotifyAPI
-      dockerfile: AuthAPI/Dockerfile
+      dockerfile: AuthAPI/Dockerfile.${RunningEnvironment}
     env_file:
       - SpotifyAPI/.postgres-secrets
       - SpotifyAPI/.secrets
       - .hostnames
       - SpotifyAPI/.kestrel-conf
     ports:
-      - "${AuthApiPort}:443"
+      - "${AuthApiPortHttps}:443"
     depends_on:
       - db_api
+    working_dir: "/app"
   
   chat_api:
     image: chat_api
     hostname: ${ChatApiHostname}
     build:
       context: SpotifyAPI
-      dockerfile: ChatApi/Dockerfile
+      dockerfile: ChatApi/Dockerfile.${RunningEnvironment}
     env_file:
+      - SpotifyAPI/.rabbitmq-secrets
+      - SpotifyAPI/.postgres-secrets
       - SpotifyAPI/.secrets
       - .hostnames
       - SpotifyAPI/.kestrel-conf
     ports:
-      - "${ChatApiPort}:443"
+      - "${ChatApiPortHttps}:443"
     depends_on:
       - db_api
+    working_dir: "/app"
   
   player_api:
     image: player_api
     hostname: ${PlayerApiHostname}
     build:
       context: SpotifyAPI
-      dockerfile: PlayerAPI/Dockerfile
+      dockerfile: PlayerAPI/Dockerfile.${RunningEnvironment}
     env_file:
       - SpotifyAPI/.secrets
       - .hostnames
       - SpotifyAPI/.kestrel-conf
     ports:
-      - "${PlayerApiPort}:443"
+      - "${PlayerApiPortHttps}:443"
     depends_on:
       - db_api
+    working_dir: "/app"
   
   search_api:
     image: search_api
     hostname: ${SearchApiHostname}
     build:
       context: SpotifyAPI
-      dockerfile: SearchAPI/Dockerfile
+      dockerfile: SearchAPI/Dockerfile.${RunningEnvironment}
     env_file:
       - SpotifyAPI/.postgres-secrets
       - SpotifyAPI/.secrets
       - .hostnames
       - SpotifyAPI/.kestrel-conf
     ports:
-      - "${SearchApiPort}:443"
+      - "${SearchApiPortHttps}:443"
     depends_on:
       - db_api
+    working_dir: "/app"
   
   static_api:
     image: static_api
     hostname: ${StaticApiHostname}
     build:
       context: SpotifyAPI
-      dockerfile: StaticAPI/Dockerfile
+      dockerfile: StaticAPI/Dockerfile.${RunningEnvironment}
     env_file:
       - SpotifyAPI/.secrets
       - .hostnames
       - SpotifyAPI/.kestrel-conf
     ports:
-      - "${StaticApiPort}:443"
+      - "${StaticApiPortHttps}:443"
     volumes:
       - ./SpotifyAPI/StaticAPI/Assets:/assets
     depends_on:
       - db_api
+    working_dir: "/app"
+    
+  chat_history_saver_service:
+    image: chat_history_saver_service
+    hostname: ${ChatHistorySaverServiceHostname}
+    build:
+      context: SpotifyAPI
+      dockerfile: ChatHistorySaverService/Dockerfile.${RunningEnvironment}
+    env_file:
+      - SpotifyAPI/.rabbitmq-secrets
+      - SpotifyAPI/.postgres-secrets
+      - SpotifyAPI/.secrets
+      - .hostnames
+      - SpotifyAPI/.kestrel-conf
+    depends_on:
+      - rabbitmq
+    working_dir: "/app"
   
   admin_front:
     image: admin_front
@@ -129,6 +139,10 @@ services:
       - "5124:3000"
     env_file:
       - .hostnames
+    environment:
+      - WATCHPACK_POLLING=true
+    volumes:
+      - ./admin-interface/src:/app/src
     depends_on:
       - admin_api
   
@@ -142,8 +156,19 @@ services:
       - "3000:3000"
     env_file:
       - .hostnames
+    environment:
+      - WATCHPACK_POLLING=true
+    volumes:
+      - ./front/src:/app/src
     depends_on:
       - player_api
   
-  ffmpeg:
-    image: jrottenberg/ffmpeg
+  rabbitmq:
+    image: rabbitmq:3-alpine
+    hostname: rabbitmq
+    restart: always
+    env_file:
+      - ./SpotifyAPI/.rabbitmq-secrets
+  
+#  ffmpeg:
+#    image: jrottenberg/ffmpeg

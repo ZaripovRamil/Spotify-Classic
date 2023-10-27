@@ -4,7 +4,7 @@ import Ports from "../constants/Ports";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
-const fetcher = getFetcher(Ports.AdminService)
+const fetcher = getFetcher(Ports.AdminApi)
 export const ChatsPage = ({component}) => {
 
     const [users, setUsers] = useState(null);
@@ -22,7 +22,7 @@ export const ChatsPage = ({component}) => {
         <div className="chats-page">
             <div className="chat-page">
                 <div className="group-block">
-                    {users && users.map(user => <NavLink key={user.userName} className={"group-link"} to={`/chat/${user.userName}`}>{user.userName}</NavLink>)} 
+                    {users && users.map(user => <NavLink key={user} className={"group-link"} to={`/chat/${user}`}>{user}</NavLink>)} 
                 </div>  
                 {component}
             </div>

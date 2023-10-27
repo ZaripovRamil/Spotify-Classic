@@ -13,8 +13,8 @@ public class AppDbContext : IdentityDbContext<User>
     public DbSet<Author> Authors { get; set; } = default!;
     public DbSet<Album> Albums { get; set; } = default!;
     public DbSet<Playlist> Playlists { get; set; } = default!;
-
     public DbSet<Subscription> Subscriptions { get; set; } = default!;
+    public DbSet<SupportChatMessage> SupportChatMessagesHistory { get; set; } = default!;
 
     public AppDbContext()
     {
@@ -53,6 +53,9 @@ public class AppDbContext : IdentityDbContext<User>
             .HasMany(t => t.Listeners)
             .WithMany(u => u.History)
             .UsingEntity<UserTrack>();
+        builder.Entity<SupportChatMessage>()
+            .HasOne(m => m.Sender)
+            .WithMany();
 
         PopulateDb(builder);
     }

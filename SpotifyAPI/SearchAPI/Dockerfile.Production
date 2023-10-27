@@ -7,19 +7,20 @@ ADD ../https/aspnetapp.pfx /https/aspnetapp.pfx
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["PlayerAPI/PlayerAPI.csproj", "PlayerAPI/"]
+COPY ["SearchAPI/SearchAPI.csproj", "SearchAPI/"]
 COPY ["DatabaseServices/DatabaseServices.csproj", "DatabaseServices/"]
 COPY ["Database/Database.csproj", "Database/"]
 COPY ["Models/Models.csproj", "Models/"]
-RUN dotnet restore "PlayerAPI/PlayerAPI.csproj"
+COPY ["Utils/Utils.csproj", "Utils/"]
+RUN dotnet restore "SearchAPI/SearchAPI.csproj"
 COPY . .
-WORKDIR "/src/PlayerAPI"
-RUN dotnet build "PlayerAPI.csproj" -c Release -o /app/build
+WORKDIR "/src/SearchAPI"
+RUN dotnet build "SearchAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "PlayerAPI.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "SearchAPI.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "PlayerAPI.dll"]
+ENTRYPOINT ["dotnet", "SearchAPI.dll"]

@@ -9,6 +9,7 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["ChatApi/ChatApi.csproj", "ChatApi/"]
 COPY ["Models/Models.csproj", "Models/"]
+COPY ["Utils/Utils.csproj", "Utils/"]
 RUN dotnet restore "ChatApi/ChatApi.csproj"
 COPY . .
 WORKDIR "/src/ChatApi"

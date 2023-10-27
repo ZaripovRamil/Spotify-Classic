@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-alpine
+    hostname: rabbitmq
+    restart: always
+    env_file:
+      - ./SpotifyAPI/.rabbitmq-secrets
+    ports:
+      - "5672:5672"
+      - "15672:15672"

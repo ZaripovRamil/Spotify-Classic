@@ -5,8 +5,9 @@ import "./PageBuilder.css";
 import Player from "../player/Player";
 import { getFetcher } from "../axios/AxiosInstance";
 import Ports from "../constants/Ports";
+import { ChatBox } from "../components/ChatBox/ChatBox";
 
-const fetcher = getFetcher(Ports.MusicService);
+const fetcher = getFetcher(Ports.PlayerApi);
 
 export const PageBuilder = ({ component }) => {
   const [tracksList, setTracksList] = useState(
@@ -44,6 +45,7 @@ export const PageBuilder = ({ component }) => {
       <div className="content">
         {React.cloneElement(component, tracksProps)}
       </div>
+      {localStorage.getItem("access-token") ? <ChatBox /> : <></>}
       <Footer props={tracksProps} />
       <Player props={tracksProps} />
     </>

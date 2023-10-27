@@ -693,6 +693,36 @@ namespace Database.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Models.Entities.SupportChatMessage", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsOwner")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("RoomId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("SupportChatMessagesHistory");
+                });
+
             modelBuilder.Entity("Models.Entities.Track", b =>
                 {
                     b.Property<string>("Id")
@@ -921,14 +951,15 @@ namespace Database.Migrations
                         {
                             Id = "user1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "68dae4e5-9ce0-4c04-98bf-470da907c669",
+                            ConcurrencyStamp = "a62a829d-5519-4ac9-8d28-a75cb70a5b5b",
+                            Email = "foo@bar.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "John Doe",
                             PhoneNumberConfirmed = false,
                             ProfilePicId = "default_pfp",
                             Role = 0,
-                            SecurityStamp = "0c10398e-6c81-4c49-b191-5b5f192e34ec",
+                            SecurityStamp = "20a9c7e5-0fd3-4e0b-a781-3f41b63e2769",
                             TwoFactorEnabled = false,
                             UserName = "defaultUser"
                         },
@@ -936,14 +967,15 @@ namespace Database.Migrations
                         {
                             Id = "user2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a07a5915-761d-4c78-9264-ff4c1f871e20",
+                            ConcurrencyStamp = "5de47987-bcb0-46f6-b99d-c633ea80fb23",
+                            Email = "bar@foo.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Jane Doe",
                             PhoneNumberConfirmed = false,
                             ProfilePicId = "default_pfp",
                             Role = 0,
-                            SecurityStamp = "bd4f1d75-7df6-4441-b6aa-bbe60f086f0d",
+                            SecurityStamp = "6de39e36-07ba-484d-95d4-c049422ad31c",
                             SubscriptionId = "Premium",
                             TwoFactorEnabled = false,
                             UserName = "subscriptionTestUser"
@@ -1083,6 +1115,17 @@ namespace Database.Migrations
                         .HasForeignKey("OwnerId");
 
                     b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("Models.Entities.SupportChatMessage", b =>
+                {
+                    b.HasOne("Models.Entities.User", "Sender")
+                        .WithMany()
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("Models.Entities.Track", b =>

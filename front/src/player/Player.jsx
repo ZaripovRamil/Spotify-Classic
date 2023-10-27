@@ -8,8 +8,8 @@ import Ports from "../constants/Ports";
 import { useNavigate } from "react-router-dom";
 
 // care of http/https
-const prefix = "https://localhost:7022/";
-const fetcher = getFetcher(Ports.MusicService);
+const prefix = `https://localhost:${Ports.PlayerApi}/`;
+const fetcher = getFetcher(Ports.PlayerApi);
 
 const Player = ({ props }) => {
   const navigate = useNavigate();

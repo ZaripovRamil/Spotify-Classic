@@ -10,12 +10,11 @@
     <ItemGroup>
       <ProjectReference Include="..\DatabaseServices\DatabaseServices.csproj" />
       <ProjectReference Include="..\Models\Models.csproj" />
+      <ProjectReference Include="..\Utils\Utils.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Google.Apis.Auth.AspNetCore3" Version="1.60.0" />
-      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
-      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
 
     <ItemGroup>

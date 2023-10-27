@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { getFetcher } from "../axios/AxiosInstance";
 import Ports from "../constants/Ports";
 import "./SearchPage.css";
-const fetcher = getFetcher(Ports.SearchService);
+const fetcher = getFetcher(Ports.SearchApi);
 
 export const SearchPage = (props) => {
-  const prefix = "https://localhost:7022/";
+  const prefix = `https://localhost:${Ports.PlayerApi}/`;
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [suggestions, setSuggestions] = useState();

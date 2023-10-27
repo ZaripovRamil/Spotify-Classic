@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Models;
+using Models.Configuration;
 
 namespace PlayerAPI.Controllers;
 

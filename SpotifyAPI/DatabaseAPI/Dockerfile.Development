@@ -1,0 +1,12 @@
+﻿FROM mcr.microsoft.com/dotnet/sdk:7.0 AS base
+WORKDIR /app
+
+VOLUME ["app/obj"]
+VOLUME ["app/bin"]
+
+ADD ../https/aspnetapp.pfx /https/aspnetapp.pfx
+
+COPY . .
+RUN dotnet restore
+
+ENTRYPOINT dotnet watch run --no-restore --urls "https://+:${DatabaseApiPortHttps};http://+:${DatabaseApiPortHttp}"
