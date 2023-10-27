@@ -1,7 +1,7 @@
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
 
-namespace Utils.LocalRunDependencies;
+namespace Utils.LocalRun;
 
 public static class LocalDependencies
 {

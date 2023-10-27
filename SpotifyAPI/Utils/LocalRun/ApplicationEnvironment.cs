@@ -1,4 +1,4 @@
-namespace Utils.LocalRunDependencies;
+namespace Utils.LocalRun;
 
 public static class ApplicationEnvironment
 {

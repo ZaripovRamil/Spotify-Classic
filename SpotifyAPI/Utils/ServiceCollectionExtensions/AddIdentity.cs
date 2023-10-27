@@ -11,7 +11,7 @@ public static class AddIdentityExtension
     {
         services.AddIdentity<User, IdentityRole>(options =>
             {
-                if (isDevelopment) return;
+                if (!isDevelopment) return;
                 options.User.RequireUniqueEmail = true;
                 options.Password.RequireDigit = false;
                 options.Password.RequiredLength = 8;

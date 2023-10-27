@@ -1,4 +1,4 @@
-using Utils.LocalRunDependencies;
+using Utils.LocalRun;
 
 namespace StaticAPI.Services;
 

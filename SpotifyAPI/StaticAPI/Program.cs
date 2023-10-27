@@ -1,11 +1,11 @@
 using Models.Configuration;
 using StaticAPI.Services;
-using Utils.LocalRunDependencies;
+using Utils.LocalRun;
 using Utils.ServiceCollectionExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-EnvFileLoader.LoadFilesFromParentDirectory("local.secrets", "local.hostnames", "local.kestrel-conf");
+EnvFileLoader.LoadFilesFromParentDirectory("local.secrets", Path.Combine("..", "local.hostnames"), "local.kestrel-conf");
 
 builder.Services.AddControllers();
 
@@ -36,8 +36,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-LocalDependencies.EnsureStarted(builder.Configuration);
-
 app.Run();
-
-LocalDependencies.EnsureExited();

@@ -1,6 +1,6 @@
 using Models.Configuration;
 
-namespace Utils.LocalRunDependencies;
+namespace Utils.LocalRun;
 
 public class RabbitMq : LocalDependency<RabbitMqConfig>
 {
@@ -8,7 +8,7 @@ public class RabbitMq : LocalDependency<RabbitMqConfig>
 
     public override bool Start(RabbitMqConfig config)
     {
-        if (IsDockerContainerRunning(ContainerName)) return true;
+        if (IsDockerContainerRunning(ContainerName)) Exit();
         return RunProcess("docker", $"run -d --name {ContainerName}" + 
                              $" -e RABBITMQ_DEFAULT_USER={config.User}" +
                              $" -e RABBITMQ_DEFAULT_PASS={config.Pass}" +

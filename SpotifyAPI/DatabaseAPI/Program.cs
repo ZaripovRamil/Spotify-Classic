@@ -12,12 +12,12 @@ using DatabaseServices.Services.UpdateHandlers.Implementations;
 using DatabaseServices.Services.UpdateHandlers.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Models.Configuration;
-using Utils.LocalRunDependencies;
+using Utils.LocalRun;
 using Utils.ServiceCollectionExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-EnvFileLoader.LoadFilesFromParentDirectory(".postgres-secrets", "local.secrets", "local.hostnames", "local.kestrel-conf");
+EnvFileLoader.LoadFilesFromParentDirectory(".postgres-secrets", "local.secrets", Path.Combine("..", "local.hostnames"), "local.kestrel-conf");
 
 builder.Configuration.AddEnvironmentVariables();
 
@@ -83,8 +83,4 @@ using (var scope = app.Services.CreateScope())
     db.Database.Migrate();
 }
 
-LocalDependencies.EnsureStarted(builder.Configuration);
-
 app.Run();
-
-LocalDependencies.EnsureExited();

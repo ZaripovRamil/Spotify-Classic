@@ -186,7 +186,6 @@ services:
     restart: always
     env_file:
       - ./SpotifyAPI/.rabbitmq-secrets
-      - ./SpotifyAPI/.secrets
   
 #  ffmpeg:
 #    image: jrottenberg/ffmpeg

@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace Utils.LocalRunDependencies;
+namespace Utils.LocalRun;
 
 public abstract class LocalDependency<TConfig> where TConfig : class
 {

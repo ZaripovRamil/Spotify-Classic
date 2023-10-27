@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace Utils.LocalRunDependencies;
+namespace Utils.LocalRun;
 
 public static partial class EnvFileLoader
 {
@@ -9,7 +9,7 @@ public static partial class EnvFileLoader
         var files = CombinePaths(Directory.GetParent(Directory.GetCurrentDirectory())!.FullName, filePaths);
         foreach (var file in files) Load(file);
     }
-    
+
     public static void Load(string filePath)
     {
         if (ApplicationEnvironment.IsContainer)
@@ -43,7 +43,7 @@ public static partial class EnvFileLoader
         return result;
     }
 
-    public static IEnumerable<string> CombinePaths(string pathPart1, params string[] pathParts2)
+    private static IEnumerable<string> CombinePaths(string pathPart1, params string[] pathParts2)
     {
         var result = new string[pathParts2.Length];
         for (var i = 0; i < pathParts2.Length; i++)
