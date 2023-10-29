@@ -1,21 +1,15 @@
-using DatabaseServices.Services.Repositories.Implementations;
-using Models.Configuration;
-using Utils.LocalRun;
+using ChatHistorySaverService.ConfigurationExtensions;
 using Utils.ServiceCollectionExtensions;
 using Utils.WebApplicationExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-EnvFileLoader.LoadFilesFromParentDirectory(".rabbitmq-secrets", ".postgres-secrets", "local.secrets", Path.Combine("..", "local.hostnames"));
-
+builder.Configuration.AddEnvironmentFiles();
 builder.Configuration.AddEnvironmentVariables();
 
-builder.Services.AddDbContext(builder.Configuration);
-
-builder.Services.AddScoped<IDbSupportChatHistoryRepository, DbSupportChatHistoryRepository>();
-
-var rabbitMqConfig = builder.Configuration.GetSection("RabbitMqConfig").Get<RabbitMqConfig>()!;
-builder.Services.AddMasstransitRabbitMq(rabbitMqConfig, typeof(Program).Assembly);
+builder.Services.AddRepositories(builder.Configuration);
+;
+builder.Services.AddMasstransitRabbitMq(builder.Configuration, typeof(Program).Assembly);
 
 var app = builder.Build();
 

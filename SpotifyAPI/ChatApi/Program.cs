@@ -1,20 +1,16 @@
 using ChatApi.Chat;
+using ChatApi.ConfigurationExtensions;
 using ChatApi.ServiceCollectionExtensions;
-using DatabaseServices.Services.Repositories.Implementations;
 using Models.Configuration;
-using Utils.LocalRun;
 using Utils.ServiceCollectionExtensions;
 using Utils.WebApplicationExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
-EnvFileLoader.LoadFilesFromParentDirectory(".rabbitmq-secrets", ".postgres-secrets", "local.secrets", Path.Combine("..", "local.hostnames"), "local.kestrel-conf");
 
+builder.Configuration.AddEnvironmentFiles();
 builder.Configuration.AddEnvironmentVariables();
 
-builder.Services.AddDbContext(builder.Configuration);
-
-var rabbitMqConfig = builder.Configuration.GetSection("RabbitMqConfig").Get<RabbitMqConfig>()!;
-builder.Services.AddMasstransitRabbitMq(rabbitMqConfig, typeof(Program).Assembly);
+builder.Services.AddMasstransitRabbitMq(builder.Configuration, typeof(Program).Assembly);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -22,8 +18,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.Configure<JwtTokenSettings>(builder.Configuration.GetSection("JWTTokenSettings"));
 builder.Services.Configure<Hosts>(builder.Configuration.GetSection("Hosts"));
 
-builder.Services.AddScoped<IDbSupportChatHistoryRepository, DbSupportChatHistoryRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddRepositories(builder.Configuration);
 
 builder.Services.AddSignalR();
 
