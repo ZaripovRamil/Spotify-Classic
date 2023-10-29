@@ -8,7 +8,6 @@ builder.Configuration.AddEnvironmentFiles();
 builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.AddRepositories(builder.Configuration);
-;
 builder.Services.AddMasstransitRabbitMq(builder.Configuration, typeof(Program).Assembly);
 
 var app = builder.Build();

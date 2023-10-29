@@ -21,7 +21,7 @@ public class TrackUpdateHandler : ITrackUpdateHandler
 
     public async Task<TrackUpdateResult> Update(string id, TrackUpdateData updateData)
     {
-        var track = await _trackRepository.Get(id);
+        var track = await _trackRepository.GetByIdAsync(id);
         var result = new TrackUpdateResult { IsSuccessful = true, ResultMessage = "Successful" };
         if (track is null)
         {
@@ -39,7 +39,7 @@ public class TrackUpdateHandler : ITrackUpdateHandler
             return result;
         }
 
-        await _trackRepository.Update(new Track(id, updateData.Name, track.Album, track.FileId));
+        await _trackRepository.UpdateAsync(new Track(id, updateData.Name, track.Album, track.FileId));
         return result;
     }
 }

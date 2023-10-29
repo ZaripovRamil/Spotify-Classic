@@ -20,11 +20,11 @@ public class GenreQueryHandler : IGenreQueryHandler
 
     public Task<Genre?> GetById(string id)
     {
-        return _genreRepository.GetById(id);
+        return _genreRepository.GetByIdAsync(id);
     }
 
     public Task<Genre?> GetByName(string name)
     {
-        return _genreRepository.GetByName(name);
+        return _genreRepository.GetByNameAsync(name);
     }
 }

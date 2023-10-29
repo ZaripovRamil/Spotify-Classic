@@ -6,10 +6,10 @@ namespace DatabaseServices.Services.Repositories.Implementations;
 
 public interface IGenreRepository
 {
-    public Task<Genre?> GetById(string id);
-    public Task Add(Genre genre);
+    public Task<Genre?> GetByIdAsync(string id);
+    public Task AddAsync(Genre genre);
     public IQueryable<Genre> GetAll();
-    Task<Genre?> GetByName(string genreName);
+    Task<Genre?> GetByNameAsync(string genreName);
 }
 
 public class GenreRepository : Repository, IGenreRepository
@@ -18,11 +18,11 @@ public class GenreRepository : Repository, IGenreRepository
     {
     }
 
-    public async Task<Genre?> GetById(string id) =>
+    public async Task<Genre?> GetByIdAsync(string id) =>
         await GetAll().FirstOrDefaultAsync(g => g.Id == id);
 
 
-    public async Task Add(Genre genre)
+    public async Task AddAsync(Genre genre)
     {
         await DbContext.Genres.AddAsync(genre);
         await DbContext.SaveChangesAsync();
@@ -33,6 +33,6 @@ public class GenreRepository : Repository, IGenreRepository
         return DbContext.Genres;
     }
 
-    public async Task<Genre?> GetByName(string genreName) =>
+    public async Task<Genre?> GetByNameAsync(string genreName) =>
         await GetAll().FirstOrDefaultAsync(g => g.Name == genreName);
 }

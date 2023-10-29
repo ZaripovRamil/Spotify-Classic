@@ -34,7 +34,7 @@ public class TrackCreateHandler : ITrackCreateHandler
             ? new Track(data.Name, validationResult.Album, _idGenerator.GetId(data), validationResult.Genres)
             : null;
         if (track != null)
-            await _trackRepository.Add(track);
+            await _trackRepository.AddAsync(track);
         return new TrackCreationResult((TrackValidationCode)validationResult.ValidationCode, track);
     }
 }

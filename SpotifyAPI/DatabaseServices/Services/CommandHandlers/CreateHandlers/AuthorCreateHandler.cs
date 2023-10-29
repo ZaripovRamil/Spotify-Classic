@@ -28,7 +28,7 @@ public class AuthorCreateHandler : IAuthorCreateHandler
         var validationResult = await _authorValidator.Validate(data);
         var author = validationResult.IsValid ? new Author(data.Name, validationResult.Owner!) : null;
         if (author != null)
-            await _authorRepository.Add(author);
+            await _authorRepository.AddAsync(author);
         return new AuthorCreationResult((AuthorValidationCode)validationResult.ValidationCode, author);
     }
 }

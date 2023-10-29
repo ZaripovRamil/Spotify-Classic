@@ -18,7 +18,7 @@ public class GenreValidator : EntityValidator, IGenreValidator
     public async Task<GenreValidationResult> Validate(GenreCreationData data)
     {
         var state = (GenreValidationCode)EntityValidator.Validate(data).ValidationCode;
-        if (await _genreRepository.GetByName(data.Name) != null)
+        if (await _genreRepository.GetByNameAsync(data.Name) != null)
             state = GenreValidationCode.AlreadyExists;
         return new GenreValidationResult(state);
     }

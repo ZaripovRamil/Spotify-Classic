@@ -19,7 +19,7 @@ public class PlaylistDeleteHandler : IPlaylistDeleteHandler
 
     public async Task<PlaylistDeletionResult> Delete(string id)
     {
-        var playlist = await _playlistRepository.Get(id);
+        var playlist = await _playlistRepository.GetByIdAsync(id);
         var result = new PlaylistDeletionResult { IsSuccessful = true, ResultMessage = "Successful" };
         if (playlist is null)
         {
@@ -29,7 +29,7 @@ public class PlaylistDeleteHandler : IPlaylistDeleteHandler
             return result;
         }
 
-        await _playlistRepository.Delete(playlist);
+        await _playlistRepository.DeleteAsync(playlist);
 
         return result;
     }

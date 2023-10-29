@@ -95,10 +95,10 @@ public class UserController : Controller
     [Route("subscription/update")]
     public async Task<IActionResult> UpdateSubscription([FromBody] SubscriptionUpdateData data)
     {
-        var subscription = await _subscriptionRepository.GetById(data.SubscriptionId);
+        var subscription = await _subscriptionRepository.GetByIdAsync(data.SubscriptionId);
         if (subscription == null) return BadRequest();
         var user = await GetContextUser();
-        await _subscriptionRepository.SetToUser(user!, subscription);
+        await _subscriptionRepository.SetToUserAsync(user!, subscription);
         return Ok();
     }
 

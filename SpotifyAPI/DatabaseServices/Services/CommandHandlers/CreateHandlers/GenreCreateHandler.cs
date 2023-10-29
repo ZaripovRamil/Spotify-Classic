@@ -28,7 +28,7 @@ public class GenreCreateHandler : IGenreCreateHandler
         var validationResult = await _genreValidator.Validate(data);
         var genre = validationResult.IsValid ? new Genre(data.Name) : null;
         if (genre != null)
-            await _genreRepository.Add(genre);
+            await _genreRepository.AddAsync(genre);
         return new GenreCreationResult((GenreValidationCode)validationResult.ValidationCode, genre);
     }
 }

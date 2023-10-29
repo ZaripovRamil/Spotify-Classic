@@ -19,7 +19,7 @@ public class AuthorDeleteHandler : IAuthorDeleteHandler
 
     public async Task<AuthorDeletionResult> Delete(string id)
     {
-        var author = await _authorRepository.GetById(id);
+        var author = await _authorRepository.GetByIdAsync(id);
         var result = new AuthorDeletionResult { IsSuccessful = true, ResultMessage = "Successful" };
         if (author is null)
         {
@@ -38,7 +38,7 @@ public class AuthorDeleteHandler : IAuthorDeleteHandler
             return result;
         }
 
-        await _authorRepository.Delete(author);
+        await _authorRepository.DeleteAsync(author);
 
         return result;
     }

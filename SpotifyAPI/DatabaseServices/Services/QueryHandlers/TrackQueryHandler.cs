@@ -20,7 +20,7 @@ public class TrackQueryHandler : ITrackQueryHandler
 
     public async Task<Track?> GetById(string id)
     {
-        return await _trackRepository.Get(id);
+        return await _trackRepository.GetByIdAsync(id);
     }
 
     public List<Track> GetWithFiltersAsync(int? pageSize, int? pageIndex, string? query)

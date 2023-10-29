@@ -28,7 +28,7 @@ public class PlaylistCreateHandler : IPlaylistCreateHandler
         var validationResult = await _playlistValidator.Validate(data);
         var playlist = validationResult.IsValid ? new Playlist(data.Name, validationResult.Owner!) : null;
         if (playlist != null)
-            await _playlistRepository.Add(playlist);
+            await _playlistRepository.AddAsync(playlist);
         return new PlaylistCreationResult((PlaylistValidationCode)validationResult.ValidationCode,
             playlist);
     }

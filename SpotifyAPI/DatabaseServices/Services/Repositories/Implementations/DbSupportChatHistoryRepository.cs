@@ -7,7 +7,7 @@ namespace DatabaseServices.Services.Repositories.Implementations;
 public interface IDbSupportChatHistoryRepository
 {
     public IQueryable<SupportChatMessage> GetHistoryForUserId(string roomId);
-    public Task AddMessageToUserHistory(SupportChatMessage message);
+    public Task AddMessageToUserHistoryAsync(SupportChatMessage message);
     public IQueryable<SupportChatMessage> GetAll();
 }
 
@@ -23,7 +23,7 @@ public class DbSupportChatHistoryRepository : Repository, IDbSupportChatHistoryR
             .Include(m => m.Sender);
     }
 
-    public async Task AddMessageToUserHistory(SupportChatMessage message)
+    public async Task AddMessageToUserHistoryAsync(SupportChatMessage message)
     {
         await DbContext.SupportChatMessagesHistory.AddAsync(message);
         await DbContext.SaveChangesAsync();

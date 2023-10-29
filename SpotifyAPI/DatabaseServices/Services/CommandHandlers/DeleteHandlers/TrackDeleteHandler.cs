@@ -19,7 +19,7 @@ public class TrackDeleteHandler : ITrackDeleteHandler
 
     public async Task<TrackDeletionResult> Delete(string id)
     {
-        var track = await _trackRepository.Get(id);
+        var track = await _trackRepository.GetByIdAsync(id);
         var result = new TrackDeletionResult { IsSuccessful = true, ResultMessage = "Successful" };
         if (track is null)
         {
@@ -29,7 +29,7 @@ public class TrackDeleteHandler : ITrackDeleteHandler
             return result;
         }
 
-        await _trackRepository.Delete(track);
+        await _trackRepository.DeleteAsync(track);
 
         return result;
     }

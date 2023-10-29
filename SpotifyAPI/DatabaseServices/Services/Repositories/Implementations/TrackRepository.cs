@@ -6,11 +6,11 @@ namespace DatabaseServices.Services.Repositories.Implementations;
 
 public interface ITrackRepository
 {
-    public Task Add(Track track);
-    public Task<Track?> Get(string id);
+    public Task AddAsync(Track track);
+    public Task<Track?> GetByIdAsync(string id);
     public IQueryable<Track> GetAll();
-    public Task Delete(Track track);
-    public Task Update(Track track);
+    public Task DeleteAsync(Track track);
+    public Task UpdateAsync(Track track);
 }
 
 public class TrackRepository : Repository, ITrackRepository
@@ -19,13 +19,13 @@ public class TrackRepository : Repository, ITrackRepository
     {
     }
 
-    public async Task Add(Track track)
+    public async Task AddAsync(Track track)
     {
         await DbContext.Tracks.AddAsync(track);
         await DbContext.SaveChangesAsync();
     }
 
-    public async Task<Track?> Get(string id)
+    public async Task<Track?> GetByIdAsync(string id)
     {
         return await GetAll()
             .FirstOrDefaultAsync(track => track.Id == id);
@@ -39,15 +39,15 @@ public class TrackRepository : Repository, ITrackRepository
             .Include(t => t.Genres);
     }
 
-    public async Task Delete(Track track)
+    public async Task DeleteAsync(Track track)
     {
         DbContext.Tracks.Remove(track);
         await DbContext.SaveChangesAsync();
     }
 
-    public async Task Update(Track track)
+    public async Task UpdateAsync(Track track)
     {
-        var toChange = (await Get(track.Id))!;
+        var toChange = (await GetByIdAsync(track.Id))!;
         toChange.Name = track.Name;
         await DbContext.SaveChangesAsync();
     }

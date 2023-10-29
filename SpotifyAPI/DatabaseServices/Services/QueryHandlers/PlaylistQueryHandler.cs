@@ -25,6 +25,6 @@ public class PlaylistQueryHandler : IPlaylistQueryHandler
 
     public async Task<Playlist?> GetById(string id)
     {
-        return await _playlistRepository.Get(id);
+        return await _playlistRepository.GetByIdAsync(id);
     }
 }

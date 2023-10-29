@@ -22,17 +22,17 @@ public class UserQueryHandler : IUserQueryHandler
 
     public Task<User?> GetById(string id)
     {
-        return _userRepository.GetById(id);
+        return _userRepository.GetByIdAsync(id);
     }
 
     public Task<User?> GetByName(string name)
     {
-        return _userRepository.GetByUsername(name);
+        return _userRepository.GetByUsernameAsync(name);
     }
 
     public Task<User?> GetByEmail(string email)
     {
-        return _userRepository.GetByEmail(email);
+        return _userRepository.GetByEmailAsync(email);
     }
 
     public List<User> GetAll()

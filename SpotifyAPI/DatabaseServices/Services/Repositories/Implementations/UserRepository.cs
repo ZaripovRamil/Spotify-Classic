@@ -10,14 +10,14 @@ namespace DatabaseServices.Services.Repositories.Implementations;
 public interface IUserRepository
 {
     public IEnumerable<User> GetAllUsers();
-    public Task<User?> GetByUsername(string login);
+    public Task<User?> GetByUsernameAsync(string login);
 
-    public Task<User?> GetById(string id);
+    public Task<User?> GetByIdAsync(string id);
 
-    public Task<User?> GetByEmail(string email);
-    public Task AddUser(User user);
-    public Task SetRole(User user, Role role);
-    Task AddTrackToHistory(User user, Track track);
+    public Task<User?> GetByEmailAsync(string email);
+    public Task AddUserAsync(User user);
+    public Task SetRoleAsync(User user, Role role);
+    Task AddTrackToHistoryAsync(User user, Track track);
 }
 
 public class UserRepository : Repository, IUserRepository
@@ -26,7 +26,7 @@ public class UserRepository : Repository, IUserRepository
     {
     }
 
-    public async Task<User?> GetById(string id) =>
+    public async Task<User?> GetByIdAsync(string id) =>
         await GetUsers()
             .FirstOrDefaultAsync(u => u.Id == id);
 
@@ -44,11 +44,11 @@ public class UserRepository : Repository, IUserRepository
         return users.Where(user => user.Role != Role.Admin);
     }
 
-    public async Task<User?> GetByUsername(string login) =>
+    public async Task<User?> GetByUsernameAsync(string login) =>
         await GetUsers()
             .FirstOrDefaultAsync(u => u.UserName == login);
 
-    public async Task<User?> GetByEmail(string email) =>
+    public async Task<User?> GetByEmailAsync(string email) =>
         await GetUsers()
             .FirstOrDefaultAsync(u => u.Email == email);
 
@@ -65,19 +65,19 @@ public class UserRepository : Repository, IUserRepository
     }
 
 
-    public async Task AddUser(User user)
+    public async Task AddUserAsync(User user)
     {
         await DbContext.Users.AddAsync(user);
         await DbContext.SaveChangesAsync();
     }
 
-    public async Task SetRole(User user, Role role)
+    public async Task SetRoleAsync(User user, Role role)
     {
         user.Role = role;
         await DbContext.SaveChangesAsync();
     }
 
-    public async Task AddTrackToHistory(User user, Track track)
+    public async Task AddTrackToHistoryAsync(User user, Track track)
     {
         var userTrack = new UserTrack(user, track);
 

@@ -33,7 +33,7 @@ public class AlbumCreateHandler : IAlbumCreateHandler
             ? new Album(data.Name, validationResult.Author!, data.AlbumType, data.ReleaseYear, _idGenerator.GetId(data))
             : null;
         if (album != null)
-            await _albumRepository.Add(album);
+            await _albumRepository.AddAsync(album);
         return new AlbumCreationResult((AlbumValidationCode)validationResult.ValidationCode, album);
     }
 }

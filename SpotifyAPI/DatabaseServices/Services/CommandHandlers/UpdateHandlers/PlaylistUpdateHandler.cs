@@ -21,7 +21,7 @@ public class PlaylistUpdateHandler : IPlaylistUpdateHandler
 
     public async Task<PlaylistUpdateResult> Update(string id, PlaylistUpdateData updateData)
     {
-        var playlist = await _playlistRepository.Get(id);
+        var playlist = await _playlistRepository.GetByIdAsync(id);
         var result = new PlaylistUpdateResult { IsSuccessful = true, ResultMessage = "Successful" };
         if (playlist is null)
         {
@@ -39,7 +39,7 @@ public class PlaylistUpdateHandler : IPlaylistUpdateHandler
             return result;
         }
 
-        await _playlistRepository.Update(new Playlist(id, updateData.Name, playlist.Owner, updateData.PreviewId));
+        await _playlistRepository.UpdateAsync(new Playlist(id, updateData.Name, playlist.Owner, updateData.PreviewId));
         return result;
     }
 }

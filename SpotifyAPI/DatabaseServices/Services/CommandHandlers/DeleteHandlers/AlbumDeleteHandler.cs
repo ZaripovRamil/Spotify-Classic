@@ -19,7 +19,7 @@ public class AlbumDeleteHandler : IAlbumDeleteHandler
 
     public async Task<AlbumDeletionResult> Delete(string id)
     {
-        var album = await _albumRepository.GetById(id);
+        var album = await _albumRepository.GetByIdAsync(id);
         var result = new AlbumDeletionResult { IsSuccessful = true, ResultMessage = "Successful" };
         if (album is null)
         {
@@ -38,7 +38,7 @@ public class AlbumDeleteHandler : IAlbumDeleteHandler
             return result;
         }
 
-        await _albumRepository.Delete(album);
+        await _albumRepository.DeleteAsync(album);
 
         return result;
     }

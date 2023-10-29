@@ -15,6 +15,6 @@ public class ChatHistoryMessagesConsumer : IConsumer<SaveHistoryMessageToDb>
 
     public async Task Consume(ConsumeContext<SaveHistoryMessageToDb> context)
     {
-        await _historyRepository.AddMessageToUserHistory(context.Message.Message);
+        await _historyRepository.AddMessageToUserHistoryAsync(context.Message.Message);
     }
 }

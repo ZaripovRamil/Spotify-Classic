@@ -6,10 +6,10 @@ namespace DatabaseServices.Services.Repositories.Implementations;
 
 public interface ISubscriptionRepository
 {
-    public Task<Subscription?> GetById(string id);
+    public Task<Subscription?> GetByIdAsync(string id);
     public IQueryable<Subscription> GetAll();
-    public Task<Subscription?> GetByName(string name);
-    Task SetToUser(User user, Subscription subscription);
+    public Task<Subscription?> GetByNameAsync(string name);
+    Task SetToUserAsync(User user, Subscription subscription);
 }
 
 public class SubscriptionRepository : Repository, ISubscriptionRepository
@@ -18,7 +18,7 @@ public class SubscriptionRepository : Repository, ISubscriptionRepository
     {
     }
 
-    public async Task<Subscription?> GetById(string id)
+    public async Task<Subscription?> GetByIdAsync(string id)
     {
         return await GetAll().FirstOrDefaultAsync(s => s.Id == id);
     }
@@ -28,12 +28,12 @@ public class SubscriptionRepository : Repository, ISubscriptionRepository
         return DbContext.Subscriptions;
     }
 
-    public async Task<Subscription?> GetByName(string name)
+    public async Task<Subscription?> GetByNameAsync(string name)
     {
         return await GetAll().FirstOrDefaultAsync(s => s.Name == name);
     }
 
-    public async Task SetToUser(User user, Subscription subscription)
+    public async Task SetToUserAsync(User user, Subscription subscription)
     {
         user.Subscription = subscription;
         if (ValidateSubscription(user))

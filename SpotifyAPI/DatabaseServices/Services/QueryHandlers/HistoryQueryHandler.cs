@@ -19,6 +19,6 @@ public class HistoryQueryHandler : IHistoryQueryHandler
 
     public async Task<List<Track>> GetUserHistory(string userId)
     {
-        return (await _userRepository.GetById(userId))?.History ?? new List<Track>();
+        return (await _userRepository.GetByIdAsync(userId))?.History ?? new List<Track>();
     }
 }

@@ -6,12 +6,12 @@ namespace DatabaseServices.Services.Repositories.Implementations;
 
 public interface IAuthorRepository
 {
-    Task Add(Author author);
-    Task<Author?> GetById(string id);
-    Task<Author?> GetByName(string name);
+    Task AddAsync(Author author);
+    Task<Author?> GetByIdAsync(string id);
+    Task<Author?> GetByNameAsync(string name);
     IQueryable<Author> GetAll();
-    Task Delete(Author author);
-    Task Update(Author author);
+    Task DeleteAsync(Author author);
+    Task UpdateAsync(Author author);
 }
 
 public class AuthorRepository : Repository, IAuthorRepository
@@ -20,13 +20,13 @@ public class AuthorRepository : Repository, IAuthorRepository
     {
     }
 
-    public async Task Add(Author author)
+    public async Task AddAsync(Author author)
     {
         await DbContext.Authors.AddAsync(author);
         await DbContext.SaveChangesAsync();
     }
 
-    public async Task Delete(Author author)
+    public async Task DeleteAsync(Author author)
     {
         DbContext.Authors.Remove(author);
         await DbContext.SaveChangesAsync();
@@ -40,20 +40,20 @@ public class AuthorRepository : Repository, IAuthorRepository
     // and in the calling code to create a valid author instance.
     // May be separate this method to UpdateName, UpdateSmthElse, etc?
     // but it seems to be too much work...
-    public async Task Update(Author author)
+    public async Task UpdateAsync(Author author)
     {
-        var toChange = (await GetById(author.Id))!;
+        var toChange = (await GetByIdAsync(author.Id))!;
         toChange.Name = author.Name;
         await DbContext.SaveChangesAsync();
     }
 
-    public async Task<Author?> GetById(string id)
+    public async Task<Author?> GetByIdAsync(string id)
     {
         return await GetAll()
             .FirstOrDefaultAsync(a => a.Id == id);
     }
 
-    public async Task<Author?> GetByName(string name)
+    public async Task<Author?> GetByNameAsync(string name)
     {
         return await GetAll()
             .FirstOrDefaultAsync(a => a.Name == name);

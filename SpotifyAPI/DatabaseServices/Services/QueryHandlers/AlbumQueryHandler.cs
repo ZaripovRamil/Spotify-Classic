@@ -23,12 +23,12 @@ public class AlbumQueryHandler : IAlbumQueryHandler
 
     public async Task<Album?> GetById(string id)
     {
-        return await _albumRepository.GetById(id);
+        return await _albumRepository.GetByIdAsync(id);
     }
 
     public async Task<Album?> GetByName(string name)
     {
-        return await _albumRepository.GetByName(name);
+        return await _albumRepository.GetByNameAsync(name);
     }
 
     public Task<IEnumerable<Album>> GetWithFiltersAsync(string? albumType, int? tracksMin, int? tracksMax,

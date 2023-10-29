@@ -21,7 +21,7 @@ public class AlbumUpdateHandler : IAlbumUpdateHandler
 
     public async Task<AlbumUpdateResult> Update(string id, AlbumUpdateData updateData)
     {
-        var album = await _albumRepository.GetById(id);
+        var album = await _albumRepository.GetByIdAsync(id);
         var result = new AlbumUpdateResult { IsSuccessful = true, ResultMessage = "Successful" };
         if (album is null)
         {
@@ -39,7 +39,7 @@ public class AlbumUpdateHandler : IAlbumUpdateHandler
             return result;
         }
 
-        await _albumRepository.Update(new Album(id, updateData.Name, album.Author, album.Type, album.ReleaseYear,
+        await _albumRepository.UpdateAsync(new Album(id, updateData.Name, album.Author, album.Type, album.ReleaseYear,
             album.PreviewId));
         return result;
     }

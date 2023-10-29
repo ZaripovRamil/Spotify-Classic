@@ -21,7 +21,7 @@ public class AuthorUpdateHandler : IAuthorUpdateHandler
 
     public async Task<AuthorUpdateResult> Update(string id, AuthorUpdateData updateData)
     {
-        var author = await _authorRepository.GetById(id);
+        var author = await _authorRepository.GetByIdAsync(id);
         var result = new AuthorUpdateResult { IsSuccessful = true, ResultMessage = "Successful" };
         if (author is null)
         {
@@ -39,8 +39,8 @@ public class AuthorUpdateHandler : IAuthorUpdateHandler
             return result;
         }
 
-        // see comment to DbAuthorAccessor.Update
-        await _authorRepository.Update(new Author(id, author.User, updateData.Name));
+        // see comment to DbAuthorAccessor.UpdateAsync
+        await _authorRepository.UpdateAsync(new Author(id, author.User, updateData.Name));
         return result;
     }
 }

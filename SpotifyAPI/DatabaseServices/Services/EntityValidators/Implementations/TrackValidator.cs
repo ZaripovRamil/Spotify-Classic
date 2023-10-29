@@ -21,12 +21,12 @@ public class TrackValidator : EntityValidator, ITrackValidator
     public async Task<TrackValidationResult> Validate(TrackCreationData data)
     {
         var state = (TrackValidationCode)EntityValidator.Validate(data).ValidationCode;
-        var album = await _albumRepository.GetById(data.AlbumId);
+        var album = await _albumRepository.GetByIdAsync(data.AlbumId);
         if (album == null)
             state = TrackValidationCode.InvalidAlbum;
         var genres = new List<Genre?>();
         foreach (var id in data.GenreIds)
-            genres.Add(await _genreRepository.GetById(id));
+            genres.Add(await _genreRepository.GetByIdAsync(id));
         if (genres.Contains(null))
             state = TrackValidationCode.InvalidGenres;
         return new TrackValidationResult(state, album!, genres.ToArray()!);

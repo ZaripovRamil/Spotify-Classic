@@ -27,11 +27,11 @@ public class AuthorQueryHandler : IAuthorQueryHandler
 
     public async Task<Author?> GetById(string id)
     {
-        return await _authorRepository.GetById(id);
+        return await _authorRepository.GetByIdAsync(id);
     }
 
     public async Task<Author?> GetByName(string name)
     {
-        return await _authorRepository.GetByName(name);
+        return await _authorRepository.GetByNameAsync(name);
     }
 }
