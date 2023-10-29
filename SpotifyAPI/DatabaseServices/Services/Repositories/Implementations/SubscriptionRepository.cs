@@ -36,9 +36,9 @@ public class SubscriptionRepository : Repository, ISubscriptionRepository
     public async Task SetToUserAsync(User user, Subscription subscription)
     {
         user.Subscription = subscription;
-        if (user.SubscriptionExpire is not null && ValidateSubscription(user))
-            user.SubscriptionExpire += TimeSpan.FromDays(30);
-        else user.SubscriptionExpire = (DateTime.Now + TimeSpan.FromDays(30)).ToUniversalTime();
+        user.SubscriptionExpire = ValidateSubscription(user)
+            ? user.SubscriptionExpire?.Add(TimeSpan.FromDays(30))
+            : (DateTime.Now + TimeSpan.FromDays(30)).ToUniversalTime();
         DbContext.Entry(user).State = EntityState.Modified;
         await DbContext.SaveChangesAsync();
     }
