@@ -1,7 +1,10 @@
 using AdminAPI.ConfigurationExtensions;
+using DatabaseServices.Services;
 using DatabaseServices.Services.CommandHandlers.CreateHandlers;
 using DatabaseServices.Services.CommandHandlers.DeleteHandlers;
 using DatabaseServices.Services.CommandHandlers.UpdateHandlers;
+using DatabaseServices.Services.EntityValidators.Implementations;
+using DatabaseServices.Services.EntityValidators.Interfaces;
 using Models.Configuration;
 using Utils.ServiceCollectionExtensions;
 using Utils.WebApplicationExtensions;
@@ -19,17 +22,22 @@ builder.Services.Configure<Hosts>(builder.Configuration.GetSection("Hosts"));
 
 builder.Services.AddRepositories(builder.Configuration);
 
+builder.Services.AddScoped<IFileIdGenerator, FileIdGenerator>();
+
 builder.Services.AddScoped<IAlbumCreateHandler, AlbumCreateHandler>();
 builder.Services.AddScoped<IAlbumUpdateHandler, AlbumUpdateHandler>();
 builder.Services.AddScoped<IAlbumDeleteHandler, AlbumDeleteHandler>();
+builder.Services.AddScoped<IAlbumValidator, AlbumValidator>();
 
 builder.Services.AddScoped<IAuthorCreateHandler, AuthorCreateHandler>();
 builder.Services.AddScoped<IAuthorUpdateHandler, AuthorUpdateHandler>();
 builder.Services.AddScoped<IAuthorDeleteHandler, AuthorDeleteHandler>();
+builder.Services.AddScoped<IAuthorValidator, AuthorValidator>();
 
 builder.Services.AddScoped<ITrackCreateHandler, TrackCreateHandler>();
 builder.Services.AddScoped<ITrackUpdateHandler, TrackUpdateHandler>();
 builder.Services.AddScoped<ITrackDeleteHandler, TrackDeleteHandler>();
+builder.Services.AddScoped<ITrackValidator, TrackValidator>();
 
 builder.Services.AddJwtAuthorization(builder.Configuration);
 builder.Services.AddSwaggerWithAuthorization();
