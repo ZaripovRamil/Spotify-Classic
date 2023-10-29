@@ -3,7 +3,6 @@ namespace Models.Configuration;
 public class Hosts
 {
     public required string StaticApi { get; set; }
-    public required string DatabaseApi { get; set; }
     public required string AdminApi { get; set; }
     public required string PlayerApi { get; set; }
     public required string AuthApi { get; set; }

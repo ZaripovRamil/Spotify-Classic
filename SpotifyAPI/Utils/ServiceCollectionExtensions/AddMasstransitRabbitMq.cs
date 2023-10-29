@@ -12,7 +12,8 @@ public static class AddMasstransitRabbitMqExtension
         IConfiguration configuration, Assembly consumersAssembly)
     {
         var rabbitConfiguration = configuration.GetSection("RabbitMqConfig").Get<RabbitMqConfig>();
-        if (rabbitConfiguration is null) throw new Exception("RabbitMqConfig is null");
+        if (rabbitConfiguration is null)
+            throw new ArgumentException("RabbitMqConfig in provided configuration is null");
         services.AddMassTransit(c =>
         {
             c.SetKebabCaseEndpointNameFormatter();

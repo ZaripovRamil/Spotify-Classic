@@ -14,7 +14,7 @@ public static class AddRepositoriesExtension
         var repositories = repositoriesAssembly.GetTypes().Where(t => t.IsClass && t.BaseType == typeof(Repository));
         foreach (var type in repositories)
         {
-            var repoInterface = type.GetInterfaces().First();
+            var repoInterface = type.GetInterfaces()[0];
             services.AddScoped(repoInterface, type);
         }
 

@@ -13,7 +13,7 @@ public interface IUserQueryHandler
 
 public class UserQueryHandler : IUserQueryHandler
 {
-    private UserRepository _userRepository;
+    private readonly UserRepository _userRepository;
 
     public UserQueryHandler(UserRepository userRepository)
     {
