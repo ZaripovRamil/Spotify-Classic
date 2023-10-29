@@ -7,7 +7,7 @@ namespace DatabaseServices.Services.CommandHandlers.UpdateHandlers;
 
 public interface ITrackUpdateHandler
 {
-    Task<TrackUpdateResult> Update(string id, TrackUpdateData updateData);
+    Task<TrackUpdateResult> UpdateAsync(string id, TrackUpdateData updateData);
 }
 
 public class TrackUpdateHandler : ITrackUpdateHandler
@@ -19,7 +19,7 @@ public class TrackUpdateHandler : ITrackUpdateHandler
         _trackRepository = trackRepository;
     }
 
-    public async Task<TrackUpdateResult> Update(string id, TrackUpdateData updateData)
+    public async Task<TrackUpdateResult> UpdateAsync(string id, TrackUpdateData updateData)
     {
         var track = await _trackRepository.GetByIdAsync(id);
         var result = new TrackUpdateResult { IsSuccessful = true, ResultMessage = "Successful" };

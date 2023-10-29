@@ -5,7 +5,7 @@ namespace DatabaseServices.Services.CommandHandlers.DeleteHandlers;
 
 public interface IAlbumDeleteHandler
 {
-    Task<AlbumDeletionResult> Delete(string id);
+    Task<AlbumDeletionResult> DeleteAsync(string id);
 }
 
 public class AlbumDeleteHandler : IAlbumDeleteHandler
@@ -17,7 +17,7 @@ public class AlbumDeleteHandler : IAlbumDeleteHandler
         _albumRepository = albumRepository;
     }
 
-    public async Task<AlbumDeletionResult> Delete(string id)
+    public async Task<AlbumDeletionResult> DeleteAsync(string id)
     {
         var album = await _albumRepository.GetByIdAsync(id);
         var result = new AlbumDeletionResult { IsSuccessful = true, ResultMessage = "Successful" };

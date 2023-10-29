@@ -1,6 +1,8 @@
-using System.Text;
-using System.Text.Json;
 using AdminAPI.ModelsExtensions;
+using DatabaseServices.Services.CommandHandlers.CreateHandlers;
+using DatabaseServices.Services.CommandHandlers.DeleteHandlers;
+using DatabaseServices.Services.CommandHandlers.UpdateHandlers;
+using DatabaseServices.Services.Repositories.Implementations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -17,16 +19,22 @@ namespace AdminAPI.Controllers;
 [Route("[controller]")]
 public class TracksController : Controller
 {
-    private readonly HttpClient _clientToDb;
+    private readonly ITrackRepository _trackRepository;
+    private readonly ITrackCreateHandler _trackCreateHandler;
+    private readonly ITrackUpdateHandler _trackUpdateHandler;
+    private readonly ITrackDeleteHandler _trackDeleteHandler;
     private readonly HttpClient _clientToStatic;
     private readonly HttpClient _clientToSearch;
 
-    public TracksController(IOptions<Hosts> hostsOptions)
+    public TracksController(IOptions<Hosts> hostsOptions, ITrackRepository trackRepository,
+        ITrackCreateHandler trackCreateHandler, ITrackDeleteHandler trackDeleteHandler, ITrackUpdateHandler trackUpdateHandler)
     {
+        _trackRepository = trackRepository;
+        _trackCreateHandler = trackCreateHandler;
+        _trackDeleteHandler = trackDeleteHandler;
+        _trackUpdateHandler = trackUpdateHandler;
         _clientToSearch = new HttpClient
             { BaseAddress = new Uri($"http://{hostsOptions.Value.SearchApi}/search/") };
-        _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"http://{hostsOptions.Value.DatabaseApi}/track/") };
         _clientToStatic = new HttpClient
             { BaseAddress = new Uri($"http://{hostsOptions.Value.StaticApi}/tracks/") };
     }
@@ -34,8 +42,8 @@ public class TracksController : Controller
     [HttpGet("get/{id:guid}")]
     public async Task<IActionResult> GetByIdAsync(Guid id)
     {
-        var track = await _clientToDb.GetFromJsonAsync<TrackFull>($"get/id/{id}");
-        return new JsonResult(track);
+        var track = await _trackRepository.GetByIdAsync(id.ToString());
+        return new JsonResult(track is null ? null : new TrackFull(track));
     }
 
     // actually garbage, but looks not so bad now
@@ -43,13 +51,16 @@ public class TracksController : Controller
     public async Task<IActionResult> AddAsync([FromForm] TrackCreationDataWithFile creationDataWithFile)
     {
         var creationData = (TrackCreationData)creationDataWithFile;
-        var trackCreationResult = await AddToDbAsync(creationData);
+        var trackCreationResult = await _trackCreateHandler.CreateAsync(creationData);
         if (!trackCreationResult.IsSuccessful)
             return BadRequest(trackCreationResult);
 
-        var track = await _clientToDb.GetFromJsonAsync<TrackFull>($"get/id/{trackCreationResult.TrackId}");
+        var track = await _trackRepository.GetByIdAsync(trackCreationResult.TrackId!);
+        if (track is null)
+            return BadRequest();
+        var trackFull = new TrackFull(track);
         var staticResponse =
-            await UploadContentToStaticAsync(creationDataWithFile.TrackFile, Guid.Parse(track!.FileId));
+            await UploadContentToStaticAsync(creationDataWithFile.TrackFile, Guid.Parse(trackFull.FileId));
         if (staticResponse.IsSuccessStatusCode) return new JsonResult(trackCreationResult);
 
         // if static API rejected uploading, delete track from database. what if this fails too? cry, i suppose.
@@ -59,22 +70,6 @@ public class TracksController : Controller
             IsSuccessful = false,
             ResultMessage = await staticResponse.Content.ReadAsStringAsync()
         });
-    }
-
-    private async Task<TrackCreationResult> AddToDbAsync(TrackCreationData creationData)
-    {
-        var json = JsonSerializer.Serialize(creationData);
-        var resp = await _clientToDb.PostAsync("add", new StringContent(json, Encoding.UTF8, "application/json"));
-        var respContent = await resp.Content.ReadAsStreamAsync();
-        var trackCreationResult = await JsonSerializer.DeserializeAsync<TrackCreationResult>(respContent,
-            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        if (trackCreationResult is null)
-            return new TrackCreationResult
-            {
-                IsSuccessful = false,
-                ResultMessage = "Unknown database error"
-            };
-        return trackCreationResult;
     }
 
     private async Task<HttpResponseMessage> UploadContentToStaticAsync(IFormFile track, Guid trackId)
@@ -89,19 +84,13 @@ public class TracksController : Controller
     [HttpDelete("delete/{id:guid}")]
     public async Task<IActionResult> DeleteAsync(Guid id)
     {
-        var response = await _clientToDb.DeleteAsync($"delete/{id}");
-        var responseContent = await response.Content.ReadAsStringAsync();
-        return new JsonResult(responseContent);
+        return new JsonResult(await _trackDeleteHandler.DeleteAsync(id.ToString()));
     }
 
     [HttpPut("update/{id:guid}")]
     public async Task<IActionResult> UpdateAsync(Guid id, TrackUpdateData trackUpdateData)
     {
-        var json = JsonSerializer.Serialize(trackUpdateData);
-        var response =
-            await _clientToDb.PutAsync($"update/{id}", new StringContent(json, Encoding.UTF8, "application/json"));
-        var responseContent = await response.Content.ReadAsStringAsync();
-        return new JsonResult(responseContent);
+        return new JsonResult(await _trackUpdateHandler.UpdateAsync(id.ToString(), trackUpdateData));
     }
 
     [HttpGet("search")]
@@ -113,12 +102,13 @@ public class TracksController : Controller
     }
 
     [HttpGet("get")]
-    public async Task<IActionResult> GetWithFiltersAsync([FromQuery] int? pageSize, [FromQuery] int? pageIndex,
+    public IActionResult GetWithFilters([FromQuery] int? pageSize, [FromQuery] int? pageIndex,
         [FromQuery] string? sortBy, [FromQuery] string? search)
     {
-        var tracks =
-            await _clientToDb.GetFromJsonAsync<IEnumerable<TrackFull>>(
-                $"get?pageSize={pageSize}&pageIndex={pageIndex}&search={search}");
+        var tracks = _trackRepository.GetAll().AsEnumerable().Where(t =>
+                search == null || t.Name.ToLower().Contains(search.ToLower()))
+            .Take(new Range((pageSize ?? 20) * ((pageIndex ?? 1) - 1), (pageIndex ?? 1) * (pageSize ?? 20)))
+            .Select(t => new TrackFull(t));
         Func<TrackFull, IComparable> sort = sortBy?.ToLower() switch
         {
             "id" => track => track.Id,
@@ -127,6 +117,7 @@ public class TracksController : Controller
             "author" => track => track.Album.Author.Name,
             _ => track => track.Name
         };
-        return new JsonResult(tracks?.OrderBy(sort));
+        
+        return new JsonResult(tracks.OrderBy(sort));
     }
 }

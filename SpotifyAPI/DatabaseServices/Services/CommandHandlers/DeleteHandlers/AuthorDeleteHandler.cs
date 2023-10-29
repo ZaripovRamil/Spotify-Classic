@@ -5,7 +5,7 @@ namespace DatabaseServices.Services.CommandHandlers.DeleteHandlers;
 
 public interface IAuthorDeleteHandler
 {
-    Task<AuthorDeletionResult> Delete(string id);
+    Task<AuthorDeletionResult> DeleteAsync(string id);
 }
 
 public class AuthorDeleteHandler : IAuthorDeleteHandler
@@ -17,7 +17,7 @@ public class AuthorDeleteHandler : IAuthorDeleteHandler
         _authorRepository = authorRepository;
     }
 
-    public async Task<AuthorDeletionResult> Delete(string id)
+    public async Task<AuthorDeletionResult> DeleteAsync(string id)
     {
         var author = await _authorRepository.GetByIdAsync(id);
         var result = new AuthorDeletionResult { IsSuccessful = true, ResultMessage = "Successful" };

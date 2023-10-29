@@ -7,7 +7,7 @@ namespace DatabaseServices.Services.CommandHandlers.UpdateHandlers;
 
 public interface IAlbumUpdateHandler
 {
-    Task<AlbumUpdateResult> Update(string id, AlbumUpdateData updateData);
+    Task<AlbumUpdateResult> UpdateAsync(string id, AlbumUpdateData updateData);
 }
 
 public class AlbumUpdateHandler : IAlbumUpdateHandler
@@ -19,7 +19,7 @@ public class AlbumUpdateHandler : IAlbumUpdateHandler
         _albumRepository = albumRepository;
     }
 
-    public async Task<AlbumUpdateResult> Update(string id, AlbumUpdateData updateData)
+    public async Task<AlbumUpdateResult> UpdateAsync(string id, AlbumUpdateData updateData)
     {
         var album = await _albumRepository.GetByIdAsync(id);
         var result = new AlbumUpdateResult { IsSuccessful = true, ResultMessage = "Successful" };

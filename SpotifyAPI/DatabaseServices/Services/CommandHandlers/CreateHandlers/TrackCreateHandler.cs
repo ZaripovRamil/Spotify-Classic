@@ -9,7 +9,7 @@ namespace DatabaseServices.Services.CommandHandlers.CreateHandlers;
 
 public interface ITrackCreateHandler
 {
-    public Task<TrackCreationResult> Create(TrackCreationData data);
+    public Task<TrackCreationResult> CreateAsync(TrackCreationData data);
 }
 
 public class TrackCreateHandler : ITrackCreateHandler
@@ -27,7 +27,7 @@ public class TrackCreateHandler : ITrackCreateHandler
     }
 
 
-    public async Task<TrackCreationResult> Create(TrackCreationData data)
+    public async Task<TrackCreationResult> CreateAsync(TrackCreationData data)
     {
         var validationResult = await _trackValidator.Validate(data);
         var track = validationResult.IsValid

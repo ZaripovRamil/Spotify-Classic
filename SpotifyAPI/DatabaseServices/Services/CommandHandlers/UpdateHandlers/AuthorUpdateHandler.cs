@@ -7,7 +7,7 @@ namespace DatabaseServices.Services.CommandHandlers.UpdateHandlers;
 
 public interface IAuthorUpdateHandler
 {
-    Task<AuthorUpdateResult> Update(string id, AuthorUpdateData updateData);
+    Task<AuthorUpdateResult> UpdateAsync(string id, AuthorUpdateData updateData);
 }
 
 public class AuthorUpdateHandler : IAuthorUpdateHandler
@@ -19,7 +19,7 @@ public class AuthorUpdateHandler : IAuthorUpdateHandler
         _authorRepository = authorRepository;
     }
 
-    public async Task<AuthorUpdateResult> Update(string id, AuthorUpdateData updateData)
+    public async Task<AuthorUpdateResult> UpdateAsync(string id, AuthorUpdateData updateData)
     {
         var author = await _authorRepository.GetByIdAsync(id);
         var result = new AuthorUpdateResult { IsSuccessful = true, ResultMessage = "Successful" };

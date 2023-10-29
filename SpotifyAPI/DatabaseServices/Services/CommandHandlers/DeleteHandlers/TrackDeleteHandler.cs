@@ -5,7 +5,7 @@ namespace DatabaseServices.Services.CommandHandlers.DeleteHandlers;
 
 public interface ITrackDeleteHandler
 {
-    Task<TrackDeletionResult> Delete(string id);
+    Task<TrackDeletionResult> DeleteAsync(string id);
 }
 
 public class TrackDeleteHandler : ITrackDeleteHandler
@@ -17,7 +17,7 @@ public class TrackDeleteHandler : ITrackDeleteHandler
         _trackRepository = trackRepository;
     }
 
-    public async Task<TrackDeletionResult> Delete(string id)
+    public async Task<TrackDeletionResult> DeleteAsync(string id)
     {
         var track = await _trackRepository.GetByIdAsync(id);
         var result = new TrackDeletionResult { IsSuccessful = true, ResultMessage = "Successful" };

@@ -9,7 +9,7 @@ namespace DatabaseServices.Services.CommandHandlers.CreateHandlers;
 
 public interface IAlbumCreateHandler
 {
-    public Task<AlbumCreationResult> Create(AlbumCreationData data);
+    public Task<AlbumCreationResult> CreateAsync(AlbumCreationData data);
 }
 
 public class AlbumCreateHandler : IAlbumCreateHandler
@@ -26,7 +26,7 @@ public class AlbumCreateHandler : IAlbumCreateHandler
         _albumRepository = albumRepository;
     }
 
-    public async Task<AlbumCreationResult> Create(AlbumCreationData data)
+    public async Task<AlbumCreationResult> CreateAsync(AlbumCreationData data)
     {
         var validationResult = await _albumValidator.Validate(data);
         var album = validationResult.IsValid

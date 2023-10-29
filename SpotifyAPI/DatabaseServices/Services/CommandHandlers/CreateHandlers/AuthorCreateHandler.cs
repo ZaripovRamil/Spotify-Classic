@@ -9,7 +9,7 @@ namespace DatabaseServices.Services.CommandHandlers.CreateHandlers;
 
 public interface IAuthorCreateHandler
 {
-    public Task<AuthorCreationResult> Create(AuthorCreationData data);
+    public Task<AuthorCreationResult> CreateAsync(AuthorCreationData data);
 }
 
 public class AuthorCreateHandler : IAuthorCreateHandler
@@ -23,7 +23,7 @@ public class AuthorCreateHandler : IAuthorCreateHandler
         _authorRepository = authorRepository;
     }
 
-    public async Task<AuthorCreationResult> Create(AuthorCreationData data)
+    public async Task<AuthorCreationResult> CreateAsync(AuthorCreationData data)
     {
         var validationResult = await _authorValidator.Validate(data);
         var author = validationResult.IsValid ? new Author(data.Name, validationResult.Owner!) : null;
