@@ -5,6 +5,7 @@ using Models.Configuration;
 using Models.OAuth;
 using Utils.LocalRun;
 using Utils.ServiceCollectionExtensions;
+using Utils.WebApplicationExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +40,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.ApplyMigrations();
 }
 
 app.UseCors();

@@ -4,9 +4,10 @@ using DatabaseServices.Services.Repositories.Implementations;
 using Models.Configuration;
 using Utils.LocalRun;
 using Utils.ServiceCollectionExtensions;
+using Utils.WebApplicationExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
-EnvFileLoader.LoadFilesFromParentDirectory(".rabbitmq-secrets", "local.secrets", Path.Combine("..", "local.hostnames"), "local.kestrel-conf");
+EnvFileLoader.LoadFilesFromParentDirectory(".rabbitmq-secrets", ".postgres-secrets", "local.secrets", Path.Combine("..", "local.hostnames"), "local.kestrel-conf");
 
 builder.Configuration.AddEnvironmentVariables();
 
@@ -36,6 +37,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.ApplyMigrations();
 }
 app.UseCors();
 

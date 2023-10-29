@@ -3,10 +3,11 @@ using DatabaseServices.Services.Repositories.Implementations;
 using SearchAPI.Services;
 using Utils.LocalRun;
 using Utils.ServiceCollectionExtensions;
+using Utils.WebApplicationExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-EnvFileLoader.LoadFilesFromParentDirectory("local.secrets", Path.Combine("..", "local.hostnames"), "local.kestrel-conf");
+EnvFileLoader.LoadFilesFromParentDirectory(".postgres-secrets", "local.secrets", Path.Combine("..", "local.hostnames"), "local.kestrel-conf");
 
 builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddControllers();
@@ -31,6 +32,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.ApplyMigrations();
 }
 
 app.UseCors();
