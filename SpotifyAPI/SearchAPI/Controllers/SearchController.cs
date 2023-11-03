@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using SearchAPI.Services;
 
 namespace SearchAPI.Controllers;
@@ -7,10 +8,12 @@ namespace SearchAPI.Controllers;
 public class SearchController:Controller
 {
     private readonly ISearchEngine _searchEngine;
+    private readonly IMediator _mediator;
 
-    public SearchController(ISearchEngine searchEngine)
+    public SearchController(ISearchEngine searchEngine, IMediator mediator)
     {
         _searchEngine = searchEngine;
+        _mediator = mediator;
     }
 
     [HttpGet]
@@ -22,7 +25,9 @@ public class SearchController:Controller
     [HttpGet("users")]
     public async Task<IActionResult> SearchUsers([FromQuery]string? query)
     {
-        return Ok(await _searchEngine.SearchUsersAsync(query?? ""));
+        var q = new Features.SearchUsers.Query(query ?? "");
+        var res = await _mediator.Send(q);
+        return res.IsSuccessful ? Ok(res.Value) : BadRequest(res.Errors);
     }
 
     [HttpGet("albums")]

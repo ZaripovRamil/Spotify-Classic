@@ -2,6 +2,7 @@
 using Models.DTO.BackToFront;
 using Models.DTO.BackToFront.Full;
 using Models.DTO.BackToFront.Light;
+using SearchAPI.Features.SearchUsers;
 
 namespace SearchAPI.Services;
 
@@ -38,9 +39,9 @@ public class ShittyEngine : ISearchEngine
                 .ToList()));
     }
 
-    public Task<UsersSearchResult> SearchUsersAsync(string query)
+    public Task<ResultDto> SearchUsersAsync(string query)
     {
-        return Task.FromResult(new UsersSearchResult(_userRepository.GetAllUsers()
+        return Task.FromResult(new ResultDto(_userRepository.GetAllUsers().AsEnumerable()
             .Where(u => u.Name.ToLower().Contains(query.ToLower()) ||
                         u.NormalizedUserName is not null && u.NormalizedUserName.Contains(query.ToUpper()))
             .Select(u => new UserLight(u)).ToList()));

@@ -1,11 +1,10 @@
 using DatabaseServices.Services.Repositories.Implementations;
-using Models.DTO.BackToFront;
 using Models.DTO.BackToFront.Light;
 using Utils.CQRS;
 
 namespace SearchAPI.Features.SearchUsers;
 
-public class QueryHandler : IQueryHandler<Query, UsersSearchResult>
+public class QueryHandler : IQueryHandler<Query, ResultDto>
 {
     private readonly IUserRepository _userRepository;
 
@@ -14,14 +13,13 @@ public class QueryHandler : IQueryHandler<Query, UsersSearchResult>
         _userRepository = userRepository;
     }
 
-    public Task<Result<UsersSearchResult>> Handle(Query request, CancellationToken cancellationToken)
+    public Task<Result<ResultDto>> Handle(Query request, CancellationToken cancellationToken)
     {
-        return Task.FromResult<Result<UsersSearchResult>>(
-            new UsersSearchResult(
+        return Task.FromResult<Result<ResultDto>>(
+            new ResultDto(
                 _userRepository.GetAllUsers()
-                    .Where(u => u.Name.ToLower().Contains(request.Filter.ToLower()) ||
-                                u.NormalizedUserName is not null &&
-                                u.NormalizedUserName.Contains(request.Filter.ToUpper()))
+                    .Where(Spec.NameContains(request.Filter) || Spec.UserNameContains(request.Filter))
+                    .AsEnumerable()
                     .Select(u => new UserLight(u))
                     .ToList()
                 )
