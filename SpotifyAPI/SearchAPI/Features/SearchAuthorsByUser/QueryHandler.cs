@@ -1,26 +1,26 @@
 using DatabaseServices.Services.Repositories.Implementations;
 using Microsoft.EntityFrameworkCore;
-using Models.DTO.BackToFront.Light;
+using Models.DTO.BackToFront.Full;
 using Utils.CQRS;
 
-namespace SearchAPI.Features.SearchUsers;
+namespace SearchAPI.Features.SearchAuthorsByUser;
 
 public class QueryHandler : IQueryHandler<Query, ResultDto>
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IAuthorRepository _authorRepository;
 
-    public QueryHandler(IUserRepository userRepository)
+    public QueryHandler(IAuthorRepository authorRepository)
     {
-        _userRepository = userRepository;
+        _authorRepository = authorRepository;
     }
 
     public async Task<Result<ResultDto>> Handle(Query request, CancellationToken cancellationToken)
     {
         return new ResultDto(
-            await _userRepository.GetAllUsers()
+            await _authorRepository.GetAll()
                 .Where(Spec.NameContains(request.Filter) || Spec.UserNameContains(request.Filter))
                 .AsAsyncEnumerable()
-                .Select(u => new UserLight(u))
+                .Select(a => new AuthorFull(a))
                 .ToListAsync(cancellationToken: cancellationToken));
     }
 }

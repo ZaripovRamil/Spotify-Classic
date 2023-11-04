@@ -1,26 +1,26 @@
 using DatabaseServices.Services.Repositories.Implementations;
 using Microsoft.EntityFrameworkCore;
-using Models.DTO.BackToFront.Light;
+using Models.DTO.BackToFront.Full;
 using Utils.CQRS;
 
-namespace SearchAPI.Features.SearchUsers;
+namespace SearchAPI.Features.SearchAlbumsByAuthor;
 
 public class QueryHandler : IQueryHandler<Query, ResultDto>
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IAlbumRepository _albumRepository;
 
-    public QueryHandler(IUserRepository userRepository)
+    public QueryHandler(IAlbumRepository albumRepository)
     {
-        _userRepository = userRepository;
+        _albumRepository = albumRepository;
     }
 
     public async Task<Result<ResultDto>> Handle(Query request, CancellationToken cancellationToken)
     {
         return new ResultDto(
-            await _userRepository.GetAllUsers()
-                .Where(Spec.NameContains(request.Filter) || Spec.UserNameContains(request.Filter))
+            await _albumRepository.GetAll()
+                .Where(Spec.AuthorNameContains(request.Filter))
                 .AsAsyncEnumerable()
-                .Select(u => new UserLight(u))
+                .Select(a => new AlbumFull(a))
                 .ToListAsync(cancellationToken: cancellationToken));
     }
 }
