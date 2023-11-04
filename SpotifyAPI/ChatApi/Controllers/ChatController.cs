@@ -1,4 +1,4 @@
-﻿using DatabaseServices.Services.Accessors.Interfaces;
+﻿using DatabaseServices.Services.Repositories.Implementations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.FrontToBack.Chat;
@@ -10,18 +10,18 @@ namespace ChatApi.Controllers;
 [Authorize]
 public class ChatController : Controller
 {
-    private readonly IDbSupportChatHistoryAccessor _historyAccessor;
+    private readonly IDbSupportChatHistoryRepository _historyRepository;
 
-    public ChatController(IDbSupportChatHistoryAccessor historyAccessor)
+    public ChatController(IDbSupportChatHistoryRepository historyRepository)
     {
-        _historyAccessor = historyAccessor;
+        _historyRepository = historyRepository;
     }
 
     [HttpGet("[action]")]
     public List<ChatMessage> History()
     {
         var username = User.Identity!.Name!;
-        return _historyAccessor.GetHistoryForUserId(username).Select(sm => new ChatMessage
+        return _historyRepository.GetHistoryForUserId(username).Select(sm => new ChatMessage
         {
             Message = sm.Message,
             User = sm.IsOwner ? username : "Admin",
@@ -36,7 +36,7 @@ public class ChatController : Controller
     [HttpGet("[action]/{groupname}")]
     public List<ChatMessage> History(string groupname)
     {
-        var history = _historyAccessor.GetHistoryForUserId(groupname).Select(sm => new ChatMessage()
+        var history = _historyRepository.GetHistoryForUserId(groupname).Select(sm => new ChatMessage()
         {
             Message = sm.Message,
             User = sm.IsOwner ? sm.Sender.UserName! : $"Admin({sm.Sender.UserName!})",

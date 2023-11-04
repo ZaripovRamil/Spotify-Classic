@@ -1,4 +1,4 @@
-using DatabaseServices.Services.Accessors.Interfaces;
+using DatabaseServices.Services.Repositories.Implementations;
 using MassTransit;
 using Models.MessagingContracts;
 
@@ -6,15 +6,15 @@ namespace ChatHistorySaverService.Consumers;
 
 public class ChatHistoryMessagesConsumer : IConsumer<SaveHistoryMessageToDb>
 {
-    private readonly IDbSupportChatHistoryAccessor _historyAccessor;
+    private readonly IDbSupportChatHistoryRepository _historyRepository;
 
-    public ChatHistoryMessagesConsumer(IDbSupportChatHistoryAccessor historyAccessor)
+    public ChatHistoryMessagesConsumer(IDbSupportChatHistoryRepository historyRepository)
     {
-        _historyAccessor = historyAccessor;
+        _historyRepository = historyRepository;
     }
 
     public async Task Consume(ConsumeContext<SaveHistoryMessageToDb> context)
     {
-        await _historyAccessor.AddMessageToUserHistory(context.Message.Message);
+        await _historyRepository.AddMessageToUserHistoryAsync(context.Message.Message);
     }
 }

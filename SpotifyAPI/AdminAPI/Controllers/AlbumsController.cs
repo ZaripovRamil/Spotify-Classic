@@ -1,6 +1,8 @@
-using System.Text;
-using System.Text.Json;
 using AdminAPI.ModelsExtensions;
+using DatabaseServices.Services.CommandHandlers.CreateHandlers;
+using DatabaseServices.Services.CommandHandlers.DeleteHandlers;
+using DatabaseServices.Services.CommandHandlers.UpdateHandlers;
+using DatabaseServices.Services.Repositories.Implementations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -18,16 +20,23 @@ namespace AdminAPI.Controllers;
 [Route("[controller]")]
 public class AlbumsController : Controller
 {
-    private readonly HttpClient _clientToDb;
+    private readonly IAlbumRepository _albumRepository;
+    private readonly IAlbumDeleteHandler _albumDeleteHandler;
+    private readonly IAlbumUpdateHandler _albumUpdateHandler;
+    private readonly IAlbumCreateHandler _albumCreateHandler;
     private readonly HttpClient _clientToSearch;
     private readonly HttpClient _clientToStatic;
 
-    public AlbumsController(IOptions<Hosts> hostsOptions)
+    public AlbumsController(IOptions<Hosts> hostsOptions, IAlbumRepository albumRepository,
+        IAlbumDeleteHandler albumDeleteHandler, IAlbumUpdateHandler albumUpdateHandler,
+        IAlbumCreateHandler albumCreateHandler)
     {
+        _albumRepository = albumRepository;
+        _albumDeleteHandler = albumDeleteHandler;
+        _albumUpdateHandler = albumUpdateHandler;
+        _albumCreateHandler = albumCreateHandler;
         _clientToSearch = new HttpClient
             { BaseAddress = new Uri($"http://{hostsOptions.Value.SearchApi}/search")};
-        _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"http://{hostsOptions.Value.DatabaseApi}/album/") };
         _clientToStatic = new HttpClient
             { BaseAddress = new Uri($"http://{hostsOptions.Value.StaticApi}/previews/") };
     }
@@ -35,8 +44,8 @@ public class AlbumsController : Controller
     [HttpGet("get/{id:guid}")]
     public async Task<IActionResult> GetByIdAsync(Guid id)
     {
-        var album = await _clientToDb.GetFromJsonAsync<AlbumFull>($"get/id/{id}");
-        return new JsonResult(album);
+        var album = await _albumRepository.GetByIdAsync(id.ToString());
+        return album is null ? new JsonResult(null) : new JsonResult(new AlbumFull(album));
     }
 
     // actually garbage, but looks not so bad now
@@ -48,7 +57,7 @@ public class AlbumsController : Controller
         if (!albumCreationResult.IsSuccessful)
             return BadRequest(albumCreationResult);
 
-        var album = await _clientToDb.GetFromJsonAsync<AlbumFull>($"get/id/{albumCreationResult.AlbumId!}");
+        var album = await _albumRepository.GetByIdAsync(albumCreationResult.AlbumId!);
         var staticResponse =
             await UploadContentToStaticAsync(creationDataWithFile.PreviewFile, album!.PreviewId);
         if (staticResponse.IsSuccessStatusCode) return new JsonResult(albumCreationResult);
@@ -64,18 +73,7 @@ public class AlbumsController : Controller
 
     private async Task<AlbumCreationResult> AddToDbAsync(AlbumCreationData creationData)
     {
-        var json = JsonSerializer.Serialize(creationData);
-        var resp = await _clientToDb.PostAsync("add", new StringContent(json, Encoding.UTF8, "application/json"));
-        var respContent = await resp.Content.ReadAsStreamAsync();
-        var albumCreationResult = await JsonSerializer.DeserializeAsync<AlbumCreationResult>(respContent,
-            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        if (albumCreationResult is null)
-            return new AlbumCreationResult
-            {
-                IsSuccessful = false,
-                ResultMessage = "Unknown database error"
-            };
-        return albumCreationResult;
+        return await _albumCreateHandler.CreateAsync(creationData);
     }
 
     private async Task<HttpResponseMessage> UploadContentToStaticAsync(IFormFile album, string previewId)
@@ -90,28 +88,28 @@ public class AlbumsController : Controller
     [HttpDelete("delete/{id:guid}")]
     public async Task<IActionResult> DeleteAsync(Guid id)
     {
-        var response = await _clientToDb.DeleteAsync($"delete/{id}");
-        var responseContent = await response.Content.ReadAsStringAsync();
-        return new JsonResult(responseContent);
+        return new JsonResult(await _albumDeleteHandler.DeleteAsync(id.ToString()));
     }
 
     [HttpPut("update/{id:guid}")]
     public async Task<IActionResult> UpdateAsync(Guid id, [FromBody] AlbumUpdateData albumUpdateData)
     {
-        var json = JsonSerializer.Serialize(albumUpdateData);
-        var response =
-            await _clientToDb.PutAsync($"update/{id}", new StringContent(json, Encoding.UTF8, "application/json"));
-        var responseContent = await response.Content.ReadAsStringAsync();
-        return new JsonResult(responseContent);
+        return new JsonResult(await _albumUpdateHandler.UpdateAsync(id.ToString(), albumUpdateData));
     }
 
     [HttpGet("get")]
-    public async Task<IActionResult> GetWithFiltersAsync([FromQuery] string? albumType, [FromQuery] int? tracksMin,
+    public IActionResult GetWithFilters([FromQuery] string? albumType, [FromQuery] int? tracksMin,
         [FromQuery] int? tracksMax, [FromQuery] int? maxCount, [FromQuery] string? sortBy, [FromQuery] string? search)
     {
-        var albums =
-            await _clientToDb.GetFromJsonAsync<List<AlbumFull>>(
-                $"get?albumType={albumType}&tracksMin={tracksMin}&tracksMax={tracksMax}&maxCount={maxCount}&search={search}");
+        var albums = _albumRepository.GetAll().AsEnumerable().Where(a =>
+                (albumType == null ||
+                 string.Equals(a.Type.ToString(), albumType, StringComparison.CurrentCultureIgnoreCase)) &&
+                (tracksMin == null || a.Tracks.Count >= tracksMin.Value) &&
+                (tracksMax == null || a.Tracks.Count <= tracksMax.Value) &&
+                (search == null || a.Name.ToLower().Contains(search.ToLower())))
+            .Take(new Range(0, maxCount ?? ^1))
+            .Select(a => new AlbumFull(a))
+            .ToList();
         Func<AlbumFull, IComparable> sort = sortBy?.ToLower() switch
         {
             "id" => album => album.Id,
@@ -120,7 +118,7 @@ public class AlbumsController : Controller
             "type" => album => album.Type,
             _ => album => album.Name
         };
-        return new JsonResult(albums?.OrderBy(sort));
+        return new JsonResult(albums.OrderBy(sort));
     }
 
     [HttpGet("search")]

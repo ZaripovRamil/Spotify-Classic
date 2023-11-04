@@ -1,5 +1,7 @@
-using System.Text;
-using System.Text.Json;
+using DatabaseServices.Services.CommandHandlers.CreateHandlers;
+using DatabaseServices.Services.CommandHandlers.DeleteHandlers;
+using DatabaseServices.Services.CommandHandlers.UpdateHandlers;
+using DatabaseServices.Services.Repositories.Implementations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -16,56 +18,54 @@ namespace AdminAPI.Controllers;
 [Route("[controller]")]
 public class AuthorsController : Controller
 {
-    private readonly HttpClient _clientToDb;
+    private readonly IAuthorRepository _authorRepository;
+    private readonly IAuthorCreateHandler _authorCreateHandler;
+    private readonly IAuthorDeleteHandler _authorDeleteHandler;
+    private readonly IAuthorUpdateHandler _authorUpdateHandler;
     private readonly HttpClient _clientToSearch;
 
-    public AuthorsController(IOptions<Hosts> hostsOptions)
+    public AuthorsController(IOptions<Hosts> hostsOptions, IAuthorRepository authorRepository,
+        IAuthorCreateHandler authorCreateHandler, IAuthorDeleteHandler authorDeleteHandler,
+        IAuthorUpdateHandler authorUpdateHandler)
     {
+        _authorRepository = authorRepository;
+        _authorCreateHandler = authorCreateHandler;
+        _authorDeleteHandler = authorDeleteHandler;
+        _authorUpdateHandler = authorUpdateHandler;
         _clientToSearch = new HttpClient
             { BaseAddress = new Uri($"http://{hostsOptions.Value.SearchApi}/search")};
-        _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"http://{hostsOptions.Value.DatabaseApi}/author/") };
     }
 
     [HttpGet("get")]
-    public async Task<IActionResult> GetAllAsync()
+    public IActionResult GetAll()
     {
-        var authors = await _clientToDb.GetFromJsonAsync<IEnumerable<AuthorFull>>("get");
+        var authors = _authorRepository.GetAll().AsEnumerable().Select(a => new AuthorFull(a));
         return new JsonResult(authors);
     }
 
     [HttpGet("get/{id:guid}")]
     public async Task<IActionResult> GetByIdAsync(Guid id)
     {
-        var author = await _clientToDb.GetFromJsonAsync<AuthorFull>($"get/id/{id}");
-        return new JsonResult(author);
+        var author = await _authorRepository.GetByIdAsync(id.ToString());
+        return new JsonResult(author is null ? null : new AuthorFull(author));
     }
 
     [HttpPost("add")]
     public async Task<IActionResult> Add([FromBody] AuthorCreationData creationData)
     {
-        var json = JsonSerializer.Serialize(creationData);
-        var response = await _clientToDb.PostAsync("add", new StringContent(json, Encoding.UTF8, "application/json"));
-        var responseContent = await response.Content.ReadAsStringAsync();
-        return new JsonResult(responseContent);
+        return new JsonResult(await _authorCreateHandler.CreateAsync(creationData));
     }
 
     [HttpDelete("delete/{id:guid}")]
     public async Task<IActionResult> DeleteAsync(Guid id)
     {
-        var response = await _clientToDb.DeleteAsync($"delete/{id}");
-        var responseContent = await response.Content.ReadAsStringAsync();
-        return new JsonResult(responseContent);
+        return new JsonResult(await _authorDeleteHandler.DeleteAsync(id.ToString()));
     }
 
     [HttpPut("update/{id:guid}")]
     public async Task<IActionResult> UpdateAsync(Guid id, AuthorUpdateData authorUpdateData)
     {
-        var json = JsonSerializer.Serialize(authorUpdateData);
-        var response =
-            await _clientToDb.PutAsync($"update/{id}", new StringContent(json, Encoding.UTF8, "application/json"));
-        var responseContent = await response.Content.ReadAsStringAsync();
-        return new JsonResult(responseContent);
+        return new JsonResult(await _authorUpdateHandler.UpdateAsync(id.ToString(), authorUpdateData));
     }
 
     [HttpGet("search")]

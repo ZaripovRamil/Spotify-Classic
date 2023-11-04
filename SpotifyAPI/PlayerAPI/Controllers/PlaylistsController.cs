@@ -1,12 +1,7 @@
-using System.Net;
-using System.Text;
-using System.Text.Json;
+using DatabaseServices.Services.Repositories.Implementations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Models.Configuration;
 using Models.DTO;
-using Models.DTO.BackToFront.Full;
 using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack;
 
@@ -17,51 +12,55 @@ namespace PlayerAPI.Controllers;
 [Route("[controller]")]
 public class PlaylistsController : Controller
 {
-    private readonly HttpClient _clientToDb;
+    private readonly IPlaylistRepository _playlistRepository;
+    private readonly ITrackRepository _trackRepository;
 
-    public PlaylistsController(IOptions<Hosts> hostsOptions)
+    public PlaylistsController(IPlaylistRepository playlistRepository, ITrackRepository trackRepository)
     {
-        _clientToDb = new HttpClient
-            { BaseAddress = new Uri($"http://{hostsOptions.Value.DatabaseApi}/playlist/") };
+        _playlistRepository = playlistRepository;
+        _trackRepository = trackRepository;
     }
 
     [HttpGet("get/{id}")]
     public async Task<IActionResult> GetByIdAsync(string id)
     {
-        var playlist = await _clientToDb.GetFromJsonAsync<PlaylistFull>($"get/id/{id}");
+        var playlist = await _playlistRepository.GetByIdAsync(id);
         if (playlist is null) return NotFound();
         return new JsonResult(playlist);
     }
 
     [HttpGet("get")]
-    public async Task<IActionResult> GetAllAsync()
+    public IActionResult GetAll()
     {
-        var playlists = await _clientToDb.GetFromJsonAsync<IEnumerable<PlaylistFull>>("get");
-        return new JsonResult(playlists?.Select(playlist => new PlaylistLight(playlist)));
+        var playlists = _playlistRepository.GetAll();
+        return new JsonResult(playlists.Select(playlist => new PlaylistLight(playlist)));
     }
 
     [HttpPost("addtrack")]
-    public async Task<IActionResult> AddTrack([FromBody] PlaylistTrackOperationData data)
+    public async Task<IActionResult> AddTrackAsync([FromBody] PlaylistTrackOperationData data)
     {
-        var json = JsonSerializer.Serialize(new PlaylistTrackOperationDataWithUser(data, User.Identity?.Name!));
-        var resp = await _clientToDb.PostAsync("AddTrack", new StringContent(json, Encoding.UTF8, "application/json"));
-        if (resp.IsSuccessStatusCode)
-            return Ok();
-        if (resp.StatusCode == HttpStatusCode.Forbidden)
+        var dto = new PlaylistTrackOperationDataWithUser(data, User.Identity?.Name!);
+        var playlist = await _playlistRepository.GetByIdAsync(dto.PlaylistId);
+        var track = await _trackRepository.GetByIdAsync(dto.TrackId);
+        if (playlist == null || track == null)
+            return BadRequest();
+        if (playlist.Owner.UserName != dto.UserName)
             return Forbid();
-        return BadRequest();
+        await _playlistRepository.AddTrackAsync(playlist, track);
+        return Ok();
     }
 
     [HttpPost("DeleteTrack")]
     public async Task<IActionResult> DeleteTrack([FromBody] PlaylistTrackOperationData data)
     {
-        var json = JsonSerializer.Serialize(new PlaylistTrackOperationDataWithUser(data, User.Identity?.Name!));
-        var resp = await _clientToDb.PostAsync("DeleteTrack",
-            new StringContent(json, Encoding.UTF8, "application/json"));
-        if (resp.IsSuccessStatusCode)
-            return Ok();
-        if (resp.StatusCode == HttpStatusCode.Forbidden)
+        var dto = new PlaylistTrackOperationDataWithUser(data, User.Identity?.Name!);
+        var playlist = await _playlistRepository.GetByIdAsync(data.PlaylistId);
+        var track = await _trackRepository.GetByIdAsync(data.TrackId);
+        if (playlist == null || track == null)
+            return BadRequest();
+        if (playlist.Owner.UserName != dto.UserName)
             return Forbid();
-        return BadRequest();
+        await _playlistRepository.DeleteTrackAsync(playlist, track);
+        return Ok();
     }
 }

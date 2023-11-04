@@ -23,7 +23,7 @@ public class AppDbContext : IdentityDbContext<User>
     public AppDbContext(DbContextOptions options) : base(options)
     {
     }
-    
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

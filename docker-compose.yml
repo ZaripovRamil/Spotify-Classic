@@ -11,23 +11,6 @@ services:
     ports:
       - "5432:5432"
   
-  db_api:
-    image: db_api
-    hostname: ${DatabaseApiHostname}
-    build:
-      context: SpotifyAPI
-      dockerfile: DatabaseAPI/Dockerfile.${RunningEnvironment}
-    env_file:
-      - SpotifyAPI/.postgres-secrets
-      - SpotifyAPI/.secrets
-      - .hostnames
-      - SpotifyAPI/.kestrel-conf
-    ports:
-      - "${DatabaseApiPortHttps}:443"
-    depends_on:
-      - postgres
-    working_dir: "/app"
-  
   admin_api:
     image: admin_api
     hostname: ${AdminApiHostname}
