@@ -49,7 +49,7 @@ public static class PredicateBuilder
         return Expression.Lambda<T>(merge(first.Body, secondBody), first.Parameters);
     }
 
-    private class ParameterRebinder : ExpressionVisitor
+    private sealed class ParameterRebinder : ExpressionVisitor
     {
         private readonly Dictionary<ParameterExpression, ParameterExpression> _map;
 
@@ -58,12 +58,12 @@ public static class PredicateBuilder
         public static Expression ReplaceParameters(Dictionary<ParameterExpression, ParameterExpression> map,
             Expression exp) => new ParameterRebinder(map).Visit(exp);
 
-        protected override Expression VisitParameter(ParameterExpression p)
+        protected override Expression VisitParameter(ParameterExpression node)
         {
-            if (_map.TryGetValue(p, out var replacement))
-                p = replacement;
+            if (_map.TryGetValue(node, out var replacement))
+                node = replacement;
 
-            return base.VisitParameter(p);
+            return base.VisitParameter(node);
         }
     }
 }

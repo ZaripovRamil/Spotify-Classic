@@ -3,7 +3,7 @@ using Models.Entities;
 
 namespace SearchAPI.Features.SearchUsers;
 
-public class Spec
+public static class Spec
 {
     public static Specification<User> NameContains(string filter) =>
         new(u => u.Name.ToLower().Contains(filter.ToLower()));
