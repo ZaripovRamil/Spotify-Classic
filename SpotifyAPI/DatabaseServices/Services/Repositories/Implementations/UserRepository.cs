@@ -9,7 +9,7 @@ namespace DatabaseServices.Services.Repositories.Implementations;
 
 public interface IUserRepository
 {
-    public IEnumerable<User> GetAllUsers();
+    public IQueryable<User> GetAllUsers();
     public Task<User?> GetByUsernameAsync(string login);
 
     public Task<User?> GetByIdAsync(string id);
@@ -30,7 +30,7 @@ public class UserRepository : Repository, IUserRepository
         await GetUsers()
             .FirstOrDefaultAsync(u => u.Id == id);
 
-    public IEnumerable<User> GetAllUsers()
+    public IQueryable<User> GetAllUsers()
     {
         var users = DbContext.Users
             .Include(u => u.Playlists)
