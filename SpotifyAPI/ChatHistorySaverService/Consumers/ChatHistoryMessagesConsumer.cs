@@ -1,4 +1,4 @@
-using DatabaseServices.Services.Repositories.Implementations;
+using DatabaseServices.Repositories;
 using MassTransit;
 using Models.MessagingContracts;
 

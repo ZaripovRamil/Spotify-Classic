@@ -1,8 +1,8 @@
 using AdminAPI.ModelsExtensions;
-using DatabaseServices.Services.CommandHandlers.CreateHandlers;
-using DatabaseServices.Services.CommandHandlers.DeleteHandlers;
-using DatabaseServices.Services.CommandHandlers.UpdateHandlers;
-using DatabaseServices.Services.Repositories.Implementations;
+using DatabaseServices.CommandHandlers.CreateHandlers;
+using DatabaseServices.CommandHandlers.DeleteHandlers;
+using DatabaseServices.CommandHandlers.UpdateHandlers;
+using DatabaseServices.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -36,7 +36,7 @@ public class AlbumsController : Controller
         _albumUpdateHandler = albumUpdateHandler;
         _albumCreateHandler = albumCreateHandler;
         _clientToSearch = new HttpClient
-            { BaseAddress = new Uri($"http://{hostsOptions.Value.SearchApi}/search")};
+            { BaseAddress = new Uri($"http://{hostsOptions.Value.SearchApi}/search") };
         _clientToStatic = new HttpClient
             { BaseAddress = new Uri($"http://{hostsOptions.Value.StaticApi}/previews/") };
     }

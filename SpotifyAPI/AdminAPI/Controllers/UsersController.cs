@@ -1,4 +1,4 @@
-﻿using DatabaseServices.Services.Repositories.Implementations;
+﻿using DatabaseServices.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.Light;
@@ -31,25 +31,25 @@ public class UsersController
             .Select(m => m!.RoomId);
         return new JsonResult(users);
     }
-    
+
     [HttpGet("getUsers")]
     public IActionResult GetAll()
     {
-        var users = _userRepository.GetAllUsers().AsEnumerable().Select(u => new UserLight(u));
+        var users = _userRepository.GetAll().AsEnumerable().Select(u => new UserLight(u));
         return new JsonResult(users);
     }
-    
+
     [HttpPost]
     [Route("promote")]
     public async Task<IActionResult> MakeAdminAsync([FromBody] PromoteToAdminDto dto)
     {
         var isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
         if (!isDevelopment) return new NotFoundResult();
-        var user = await _userRepository.GetByUsernameAsync(dto.Login);
+        var user = await _userRepository.GetByNameAsync(dto.Login);
         if (user is null) return new NotFoundResult();
         await _userRepository.SetRoleAsync(user, Role.Admin);
         return new OkResult();
     }
-    
+
     public record PromoteToAdminDto(string Login);
 }

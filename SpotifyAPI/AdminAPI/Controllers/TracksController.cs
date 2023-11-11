@@ -1,8 +1,8 @@
 using AdminAPI.ModelsExtensions;
-using DatabaseServices.Services.CommandHandlers.CreateHandlers;
-using DatabaseServices.Services.CommandHandlers.DeleteHandlers;
-using DatabaseServices.Services.CommandHandlers.UpdateHandlers;
-using DatabaseServices.Services.Repositories.Implementations;
+using DatabaseServices.CommandHandlers.CreateHandlers;
+using DatabaseServices.CommandHandlers.DeleteHandlers;
+using DatabaseServices.CommandHandlers.UpdateHandlers;
+using DatabaseServices.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -27,7 +27,8 @@ public class TracksController : Controller
     private readonly HttpClient _clientToSearch;
 
     public TracksController(IOptions<Hosts> hostsOptions, ITrackRepository trackRepository,
-        ITrackCreateHandler trackCreateHandler, ITrackDeleteHandler trackDeleteHandler, ITrackUpdateHandler trackUpdateHandler)
+        ITrackCreateHandler trackCreateHandler, ITrackDeleteHandler trackDeleteHandler,
+        ITrackUpdateHandler trackUpdateHandler)
     {
         _trackRepository = trackRepository;
         _trackCreateHandler = trackCreateHandler;
@@ -117,7 +118,7 @@ public class TracksController : Controller
             "author" => track => track.Album.Author.Name,
             _ => track => track.Name
         };
-        
+
         return new JsonResult(tracks.OrderBy(sort));
     }
 }

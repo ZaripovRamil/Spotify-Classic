@@ -1,4 +1,4 @@
-﻿using DatabaseServices.Services.Repositories.Implementations;
+﻿using DatabaseServices.Repositories;
 using Models.DTO.BackToFront;
 using Models.DTO.BackToFront.Full;
 using Models.DTO.BackToFront.Light;
@@ -40,9 +40,9 @@ public class ShittyEngine : ISearchEngine
 
     public Task<UsersSearchResult> SearchUsersAsync(string query)
     {
-        return Task.FromResult(new UsersSearchResult(_userRepository.GetAllUsers()
+        return Task.FromResult(new UsersSearchResult(_userRepository.GetAll()
             .Where(u => u.Name.ToLower().Contains(query.ToLower()) ||
-                        u.NormalizedUserName is not null && u.NormalizedUserName.Contains(query.ToUpper()))
+                        u.NormalizedUserName != null && u.NormalizedUserName.Contains(query.ToUpper()))
             .Select(u => new UserLight(u)).ToList()));
     }
 

@@ -1,4 +1,4 @@
-using DatabaseServices.Services.Repositories.Implementations;
+using DatabaseServices.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.Light;
