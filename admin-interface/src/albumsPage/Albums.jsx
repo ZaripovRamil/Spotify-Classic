@@ -102,7 +102,7 @@ const Albums = () => {
   }
 
   const insertItemsWithResultAsync = async (data) => {
-    data.releaseDate = parseInt(data.releaseDate);
+    data.releaseYear = parseInt(data.releaseYear);
     data.albumType = parseInt(data.albumType);
     const formData = new FormData();
     Object.entries(data).forEach(([prop, value]) => formData.append(prop, value));

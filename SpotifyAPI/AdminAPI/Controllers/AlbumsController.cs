@@ -47,10 +47,12 @@ public class AlbumsController : Controller
         var command = new Command(dto.Name, dto.AuthorId, dto.AlbumType, dto.ReleaseYear, Guid.NewGuid(),
             dto.PreviewFile);
         var res = await _mediator.Send(command);
-        if (res.Value!.IsSuccessful)
-            return new JsonResult(res.Value);
-
-        return BadRequest(res.Value);
+        return res.IsSuccessful switch
+        {
+            false => BadRequest(new ResultDto(false, string.Join('\n', res.Errors), null)),
+            true when res.Value!.IsSuccessful => new JsonResult(res.Value),
+            _ => BadRequest(res.Value)
+        };
     }
 
     [HttpDelete("delete/{id:guid}")]

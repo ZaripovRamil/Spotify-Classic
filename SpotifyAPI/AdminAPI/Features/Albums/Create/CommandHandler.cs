@@ -1,4 +1,5 @@
-﻿using DatabaseServices.Repositories;
+﻿using AdminAPI.Services;
+using DatabaseServices.Repositories;
 using Utils.CQRS;
 
 namespace AdminAPI.Features.Albums.Create;
@@ -18,7 +19,7 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
     {
         var res =_savers.Select(async s => await s.SaveAsync(request)).ToArray();
         await Task.WhenAll(res);
-        if (res.Any(r => !r.Result.IsSuccessful))
+        if (Array.Exists(res,r => !r.Result.IsSuccessful))
         {
             await Task.WhenAll(_savers.Select(async s => await s.UnSaveAsync(request)));
             return new ResultDto(false, string.Join('\n', res.SelectMany(r => r.Result.Errors)), null);

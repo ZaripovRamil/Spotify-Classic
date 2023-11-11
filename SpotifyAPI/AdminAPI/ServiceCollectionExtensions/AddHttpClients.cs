@@ -15,7 +15,7 @@ public static class AddHttpClientsExtension
                 client => client.BaseAddress = new Uri($"http://{hosts.StaticApi}/"))
             .AddRetryPolicy();
         services.AddHttpClient(nameof(Hosts.SearchApi),
-            client => client.BaseAddress = new Uri($"http://{hosts.SearchApi}/search"))
+                client => client.BaseAddress = new Uri($"http://{hosts.SearchApi}/search"))
             .AddRetryPolicy();
         
         return services;

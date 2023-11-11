@@ -27,7 +27,7 @@ public class SupportChatHistoryRepository : Repository, ISupportChatHistoryRepos
         await DbContext.SaveChangesAsync();
     }
 
-    public async Task<SupportChatMessage?> GetByIdAsync(string id)
+    public Task<SupportChatMessage?> GetByIdAsync(string id)
     {
         throw new NotImplementedException();
     }
@@ -37,12 +37,12 @@ public class SupportChatHistoryRepository : Repository, ISupportChatHistoryRepos
         return DbContext.SupportChatMessagesHistory;
     }
 
-    public async Task DeleteAsync(SupportChatMessage item)
+    public Task DeleteAsync(SupportChatMessage item)
     {
         throw new NotImplementedException();
     }
 
-    public async Task UpdateAsync(SupportChatMessage item)
+    public Task UpdateAsync(SupportChatMessage item)
     {
         throw new NotImplementedException();
     }

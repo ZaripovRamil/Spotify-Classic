@@ -42,6 +42,6 @@ public class GenreRepository : Repository, IGenreRepository
         await DbContext.SaveChangesAsync();
     }
 
-    public async Task<Genre?> GetByNameAsync(string genreName) =>
-        await GetAll().FirstOrDefaultAsync(g => g.Name == genreName);
+    public async Task<Genre?> GetByNameAsync(string name) =>
+        await GetAll().FirstOrDefaultAsync(g => g.Name == name);
 }
