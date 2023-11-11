@@ -4,16 +4,14 @@ using Models.Entities;
 
 namespace DatabaseServices.Repositories;
 
-public interface IDbSupportChatHistoryRepository
+public interface ISupportChatHistoryRepository : IRepository<SupportChatMessage>
 {
     public IQueryable<SupportChatMessage> GetHistoryForUserId(string roomId);
-    public Task AddMessageToUserHistoryAsync(SupportChatMessage message);
-    public IQueryable<SupportChatMessage> GetAll();
 }
 
-public class DbSupportChatHistoryRepository : Repository, IDbSupportChatHistoryRepository
+public class SupportChatHistoryRepository : Repository, ISupportChatHistoryRepository
 {
-    public DbSupportChatHistoryRepository(AppDbContext dbContext) : base(dbContext)
+    public SupportChatHistoryRepository(AppDbContext dbContext) : base(dbContext)
     {
     }
 
@@ -23,14 +21,29 @@ public class DbSupportChatHistoryRepository : Repository, IDbSupportChatHistoryR
             .Include(m => m.Sender);
     }
 
-    public async Task AddMessageToUserHistoryAsync(SupportChatMessage message)
+    public async Task AddAsync(SupportChatMessage item)
     {
-        await DbContext.SupportChatMessagesHistory.AddAsync(message);
+        await DbContext.SupportChatMessagesHistory.AddAsync(item);
         await DbContext.SaveChangesAsync();
+    }
+
+    public async Task<SupportChatMessage?> GetByIdAsync(string id)
+    {
+        throw new NotImplementedException();
     }
 
     public IQueryable<SupportChatMessage> GetAll()
     {
         return DbContext.SupportChatMessagesHistory;
+    }
+
+    public async Task DeleteAsync(SupportChatMessage item)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task UpdateAsync(SupportChatMessage item)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -10,10 +10,10 @@ namespace AdminAPI.Controllers;
 [Route("[controller]")]
 public class UsersController
 {
-    private readonly IDbSupportChatHistoryRepository _historyRepository;
+    private readonly ISupportChatHistoryRepository _historyRepository;
     private readonly IUserRepository _userRepository;
 
-    public UsersController(IDbSupportChatHistoryRepository historyRepository, IUserRepository userRepository)
+    public UsersController(ISupportChatHistoryRepository historyRepository, IUserRepository userRepository)
     {
         _historyRepository = historyRepository;
         _userRepository = userRepository;
@@ -23,9 +23,8 @@ public class UsersController
     [HttpGet("get")]
     public IActionResult GetAllRooms()
     {
-        var users = _historyRepository.GetAll()
+        var users = _historyRepository.GetAllAsync().ToEnumerable()
             .GroupBy(m => m.RoomId)
-            .AsEnumerable()
             .Select(g => g.MaxBy(m => m.Timestamp))
             .OrderByDescending(m => m!.Timestamp)
             .Select(m => m!.RoomId);
@@ -33,9 +32,9 @@ public class UsersController
     }
 
     [HttpGet("getUsers")]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAllAsync()
     {
-        var users = _userRepository.GetAll().AsEnumerable().Select(u => new UserLight(u));
+        var users = await _userRepository.GetAllAsync().Select(u => new UserLight(u)).ToListAsync();
         return new JsonResult(users);
     }
 

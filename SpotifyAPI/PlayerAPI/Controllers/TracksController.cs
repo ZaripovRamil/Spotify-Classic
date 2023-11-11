@@ -28,10 +28,10 @@ public partial class TracksController : Controller
     }
 
     [HttpGet("get")]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAllAsync()
     {
-        var tracks = _trackRepository.GetAll();
-        return new JsonResult(tracks.Select(trackFull => new TrackLight(trackFull)));
+        var tracks = _trackRepository.GetAllAsync();
+        return new JsonResult(await tracks.Select(trackFull => new TrackLight(trackFull)).ToListAsync());
     }
 
     [HttpGet("get/{id}")]

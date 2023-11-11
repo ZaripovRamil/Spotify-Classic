@@ -98,18 +98,18 @@ public class AlbumsController : Controller
     }
 
     [HttpGet("get")]
-    public IActionResult GetWithFilters([FromQuery] string? albumType, [FromQuery] int? tracksMin,
+    public async Task<IActionResult> GetWithFilters([FromQuery] string? albumType, [FromQuery] int? tracksMin,
         [FromQuery] int? tracksMax, [FromQuery] int? maxCount, [FromQuery] string? sortBy, [FromQuery] string? search)
     {
-        var albums = _albumRepository.GetAll().AsEnumerable().Where(a =>
+        var albums = await _albumRepository.GetAllAsync().Where(a =>
                 (albumType == null ||
                  string.Equals(a.Type.ToString(), albumType, StringComparison.CurrentCultureIgnoreCase)) &&
                 (tracksMin == null || a.Tracks.Count >= tracksMin.Value) &&
                 (tracksMax == null || a.Tracks.Count <= tracksMax.Value) &&
                 (search == null || a.Name.ToLower().Contains(search.ToLower())))
-            .Take(new Range(0, maxCount ?? ^1))
+            .Take(maxCount ?? 50)
             .Select(a => new AlbumFull(a))
-            .ToList();
+            .ToListAsync();
         Func<AlbumFull, IComparable> sort = sortBy?.ToLower() switch
         {
             "id" => album => album.Id,

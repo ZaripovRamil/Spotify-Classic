@@ -1,5 +1,4 @@
 using DatabaseServices.Repositories;
-using Microsoft.EntityFrameworkCore;
 using Models.DTO.BackToFront.Light;
 using Utils.CQRS;
 
@@ -23,32 +22,29 @@ public class QueryHandler : IQueryHandler<Query, ResultDto>
 
     public async Task<Result<ResultDto>> Handle(Query request, CancellationToken cancellationToken)
     {
+        // .Take(10) now works in server memory, which is not good
         return new ResultDto(
-            await _trackRepository.GetAll()
-                .Where(TrackSpec.NameContains(request.Filter))
+            await _trackRepository
+                .FilterAsync(TrackSpec.NameContains(request.Filter))
                 .Take(10)
-                .AsAsyncEnumerable()
                 .Select(t => new TrackLight(t))
                 .ToListAsync(cancellationToken: cancellationToken),
 
-            await _albumRepository.GetAll()
-                .Where(AlbumSpec.NameContains(request.Filter))
+            await _albumRepository
+                .FilterAsync(AlbumSpec.NameContains(request.Filter))
                 .Take(10)
-                .AsAsyncEnumerable()
                 .Select(a => new AlbumLight(a))
                 .ToListAsync(cancellationToken: cancellationToken),
 
-            await _authorRepository.GetAll()
-                .Where(AuthorSpec.NameContains(request.Filter))
+            await _authorRepository
+                .FilterAsync(AuthorSpec.NameContains(request.Filter))
                 .Take(10)
-                .AsAsyncEnumerable()
                 .Select(a => new AuthorLight(a))
                 .ToListAsync(cancellationToken: cancellationToken),
 
-            await _playlistRepository.GetAll()
-                .Where(PlaylistSpec.NameContains(request.Filter))
+            await _playlistRepository
+                .FilterAsync(PlaylistSpec.NameContains(request.Filter))
                 .Take(10)
-                .AsAsyncEnumerable()
                 .Select(p => new PlaylistLight(p))
                 .ToListAsync(cancellationToken: cancellationToken));
     }

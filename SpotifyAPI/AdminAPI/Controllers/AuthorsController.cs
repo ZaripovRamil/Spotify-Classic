@@ -37,9 +37,9 @@ public class AuthorsController : Controller
     }
 
     [HttpGet("get")]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAllAsync()
     {
-        var authors = _authorRepository.GetAll().AsEnumerable().Select(a => new AuthorFull(a));
+        var authors = await _authorRepository.GetAllAsync().Select(a => new AuthorFull(a)).ToListAsync();
         return new JsonResult(authors);
     }
 

@@ -6,15 +6,15 @@ namespace ChatHistorySaverService.Consumers;
 
 public class ChatHistoryMessagesConsumer : IConsumer<SaveHistoryMessageToDb>
 {
-    private readonly IDbSupportChatHistoryRepository _historyRepository;
+    private readonly ISupportChatHistoryRepository _historyRepository;
 
-    public ChatHistoryMessagesConsumer(IDbSupportChatHistoryRepository historyRepository)
+    public ChatHistoryMessagesConsumer(ISupportChatHistoryRepository historyRepository)
     {
         _historyRepository = historyRepository;
     }
 
     public async Task Consume(ConsumeContext<SaveHistoryMessageToDb> context)
     {
-        await _historyRepository.AddMessageToUserHistoryAsync(context.Message.Message);
+        await _historyRepository.AddAsync(context.Message.Message);
     }
 }

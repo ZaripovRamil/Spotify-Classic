@@ -30,10 +30,10 @@ public class PlaylistsController : Controller
     }
 
     [HttpGet("get")]
-    public IActionResult GetAll()
+    public async Task<JsonResult> GetAllAsync()
     {
-        var playlists = _playlistRepository.GetAll();
-        return new JsonResult(playlists.Select(playlist => new PlaylistLight(playlist)));
+        var playlists = _playlistRepository.GetAllAsync();
+        return new JsonResult(await playlists.Select(playlist => new PlaylistLight(playlist)).ToListAsync());
     }
 
     [HttpPost("addtrack")]

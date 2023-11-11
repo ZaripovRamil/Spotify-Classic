@@ -103,13 +103,17 @@ public class TracksController : Controller
     }
 
     [HttpGet("get")]
-    public IActionResult GetWithFilters([FromQuery] int? pageSize, [FromQuery] int? pageIndex,
+    public async Task<IActionResult> GetWithFiltersAsync([FromQuery] int? pageSize, [FromQuery] int? pageIndex,
         [FromQuery] string? sortBy, [FromQuery] string? search)
     {
-        var tracks = _trackRepository.GetAll().AsEnumerable().Where(t =>
+        pageSize ??= 20;
+        pageIndex ??= 1;
+        var tracks = await _trackRepository.FilterAsync(t =>
                 search == null || t.Name.ToLower().Contains(search.ToLower()))
-            .Take(new Range((pageSize ?? 20) * ((pageIndex ?? 1) - 1), (pageIndex ?? 1) * (pageSize ?? 20)))
-            .Select(t => new TrackFull(t));
+            .Skip(pageSize.Value * (pageIndex.Value - 1))
+            .Take(pageSize.Value)
+            .Select(t => new TrackFull(t))
+            .ToListAsync();
         Func<TrackFull, IComparable> sort = sortBy?.ToLower() switch
         {
             "id" => track => track.Id,

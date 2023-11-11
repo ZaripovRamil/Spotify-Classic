@@ -1,5 +1,4 @@
 using DatabaseServices.Repositories;
-using Microsoft.EntityFrameworkCore;
 using Models.DTO.BackToFront.Light;
 using Utils.CQRS;
 
@@ -17,8 +16,8 @@ public class QueryHandler : IQueryHandler<Query, ResultDto>
     public async Task<Result<ResultDto>> Handle(Query request, CancellationToken cancellationToken)
     {
         return new ResultDto(
-            await _userRepository.GetAll()
-                .Where(Spec.NameContains(request.Filter) || Spec.UserNameContains(request.Filter))
+            await _userRepository
+                .FilterAsync(Spec.NameContains(request.Filter) || Spec.UserNameContains(request.Filter))
                 .AsAsyncEnumerable()
                 .Select(u => new UserLight(u))
                 .ToListAsync(cancellationToken: cancellationToken));

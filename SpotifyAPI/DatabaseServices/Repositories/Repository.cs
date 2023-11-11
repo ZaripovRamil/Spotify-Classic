@@ -1,4 +1,6 @@
-﻿using Database;
+﻿using System.Linq.Expressions;
+using Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseServices.Repositories;
 
@@ -6,9 +8,12 @@ public interface IRepository<T>
 {
     Task AddAsync(T item);
     Task<T?> GetByIdAsync(string id);
-    IQueryable<T> GetAll();
+    protected IQueryable<T> GetAll();
     Task DeleteAsync(T item);
     Task UpdateAsync(T item);
+
+    IAsyncEnumerable<T> FilterAsync(Expression<Func<T, bool>> filter) => GetAll().Where(filter).AsAsyncEnumerable();
+    IAsyncEnumerable<T> GetAllAsync() => GetAll().AsAsyncEnumerable();
 }
 
 public interface IUniqueNameEntityRepository<T> : IRepository<T>
