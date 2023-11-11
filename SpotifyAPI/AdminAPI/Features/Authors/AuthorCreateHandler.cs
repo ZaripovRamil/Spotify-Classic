@@ -5,7 +5,7 @@ using Models.DTO.FrontToBack.EntityCreationData;
 using Models.DTO.InterServices.EntityValidationCodes;
 using Models.Entities;
 
-namespace DatabaseServices.CommandHandlers.CreateHandlers;
+namespace AdminAPI.Features.Authors;
 
 public interface IAuthorCreateHandler
 {

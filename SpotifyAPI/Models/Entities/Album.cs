@@ -26,6 +26,15 @@ public class Album : Entity
         ReleaseYear = releaseYear;
     }
 
+    public Album(string name, string authorId, AlbumType albumType, int releaseYear, string previewId)
+    {
+        Name = name;
+        AuthorId = authorId;
+        Type = albumType;
+        ReleaseYear = releaseYear;
+        PreviewId = previewId;
+    }
+
     public Album(string name, Author author, AlbumType albumType, string previewId)
     {
         Name = name;

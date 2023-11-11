@@ -35,6 +35,10 @@ public class Result<TValue> : Result
         Value = value;
     }
 
+    public Result(params string[] errors) : base(errors)
+    {
+    }
+
     public TValue? Value { get; }
     
     public static implicit operator Result<TValue>(TValue value) => new(value);

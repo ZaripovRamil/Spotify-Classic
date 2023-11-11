@@ -1,7 +1,5 @@
+using AdminAPI.Features.Tracks;
 using AdminAPI.ModelsExtensions;
-using DatabaseServices.CommandHandlers.CreateHandlers;
-using DatabaseServices.CommandHandlers.DeleteHandlers;
-using DatabaseServices.CommandHandlers.UpdateHandlers;
 using DatabaseServices.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

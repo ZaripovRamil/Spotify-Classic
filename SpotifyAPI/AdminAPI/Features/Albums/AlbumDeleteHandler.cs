@@ -1,7 +1,7 @@
 using DatabaseServices.Repositories;
 using Models.DTO.BackToFront.EntityDeletionResult;
 
-namespace DatabaseServices.CommandHandlers.DeleteHandlers;
+namespace AdminAPI.Features.Albums;
 
 public interface IAlbumDeleteHandler
 {

@@ -3,7 +3,7 @@ using Models.DTO.BackToFront.EntityUpdateResult;
 using Models.DTO.FrontToBack.EntityUpdateData;
 using Models.Entities;
 
-namespace DatabaseServices.CommandHandlers.UpdateHandlers;
+namespace AdminAPI.Features.Albums;
 
 public interface IAlbumUpdateHandler
 {

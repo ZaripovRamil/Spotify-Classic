@@ -3,7 +3,7 @@ using Models.DTO.BackToFront.EntityUpdateResult;
 using Models.DTO.FrontToBack.EntityUpdateData;
 using Models.Entities;
 
-namespace DatabaseServices.CommandHandlers.UpdateHandlers;
+namespace PlayerAPI.CommandHandlers.Features.Playlists;
 
 public interface IPlaylistUpdateHandler
 {

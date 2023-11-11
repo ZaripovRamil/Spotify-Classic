@@ -1,13 +1,15 @@
 using AdminAPI.ConfigurationExtensions;
-using DatabaseServices;
-using DatabaseServices.CommandHandlers.CreateHandlers;
-using DatabaseServices.CommandHandlers.DeleteHandlers;
-using DatabaseServices.CommandHandlers.UpdateHandlers;
+using AdminAPI.Features.Albums;
+using AdminAPI.Features.Albums.Create;
+using AdminAPI.Features.Authors;
+using AdminAPI.Features.Tracks;
+using AdminAPI.ServiceCollectionExtensions;
 using DatabaseServices.EntityValidators.Implementations;
 using DatabaseServices.EntityValidators.Interfaces;
 using Models.Configuration;
 using Utils.ServiceCollectionExtensions;
 using Utils.WebApplicationExtensions;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,14 +22,16 @@ builder.Configuration.AddEnvironmentVariables();
 builder.Services.Configure<JwtTokenSettings>(builder.Configuration.GetSection("JWTTokenSettings"));
 builder.Services.Configure<Hosts>(builder.Configuration.GetSection("Hosts"));
 
+builder.Services.AddHttpClients(builder.Configuration);
 builder.Services.AddRepositories(builder.Configuration);
+builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+builder.Services.AddScoped<ISaver<Command>, AlbumDbSaver>();
+builder.Services.AddScoped<ISaver<Command>, AlbumPreviewSaver>();
+builder.Services.AddMediatorForAssembly(typeof(Program).Assembly)
+    .AddPipelineBehaviors();
 
-builder.Services.AddScoped<IFileIdGenerator, FileIdGenerator>();
-
-builder.Services.AddScoped<IAlbumCreateHandler, AlbumCreateHandler>();
 builder.Services.AddScoped<IAlbumUpdateHandler, AlbumUpdateHandler>();
 builder.Services.AddScoped<IAlbumDeleteHandler, AlbumDeleteHandler>();
-builder.Services.AddScoped<IAlbumValidator, AlbumValidator>();
 
 builder.Services.AddScoped<IAuthorCreateHandler, AuthorCreateHandler>();
 builder.Services.AddScoped<IAuthorUpdateHandler, AuthorUpdateHandler>();

@@ -4,7 +4,7 @@ using Models.Entities;
 
 namespace DatabaseServices.Repositories;
 
-public interface IAlbumRepository : IUniqueNameEntityRepository<Album>
+public interface IAlbumRepository : IRepository<Album>
 {
     public IEnumerable<Album> GetWithFilters(string? albumType, int? tracksMin, int? tracksMax,
         int? maxCount, string? search);
@@ -34,10 +34,6 @@ public class AlbumRepository : Repository, IAlbumRepository
         toChange.Name = album.Name;
         await DbContext.SaveChangesAsync();
     }
-
-    public async Task<Album?> GetByNameAsync(string name) =>
-        await GetAll()
-            .FirstOrDefaultAsync(a => a.Name == name);
 
     public IQueryable<Album> GetAll()
     {

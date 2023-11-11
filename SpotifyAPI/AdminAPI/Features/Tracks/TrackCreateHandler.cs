@@ -5,7 +5,7 @@ using Models.DTO.FrontToBack.EntityCreationData;
 using Models.DTO.InterServices.EntityValidationCodes;
 using Models.Entities;
 
-namespace DatabaseServices.CommandHandlers.CreateHandlers;
+namespace AdminAPI.Features.Tracks;
 
 public interface ITrackCreateHandler
 {
@@ -15,13 +15,10 @@ public interface ITrackCreateHandler
 public class TrackCreateHandler : ITrackCreateHandler
 {
     private readonly ITrackRepository _trackRepository;
-    private readonly IFileIdGenerator _idGenerator;
     private readonly ITrackValidator _trackValidator;
 
-    public TrackCreateHandler(IFileIdGenerator idGenerator,
-        ITrackValidator trackValidator, ITrackRepository trackRepository)
+    public TrackCreateHandler(ITrackValidator trackValidator, ITrackRepository trackRepository)
     {
-        _idGenerator = idGenerator;
         _trackValidator = trackValidator;
         _trackRepository = trackRepository;
     }
@@ -31,7 +28,7 @@ public class TrackCreateHandler : ITrackCreateHandler
     {
         var validationResult = await _trackValidator.Validate(data);
         var track = validationResult.IsValid
-            ? new Track(data.Name, validationResult.Album, _idGenerator.GetId(data), validationResult.Genres)
+            ? new Track(data.Name, validationResult.Album, Guid.NewGuid().ToString(), validationResult.Genres)
             : null;
         if (track != null)
             await _trackRepository.AddAsync(track);

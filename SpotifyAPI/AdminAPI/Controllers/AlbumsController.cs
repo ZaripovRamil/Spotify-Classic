@@ -1,15 +1,12 @@
-using AdminAPI.ModelsExtensions;
-using DatabaseServices.CommandHandlers.CreateHandlers;
-using DatabaseServices.CommandHandlers.DeleteHandlers;
-using DatabaseServices.CommandHandlers.UpdateHandlers;
+using AdminAPI.Features.Albums;
+using AdminAPI.Features.Albums.Create;
 using DatabaseServices.Repositories;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Models.Configuration;
-using Models.DTO.BackToFront.EntityCreationResult;
 using Models.DTO.BackToFront.Full;
-using Models.DTO.FrontToBack.EntityCreationData;
 using Models.DTO.FrontToBack.EntityUpdateData;
 using Models.Entities;
 
@@ -23,22 +20,18 @@ public class AlbumsController : Controller
     private readonly IAlbumRepository _albumRepository;
     private readonly IAlbumDeleteHandler _albumDeleteHandler;
     private readonly IAlbumUpdateHandler _albumUpdateHandler;
-    private readonly IAlbumCreateHandler _albumCreateHandler;
     private readonly HttpClient _clientToSearch;
-    private readonly HttpClient _clientToStatic;
+    private readonly IMediator _mediator;
 
     public AlbumsController(IOptions<Hosts> hostsOptions, IAlbumRepository albumRepository,
-        IAlbumDeleteHandler albumDeleteHandler, IAlbumUpdateHandler albumUpdateHandler,
-        IAlbumCreateHandler albumCreateHandler)
+        IAlbumDeleteHandler albumDeleteHandler, IAlbumUpdateHandler albumUpdateHandler, IMediator mediator)
     {
         _albumRepository = albumRepository;
         _albumDeleteHandler = albumDeleteHandler;
         _albumUpdateHandler = albumUpdateHandler;
-        _albumCreateHandler = albumCreateHandler;
+        _mediator = mediator;
         _clientToSearch = new HttpClient
             { BaseAddress = new Uri($"http://{hostsOptions.Value.SearchApi}/search") };
-        _clientToStatic = new HttpClient
-            { BaseAddress = new Uri($"http://{hostsOptions.Value.StaticApi}/previews/") };
     }
 
     [HttpGet("get/{id:guid}")]
@@ -48,41 +41,16 @@ public class AlbumsController : Controller
         return album is null ? new JsonResult(null) : new JsonResult(new AlbumFull(album));
     }
 
-    // actually garbage, but looks not so bad now
     [HttpPost("add")]
-    public async Task<IActionResult> AddAsync([FromForm] AlbumCreationDataWithFile creationDataWithFile)
+    public async Task<IActionResult> AddAsync([FromForm] RequestDto dto)
     {
-        var creationData = (AlbumCreationData)creationDataWithFile;
-        var albumCreationResult = await AddToDbAsync(creationData);
-        if (!albumCreationResult.IsSuccessful)
-            return BadRequest(albumCreationResult);
+        var command = new Command(dto.Name, dto.AuthorId, dto.AlbumType, dto.ReleaseYear, Guid.NewGuid(),
+            dto.PreviewFile);
+        var res = await _mediator.Send(command);
+        if (res.Value!.IsSuccessful)
+            return new JsonResult(res.Value);
 
-        var album = await _albumRepository.GetByIdAsync(albumCreationResult.AlbumId!);
-        var staticResponse =
-            await UploadContentToStaticAsync(creationDataWithFile.PreviewFile, album!.PreviewId);
-        if (staticResponse.IsSuccessStatusCode) return new JsonResult(albumCreationResult);
-
-        // if static API rejected uploading, delete album from database. what if this fails too? cry, i suppose.
-        await DeleteAsync(Guid.Parse(albumCreationResult.AlbumId!));
-        return BadRequest(new AlbumCreationResult
-        {
-            IsSuccessful = false,
-            ResultMessage = await staticResponse.Content.ReadAsStringAsync()
-        });
-    }
-
-    private async Task<AlbumCreationResult> AddToDbAsync(AlbumCreationData creationData)
-    {
-        return await _albumCreateHandler.CreateAsync(creationData);
-    }
-
-    private async Task<HttpResponseMessage> UploadContentToStaticAsync(IFormFile album, string previewId)
-    {
-        var formData = new MultipartFormDataContent();
-        var albumContent = new StreamContent(album.OpenReadStream());
-        formData.Add(albumContent, "file", $"{previewId}.jpg");
-
-        return await _clientToStatic.PostAsync("upload", formData);
+        return BadRequest(res.Value);
     }
 
     [HttpDelete("delete/{id:guid}")]
