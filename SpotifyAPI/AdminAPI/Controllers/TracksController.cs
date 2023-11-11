@@ -1,8 +1,8 @@
 using AdminAPI.ModelsExtensions;
-using DatabaseServices.Services.CommandHandlers.CreateHandlers;
-using DatabaseServices.Services.CommandHandlers.DeleteHandlers;
-using DatabaseServices.Services.CommandHandlers.UpdateHandlers;
-using DatabaseServices.Services.Repositories.Implementations;
+using DatabaseServices.CommandHandlers.CreateHandlers;
+using DatabaseServices.CommandHandlers.DeleteHandlers;
+using DatabaseServices.CommandHandlers.UpdateHandlers;
+using DatabaseServices.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -27,7 +27,8 @@ public class TracksController : Controller
     private readonly HttpClient _clientToSearch;
 
     public TracksController(IOptions<Hosts> hostsOptions, ITrackRepository trackRepository,
-        ITrackCreateHandler trackCreateHandler, ITrackDeleteHandler trackDeleteHandler, ITrackUpdateHandler trackUpdateHandler)
+        ITrackCreateHandler trackCreateHandler, ITrackDeleteHandler trackDeleteHandler,
+        ITrackUpdateHandler trackUpdateHandler)
     {
         _trackRepository = trackRepository;
         _trackCreateHandler = trackCreateHandler;
@@ -102,13 +103,17 @@ public class TracksController : Controller
     }
 
     [HttpGet("get")]
-    public IActionResult GetWithFilters([FromQuery] int? pageSize, [FromQuery] int? pageIndex,
+    public async Task<IActionResult> GetWithFiltersAsync([FromQuery] int? pageSize, [FromQuery] int? pageIndex,
         [FromQuery] string? sortBy, [FromQuery] string? search)
     {
-        var tracks = _trackRepository.GetAll().AsEnumerable().Where(t =>
+        pageSize ??= 20;
+        pageIndex ??= 1;
+        var tracks = await _trackRepository.FilterAsync(t =>
                 search == null || t.Name.ToLower().Contains(search.ToLower()))
-            .Take(new Range((pageSize ?? 20) * ((pageIndex ?? 1) - 1), (pageIndex ?? 1) * (pageSize ?? 20)))
-            .Select(t => new TrackFull(t));
+            .Skip(pageSize.Value * (pageIndex.Value - 1))
+            .Take(pageSize.Value)
+            .Select(t => new TrackFull(t))
+            .ToListAsync();
         Func<TrackFull, IComparable> sort = sortBy?.ToLower() switch
         {
             "id" => track => track.Id,
@@ -117,7 +122,7 @@ public class TracksController : Controller
             "author" => track => track.Album.Author.Name,
             _ => track => track.Name
         };
-        
+
         return new JsonResult(tracks.OrderBy(sort));
     }
 }

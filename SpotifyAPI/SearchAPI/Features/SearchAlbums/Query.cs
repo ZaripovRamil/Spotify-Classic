@@ -1,4 +1,3 @@
-using Models.DTO.BackToFront;
 using Utils.CQRS;
 
 namespace SearchAPI.Features.SearchAlbums;

@@ -1,4 +1,4 @@
-using DatabaseServices.Services;
+using DatabaseServices;
 using SearchAPI.ConfigurationExtensions;
 using Utils.ServiceCollectionExtensions;
 using Utils.WebApplicationExtensions;

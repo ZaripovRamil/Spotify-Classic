@@ -1,10 +1,10 @@
 using AdminAPI.ConfigurationExtensions;
-using DatabaseServices.Services;
-using DatabaseServices.Services.CommandHandlers.CreateHandlers;
-using DatabaseServices.Services.CommandHandlers.DeleteHandlers;
-using DatabaseServices.Services.CommandHandlers.UpdateHandlers;
-using DatabaseServices.Services.EntityValidators.Implementations;
-using DatabaseServices.Services.EntityValidators.Interfaces;
+using DatabaseServices;
+using DatabaseServices.CommandHandlers.CreateHandlers;
+using DatabaseServices.CommandHandlers.DeleteHandlers;
+using DatabaseServices.CommandHandlers.UpdateHandlers;
+using DatabaseServices.EntityValidators.Implementations;
+using DatabaseServices.EntityValidators.Interfaces;
 using Models.Configuration;
 using Utils.ServiceCollectionExtensions;
 using Utils.WebApplicationExtensions;

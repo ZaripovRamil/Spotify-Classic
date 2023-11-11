@@ -1,8 +1,8 @@
 using AdminAPI.ModelsExtensions;
-using DatabaseServices.Services.CommandHandlers.CreateHandlers;
-using DatabaseServices.Services.CommandHandlers.DeleteHandlers;
-using DatabaseServices.Services.CommandHandlers.UpdateHandlers;
-using DatabaseServices.Services.Repositories.Implementations;
+using DatabaseServices.CommandHandlers.CreateHandlers;
+using DatabaseServices.CommandHandlers.DeleteHandlers;
+using DatabaseServices.CommandHandlers.UpdateHandlers;
+using DatabaseServices.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -36,7 +36,7 @@ public class AlbumsController : Controller
         _albumUpdateHandler = albumUpdateHandler;
         _albumCreateHandler = albumCreateHandler;
         _clientToSearch = new HttpClient
-            { BaseAddress = new Uri($"http://{hostsOptions.Value.SearchApi}/search")};
+            { BaseAddress = new Uri($"http://{hostsOptions.Value.SearchApi}/search") };
         _clientToStatic = new HttpClient
             { BaseAddress = new Uri($"http://{hostsOptions.Value.StaticApi}/previews/") };
     }
@@ -98,18 +98,18 @@ public class AlbumsController : Controller
     }
 
     [HttpGet("get")]
-    public IActionResult GetWithFilters([FromQuery] string? albumType, [FromQuery] int? tracksMin,
+    public async Task<IActionResult> GetWithFilters([FromQuery] string? albumType, [FromQuery] int? tracksMin,
         [FromQuery] int? tracksMax, [FromQuery] int? maxCount, [FromQuery] string? sortBy, [FromQuery] string? search)
     {
-        var albums = _albumRepository.GetAll().AsEnumerable().Where(a =>
+        var albums = await _albumRepository.GetAllAsync().Where(a =>
                 (albumType == null ||
                  string.Equals(a.Type.ToString(), albumType, StringComparison.CurrentCultureIgnoreCase)) &&
                 (tracksMin == null || a.Tracks.Count >= tracksMin.Value) &&
                 (tracksMax == null || a.Tracks.Count <= tracksMax.Value) &&
                 (search == null || a.Name.ToLower().Contains(search.ToLower())))
-            .Take(new Range(0, maxCount ?? ^1))
+            .Take(maxCount ?? 50)
             .Select(a => new AlbumFull(a))
-            .ToList();
+            .ToListAsync();
         Func<AlbumFull, IComparable> sort = sortBy?.ToLower() switch
         {
             "id" => album => album.Id,

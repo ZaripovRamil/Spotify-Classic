@@ -8,14 +8,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Models\Models.csproj" />
-      <ProjectReference Include="..\Utils\Utils.csproj" />
+        <ProjectReference Include="..\Models\Models.csproj"/>
+        <ProjectReference Include="..\Utils\Utils.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
+        <Content Include="..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FluentValidation" Version="11.8.0"/>
     </ItemGroup>
 
 </Project>

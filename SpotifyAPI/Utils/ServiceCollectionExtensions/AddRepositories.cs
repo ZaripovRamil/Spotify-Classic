@@ -1,4 +1,4 @@
-using DatabaseServices.Services.Repositories.Implementations;
+using DatabaseServices.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,7 +9,7 @@ public static class AddRepositoriesExtension
     public static IServiceCollection AddRepositories(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext(configuration);
-        
+
         var repositoriesAssembly = typeof(Repository).Assembly;
         var repositories = repositoriesAssembly.GetTypes().Where(t => t.IsClass && t.BaseType == typeof(Repository));
         foreach (var type in repositories)

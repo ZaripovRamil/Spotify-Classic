@@ -1,6 +1,6 @@
 ﻿using AuthAPI.Services;
-using DatabaseServices.Services;
-using DatabaseServices.Services.Repositories.Implementations;
+using DatabaseServices;
+using DatabaseServices.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

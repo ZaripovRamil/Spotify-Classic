@@ -1,5 +1,5 @@
 using System.Text.RegularExpressions;
-using DatabaseServices.Services.Repositories.Implementations;
+using DatabaseServices.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Models.Configuration;
@@ -17,7 +17,8 @@ public partial class TracksController : Controller
     private readonly IUserRepository _userRepository;
     private readonly HttpClient _clientToStatic;
 
-    public TracksController(IOptions<Hosts> hostsOptions, ITrackRepository trackRepository, IUserRepository userRepository)
+    public TracksController(IOptions<Hosts> hostsOptions, ITrackRepository trackRepository,
+        IUserRepository userRepository)
     {
         _trackRepository = trackRepository;
         _userRepository = userRepository;
@@ -27,10 +28,10 @@ public partial class TracksController : Controller
     }
 
     [HttpGet("get")]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAllAsync()
     {
-        var tracks = _trackRepository.GetAll();
-        return new JsonResult(tracks.Select(trackFull => new TrackLight(trackFull)));
+        var tracks = _trackRepository.GetAllAsync();
+        return new JsonResult(await tracks.Select(trackFull => new TrackLight(trackFull)).ToListAsync());
     }
 
     [HttpGet("get/{id}")]
@@ -69,7 +70,7 @@ public partial class TracksController : Controller
     public async Task<IActionResult> AddTrackToHistory(string trackId)
     {
         var userName = User.Identity?.Name!;
-        var user = await _userRepository.GetByUsernameAsync(userName);
+        var user = await _userRepository.GetByNameAsync(userName);
         var track = await _trackRepository.GetByIdAsync(trackId);
         if (user == null || track == null)
             return BadRequest("Invalid ids");

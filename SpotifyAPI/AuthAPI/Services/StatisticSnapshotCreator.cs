@@ -1,4 +1,4 @@
-﻿using DatabaseServices.Services;
+﻿using DatabaseServices;
 using Models.DTO.BackToFront.Statistics;
 using Models.Entities;
 
@@ -7,7 +7,7 @@ namespace AuthAPI.Services;
 public class StatisticSnapshotCreator : IStatisticSnapshotCreator
 {
     private readonly IDtoCreator _dtoCreator;
-    
+
     public StatisticSnapshotCreator(IDtoCreator dtoCreator)
     {
         _dtoCreator = dtoCreator;

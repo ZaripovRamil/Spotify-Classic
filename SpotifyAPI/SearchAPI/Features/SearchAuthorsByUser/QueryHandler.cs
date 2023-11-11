@@ -1,5 +1,4 @@
-using DatabaseServices.Services.Repositories.Implementations;
-using Microsoft.EntityFrameworkCore;
+using DatabaseServices.Repositories;
 using Models.DTO.BackToFront.Full;
 using Utils.CQRS;
 
@@ -17,8 +16,8 @@ public class QueryHandler : IQueryHandler<Query, ResultDto>
     public async Task<Result<ResultDto>> Handle(Query request, CancellationToken cancellationToken)
     {
         return new ResultDto(
-            await _authorRepository.GetAll()
-                .Where(Spec.NameContains(request.Filter) || Spec.UserNameContains(request.Filter))
+            await _authorRepository
+                .FilterAsync(Spec.NameContains(request.Filter) || Spec.UserNameContains(request.Filter))
                 .AsAsyncEnumerable()
                 .Select(a => new AuthorFull(a))
                 .ToListAsync(cancellationToken: cancellationToken));

@@ -1,4 +1,4 @@
-using DatabaseServices.Services.Repositories.Implementations;
+using DatabaseServices.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.Light;
@@ -18,9 +18,9 @@ public class AlbumsController : Controller
     }
 
     [HttpGet("get")]
-    public IActionResult GetAll()
+    public async Task<JsonResult> GetAllAsync()
     {
-        return new JsonResult(_albumRepository.GetAll().AsEnumerable().Select(a => new AlbumLight(a)));
+        return new JsonResult(await _albumRepository.GetAllAsync().Select(a => new AlbumLight(a)).ToListAsync());
     }
 
     [HttpGet("get/{id}")]

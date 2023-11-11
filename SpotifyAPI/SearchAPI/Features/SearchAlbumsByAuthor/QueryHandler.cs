@@ -1,5 +1,4 @@
-using DatabaseServices.Services.Repositories.Implementations;
-using Microsoft.EntityFrameworkCore;
+using DatabaseServices.Repositories;
 using Models.DTO.BackToFront.Full;
 using Utils.CQRS;
 
@@ -17,8 +16,8 @@ public class QueryHandler : IQueryHandler<Query, ResultDto>
     public async Task<Result<ResultDto>> Handle(Query request, CancellationToken cancellationToken)
     {
         return new ResultDto(
-            await _albumRepository.GetAll()
-                .Where(Spec.AuthorNameContains(request.Filter))
+            await _albumRepository
+                .FilterAsync(Spec.AuthorNameContains(request.Filter))
                 .AsAsyncEnumerable()
                 .Select(a => new AlbumFull(a))
                 .ToListAsync(cancellationToken: cancellationToken));

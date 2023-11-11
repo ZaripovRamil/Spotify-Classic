@@ -1,6 +1,6 @@
 using AuthAPI.ConfigurationExtensions;
 using AuthAPI.Services;
-using DatabaseServices.Services;
+using DatabaseServices;
 using Models.Configuration;
 using Models.OAuth;
 using Utils.ServiceCollectionExtensions;
