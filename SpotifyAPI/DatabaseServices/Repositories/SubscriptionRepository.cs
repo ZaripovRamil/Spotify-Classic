@@ -6,7 +6,7 @@ namespace DatabaseServices.Repositories;
 
 public interface ISubscriptionRepository : IUniqueNameEntityRepository<Subscription>
 {
-    Task SetToUserAsync(User user, Subscription subscription);
+    Task SetToUserAsync(User user, Subscription? subscription);
 }
 
 public class SubscriptionRepository : Repository, ISubscriptionRepository
@@ -49,7 +49,7 @@ public class SubscriptionRepository : Repository, ISubscriptionRepository
         return await GetAll().FirstOrDefaultAsync(s => s.Name == name);
     }
 
-    public async Task SetToUserAsync(User user, Subscription subscription)
+    public async Task SetToUserAsync(User user, Subscription? subscription)
     {
         user.Subscription = subscription;
         user.SubscriptionExpire = ValidateSubscription(user)

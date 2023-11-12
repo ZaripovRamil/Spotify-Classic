@@ -1,4 +1,4 @@
-﻿using AuthAPI.Services;
+﻿using AuthAPI.Features.SignIn;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

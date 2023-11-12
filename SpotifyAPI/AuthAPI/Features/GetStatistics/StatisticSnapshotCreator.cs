@@ -2,7 +2,7 @@
 using Models.DTO.BackToFront.Statistics;
 using Models.Entities;
 
-namespace AuthAPI.Services;
+namespace AuthAPI.Features.GetStatistics;
 
 public class StatisticSnapshotCreator : IStatisticSnapshotCreator
 {

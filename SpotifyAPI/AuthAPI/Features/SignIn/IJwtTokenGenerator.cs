@@ -1,4 +1,4 @@
-namespace AuthAPI.Services;
+namespace AuthAPI.Features.SignIn;
 
 public interface IJwtTokenGenerator
 {
