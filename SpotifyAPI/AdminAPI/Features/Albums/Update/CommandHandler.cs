@@ -15,7 +15,7 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
 
     public async Task<Result<ResultDto>> Handle(Command request, CancellationToken cancellationToken)
     {
-        var album = await _albumRepository.GetByIdAsync(request.Id.ToString());
+        var album = await _albumRepository.GetByIdAsync(request.Id);
         album!.Name = request.Name;
         await _albumRepository.UpdateAsync(album);
         return new ResultDto(true, "Successful");

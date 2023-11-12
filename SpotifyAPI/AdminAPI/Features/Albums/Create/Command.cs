@@ -5,7 +5,7 @@ namespace AdminAPI.Features.Albums.Create;
 
 public record Command(
     string Name,
-    Guid AuthorId,
+    string AuthorId,
     AlbumType AlbumType,
     int ReleaseYear,
     Guid PreviewId,

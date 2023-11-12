@@ -3,4 +3,4 @@ using Utils.CQRS;
 
 namespace AdminAPI.Features.Albums.Delete;
 
-public record Command(Guid Id) : ICommand<ResultDto>;
+public record Command(string Id) : ICommand<ResultDto>;

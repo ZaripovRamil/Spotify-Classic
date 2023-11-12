@@ -40,6 +40,6 @@ public class CommandValidator : AbstractValidator<Command>
             .WithMessage(InvalidPreview);
     }
 
-    private async Task<bool> Exist(Guid authorId, CancellationToken cancellationToken = default) =>
-        await _authorRepository.GetByIdAsync(authorId.ToString()) is not null;
+    private async Task<bool> Exist(string authorId, CancellationToken cancellationToken = default) =>
+        await _authorRepository.GetByIdAsync(authorId) is not null;
 }

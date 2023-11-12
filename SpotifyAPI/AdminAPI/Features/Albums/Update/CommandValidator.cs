@@ -32,6 +32,6 @@ public class CommandValidator : AbstractValidator<Command>
             .WithMessage(AlbumNotFound);
     }
 
-    private async Task<bool> Exist(Guid albumId, CancellationToken cancellationToken = default) =>
-        await _albumRepository.GetByIdAsync(albumId.ToString()) is not null;
+    private async Task<bool> Exist(string albumId, CancellationToken cancellationToken = default) =>
+        await _albumRepository.GetByIdAsync(albumId) is not null;
 }

@@ -26,9 +26,9 @@ public class CommandValidator : AbstractValidator<Command>
             .WithMessage(AlbumContainsTracks);
     }
 
-    private async Task<bool> Exist(Guid id, CancellationToken cancellationToken) =>
-        await _albumRepository.GetByIdAsync(id.ToString()) is not null;
+    private async Task<bool> Exist(string id, CancellationToken cancellationToken) =>
+        await _albumRepository.GetByIdAsync(id) is not null;
 
-    private async Task<bool> NotContainTracks(Guid id, CancellationToken cancellationToken) =>
-        (await _albumRepository.GetByIdAsync(id.ToString()))!.Tracks.Count == 0;
+    private async Task<bool> NotContainTracks(string id, CancellationToken cancellationToken) =>
+        (await _albumRepository.GetByIdAsync(id))!.Tracks.Count == 0;
 }
