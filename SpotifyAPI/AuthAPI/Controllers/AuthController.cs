@@ -22,6 +22,6 @@ public class AuthController : Controller
     {
         var command = new Features.SignIn.Standard.Command(loginData);
         var res = await _mediator.Send(command);
-        return res.IsSuccessful ? Ok(res.Value) : BadRequest(res.Value);
+        return res.IsSuccessful ? Ok(res.Value) : BadRequest();
     }
 }

@@ -1,13 +1,9 @@
 using System.Net.Http.Headers;
 using System.Text.Json;
-using AuthAPI.Features.SignIn;
-using Google.Apis.Auth;
-using Microsoft.AspNetCore.Identity;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Models.Configuration;
-using Models.DTO.BackToFront.Auth;
-using Models.Entities;
 using Models.OAuth;
 
 namespace AuthAPI.Controllers;
@@ -18,14 +14,11 @@ public class OAuthController : Controller
 {
     private readonly GoogleOptions _googleOptions;
     private readonly Hosts _hosts;
-    private readonly UserManager<User> _userManager;
-    private readonly IJwtTokenGenerator _jwtTokenGenerator;
+    private readonly IMediator _mediator;
 
-    public OAuthController(IOptions<GoogleOptions> googleOptions, IOptions<Hosts> applicationHosts,
-        UserManager<User> userManager, IJwtTokenGenerator jwtTokenGenerator)
+    public OAuthController(IOptions<GoogleOptions> googleOptions, IOptions<Hosts> applicationHosts, IMediator mediator)
     {
-        _userManager = userManager;
-        _jwtTokenGenerator = jwtTokenGenerator;
+        _mediator = mediator;
         _googleOptions = googleOptions.Value;
         _hosts = applicationHosts.Value;
     }
@@ -74,22 +67,9 @@ public class OAuthController : Controller
     {
         try
         {
-            var payload = await GoogleJsonWebSignature.ValidateAsync(loginData.IdToken);
-            var user = await _userManager.FindByLoginAsync("Google", payload.Subject);
-            if (user is null && await _userManager.FindByEmailAsync(payload.Email) is null)
-            {
-                var registerResult = await RegisterAsync(loginData);
-                if (registerResult is BadRequestResult) return registerResult;
-            }
-
-            user = await _userManager.FindByEmailAsync(payload.Email);
-            var additionalLifetime = await _jwtTokenGenerator.GetRoleAsync(payload.Subject) != "Admin"
-                ? TimeSpan.FromDays(14)
-                : TimeSpan.Zero;
-            var token = await _jwtTokenGenerator.GenerateJwtTokenAsync(user!.UserName!, additionalLifetime);
-            return token is null
-                ? new JsonResult(new LoginResult(false, "", "Authorization failed"))
-                : new JsonResult(new LoginResult(true, token, "Successful"));
+            var command = new Features.SignIn.OAuth.Command(loginData);
+            var res = await _mediator.Send(command);
+            return res.IsSuccessful ? Ok(res.Value) : BadRequest();
         }
         catch
         {
@@ -102,15 +82,9 @@ public class OAuthController : Controller
     {
         try
         {
-            var payload = await GoogleJsonWebSignature.ValidateAsync(loginData.IdToken);
-            var user = new User(payload.Subject, payload.Email, payload.Name);
-            var password = Guid.NewGuid().ToString();
-            var result = await _userManager.CreateAsync(user, password);
-            if (!result.Succeeded)
-                return new JsonResult(new RegistrationResult(RegistrationCode.UnknownError, null));
-            await _userManager.AddLoginAsync(user, new UserLoginInfo("Google", payload.Subject, "OAuth"));
-            return new JsonResult(new RegistrationResult(RegistrationCode.Successful,
-                await _userManager.FindByEmailAsync(payload.Email)));
+            var command = new Features.SignUp.OAuth.Command(loginData);
+            var res = await _mediator.Send(command);
+            return res.IsSuccessful ? Ok(res.Value) : BadRequest();
         }
         catch
         {

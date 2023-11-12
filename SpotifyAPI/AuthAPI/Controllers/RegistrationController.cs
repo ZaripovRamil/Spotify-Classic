@@ -22,6 +22,6 @@ public class RegistrationController : Controller
     {
         var command = new Features.SignUp.Standard.Command(rData);
         var res = await _mediator.Send(command);
-        return res.IsSuccessful ? Ok(res.Value) : BadRequest(res.Value);
+        return res.IsSuccessful ? Ok(res.Value) : BadRequest();
     }
 }

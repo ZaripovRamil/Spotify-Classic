@@ -26,8 +26,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Features\SignIn\OAuth\"/>
-        <Folder Include="Features\SignUp\OAuth\"/>
         <Folder Include="GetOAuthProfileInfo\"/>
     </ItemGroup>
 
