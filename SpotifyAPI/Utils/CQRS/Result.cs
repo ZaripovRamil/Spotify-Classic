@@ -26,6 +26,8 @@ public class Result
         foreach (var error in errors)
             _errors.Add(error);
     }
+
+    public string JoinErrors(char separator = '\n') => string.Join(separator, Errors);
 }
 
 public class Result<TValue> : Result

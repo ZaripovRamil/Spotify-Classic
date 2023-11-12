@@ -49,7 +49,7 @@ public class AlbumsController : Controller
         var res = await _mediator.Send(command);
         return res.IsSuccessful switch
         {
-            false => BadRequest(new ResultDto(false, string.Join('\n', res.Errors), null)),
+            false => BadRequest(new ResultDto(false, res.JoinErrors(), null)),
             true when res.Value!.IsSuccessful => new JsonResult(res.Value),
             _ => BadRequest(res.Value)
         };

@@ -40,15 +40,13 @@ public class UsersController
 
     [HttpPost]
     [Route("promote")]
-    public async Task<IActionResult> MakeAdminAsync([FromBody] PromoteToAdminDto dto)
+    public async Task<IActionResult> MakeAdminAsync([FromBody] string login)
     {
         var isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
         if (!isDevelopment) return new NotFoundResult();
-        var user = await _userRepository.GetByNameAsync(dto.Login);
+        var user = await _userRepository.GetByNameAsync(login);
         if (user is null) return new NotFoundResult();
         await _userRepository.SetRoleAsync(user, Role.Admin);
         return new OkResult();
     }
-
-    public record PromoteToAdminDto(string Login);
 }
