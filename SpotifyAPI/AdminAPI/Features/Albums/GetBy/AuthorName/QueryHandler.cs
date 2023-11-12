@@ -3,7 +3,7 @@ using Models.DTO.BackToFront.Full;
 using Models.Entities;
 using Utils.CQRS;
 
-namespace AdminAPI.Features.Albums.GetByAuthorName;
+namespace AdminAPI.Features.Albums.GetBy.AuthorName;
 
 public class QueryHandler : IQueryHandler<Query, IEnumerable<AlbumFull>>
 {
@@ -24,7 +24,7 @@ public class QueryHandler : IQueryHandler<Query, IEnumerable<AlbumFull>>
                     $"albums/by/author?query={request.SearchQuery}", cancellationToken: cancellationToken))?
                 .Select(a => new AlbumFull(a));
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return new Result<IEnumerable<AlbumFull>>("Network error. Please try again later");
         }

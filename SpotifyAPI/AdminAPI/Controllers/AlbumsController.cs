@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using AdminAPI.Dto;
+using AdminAPI.Features.Albums.GetBy.Id;
 using Utils.CQRS;
 
 namespace AdminAPI.Controllers;
@@ -21,7 +22,7 @@ public class AlbumsController : Controller
     [HttpGet("{id}")]
     public async Task<IActionResult> GetByIdAsync(string id)
     {
-        var query = new Features.Albums.GetById.Query(id);
+        var query = new Query(id);
         var res = await _mediator.Send(query);
         return res.IsSuccessful ? new JsonResult(res.Value!) : NotFound(res.JoinErrors());
     }
@@ -57,7 +58,7 @@ public class AlbumsController : Controller
     public async Task<IActionResult> GetWithFilters([FromQuery] string? albumType, [FromQuery] int? tracksMin,
         [FromQuery] int? tracksMax, [FromQuery] int? maxCount, [FromQuery] string? sortBy, [FromQuery] string? search)
     {
-        var query = new Features.Albums.GetByFilters.Query(albumType, tracksMin, tracksMax, maxCount, sortBy, search);
+        var query = new Features.Albums.GetBy.Filters.Query(albumType, tracksMin, tracksMax, maxCount, sortBy, search);
         var res = await _mediator.Send(query);
         return new JsonResult(res.Value);
     }
@@ -65,7 +66,7 @@ public class AlbumsController : Controller
     [HttpGet("search")]
     public async Task<IActionResult> FindAlbumByAuthorName([FromQuery] string? query)
     {
-        var q = new Features.Albums.GetByAuthorName.Query(query);
+        var q = new Features.Albums.GetBy.AuthorName.Query(query);
         var res = await _mediator.Send(q);
         return res.IsSuccessful ? new JsonResult(res.Value) : StatusCode(503, res.JoinErrors());
     }

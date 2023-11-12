@@ -1,7 +1,7 @@
 using Models.DTO.BackToFront.Full;
 using Utils.CQRS;
 
-namespace AdminAPI.Features.Albums.GetByFilters;
+namespace AdminAPI.Features.Albums.GetBy.Filters;
 
 public record Query(
     string? AlbumType,

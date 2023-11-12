@@ -26,4 +26,14 @@
         <PackageReference Include="Polly.Contrib.WaitAndRetry" Version="1.1.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Features\Albums\GetBy\" />
+      <Folder Include="Features\Authors\Create\" />
+      <Folder Include="Features\Authors\Delete\" />
+      <Folder Include="Features\Authors\GetAll\" />
+      <Folder Include="Features\Authors\GetBy\Id\" />
+      <Folder Include="Features\Authors\GetBy\Username\" />
+      <Folder Include="Features\Authors\Update\" />
+    </ItemGroup>
+
 </Project>
