@@ -3,7 +3,7 @@ using Models.DTO.BackToFront.Full;
 using Utils.CQRS;
 using static Models.Entities.ValidationErrors.AlbumErrors;
 
-namespace AdminAPI.Features.Albums.GetBy.Id;
+namespace AdminAPI.Features.Albums.Get.ById;
 
 public class QueryHandler : IQueryHandler<Query, AlbumFull>
 {

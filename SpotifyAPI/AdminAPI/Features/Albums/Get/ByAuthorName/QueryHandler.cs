@@ -3,7 +3,7 @@ using Models.DTO.BackToFront.Full;
 using Models.Entities;
 using Utils.CQRS;
 
-namespace AdminAPI.Features.Albums.GetBy.AuthorName;
+namespace AdminAPI.Features.Albums.Get.ByAuthorName;
 
 public class QueryHandler : IQueryHandler<Query, IEnumerable<AlbumFull>>
 {

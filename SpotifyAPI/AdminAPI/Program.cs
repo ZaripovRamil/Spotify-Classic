@@ -1,6 +1,5 @@
 using AdminAPI.ConfigurationExtensions;
 using AdminAPI.Features.Albums.Create.AlbumSaver;
-using AdminAPI.Features.Authors;
 using AdminAPI.Features.Tracks;
 using AdminAPI.ServiceCollectionExtensions;
 using AdminAPI.Services;
@@ -30,11 +29,6 @@ builder.Services.AddScoped<ISaver<Command>, AlbumDbSaver>();
 builder.Services.AddScoped<ISaver<Command>, AlbumPreviewSaver>();
 builder.Services.AddMediatorForAssembly(typeof(Program).Assembly)
     .AddPipelineBehaviors();
-
-builder.Services.AddScoped<IAuthorCreateHandler, AuthorCreateHandler>();
-builder.Services.AddScoped<IAuthorUpdateHandler, AuthorUpdateHandler>();
-builder.Services.AddScoped<IAuthorDeleteHandler, AuthorDeleteHandler>();
-builder.Services.AddScoped<IAuthorValidator, AuthorValidator>();
 
 builder.Services.AddScoped<ITrackCreateHandler, TrackCreateHandler>();
 builder.Services.AddScoped<ITrackUpdateHandler, TrackUpdateHandler>();

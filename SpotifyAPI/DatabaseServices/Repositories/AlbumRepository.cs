@@ -30,7 +30,7 @@ public class AlbumRepository : Repository, IAlbumRepository
 
     public async Task UpdateAsync(Album album)
     {
-        DbContext.Update(album);
+        DbContext.Albums.Update(album);
         await DbContext.SaveChangesAsync();
     }
 

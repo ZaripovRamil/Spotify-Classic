@@ -2,9 +2,9 @@ using DatabaseServices.Repositories;
 using Models.DTO.BackToFront.Full;
 using Models.Entities;
 using Utils.CQRS;
-using static AdminAPI.Features.Albums.GetBy.Filters.Spec;
+using static AdminAPI.Features.Albums.Get.ByFilters.Spec;
 
-namespace AdminAPI.Features.Albums.GetBy.Filters;
+namespace AdminAPI.Features.Albums.Get.ByFilters;
 
 public class QueryHandler : IQueryHandler<Query, IEnumerable<AlbumFull>>
 {

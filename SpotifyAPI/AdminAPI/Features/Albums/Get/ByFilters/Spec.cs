@@ -2,7 +2,7 @@ using DatabaseServices.Infrastructure.Specs;
 using Models.Entities;
 using Models.Entities.Enums;
 
-namespace AdminAPI.Features.Albums.GetBy.Filters;
+namespace AdminAPI.Features.Albums.Get.ByFilters;
 
 public static class Spec
 {

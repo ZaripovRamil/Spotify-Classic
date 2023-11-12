@@ -27,13 +27,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Albums\GetBy\" />
-      <Folder Include="Features\Authors\Create\" />
-      <Folder Include="Features\Authors\Delete\" />
-      <Folder Include="Features\Authors\GetAll\" />
-      <Folder Include="Features\Authors\GetBy\Id\" />
-      <Folder Include="Features\Authors\GetBy\Username\" />
-      <Folder Include="Features\Authors\Update\" />
+      <Folder Include="Features\Albums\Get\" />
+      <Folder Include="Features\Authors\Get\" />
+      <Folder Include="Features\Tracks\Get\ByAlbumAuthor\" />
+      <Folder Include="Features\Tracks\Get\ByFilters\" />
+      <Folder Include="Features\Tracks\Get\ById\" />
     </ItemGroup>
 
 </Project>

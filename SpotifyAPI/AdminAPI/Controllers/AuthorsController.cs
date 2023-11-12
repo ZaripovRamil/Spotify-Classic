@@ -1,13 +1,9 @@
-using AdminAPI.Features.Authors;
-using DatabaseServices.Repositories;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Models.Configuration;
-using Models.DTO.BackToFront.Full;
-using Models.DTO.FrontToBack.EntityCreationData;
-using Models.DTO.FrontToBack.EntityUpdateData;
-using Models.Entities;
+using Utils.CQRS;
+using AdminAPI.Dto;
+using AdminAPI.Features.Authors.Get.All;
 
 namespace AdminAPI.Controllers;
 
@@ -16,61 +12,70 @@ namespace AdminAPI.Controllers;
 [Route("[controller]")]
 public class AuthorsController : Controller
 {
-    private readonly IAuthorRepository _authorRepository;
-    private readonly IAuthorCreateHandler _authorCreateHandler;
-    private readonly IAuthorDeleteHandler _authorDeleteHandler;
-    private readonly IAuthorUpdateHandler _authorUpdateHandler;
-    private readonly HttpClient _clientToSearch;
+    private readonly IMediator _mediator;
 
-    public AuthorsController(IOptions<Hosts> hostsOptions, IAuthorRepository authorRepository,
-        IAuthorCreateHandler authorCreateHandler, IAuthorDeleteHandler authorDeleteHandler,
-        IAuthorUpdateHandler authorUpdateHandler)
+    public AuthorsController(IMediator mediator)
     {
-        _authorRepository = authorRepository;
-        _authorCreateHandler = authorCreateHandler;
-        _authorDeleteHandler = authorDeleteHandler;
-        _authorUpdateHandler = authorUpdateHandler;
-        _clientToSearch = new HttpClient
-            { BaseAddress = new Uri($"http://{hostsOptions.Value.SearchApi}/search") };
+        _mediator = mediator;
     }
 
-    [HttpGet("get")]
+    [HttpGet]
     public async Task<IActionResult> GetAllAsync()
     {
-        var authors = await _authorRepository.GetAllAsync().Select(a => new AuthorFull(a)).ToListAsync();
-        return new JsonResult(authors);
+        var query = new Query();
+        var res = await _mediator.Send(query);
+        return new JsonResult(res.Value);
     }
 
-    [HttpGet("get/{id:guid}")]
-    public async Task<IActionResult> GetByIdAsync(Guid id)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetByIdAsync(string id)
     {
-        var author = await _authorRepository.GetByIdAsync(id.ToString());
-        return new JsonResult(author is null ? null : new AuthorFull(author));
+        var query = new Features.Authors.Get.ById.Query(id);
+        var res = await _mediator.Send(query);
+        return res.IsSuccessful ? new JsonResult(res.Value!) : NotFound(res.JoinErrors());
     }
 
-    [HttpPost("add")]
-    public async Task<IActionResult> Add([FromBody] AuthorCreationData creationData)
+    [HttpPost]
+    public async Task<IActionResult> Add([FromBody] Features.Authors.Create.Command command)
     {
-        return new JsonResult(await _authorCreateHandler.CreateAsync(creationData));
+        var res = await _mediator.Send(command);
+        return res.IsSuccessful switch
+        {
+            false => BadRequest(new Features.Authors.Create.ResultDto(false, res.JoinErrors(), null)),
+            true when res.Value!.IsSuccessful => new JsonResult(res.Value),
+            _ => BadRequest(res.Value)
+        };
     }
 
-    [HttpDelete("delete/{id:guid}")]
-    public async Task<IActionResult> DeleteAsync(Guid id)
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteAsync(string id)
     {
-        return new JsonResult(await _authorDeleteHandler.DeleteAsync(id.ToString()));
+        var command = new Features.Authors.Delete.Command(id);
+        return await SendResponse(command);
     }
 
-    [HttpPut("update/{id:guid}")]
-    public async Task<IActionResult> UpdateAsync(Guid id, AuthorUpdateData authorUpdateData)
+    [HttpPut]
+    public async Task<IActionResult> UpdateAsync(Features.Authors.Update.Command command)
     {
-        return new JsonResult(await _authorUpdateHandler.UpdateAsync(id.ToString(), authorUpdateData));
+        return await SendResponse(command);
     }
 
     [HttpGet("search")]
     public async Task<IActionResult> FindAuthorByUserName([FromQuery] string? query)
     {
-        var authors = await _clientToSearch.GetFromJsonAsync<IEnumerable<Author>>(
-            $"authors/by/user?query={query}");
-        return new JsonResult(authors?.Select(a => new AuthorFull(a)));
+        var q = new Features.Authors.Get.ByUsername.Query(query);
+        var res = await _mediator.Send(q);
+        return res.IsSuccessful ? new JsonResult(res.Value) : StatusCode(503, res.JoinErrors());
+    }
+    
+    private async Task<IActionResult> SendResponse<T>(T request) where T : ICommand<ResultDto>
+    {
+        var res = await _mediator.Send(request);
+        return res.IsSuccessful switch
+        {
+            false => BadRequest(new ResultDto(false, res.JoinErrors())),
+            true when res.Value!.IsSuccessful => new JsonResult(res.Value),
+            _ => BadRequest(res.Value)
+        };
     }
 }
