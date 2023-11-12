@@ -55,9 +55,9 @@ const Authors = () => {
         .then(res => JSON.parse(res.data));
     } catch (err) {
       if (err.code === 401) {
-        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
+        return { isSuccessful: false, resultMessage: "Unauthorized. Authorize please." }
       }
-      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+      return err.response?.data ?? { isSuccessful: false, resultMessage: 'Unknown error' };
     }
   }
 
@@ -67,9 +67,9 @@ const Authors = () => {
         .then(res => JSON.parse(res.data));
     } catch (err) {
       if (err.code === 401) {
-        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
+        return { isSuccessful: false, resultMessage: "Unauthorized. Authorize please." }
       }
-      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+      return err.response?.data ?? { isSuccessful: false, resultMessage: 'Unknown error' };
     }
   }
 
@@ -84,9 +84,9 @@ const Authors = () => {
       return newAuthorResult;
     } catch (err) {
       if (err.code === 401) {
-        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
+        return { isSuccessful: false, resultMessage: "Unauthorized. Authorize please." }
       }
-      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+      return err.response?.data ?? { isSuccessful: false, resultMessage: 'Unknown error' };
     }
   }
 
@@ -96,9 +96,9 @@ const Authors = () => {
       return res.data;
     } catch (err) {
       if (err.code === 401) {
-        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
+        return { isSuccessful: false, resultMessage: "Unauthorized. Authorize please." }
       }
-      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+      return err.response?.data ?? { isSuccessful: false, resultMessage: 'Unknown error' };
     }
   }
 

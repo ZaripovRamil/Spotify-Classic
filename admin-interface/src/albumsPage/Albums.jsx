@@ -83,9 +83,9 @@ const Albums = () => {
         .then(res => JSON.parse(res.data));
     } catch (err) {
       if (err.code === 401) {
-        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
+        return { isSuccessful: false, resultMessage: "Unauthorized. Authorize please." }
       }
-      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+      return err.response?.data ?? { isSuccessful: false, resultMessage: 'Unknown error' };
     }
   }
 
@@ -95,9 +95,9 @@ const Albums = () => {
         .then(res => JSON.parse(res.data));
     } catch (err) {
       if (err.code === 401) {
-        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
+        return { isSuccessful: false, resultMessage: "Unauthorized. Authorize please." }
       }
-      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+      return err.response?.data ?? { isSuccessful: false, resultMessage: 'Unknown error' };
     }
   }
 
@@ -116,9 +116,9 @@ const Albums = () => {
       return newAlbumResult;
     } catch (err) {
       if (err.code === 401) {
-        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
+        return { isSuccessful: false, resultMessage: "Unauthorized. Authorize please." }
       }
-      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+      return err.response?.data ?? { isSuccessful: false, resultMessage: 'Unknown error' };
     }
   }
 
@@ -128,9 +128,9 @@ const Albums = () => {
       return res.data;
     } catch (error) {
       if (error.code === 401) {
-        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
+        return { isSuccessful: false, resultMessage: "Unauthorized. Authorize please." }
       }
-      return error.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+      return error.response?.data ?? { isSuccessful: false, resultMessage: 'Unknown error' };
     }
   }
 
