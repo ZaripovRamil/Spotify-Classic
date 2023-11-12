@@ -1,5 +1,3 @@
-using AdminAPI.Features.Albums;
-using AdminAPI.Features.Albums.Create;
 using DatabaseServices.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -7,8 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Models.Configuration;
 using Models.DTO.BackToFront.Full;
-using Models.DTO.FrontToBack.EntityUpdateData;
 using Models.Entities;
+using AdminAPI.Dto;
+using Utils.CQRS;
 
 namespace AdminAPI.Controllers;
 
@@ -18,56 +17,52 @@ namespace AdminAPI.Controllers;
 public class AlbumsController : Controller
 {
     private readonly IAlbumRepository _albumRepository;
-    private readonly IAlbumDeleteHandler _albumDeleteHandler;
-    private readonly IAlbumUpdateHandler _albumUpdateHandler;
     private readonly HttpClient _clientToSearch;
     private readonly IMediator _mediator;
 
-    public AlbumsController(IOptions<Hosts> hostsOptions, IAlbumRepository albumRepository,
-        IAlbumDeleteHandler albumDeleteHandler, IAlbumUpdateHandler albumUpdateHandler, IMediator mediator)
+    public AlbumsController(IOptions<Hosts> hostsOptions, IAlbumRepository albumRepository, IMediator mediator)
     {
         _albumRepository = albumRepository;
-        _albumDeleteHandler = albumDeleteHandler;
-        _albumUpdateHandler = albumUpdateHandler;
         _mediator = mediator;
         _clientToSearch = new HttpClient
             { BaseAddress = new Uri($"http://{hostsOptions.Value.SearchApi}/search") };
     }
 
-    [HttpGet("get/{id:guid}")]
+    [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetByIdAsync(Guid id)
     {
         var album = await _albumRepository.GetByIdAsync(id.ToString());
         return album is null ? new JsonResult(null) : new JsonResult(new AlbumFull(album));
     }
 
-    [HttpPost("add")]
-    public async Task<IActionResult> AddAsync([FromForm] RequestDto dto)
+    [HttpPost]
+    public async Task<IActionResult> AddAsync([FromForm] Features.Albums.Create.RequestDto dto)
     {
-        var command = new Command(dto.Name, dto.AuthorId, dto.AlbumType, dto.ReleaseYear, Guid.NewGuid(),
-            dto.PreviewFile);
+        var command = new Features.Albums.Create.Command(dto.Name, dto.AuthorId, dto.AlbumType, dto.ReleaseYear,
+            Guid.NewGuid(), dto.PreviewFile);
         var res = await _mediator.Send(command);
         return res.IsSuccessful switch
         {
-            false => BadRequest(new ResultDto(false, res.JoinErrors(), null)),
+            false => BadRequest(new Features.Albums.Create.ResultDto(false, res.JoinErrors(), null)),
             true when res.Value!.IsSuccessful => new JsonResult(res.Value),
             _ => BadRequest(res.Value)
         };
     }
 
-    [HttpDelete("delete/{id:guid}")]
+    [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteAsync(Guid id)
     {
-        return new JsonResult(await _albumDeleteHandler.DeleteAsync(id.ToString()));
+        var command = new Features.Albums.Delete.Command(id);
+        return await SendResponse(command);
     }
 
-    [HttpPut("update/{id:guid}")]
-    public async Task<IActionResult> UpdateAsync(Guid id, [FromBody] AlbumUpdateData albumUpdateData)
+    [HttpPut]
+    public async Task<IActionResult> UpdateAsync(Features.Albums.Update.Command command)
     {
-        return new JsonResult(await _albumUpdateHandler.UpdateAsync(id.ToString(), albumUpdateData));
+        return await SendResponse(command);
     }
 
-    [HttpGet("get")]
+    [HttpGet]
     public async Task<IActionResult> GetWithFilters([FromQuery] string? albumType, [FromQuery] int? tracksMin,
         [FromQuery] int? tracksMax, [FromQuery] int? maxCount, [FromQuery] string? sortBy, [FromQuery] string? search)
     {
@@ -97,5 +92,16 @@ public class AlbumsController : Controller
         var albums = await _clientToSearch.GetFromJsonAsync<IEnumerable<Album>>(
             $"albums/by/author?query={query}");
         return new JsonResult(albums?.Select(a => new AlbumFull(a)));
+    }
+
+    private async Task<IActionResult> SendResponse<T>(T request) where T : ICommand<ResultDto>
+    {
+        var res = await _mediator.Send(request);
+        return res.IsSuccessful switch
+        {
+            false => BadRequest(new ResultDto(false, res.JoinErrors())),
+            true when res.Value!.IsSuccessful => new JsonResult(res.Value),
+            _ => BadRequest(res.Value)
+        };
     }
 }

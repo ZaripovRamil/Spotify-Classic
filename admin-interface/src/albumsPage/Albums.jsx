@@ -20,7 +20,7 @@ const Albums = () => {
   const [clicked, setClicked] = useState(false);
   useEffect(() => {
     const getTracks = () => {
-      fetcher.get(`albums/get?albumType=${filters.albumType}&tracksMin=${filters.tracksMin}&tracksMax=${filters.tracksMax}&maxCount=${filters.maxCount}&search=${filters.search.trim()}&sortBy=${filters.sortBy}`)
+      fetcher.get(`albums?albumType=${filters.albumType}&tracksMin=${filters.tracksMin}&tracksMax=${filters.tracksMax}&maxCount=${filters.maxCount}&search=${filters.search.trim()}&sortBy=${filters.sortBy}`)
         .then(res => {
           if (res.status !== 200) return;
           setItems(res.data.map(item => {
@@ -79,8 +79,8 @@ const Albums = () => {
 
   const editItemsWithResultAsync = async (data) => {
     try {
-      return await fetcher.put(`albums/update/${data.id}`, { id: data.id, name: data.name })
-        .then(res => JSON.parse(res.data));
+      return await fetcher.put(`albums`, { id: data.id, name: data.name })
+        .then(res => res.data);
     } catch (err) {
       if (err.code === 401) {
         return { isSuccessful: false, resultMessage: "Unauthorized. Authorize please." }
@@ -91,8 +91,8 @@ const Albums = () => {
 
   const deleteItemsWithResultAsync = async (data) => {
     try {
-      return await fetcher.delete(`albums/delete/${data.id}`)
-        .then(res => JSON.parse(res.data));
+      return await fetcher.delete(`albums/${data.id}`)
+        .then(res => res.data);
     } catch (err) {
       if (err.code === 401) {
         return { isSuccessful: false, resultMessage: "Unauthorized. Authorize please." }
@@ -107,7 +107,7 @@ const Albums = () => {
     const formData = new FormData();
     Object.entries(data).forEach(([prop, value]) => formData.append(prop, value));
     try {
-      const newAlbumResult = await fetcher.post(`albums/add`, formData)
+      const newAlbumResult = await fetcher.post(`albums`, formData)
         .then(r => r.data);
       if (!newAlbumResult.isSuccessful) return newAlbumResult;
       const album = await getAlbumByIdAsync(newAlbumResult.albumId);
@@ -124,7 +124,7 @@ const Albums = () => {
 
   const getAlbumByIdAsync = async (id) => {
     try {
-      const res = await fetcher.get(`albums/get/${id}`);
+      const res = await fetcher.get(`albums/${id}`);
       return res.data;
     } catch (error) {
       if (error.code === 401) {

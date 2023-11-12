@@ -13,6 +13,7 @@ public class CommandValidator : AbstractValidator<Command>
     public CommandValidator(IAuthorRepository authorRepository)
     {
         _authorRepository = authorRepository;
+        
         RegisterRules();
     }
 
@@ -32,15 +33,13 @@ public class CommandValidator : AbstractValidator<Command>
 
         RuleFor(c => c.AuthorId)
             .MustAsync(Exist)
-            .WithMessage(InvalidAuthor);
+            .WithMessage(AuthorNotFound);
 
         RuleFor(c => c.PreviewImage)
             .Must(p => p.Length > 0)
             .WithMessage(InvalidPreview);
     }
 
-    private async Task<bool> Exist(Guid authorId, CancellationToken cancellationToken = default)
-    {
-        return await _authorRepository.GetByIdAsync(authorId.ToString()) is not null;
-    }
+    private async Task<bool> Exist(Guid authorId, CancellationToken cancellationToken = default) =>
+        await _authorRepository.GetByIdAsync(authorId.ToString()) is not null;
 }

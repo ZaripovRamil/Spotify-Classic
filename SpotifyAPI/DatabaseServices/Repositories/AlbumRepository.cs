@@ -30,15 +30,14 @@ public class AlbumRepository : Repository, IAlbumRepository
 
     public async Task UpdateAsync(Album album)
     {
-        var toChange = (await GetByIdAsync(album.Id))!;
-        toChange.Name = album.Name;
+        DbContext.Update(album);
         await DbContext.SaveChangesAsync();
     }
 
     public IQueryable<Album> GetAll()
     {
         return DbContext.Albums.Include(a => a.Author)
-            .Include(a => a.Tracks);
+            .Include(a => a.Tracks).AsNoTracking();
     }
 
     public IEnumerable<Album> GetWithFilters(string? albumType, int? tracksMin, int? tracksMax,

@@ -29,6 +29,7 @@ public class AlbumDbSaver : ISaver<Command>
             _savedSuccessfully = false;
             return new Result(e.Message);
         }
+        
         _savedSuccessfully = true;
         return new Result();
     }
