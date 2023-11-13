@@ -7,4 +7,5 @@ public static class EntityErrors
     public static string FieldContainsUnacceptableCharacters(string field) =>
         $"{field} should contain only latin characters, digits or punctuation markers";
     public const string UnknownError = "Unknown error";
+    public const string NameTaken = "An item with this name already exists";
 }
