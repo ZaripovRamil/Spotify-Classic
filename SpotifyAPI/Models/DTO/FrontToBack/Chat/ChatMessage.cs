@@ -7,6 +7,4 @@ public class ChatMessage
     public DateTime Timestamp { get; set; } = default!;
     public string Message { get; set; } = default!;
     public bool IsOwner { get; set; }
-    
-    
 }

@@ -1,12 +1,12 @@
 using DatabaseServices.Repositories;
 using Models.DTO.BackToFront.Full;
 using Utils.CQRS;
+using static Models.Entities.ValidationErrors.AlbumErrors;
 
 namespace PlayerAPI.Features.GetAlbumById;
 
 public class QueryHandler: IQueryHandler<Query, AlbumFull>
 {
-    private const string AlbumNotFound = "Album Not Found";
     private readonly IAlbumRepository _albumRepository;
 
     public QueryHandler(IAlbumRepository albumRepository)

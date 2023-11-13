@@ -1,10 +1,5 @@
 using AuthAPI.ConfigurationExtensions;
-using AuthAPI.Features.GetStatistics;
-using AuthAPI.Features.SignIn;
-using DatabaseServices;
-using Models.Configuration;
-using Models.OAuth;
-using Utils.ServiceCollectionExtensions;
+using AuthAPI.ServiceCollectionExtensions;
 using Utils.WebApplicationExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,22 +9,8 @@ builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
-builder.Services.AddIdentity(builder.Environment.IsDevelopment());
-builder.Services.AddRepositories(builder.Configuration);
-
-builder.Services.Configure<JwtTokenSettings>(builder.Configuration.GetSection("JWTTokenSettings"));
-builder.Services.Configure<Hosts>(builder.Configuration.GetSection("Hosts"));
-builder.Services.Configure<GoogleOptions>(builder.Configuration.GetSection("OAuth:Google"));
-
-builder.Services.AddScoped<IDtoCreator, DtoCreator>();
-builder.Services.AddScoped<IStatisticSnapshotCreator, StatisticSnapshotCreator>();
-
-builder.Services.AddJwtAuthorization(builder.Configuration);
-builder.Services.AddSwaggerWithAuthorization();
-builder.Services.AddAllCors();
+builder.Services.AddApplicationServices(builder.Configuration, builder.Environment);
 
 var app = builder.Build();
 

@@ -1,26 +1,15 @@
-using Models.Configuration;
 using StaticAPI.ConfigurationExtensions;
-using StaticAPI.Services;
-using Utils.ServiceCollectionExtensions;
+using StaticAPI.ServiceCollectionExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddControllers();
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddTransient<IFileProvider, FileProvider>();
-builder.Services.AddTransient<IHlsConverter, HlsConverter>();
 
 builder.Configuration.AddEnvironmentFiles();
 builder.Configuration.AddEnvironmentVariables();
 
-builder.Services.AddMediatorForAssembly(typeof(Program).Assembly);
-builder.Services.Configure<JwtTokenSettings>(builder.Configuration.GetSection("JWTTokenSettings"));
-builder.Services.Configure<Hosts>(builder.Configuration.GetSection("Hosts"));
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddJwtAuthorization(builder.Configuration);
-builder.Services.AddSwaggerWithAuthorization();
-builder.Services.AddAllCors();
+builder.Services.AddApplicationServices(builder.Configuration);
 
 var app = builder.Build();
 

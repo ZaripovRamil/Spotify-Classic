@@ -1,6 +1,5 @@
 ﻿using ChatApi.Dto;
 using MassTransit;
-using Models.DTO.FrontToBack.Chat;
 using Models.Entities;
 using Models.MessagingContracts;
 using Utils.CQRS;
@@ -18,7 +17,8 @@ public class CommandHandler : ICommandHandler<Command,ResultDto>
     
     public async Task<Result<ResultDto>> Handle(Command request, CancellationToken cancellationToken)
     {
-        var sm = new SupportChatMessage(request.UserId, request.Message.GroupName, DateTime.UtcNow, request.Message.Message, request.Message.IsOwner);
+        var sm = new SupportChatMessage(request.UserId, request.Message.GroupName, DateTime.UtcNow,
+            request.Message.Message, request.Message.IsOwner);
         await _bus.Publish(new SaveHistoryMessageToDb { Message = sm }, cancellationToken);
         return new ResultDto(true, "Successful");
     }

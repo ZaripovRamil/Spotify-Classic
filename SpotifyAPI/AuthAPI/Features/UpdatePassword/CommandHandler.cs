@@ -17,19 +17,12 @@ public class CommandHandler : ICommandHandler<Command>
     {
         var res = new Result();
         var updateData = request.Data;
-        if (updateData.Password != updateData.RepeatPassword)
-        {
-            res.Fail();
-            res.AddErrors("Old password mismatch");
-        }
 
-        if (!(await _userManager.ChangePasswordAsync(request.User!, updateData.OldPassword, updateData.Password))
-            .Succeeded)
-        {
-            res.Fail();
-            res.AddErrors("Failed to update password");
-        }
-
+        if ((await _userManager.ChangePasswordAsync(request.User!, updateData.OldPassword, updateData.Password))
+            .Succeeded) return res;
+        
+        res.Fail();
+        res.AddErrors("Failed to update password");
         return res;
     }
 }

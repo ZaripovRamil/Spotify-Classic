@@ -22,6 +22,7 @@ public partial class QueryHandler: IQueryHandler<Query, Stream>
         _clientToStatic = new HttpClient
             { BaseAddress = new Uri($"http://{hostsOptions.Value.StaticApi}/tracks/") };
     }
+    
     public async Task<Result<Stream>> Handle(Query request, CancellationToken cancellationToken)
     {
         if (!TrackIdRegex().IsMatch(request.Id)) return  new Result<Stream>("Error");
@@ -33,6 +34,7 @@ public partial class QueryHandler: IQueryHandler<Query, Stream>
         await AddTrackToHistory(request.Id, request.User);
         return await StreamTrack(trackInfo.FileId);
     }
+    
     private async Task<TrackFull?> GetTrackInfo(string trackId)
     {
         var track = await _trackRepository.GetByIdAsync(trackId);

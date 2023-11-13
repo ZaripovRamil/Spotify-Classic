@@ -16,12 +16,6 @@ public class CommandHandler : ICommandHandler<Command>
     {
         var res = new Result();
         var subscription = await _subscriptionRepository.GetByIdAsync(request.Data.SubscriptionId);
-        if (subscription == null)
-        {
-            res.Fail();
-            res.AddErrors("No such subscription");
-        }
-
         await _subscriptionRepository.SetToUserAsync(request.User!, subscription);
         return res;
     }
