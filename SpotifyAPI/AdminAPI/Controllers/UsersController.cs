@@ -1,8 +1,6 @@
-﻿using DatabaseServices.Repositories;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models.DTO.BackToFront.Light;
-using Models.Entities.Enums;
 
 namespace AdminAPI.Controllers;
 
@@ -10,43 +8,42 @@ namespace AdminAPI.Controllers;
 [Route("[controller]")]
 public class UsersController
 {
-    private readonly ISupportChatHistoryRepository _historyRepository;
-    private readonly IUserRepository _userRepository;
+    private readonly IMediator _mediator;
 
-    public UsersController(ISupportChatHistoryRepository historyRepository, IUserRepository userRepository)
+    public UsersController(IMediator mediator)
     {
-        _historyRepository = historyRepository;
-        _userRepository = userRepository;
+        _mediator = mediator;
     }
 
     [Authorize(Roles = "Admin")]
-    [HttpGet("get")]
-    public IActionResult GetAllRooms()
+    [HttpGet("rooms")]
+    public async Task<IActionResult> GetAllRooms()
     {
-        var users = _historyRepository.GetAllAsync().ToEnumerable()
-            .GroupBy(m => m.RoomId)
-            .Select(g => g.MaxBy(m => m.Timestamp))
-            .OrderByDescending(m => m!.Timestamp)
-            .Select(m => m!.RoomId);
-        return new JsonResult(users);
+        var query = new Features.Users.GetAllRooms.Query();
+        var res = await _mediator.Send(query);
+        return new JsonResult(res.Value);
     }
 
-    [HttpGet("getUsers")]
+    [Authorize(Roles = "Admin")]
+    [HttpGet]
     public async Task<IActionResult> GetAllAsync()
     {
-        var users = await _userRepository.GetAllAsync().Select(u => new UserLight(u)).ToListAsync();
-        return new JsonResult(users);
+        var query = new Features.Users.GetAll.Query();
+        var res = await _mediator.Send(query);
+        return new JsonResult(res.Value);
     }
 
     [HttpPost]
     [Route("promote")]
     public async Task<IActionResult> MakeAdminAsync([FromBody] string login)
     {
-        var isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
-        if (!isDevelopment) return new NotFoundResult();
-        var user = await _userRepository.GetByNameAsync(login);
-        if (user is null) return new NotFoundResult();
-        await _userRepository.SetRoleAsync(user, Role.Admin);
-        return new OkResult();
+        var command = new Features.Users.MakeAdmin.Command(login);
+        var res = await _mediator.Send(command);
+        return res.IsSuccessful switch
+        {
+            false => new NotFoundResult(),
+            true when res.Value!.IsSuccessful => new OkResult(),
+            _ => new NotFoundResult()
+        };
     }
 }
