@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 // care of http/https
 const prefix = `https://localhost:${Ports.PlayerApi}/`;
+const staticPrefix = `https://localhost:${Ports.StaticApi}/`;
 const fetcher = getFetcher(Ports.PlayerApi);
 
 const Player = ({ props }) => {
@@ -158,8 +159,8 @@ const Player = ({ props }) => {
                   <img
                     style={{ maxWidth: "70px", maxHeight: "70px" }}
                     src={
-                      prefix +
-                      `Previews/get/${
+                      staticPrefix +
+                      `Previews/${
                         tracksList[playerConf.trackPosInAlbum].album.previewId
                       }`
                     }

@@ -6,7 +6,7 @@ import "./SearchPage.css";
 const fetcher = getFetcher(Ports.SearchApi);
 
 export const SearchPage = (props) => {
-  const prefix = `https://localhost:${Ports.PlayerApi}/`;
+  const prefix = `https://localhost:${Ports.StaticApi}/`;
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [suggestions, setSuggestions] = useState();
@@ -67,7 +67,7 @@ export const SearchPage = (props) => {
           >
             <img
               style={{ maxWidth: "70px", maxHeight: "70px" }}
-              src={prefix + `Previews/get/${suggest.previewId}`}
+              src={prefix + `Previews/${suggest.previewId}`}
               alt="img"
               width={"100%"}
               onError={({ currentTarget }) => {
@@ -95,7 +95,7 @@ export const SearchPage = (props) => {
           >
             <img
               style={{ maxWidth: "70px", maxHeight: "70px" }}
-              src={prefix + `Previews/get/${suggest.album.previewId}`}
+              src={prefix + `Previews/${suggest.album.previewId}`}
               alt="img"
               width={"100%"}
               onError={({ currentTarget }) => {
@@ -122,7 +122,7 @@ export const SearchPage = (props) => {
           >
             <img
               style={{ maxWidth: "70px", maxHeight: "70px" }}
-              src={prefix + `Previews/get/${suggest.previewId}`}
+              src={prefix + `Previews/${suggest.previewId}`}
               alt="img"
               width={"100%"}
               onError={({ currentTarget }) => {

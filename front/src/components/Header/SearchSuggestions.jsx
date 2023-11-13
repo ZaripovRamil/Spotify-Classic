@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Ports from "../../constants/Ports";
 
 export const SearchSuggestions = ({ data, value }) => {
-  const prefix = `https://localhost:${Ports.PlayerApi}/`;
+  const prefix = `https://localhost:${Ports.StaticApi}/`;
   const navigate = useNavigate();
   const [albums, setAlbums] = useState([]);
   const [authors, setAuthors] = useState([]);
@@ -79,7 +79,7 @@ export const SearchSuggestions = ({ data, value }) => {
           >
             <img
               style={{ maxWidth: "50px", maxHeight: "50px" }}
-              src={prefix + `Previews/get/${suggest.previewId}`}
+              src={prefix + `Previews/${suggest.previewId}`}
               alt="img"
               width={"100%"}
               onError={({ currentTarget }) => {
@@ -117,7 +117,7 @@ export const SearchSuggestions = ({ data, value }) => {
           >
             <img
               style={{ maxWidth: "50px", maxHeight: "50px" }}
-              src={prefix + `Previews/get/${suggest.album.previewId}`}
+              src={prefix + `Previews/${suggest.album.previewId}`}
               alt="img"
               width={"100%"}
               onError={({ currentTarget }) => {
@@ -144,7 +144,7 @@ export const SearchSuggestions = ({ data, value }) => {
           >
             <img
               style={{ maxWidth: "50px", maxHeight: "50px" }}
-              src={prefix + `Previews/get/${suggest.previewId}`}
+              src={prefix + `Previews/${suggest.previewId}`}
               alt="img"
               width={"100%"}
               onError={({ currentTarget }) => {

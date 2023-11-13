@@ -1,9 +1,6 @@
-using DatabaseServices.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models.DTO;
-using Models.DTO.BackToFront.Light;
-using Models.DTO.FrontToBack;
+using MediatR;
 
 namespace PlayerAPI.Controllers;
 
@@ -12,55 +9,26 @@ namespace PlayerAPI.Controllers;
 [Route("[controller]")]
 public class PlaylistsController : Controller
 {
-    private readonly IPlaylistRepository _playlistRepository;
-    private readonly ITrackRepository _trackRepository;
+    private readonly IMediator _mediator;
 
-    public PlaylistsController(IPlaylistRepository playlistRepository, ITrackRepository trackRepository)
+    public PlaylistsController(IMediator mediator)
     {
-        _playlistRepository = playlistRepository;
-        _trackRepository = trackRepository;
+        _mediator = mediator;
     }
 
     [HttpGet("get/{id}")]
     public async Task<IActionResult> GetByIdAsync(string id)
     {
-        var playlist = await _playlistRepository.GetByIdAsync(id);
-        if (playlist is null) return NotFound();
-        return new JsonResult(playlist);
+        var q = new Features.GetPlaylistById.Query(id);
+        var res = await _mediator.Send(q);
+        return res.IsSuccessful ? new JsonResult(res.Value) : BadRequest(res.Errors);
     }
 
     [HttpGet("get")]
-    public async Task<JsonResult> GetAllAsync()
+    public async Task<IActionResult> GetAllAsync()
     {
-        var playlists = _playlistRepository.GetAllAsync();
-        return new JsonResult(await playlists.Select(playlist => new PlaylistLight(playlist)).ToListAsync());
-    }
-
-    [HttpPost("addtrack")]
-    public async Task<IActionResult> AddTrackAsync([FromBody] PlaylistTrackOperationData data)
-    {
-        var dto = new PlaylistTrackOperationDataWithUser(data, User.Identity?.Name!);
-        var playlist = await _playlistRepository.GetByIdAsync(dto.PlaylistId);
-        var track = await _trackRepository.GetByIdAsync(dto.TrackId);
-        if (playlist == null || track == null)
-            return BadRequest();
-        if (playlist.Owner.UserName != dto.UserName)
-            return Forbid();
-        await _playlistRepository.AddTrackAsync(playlist, track);
-        return Ok();
-    }
-
-    [HttpPost("DeleteTrack")]
-    public async Task<IActionResult> DeleteTrack([FromBody] PlaylistTrackOperationData data)
-    {
-        var dto = new PlaylistTrackOperationDataWithUser(data, User.Identity?.Name!);
-        var playlist = await _playlistRepository.GetByIdAsync(data.PlaylistId);
-        var track = await _trackRepository.GetByIdAsync(data.TrackId);
-        if (playlist == null || track == null)
-            return BadRequest();
-        if (playlist.Owner.UserName != dto.UserName)
-            return Forbid();
-        await _playlistRepository.DeleteTrackAsync(playlist, track);
-        return Ok();
+        var q = new Features.GetPlaylists.Query();
+        var res = await _mediator.Send(q);
+        return res.IsSuccessful ? new JsonResult(res.Value!.Playlists) : BadRequest(res.Errors);
     }
 }

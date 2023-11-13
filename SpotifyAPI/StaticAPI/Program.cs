@@ -14,6 +14,7 @@ builder.Services.AddTransient<IHlsConverter, HlsConverter>();
 builder.Configuration.AddEnvironmentFiles();
 builder.Configuration.AddEnvironmentVariables();
 
+builder.Services.AddMediatorForAssembly(typeof(Program).Assembly);
 builder.Services.Configure<JwtTokenSettings>(builder.Configuration.GetSection("JWTTokenSettings"));
 builder.Services.Configure<Hosts>(builder.Configuration.GetSection("Hosts"));
 

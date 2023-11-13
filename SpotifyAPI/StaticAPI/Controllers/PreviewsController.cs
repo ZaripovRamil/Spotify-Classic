@@ -1,36 +1,34 @@
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using StaticAPI.Services;
-
 namespace StaticAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
 public class PreviewsController : Controller
 {
-    private readonly IFileProvider _fileProvider;
+    
+    private readonly IMediator _mediator;
 
-    public PreviewsController(IFileProvider fp)
+    public PreviewsController(IMediator mediator)
     {
-        _fileProvider = fp;
+        _mediator = mediator;
     }
+
 
     // TO DO: change this to receive the whole path to the file, not just id
     [HttpGet("{id:guid}")]
-    public IActionResult GetById(Guid id)
+    public async Task<IActionResult> GetById(Guid id)
     {
-        var preview = _fileProvider.GetFileAsStream("Previews", $"{id}.jpg");
-        if (preview is null) return NotFound();
-        return File(preview, "application/octet-stream", $"{id}.jpg");
+        var q = new Features.Preview.GetById.Query(id);
+        var res = await _mediator.Send(q);
+        return res.IsSuccessful ? File(res.Value!, "application/octet-stream", $"{id}.jpg"): NotFound(res.JoinErrors());
     }
     
     [HttpPost("upload")]
     public async Task<IActionResult> UploadFileAsync([FromForm] IFormFile? file)
     {
-        if (file is null || file.Length == 0)
-            return BadRequest("Empty file");
-        if (file.FileName.Length == 0)
-            return BadRequest("Filename is not provided");
-        await _fileProvider.UploadAsync("Previews", file.FileName, file.OpenReadStream());
-        return Ok();
+        var c = new Features.Preview.UploadFile.Command(file);
+        var res = await _mediator.Send(c);
+        return res.IsSuccessful ? Ok() : BadRequest(res.JoinErrors());
     }
 }

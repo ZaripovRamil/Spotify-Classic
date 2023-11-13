@@ -1,11 +1,8 @@
-﻿using AuthAPI.Services;
-using DatabaseServices;
-using DatabaseServices.Repositories;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack;
 using Models.DTO.FrontToBack.EntityUpdateData;
 using Models.Entities;
@@ -18,17 +15,12 @@ namespace AuthAPI.Controllers;
 public class UserController : Controller
 {
     private readonly UserManager<User> _userManager;
-    private readonly IDtoCreator _dtoCreator;
-    private readonly IStatisticSnapshotCreator _snapshotCreator;
-    private readonly ISubscriptionRepository _subscriptionRepository;
+    private readonly IMediator _mediator;
 
-    public UserController(UserManager<User> userManager, IDtoCreator dtoCreator,
-        IStatisticSnapshotCreator snapshotCreator, ISubscriptionRepository subscriptionRepository)
+    public UserController(UserManager<User> userManager, IMediator mediator)
     {
         _userManager = userManager;
-        _dtoCreator = dtoCreator;
-        _snapshotCreator = snapshotCreator;
-        _subscriptionRepository = subscriptionRepository;
+        _mediator = mediator;
     }
 
     [HttpGet]
@@ -36,29 +28,23 @@ public class UserController : Controller
     public async Task<IActionResult> GetHistory()
     {
         var user = await GetContextUser();
-        return new JsonResult(user?.UserTracks
-            .OrderByDescending(ut => ut.ListenTime)
-            .Select(ut => ut.Track)
-            .Distinct()
-            .Take(10)
-            .Select(t => new TrackLight(t))
-            .ToList());
+        var query = new Features.GetUserHistory.Query(user);
+        var res = await _mediator.Send(query);
+        return res.IsSuccessful ? Ok(res.Value) : BadRequest(res.Errors);
     }
 
     [HttpGet]
     [Route("GetUserName")]
-    public async Task<IActionResult> GetUserName()
+    public Task<IActionResult> GetUserName()
     {
-        var user = await GetContextUser();
-        return new JsonResult(user?.Name);
+        return Task.FromResult<IActionResult>(new JsonResult(User.Identity?.Name ?? string.Empty));
     }
 
     [HttpGet]
     [Route("GetMe")]
     public async Task<IActionResult> GetMe()
     {
-        var user = await GetContextUser();
-        return new JsonResult(_dtoCreator.CreateFull(user));
+        return await GetByUsername(User.Identity?.Name ?? string.Empty);
     }
 
     [HttpGet]
@@ -66,9 +52,13 @@ public class UserController : Controller
     public async Task<IActionResult> GetById(string id)
     {
         var user = await GetContextUser();
-        return new JsonResult(user != null && user.Id == id
-            ? _dtoCreator.CreateFull(user)
-            : _dtoCreator.CreateLight(_userManager.Users.FirstOrDefault(u => u.Id == id)));
+        var query = new Features.GetById.Query(id, user);
+        var res = await _mediator.Send(query);
+        return res.IsSuccessful
+            ? res.Value!.UserDto.Match(
+                x => new JsonResult(x),
+                x => new JsonResult(x))
+            : BadRequest(res.Errors);
     }
 
     [HttpGet]
@@ -76,9 +66,13 @@ public class UserController : Controller
     public async Task<IActionResult> GetByUsername(string username)
     {
         var user = await GetContextUser();
-        return new JsonResult(user != null && user.UserName == username
-            ? _dtoCreator.CreateFull(user)
-            : _dtoCreator.CreateLight(_userManager.Users.FirstOrDefault(u => u.UserName == username)));
+        var query = new Features.GetByUsername.Query(username, user);
+        var res = await _mediator.Send(query);
+        return res.IsSuccessful
+            ? res.Value!.UserDto.Match(
+                x => new JsonResult(x),
+                x => new JsonResult(x))
+            : BadRequest(res.Errors);
     }
 
     [HttpGet]
@@ -86,20 +80,19 @@ public class UserController : Controller
     public async Task<IActionResult> GetStatistics()
     {
         var user = await GetContextUser();
-        if (!ValidateSubscription(user!))
-            return Forbid();
-        return new JsonResult(await _snapshotCreator.Create(user));
+        var query = new Features.GetStatistics.Query(user);
+        var res = await _mediator.Send(query);
+        return res.IsSuccessful ? Ok(res.Value) : BadRequest(res.Errors);
     }
 
     [HttpPut]
     [Route("subscription/update")]
     public async Task<IActionResult> UpdateSubscription([FromBody] SubscriptionUpdateData data)
     {
-        var subscription = await _subscriptionRepository.GetByIdAsync(data.SubscriptionId);
-        if (subscription == null) return BadRequest();
         var user = await GetContextUser();
-        await _subscriptionRepository.SetToUserAsync(user!, subscription);
-        return Ok();
+        var command = new Features.UpdateSubscription.Command(data, user);
+        var res = await _mediator.Send(command);
+        return res.IsSuccessful ? Ok() : BadRequest();
     }
 
 
@@ -107,34 +100,20 @@ public class UserController : Controller
     [Route("update/password")]
     public async Task<IActionResult> UpdatePassword([FromBody] PasswordUpdateData updateData)
     {
-        if (updateData.Password != updateData.RepeatPassword) return BadRequest();
         var user = await GetContextUser();
-        var result = await _userManager.ChangePasswordAsync(user!, updateData.OldPassword, updateData.Password);
-        if (result.Succeeded) return Ok();
-        return BadRequest();
+        var command = new Features.UpdatePassword.Command(updateData, user);
+        var res = await _mediator.Send(command);
+        return res.IsSuccessful ? Ok() : BadRequest();
     }
 
     [HttpPut]
     [Route("update/username/{username}")]
     public async Task<IActionResult> UpdateUsername(string username)
     {
-        if (!ValidateUsername(username))
-            return BadRequest();
         var user = await GetContextUser();
-        user!.Name = username;
-        var result = await _userManager.UpdateAsync(user);
-        if (result.Succeeded) return Ok();
-        return BadRequest();
-    }
-
-    private static bool ValidateSubscription(User user)
-    {
-        return user.Subscription != null && user.SubscriptionExpire > DateTime.Now;
-    }
-
-    private static bool ValidateUsername(string username)
-    {
-        return username.All(char.IsLetterOrDigit) && username.Length >= 4;
+        var command = new Features.UpdateUsername.Command(username, user);
+        var res = await _mediator.Send(command);
+        return res.IsSuccessful ? Ok() : BadRequest();
     }
 
     private async Task<User?> GetContextUser()

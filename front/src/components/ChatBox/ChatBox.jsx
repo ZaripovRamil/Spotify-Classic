@@ -31,7 +31,7 @@ export const ChatBox = ({ props }) => {
   function updateHistory() {
     fetcher
       .get("/chat/history")
-      .then((result) => setChat(result.data))
+      .then((result) => {setChat(result.data); console.log(result);})
       .catch((ex) => console.log(ex));
   }
 

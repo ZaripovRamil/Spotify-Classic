@@ -8,9 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DatabaseServices\DatabaseServices.csproj"/>
-        <ProjectReference Include="..\Models\Models.csproj"/>
-        <ProjectReference Include="..\Utils\Utils.csproj"/>
+      <ProjectReference Include="..\DatabaseServices\DatabaseServices.csproj" />
+        <ProjectReference Include="..\Models\Models.csproj" />
+        <ProjectReference Include="..\Utils\Utils.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -20,11 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="CommandHandlers\Features\"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="FluentValidation" Version="11.8.0"/>
+        <PackageReference Include="FluentValidation" Version="11.8.0" />
     </ItemGroup>
 
 </Project>

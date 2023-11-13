@@ -12,4 +12,15 @@ public class SupportChatMessage
     public DateTime Timestamp { get; set; }
     public string Message { get; set; } = default!;
     public bool IsOwner { get; set; }
+
+    public SupportChatMessage(string senderId, string roomId, DateTime timeStamp, string message, bool isOwner)
+    {
+        Id = Guid.NewGuid().ToString();
+        SenderId = senderId;
+        RoomId = roomId;
+        Timestamp = timeStamp;
+        Message = message;
+        IsOwner = isOwner;
+    }
+    private SupportChatMessage(){}
 }

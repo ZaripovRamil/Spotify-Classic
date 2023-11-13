@@ -16,6 +16,7 @@ export const ChatsPage = ({component}) => {
             .catch(err => console.log(err));     
         }
         getUsers();
+        
       }, []);
 
     return (
