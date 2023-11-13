@@ -1,6 +1,5 @@
 ﻿using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Models.DTO.BackToFront.Auth;
 using Models.Entities;
 using Models.OAuth;
@@ -30,7 +29,7 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
         if (user is null && await _userManager.FindByEmailAsync(payload.Email) is null)
         {
             var registerResult = await RegisterAsync(loginData);
-            if (registerResult is BadRequestResult) return registerResult;
+            if (!registerResult.IsSuccessful) return registerResult;
         }
 
         user = await _userManager.FindByEmailAsync(payload.Email);
