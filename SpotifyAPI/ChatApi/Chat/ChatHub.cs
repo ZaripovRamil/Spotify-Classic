@@ -34,7 +34,7 @@ public class ChatHub : Hub
         message.IsOwner = true;
 
         var addMessageCommand = new Command(userId,message);
-        var res = await _mediator.Send(addMessageCommand);
+        await _mediator.Send(addMessageCommand);
 
         await Clients.Client(Context.ConnectionId).SendAsync("ReceiveMessage", message);
         await Clients.GroupExcept(groupName,Context.ConnectionId).SendAsync("ReceiveMessage", message);
@@ -51,7 +51,7 @@ public class ChatHub : Hub
         message.User = "Admin";
         
         var addMessageCommand = new Command(userId, message);
-        var res = await _mediator.Send(addMessageCommand);
+        await _mediator.Send(addMessageCommand);
         
         await Clients.Client(Context.ConnectionId).SendAsync("ReceiveMessage", message);
         await Clients.GroupExcept(message.GroupName,Context.ConnectionId).SendAsync("ReceiveMessage", message);
