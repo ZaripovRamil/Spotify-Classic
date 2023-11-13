@@ -8,12 +8,12 @@ using Models.Configuration;
 using Models.Entities;
 using Models.Entities.Enums;
 
-namespace AuthAPI.Services;
+namespace AuthAPI.Features.SignIn;
 
 public class JwtTokenGenerator : IJwtTokenGenerator
 {
     private readonly JwtTokenSettings _jwtTokenSettings;
-    private readonly UserManager<User> _userManager; 
+    private readonly UserManager<User> _userManager;
 
     public JwtTokenGenerator(IOptions<JwtTokenSettings> jwtTokenSettingsConfig, UserManager<User> userManager)
     {

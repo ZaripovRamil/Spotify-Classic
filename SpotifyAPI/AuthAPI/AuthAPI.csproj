@@ -14,13 +14,19 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Google.Apis.Auth.AspNetCore3" Version="1.60.0" />
+        <PackageReference Include="Google.Apis.Auth.AspNetCore3" Version="1.60.0"/>
+        <PackageReference Include="MediatR" Version="12.1.1"/>
+        <PackageReference Include="OneOf" Version="3.0.263"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
+        <Content Include="..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="GetOAuthProfileInfo\"/>
     </ItemGroup>
 
 </Project>
