@@ -13,7 +13,7 @@ const fetcher = getFetcher(Ports.PlayerApi);
 
 export const PlaylistPage = (props) => {
   const navigate = useNavigate();
-  const prefix = `https://localhost:${Ports.PlayerApi}/`;
+  const prefix = `https://localhost:${Ports.StaticApi}/`;
   const [searchParams] = useSearchParams();
   const [isPlaylist, setIsPlaylist] = useState(true);
   const [isLoad, setIsLoad] = useState(false);
@@ -175,7 +175,7 @@ export const PlaylistPage = (props) => {
           </div>
           <div className="playlist-main">
             <div className="playlist-main-img">
-              <img src={prefix + `Previews/get/${playlist.previewId}`} alt="" />
+              <img src={prefix + `Previews/${playlist.previewId}`} alt="" />
             </div>
 
             <div className="playlist-main-part">
