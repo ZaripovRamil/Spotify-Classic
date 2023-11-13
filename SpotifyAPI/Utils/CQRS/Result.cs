@@ -26,6 +26,8 @@ public class Result
         foreach (var error in errors)
             _errors.Add(error);
     }
+    
+    public string JoinErrors(char separator = '\n') => string.Join(separator, Errors);
 }
 
 public class Result<TValue> : Result
@@ -33,6 +35,10 @@ public class Result<TValue> : Result
     public Result(TValue value)
     {
         Value = value;
+    }
+    
+    public Result(params string[] errors) : base(errors)
+    {
     }
 
     public TValue? Value { get; }

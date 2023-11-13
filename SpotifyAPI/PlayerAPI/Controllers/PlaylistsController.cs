@@ -2,6 +2,7 @@ using DatabaseServices.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO;
+using Models.DTO.BackToFront.Full;
 using Models.DTO.BackToFront.Light;
 using Models.DTO.FrontToBack;
 
@@ -26,7 +27,7 @@ public class PlaylistsController : Controller
     {
         var playlist = await _playlistRepository.GetByIdAsync(id);
         if (playlist is null) return NotFound();
-        return new JsonResult(playlist);
+        return new JsonResult( new PlaylistFull(playlist));
     }
 
     [HttpGet("get")]

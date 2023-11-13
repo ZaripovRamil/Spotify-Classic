@@ -206,7 +206,7 @@ export const PlaylistPage = (props) => {
                 <img src={like} alt="" className="playlist-btn like-btn" />
               </div>
               <div className="playlist-tracks">
-                {playlistTracks.map((track, id) => (
+                {playlistTracks && playlistTracks.map((track, id) => (
                   <Track
                     props={props}
                     tracks={playlistTracks}
