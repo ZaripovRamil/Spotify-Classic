@@ -1,10 +1,12 @@
 using System.Net.Http.Headers;
 using System.Text.Json;
+using AuthAPI.Configuration;
+using AuthAPI.Constants;
+using AuthAPI.Dto.OAuth;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Models.Configuration;
-using Models.OAuth;
 
 namespace AuthAPI.Controllers;
 
@@ -63,7 +65,7 @@ public class OAuthController : Controller
     }
 
     [HttpPost("google/login")]
-    public async Task<IActionResult> LoginAsync([FromBody] GoogleLoginData loginData)
+    public async Task<IActionResult> LoginAsync([FromBody] Features.SignIn.OAuth.GoogleLoginData loginData)
     {
         try
         {
@@ -78,7 +80,7 @@ public class OAuthController : Controller
     }
 
     [HttpPost("google/register")]
-    public async Task<IActionResult> RegisterAsync([FromBody] GoogleLoginData loginData)
+    public async Task<IActionResult> RegisterAsync([FromBody] Features.SignIn.OAuth.GoogleLoginData loginData)
     {
         try
         {

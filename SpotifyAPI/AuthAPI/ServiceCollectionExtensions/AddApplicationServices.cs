@@ -1,8 +1,9 @@
+using AuthAPI.Configuration;
+using AuthAPI.Dto.OAuth;
 using AuthAPI.Features.GetStatistics;
 using AuthAPI.Features.SignIn;
 using DatabaseServices;
 using Models.Configuration;
-using Models.OAuth;
 using Utils.ServiceCollectionExtensions;
 
 namespace AuthAPI.ServiceCollectionExtensions;

@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Models.OAuth;
+namespace AuthAPI.Dto.OAuth;
 
 public class GoogleResult
 {

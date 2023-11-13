@@ -1,4 +1,4 @@
-namespace Models.OAuth;
+namespace AuthAPI.Constants;
 
 public static class GoogleDefaults
 {

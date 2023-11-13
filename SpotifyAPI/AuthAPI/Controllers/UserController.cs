@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using AuthAPI.Features.UpdatePassword;
+using AuthAPI.Features.UpdateSubscription;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

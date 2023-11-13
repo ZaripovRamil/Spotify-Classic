@@ -1,8 +1,8 @@
-﻿using Google.Apis.Auth;
+﻿using AuthAPI.Dto.OAuth;
+using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
 using Models.DTO.BackToFront.Auth;
 using Models.Entities;
-using Models.OAuth;
 using Utils.CQRS;
 
 namespace AuthAPI.Features.SignIn.OAuth;
