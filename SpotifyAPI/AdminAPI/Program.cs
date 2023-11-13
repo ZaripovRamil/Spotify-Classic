@@ -1,9 +1,6 @@
 using AdminAPI.ConfigurationExtensions;
 using AdminAPI.ServiceCollectionExtensions;
-using Models.Configuration;
-using Utils.ServiceCollectionExtensions;
 using Utils.WebApplicationExtensions;
-using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,19 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Configuration.AddEnvironmentFiles();
 builder.Configuration.AddEnvironmentVariables();
 
-builder.Services.Configure<JwtTokenSettings>(builder.Configuration.GetSection("JWTTokenSettings"));
-builder.Services.Configure<Hosts>(builder.Configuration.GetSection("Hosts"));
-
-builder.Services.AddHttpClients(builder.Configuration);
-builder.Services.AddRepositories(builder.Configuration);
-builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
-builder.Services.AddDefinedServices(typeof(Program).Assembly);
-builder.Services.AddMediatorForAssembly(typeof(Program).Assembly)
-    .AddPipelineBehaviors();
-
-builder.Services.AddJwtAuthorization(builder.Configuration);
-builder.Services.AddSwaggerWithAuthorization();
-builder.Services.AddAllCors();
+builder.Services.AddApplicationServices(builder.Configuration);
 
 var app = builder.Build();
 

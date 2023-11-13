@@ -10,7 +10,7 @@ namespace ChatApi.Chat;
 public class ChatHub : Hub
 {
     private static readonly Dictionary<string,string> ActiveAdminConnections = new();
-    private static readonly List<string> ConnectedAdminGroups= new();
+    private static readonly List<string> ConnectedAdminGroups = new();
     
     private readonly IMediator _mediator;
 

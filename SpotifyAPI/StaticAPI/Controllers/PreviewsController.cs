@@ -6,14 +6,12 @@ namespace StaticAPI.Controllers;
 [Route("[controller]")]
 public class PreviewsController : Controller
 {
-    
     private readonly IMediator _mediator;
 
     public PreviewsController(IMediator mediator)
     {
         _mediator = mediator;
     }
-
 
     // TO DO: change this to receive the whole path to the file, not just id
     [HttpGet("{id:guid}")]

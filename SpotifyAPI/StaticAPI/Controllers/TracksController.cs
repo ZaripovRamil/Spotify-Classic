@@ -1,7 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using StaticAPI.Features.Track.UploadTrack;
-using StaticAPI.Services;
 
 namespace StaticAPI.Controllers;
 
@@ -11,7 +10,7 @@ public class TracksController : Controller
 {
     private readonly IMediator _mediator;
 
-    public TracksController(IFileProvider fp ,IMediator mediator)
+    public TracksController(IMediator mediator)
     {
         _mediator = mediator;
     }
@@ -21,7 +20,7 @@ public class TracksController : Controller
     {
         var q = new Features.Track.GetById.Query(id);
         var res = await _mediator.Send(q);
-        return (res.IsSuccessful)
+        return res.IsSuccessful
             ? Task.FromResult<IActionResult>(new FileStreamResult(res.Value!, "application/octet-stream"))
             : Task.FromResult<IActionResult>(NotFound());
     }

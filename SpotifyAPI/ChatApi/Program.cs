@@ -1,7 +1,6 @@
 using ChatApi.Chat;
 using ChatApi.ConfigurationExtensions;
 using ChatApi.ServiceCollectionExtensions;
-using Models.Configuration;
 using Utils.ServiceCollectionExtensions;
 using Utils.WebApplicationExtensions;
 
@@ -15,17 +14,7 @@ builder.Services.AddMasstransitRabbitMq(builder.Configuration, typeof(Program).A
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.Configure<JwtTokenSettings>(builder.Configuration.GetSection("JWTTokenSettings"));
-builder.Services.Configure<Hosts>(builder.Configuration.GetSection("Hosts"));
-
-builder.Services.AddMediatorForAssembly(typeof(Program).Assembly);
-builder.Services.AddRepositories(builder.Configuration);
-
-builder.Services.AddSignalR();
-
-builder.Services.AddJwtAuthenticationWithSignalR(builder.Configuration);
-builder.Services.AddSwaggerWithAuthorization();
-builder.Services.AddAllCors();
+builder.Services.AddApplicationServices(builder.Configuration);
 
 var app = builder.Build();
 
