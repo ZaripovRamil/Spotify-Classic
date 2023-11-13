@@ -1,7 +1,6 @@
-using DatabaseServices.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models.DTO.BackToFront.Light;
+using MediatR;
 
 namespace PlayerAPI.Controllers;
 
@@ -10,23 +9,26 @@ namespace PlayerAPI.Controllers;
 [Route("[controller]")]
 public class AlbumsController : Controller
 {
-    private readonly IAlbumRepository _albumRepository;
+    private readonly IMediator _mediator;
 
-    public AlbumsController(IAlbumRepository albumRepository)
+    public AlbumsController(IMediator mediator)
     {
-        _albumRepository = albumRepository;
+        _mediator = mediator;
     }
 
     [HttpGet("get")]
-    public async Task<JsonResult> GetAllAsync()
+    public async Task<IActionResult> GetAllAsync()
     {
-        return new JsonResult(await _albumRepository.GetAllAsync().Select(a => new AlbumLight(a)).ToListAsync());
+        var q = new Features.GetAlbums.Query();
+        var res = await _mediator.Send(q);
+        return res.IsSuccessful ? new JsonResult(res.Value!.Albums) : BadRequest(res.Errors);
     }
 
     [HttpGet("get/{id}")]
     public async Task<IActionResult> GetByIdAsync(string id)
     {
-        var album = await _albumRepository.GetByIdAsync(id);
-        return album is null ? new JsonResult(null) : new JsonResult(new AlbumLight(album));
+        var q = new Features.GetAlbumById.Query(id);
+        var res = await _mediator.Send(q);
+        return res.IsSuccessful ? new JsonResult(res.Value!) : BadRequest(res.Errors);
     }
 }
