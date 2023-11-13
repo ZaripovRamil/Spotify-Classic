@@ -8,7 +8,7 @@ namespace AdminAPI.Controllers;
 
 [Authorize(Roles = "Admin")]
 [ApiController]
-[Route("[controller]")]
+[Route("albums")]
 public class AlbumsController : Controller
 {
     private readonly IMediator _mediator;

@@ -9,6 +9,7 @@ public static class AddSwaggerWithAuthExtension
     {
         services.AddSwaggerGen(c =>
         {
+            c.CustomSchemaIds(type => type.ToString());
             c.AddSecurityDefinition("Bearer",
                 new OpenApiSecurityScheme
                 {

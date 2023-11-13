@@ -8,7 +8,7 @@ namespace AdminAPI.Controllers;
 
 [Authorize(Roles = "Admin")]
 [ApiController]
-[Route("[controller]")]
+[Route("authors")]
 public class AuthorsController : Controller
 {
     private readonly IMediator _mediator;
@@ -35,7 +35,7 @@ public class AuthorsController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Add([FromBody] Features.Authors.Create.Command command)
+    public async Task<IActionResult> AddAsync([FromBody] Features.Authors.Create.Command command)
     {
         var res = await _mediator.Send(command);
         return res.IsSuccessful switch
