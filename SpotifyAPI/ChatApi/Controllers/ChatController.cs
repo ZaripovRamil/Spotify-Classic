@@ -1,7 +1,7 @@
-﻿using DatabaseServices.Repositories;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.FrontToBack.Chat;
+using MediatR;
 
 namespace ChatApi.Controllers;
 
@@ -10,41 +10,28 @@ namespace ChatApi.Controllers;
 [Authorize]
 public class ChatController : Controller
 {
-    private readonly ISupportChatHistoryRepository _historyRepository;
+    private readonly IMediator _mediator;
 
-    public ChatController(ISupportChatHistoryRepository historyRepository)
+    public ChatController(IMediator mediator)
     {
-        _historyRepository = historyRepository;
+        _mediator = mediator;
     }
 
     [HttpGet("[action]")]
-    public List<ChatMessage> History()
+    public async Task<IActionResult> History()
     {
         var username = User.Identity!.Name!;
-        return _historyRepository.GetHistoryForUserId(username).Select(sm => new ChatMessage
-            {
-                Message = sm.Message,
-                User = sm.IsOwner ? username : "Admin",
-                Timestamp = sm.Timestamp,
-                IsOwner = sm.IsOwner
-            })
-            .OrderBy(m => m.Timestamp)
-            .ToList();
+        var q = new Features.UserChatHistory.Query(username);
+        var res = await _mediator.Send(q);
+        return res.IsSuccessful ? Ok(res.Value?.Messages) : BadRequest(res.Errors);
     }
 
     [Authorize(Roles = "Admin")]
     [HttpGet("[action]/{groupname}")]
-    public List<ChatMessage> History(string groupname)
+    public async Task<IActionResult> History(string groupname)
     {
-        var history = _historyRepository.GetHistoryForUserId(groupname).Select(sm => new ChatMessage()
-            {
-                Message = sm.Message,
-                User = sm.IsOwner ? sm.Sender.UserName! : $"Admin({sm.Sender.UserName!})",
-                Timestamp = sm.Timestamp,
-                IsOwner = sm.IsOwner
-            })
-            .OrderBy(m => m.Timestamp)
-            .ToList();
-        return history;
+        var q = new Features.UserChatHistory.Query(groupname);
+        var res = await _mediator.Send(q);
+        return res.IsSuccessful ? Ok(res.Value?.Messages) : BadRequest(res.Errors);
     }
 }
