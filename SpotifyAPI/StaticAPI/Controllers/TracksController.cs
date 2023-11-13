@@ -1,4 +1,6 @@
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using StaticAPI.Features.Track.UploadTrack;
 using StaticAPI.Services;
 
 namespace StaticAPI.Controllers;
@@ -7,43 +9,28 @@ namespace StaticAPI.Controllers;
 [Route("[controller]")]
 public class TracksController : Controller
 {
-    private const string AssetsName = "Assets";
-    private readonly IFileProvider _fileProvider;
-    private readonly IHlsConverter _hlsConverter;
+    private readonly IMediator _mediator;
 
-    public TracksController(IFileProvider fp, IHlsConverter hlsConverter)
+    public TracksController(IFileProvider fp ,IMediator mediator)
     {
-        _fileProvider = fp;
-        _hlsConverter = hlsConverter;
+        _mediator = mediator;
     }
-
-    // TO DO: change this to receive the whole path to the file, not just id
+    
     [HttpGet("{id}")]
-    public Task<IActionResult> DownloadByIdAsync(string id)
+    public async Task<Task<IActionResult>> DownloadByIdAsync(string id)
     {
-        var idSplit = id.Split('.');
-        var fileName = Path.Combine(idSplit[0], idSplit.Length > 1 ? id : $"{id}.index.m3u8");
-        var track = _fileProvider.GetFileAsStream("Tracks", fileName);
-        return track is null
-            ? Task.FromResult<IActionResult>(NotFound())
-            : Task.FromResult<IActionResult>(new FileStreamResult(track, "application/octet-stream"));
+        var q = new Features.Track.GetById.Query(id);
+        var res = await _mediator.Send(q);
+        return (res.IsSuccessful)
+            ? Task.FromResult<IActionResult>(new FileStreamResult(res.Value!, "application/octet-stream"))
+            : Task.FromResult<IActionResult>(NotFound());
     }
 
     [HttpPost("upload")]
     public async Task<IActionResult> UploadFileAsync([FromForm] IFormFile? file)
     {
-        if (file is null || file.Length == 0)
-            return BadRequest("Empty file");
-        if (file.FileName.Length == 0)
-            return BadRequest("Filename is not provided");
-        var fileName = Path.GetFileNameWithoutExtension(file.FileName);
-        var trackPath = Path.Combine("Tracks", fileName);
-        await _fileProvider.UploadAsync(trackPath, file.FileName, file.OpenReadStream());
-        if (!file.FileName.EndsWith(".mp3")) return Ok();
-        await _hlsConverter.SaveHlsFromMp3Async(Path.Combine(AssetsName, "Tracks", fileName, file.FileName),
-            Path.Combine(AssetsName, trackPath));
-        await _fileProvider.DeleteFileAsync(trackPath, file.FileName);
-
-        return Ok();
+        var c = new Command(file);
+        var res = await _mediator.Send(c);
+        return res.IsSuccessful ? Ok() : BadRequest(res.JoinErrors());
     }
 }
