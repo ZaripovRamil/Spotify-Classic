@@ -18,7 +18,7 @@ export const ChatPage = () => {
 
     function updateHistory(){
         fetcher.get(`/chat/history/${userName}`)
-            .then(result =>{ setChat(result.data);})
+            .then(result =>{ setChat(result.data); console.log(result)})
             .catch(ex => console.log(ex));    
     }
 

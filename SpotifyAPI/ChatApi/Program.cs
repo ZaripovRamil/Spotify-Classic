@@ -18,6 +18,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.Configure<JwtTokenSettings>(builder.Configuration.GetSection("JWTTokenSettings"));
 builder.Services.Configure<Hosts>(builder.Configuration.GetSection("Hosts"));
 
+builder.Services.AddMediatorForAssembly(typeof(Program).Assembly);
 builder.Services.AddRepositories(builder.Configuration);
 
 builder.Services.AddSignalR();
