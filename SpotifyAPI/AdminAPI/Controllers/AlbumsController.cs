@@ -2,7 +2,6 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using AdminAPI.Dto;
-using AdminAPI.Features.Albums.Get.ById;
 using Utils.CQRS;
 
 namespace AdminAPI.Controllers;
@@ -22,7 +21,7 @@ public class AlbumsController : Controller
     [HttpGet("{id}")]
     public async Task<IActionResult> GetByIdAsync(string id)
     {
-        var query = new Query(id);
+        var query = new Features.Albums.Get.ById.Query(id);
         var res = await _mediator.Send(query);
         return res.IsSuccessful ? new JsonResult(res.Value!) : NotFound(res.JoinErrors());
     }

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Utils.CQRS;
 using AdminAPI.Dto;
-using AdminAPI.Features.Authors.Get.All;
 
 namespace AdminAPI.Controllers;
 
@@ -22,7 +21,7 @@ public class AuthorsController : Controller
     [HttpGet]
     public async Task<IActionResult> GetAllAsync()
     {
-        var query = new Query();
+        var query = new Features.Authors.Get.All.Query();
         var res = await _mediator.Send(query);
         return new JsonResult(res.Value);
     }
