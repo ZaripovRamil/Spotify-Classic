@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models.DTO.FrontToBack.Chat;
 using MediatR;
 
 namespace ChatApi.Controllers;

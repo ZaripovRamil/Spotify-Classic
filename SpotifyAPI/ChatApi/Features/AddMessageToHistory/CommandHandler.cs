@@ -1,6 +1,5 @@
 ﻿using ChatApi.Dto;
 using MassTransit;
-using Models.DTO.FrontToBack.Chat;
 using Models.Entities;
 using Models.MessagingContracts;
 using Utils.CQRS;

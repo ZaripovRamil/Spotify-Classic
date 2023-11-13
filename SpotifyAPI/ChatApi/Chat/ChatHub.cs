@@ -1,13 +1,8 @@
-﻿using ChatApi.Dto;
-using ChatApi.Features.AddMessageToHistory;
-using MassTransit;
+﻿using ChatApi.Features.AddMessageToHistory;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Models.DTO.FrontToBack.Chat;
-using Models.Entities;
-using Models.MessagingContracts;
 
 namespace ChatApi.Chat;
 
@@ -60,8 +55,6 @@ public class ChatHub : Hub
             await Clients.Client(Context.ConnectionId).SendAsync("ReceiveMessage", message);
             await Clients.GroupExcept(message.GroupName,Context.ConnectionId).SendAsync("ReceiveMessage", message);
         }
-        
-        
     }
 
     public async Task AddToGroup()
