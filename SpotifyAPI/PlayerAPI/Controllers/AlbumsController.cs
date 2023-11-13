@@ -1,6 +1,7 @@
 using DatabaseServices.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Models.DTO.BackToFront.Full;
 using Models.DTO.BackToFront.Light;
 
 namespace PlayerAPI.Controllers;
@@ -27,6 +28,6 @@ public class AlbumsController : Controller
     public async Task<IActionResult> GetByIdAsync(string id)
     {
         var album = await _albumRepository.GetByIdAsync(id);
-        return album is null ? new JsonResult(null) : new JsonResult(new AlbumLight(album));
+        return album is null ? new JsonResult(null) : new JsonResult(new AlbumFull(album));
     }
 }

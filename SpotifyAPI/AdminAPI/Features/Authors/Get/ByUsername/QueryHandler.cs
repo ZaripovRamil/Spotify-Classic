@@ -1,6 +1,5 @@
 using Models.Configuration;
 using Models.DTO.BackToFront.Full;
-using Models.Entities;
 using Utils.CQRS;
 
 namespace AdminAPI.Features.Authors.Get.ByUsername;
@@ -20,9 +19,8 @@ public class QueryHandler : IQueryHandler<Query, IEnumerable<AuthorFull>>
         IEnumerable<AuthorFull>? authors;
         try
         {
-            authors = (await client.GetFromJsonAsync<IEnumerable<Author>>(
-                    $"authors/by/user?query={request.Username}", cancellationToken: cancellationToken))?
-                .Select(a => new AuthorFull(a));
+            authors = await client.GetFromJsonAsync<IEnumerable<AuthorFull>>(
+                $"authors/by/user?query={request.Username}", cancellationToken: cancellationToken);
         }
         catch (Exception)
         {

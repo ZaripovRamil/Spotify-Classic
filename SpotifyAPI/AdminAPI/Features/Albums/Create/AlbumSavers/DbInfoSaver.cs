@@ -3,23 +3,23 @@ using DatabaseServices.Repositories;
 using Models.Entities;
 using Utils.CQRS;
 
-namespace AdminAPI.Features.Albums.Create.AlbumSaver;
+namespace AdminAPI.Features.Albums.Create.AlbumSavers;
 
-public class AlbumDbSaver : ISaver<Command>
+public class DbInfoSaver : ISaver<Command, string>
 {
     private readonly IAlbumRepository _albumRepository;
     private bool _savedSuccessfully;
     private Album _album = default!;
 
-    public AlbumDbSaver(IAlbumRepository albumRepository)
+    public DbInfoSaver(IAlbumRepository albumRepository)
     {
         _albumRepository = albumRepository;
     }
 
-    public async Task<Result> SaveAsync(Command item)
+    public async Task<Result<string>> SaveAsync(Command item)
     {
-        _album = new Album(item.Name, item.AuthorId.ToString(), item.AlbumType, item.ReleaseYear,
-            item.PreviewId.ToString());
+        _album = new Album(item.Name, item.AuthorId, item.AlbumType, item.ReleaseYear,
+            item.PreviewId);
         try
         {
             await _albumRepository.AddAsync(_album);
@@ -27,11 +27,11 @@ public class AlbumDbSaver : ISaver<Command>
         catch (Exception e)
         {
             _savedSuccessfully = false;
-            return new Result(e.Message);
+            return new Result<string>(errors: e.Message);
         }
         
         _savedSuccessfully = true;
-        return new Result();
+        return new Result<string>(value: _album.Id);
     }
 
     public async Task<Result> UnSaveAsync(Command item)

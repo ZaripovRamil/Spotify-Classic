@@ -1,6 +1,5 @@
 using Models.Configuration;
 using Models.DTO.BackToFront.Full;
-using Models.Entities;
 using Utils.CQRS;
 
 namespace AdminAPI.Features.Albums.Get.ByAuthorName;
@@ -20,9 +19,8 @@ public class QueryHandler : IQueryHandler<Query, IEnumerable<AlbumFull>>
         IEnumerable<AlbumFull>? albums;
         try
         {
-            albums = (await client.GetFromJsonAsync<IEnumerable<Album>>(
-                    $"albums/by/author?query={request.SearchQuery}", cancellationToken: cancellationToken))?
-                .Select(a => new AlbumFull(a));
+            albums = await client.GetFromJsonAsync<IEnumerable<AlbumFull>>(
+                $"albums/by/author?query={request.SearchQuery}", cancellationToken: cancellationToken);
         }
         catch (Exception)
         {

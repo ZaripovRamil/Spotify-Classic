@@ -11,7 +11,7 @@ const Authors = () => {
   const [tableColumns, setTableColumns] = useState([]);
   useEffect(() => {
     const getTracks = async () => {
-      await fetcher.get('authors/get/')
+      await fetcher.get('authors/')
         .then(res => {
           if (res.status !== 200) return;
           setItems(res.data.map(item => {
@@ -51,31 +51,31 @@ const Authors = () => {
 
   const editItemsWithResultAsync = async (data) => {
     try {
-      return await fetcher.put(`authors/update/${data.id}`, { id: data.id, name: data.name })
+      return await fetcher.put(`authors/${data.id}`, { id: data.id, name: data.name })
         .then(res => JSON.parse(res.data));
     } catch (err) {
       if (err.code === 401) {
-        return { isSuccessful: false, resultMessage: "Unauthorized. Authorize please." }
+        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
       }
-      return err.response?.data ?? { isSuccessful: false, resultMessage: 'Unknown error' };
+      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }
   }
 
   const deleteItemsWithResultAsync = async (data) => {
     try {
-      return await fetcher.delete(`authors/delete/${data.id}`)
+      return await fetcher.delete(`authors/${data.id}`)
         .then(res => JSON.parse(res.data));
     } catch (err) {
       if (err.code === 401) {
-        return { isSuccessful: false, resultMessage: "Unauthorized. Authorize please." }
+        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
       }
-      return err.response?.data ?? { isSuccessful: false, resultMessage: 'Unknown error' };
+      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }
   }
 
   const insertItemsWithResultAsync = async (data) => {
     try {
-      const newAuthorResult = await fetcher.post(`authors/add`, data)
+      const newAuthorResult = await fetcher.post(`authors`, data)
         .then(r => JSON.parse(r.data));
       if (!newAuthorResult.isSuccessful) return newAuthorResult;
       const author = await getAuthorByIdAsync(newAuthorResult.authorId);
@@ -84,21 +84,21 @@ const Authors = () => {
       return newAuthorResult;
     } catch (err) {
       if (err.code === 401) {
-        return { isSuccessful: false, resultMessage: "Unauthorized. Authorize please." }
+        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
       }
-      return err.response?.data ?? { isSuccessful: false, resultMessage: 'Unknown error' };
+      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }
   }
 
   const getAuthorByIdAsync = async (id) => {
     try {
-      const res = await fetcher.get(`authors/get/${id}`);
+      const res = await fetcher.get(`authors/${id}`);
       return res.data;
     } catch (err) {
       if (err.code === 401) {
-        return { isSuccessful: false, resultMessage: "Unauthorized. Authorize please." }
+        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
       }
-      return err.response?.data ?? { isSuccessful: false, resultMessage: 'Unknown error' };
+      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
     }
   }
 

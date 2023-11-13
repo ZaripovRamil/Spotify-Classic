@@ -1,10 +1,7 @@
 using AdminAPI.ConfigurationExtensions;
-using AdminAPI.Features.Albums.Create.AlbumSaver;
-using AdminAPI.Features.Tracks;
+using AdminAPI.Features.Albums.Create.AlbumSavers;
 using AdminAPI.ServiceCollectionExtensions;
 using AdminAPI.Services;
-using DatabaseServices.EntityValidators.Implementations;
-using DatabaseServices.EntityValidators.Interfaces;
 using Models.Configuration;
 using Utils.ServiceCollectionExtensions;
 using Utils.WebApplicationExtensions;
@@ -25,15 +22,10 @@ builder.Services.Configure<Hosts>(builder.Configuration.GetSection("Hosts"));
 builder.Services.AddHttpClients(builder.Configuration);
 builder.Services.AddRepositories(builder.Configuration);
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
-builder.Services.AddScoped<ISaver<Command>, AlbumDbSaver>();
-builder.Services.AddScoped<ISaver<Command>, AlbumPreviewSaver>();
+builder.Services.AddScoped<ISaver<Command, string>, DbInfoSaver>();
+builder.Services.AddScoped<ISaver<Command, string>, PreviewSaver>();
 builder.Services.AddMediatorForAssembly(typeof(Program).Assembly)
     .AddPipelineBehaviors();
-
-builder.Services.AddScoped<ITrackCreateHandler, TrackCreateHandler>();
-builder.Services.AddScoped<ITrackUpdateHandler, TrackUpdateHandler>();
-builder.Services.AddScoped<ITrackDeleteHandler, TrackDeleteHandler>();
-builder.Services.AddScoped<ITrackValidator, TrackValidator>();
 
 builder.Services.AddJwtAuthorization(builder.Configuration);
 builder.Services.AddSwaggerWithAuthorization();

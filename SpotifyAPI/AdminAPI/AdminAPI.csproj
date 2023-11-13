@@ -29,9 +29,6 @@
     <ItemGroup>
       <Folder Include="Features\Albums\Get\" />
       <Folder Include="Features\Authors\Get\" />
-      <Folder Include="Features\Tracks\Get\ByAlbumAuthor\" />
-      <Folder Include="Features\Tracks\Get\ByFilters\" />
-      <Folder Include="Features\Tracks\Get\ById\" />
     </ItemGroup>
 
 </Project>

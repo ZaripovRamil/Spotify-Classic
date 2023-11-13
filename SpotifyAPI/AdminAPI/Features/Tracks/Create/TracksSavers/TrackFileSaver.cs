@@ -2,42 +2,42 @@ using AdminAPI.Services;
 using Models.Configuration;
 using Utils.CQRS;
 
-namespace AdminAPI.Features.Albums.Create.AlbumSaver;
+namespace AdminAPI.Features.Tracks.Create.TracksSavers;
 
-public class AlbumPreviewSaver : ISaver<Command>
+public class TrackFileSaver : ISaver<Command, string>
 {
     private readonly IHttpClientFactory _httpClientFactory;
     private bool _savedSuccessfully;
 
-    public AlbumPreviewSaver(IHttpClientFactory httpClientFactory)
+    public TrackFileSaver(IHttpClientFactory httpClientFactory)
     {
         _httpClientFactory = httpClientFactory;
     }
 
-    public async Task<Result> SaveAsync(Command item)
+    public async Task<Result<string>> SaveAsync(Command item)
     {
         try
         {
             var client = _httpClientFactory.CreateClient(nameof(Hosts.StaticApi));
             var formData = new MultipartFormDataContent();
-            var albumContent = new StreamContent(item.PreviewImage.OpenReadStream());
-            formData.Add(albumContent, "file", $"{item.PreviewId}.jpg");
+            var trackContent = new StreamContent(item.TrackFile.OpenReadStream());
+            formData.Add(trackContent, "file", $"{item.FileId}.mp3");
 
-            var res = await client.PostAsync("previews/upload", formData);
+            var res = await client.PostAsync("upload", formData);
             if (!res.IsSuccessStatusCode)
             {
                 _savedSuccessfully = false;
-                return new Result(await res.Content.ReadAsStringAsync());
+                return new Result<string>(errors: await res.Content.ReadAsStringAsync());
             }
         }
         catch (Exception e)
         {
             _savedSuccessfully = false;
-            return new Result(e.Message);
+            return new Result<string>(errors: e.Message);
         }
-
+        
         _savedSuccessfully = true;
-        return new Result();
+        return new Result<string>(value: item.FileId);
     }
 
     public Task<Result> UnSaveAsync(Command item)

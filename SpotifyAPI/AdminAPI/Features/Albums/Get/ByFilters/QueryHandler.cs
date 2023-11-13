@@ -29,7 +29,7 @@ public class QueryHandler : IQueryHandler<Query, IEnumerable<AlbumFull>>
         var albums = await _albumRepository.FilterAsync(
                 OfType(request.AlbumType) &&
                 HasTracksNoLessThan(request.TracksMin) &&
-                HasTracksNoMoreThan(request.MaxCount) &&
+                HasTracksNoMoreThan(request.TracksMax) &&
                 ContainsTextInName(request.Search))
             .Take(request.MaxCount ?? 50)
             .OrderBy(Sort(request.SortBy))

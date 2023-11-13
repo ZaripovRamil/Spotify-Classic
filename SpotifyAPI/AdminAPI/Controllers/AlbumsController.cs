@@ -31,7 +31,7 @@ public class AlbumsController : Controller
     public async Task<IActionResult> AddAsync([FromForm] Features.Albums.Create.RequestDto dto)
     {
         var command = new Features.Albums.Create.Command(dto.Name, dto.AuthorId, dto.AlbumType, dto.ReleaseYear,
-            Guid.NewGuid(), dto.PreviewFile);
+            Guid.NewGuid().ToString(), dto.PreviewFile);
         var res = await _mediator.Send(command);
         return res.IsSuccessful switch
         {

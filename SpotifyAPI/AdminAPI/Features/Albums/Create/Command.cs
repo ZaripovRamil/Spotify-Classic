@@ -8,5 +8,5 @@ public record Command(
     string AuthorId,
     AlbumType AlbumType,
     int ReleaseYear,
-    Guid PreviewId,
+    string PreviewId,
     IFormFile PreviewImage) : ICommand<ResultDto>;

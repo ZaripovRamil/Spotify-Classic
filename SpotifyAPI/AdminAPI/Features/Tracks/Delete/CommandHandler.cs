@@ -2,21 +2,21 @@ using AdminAPI.Dto;
 using DatabaseServices.Repositories;
 using Utils.CQRS;
 
-namespace AdminAPI.Features.Albums.Delete;
+namespace AdminAPI.Features.Tracks.Delete;
 
 public class CommandHandler : ICommandHandler<Command, ResultDto>
 {
-    private readonly IAlbumRepository _albumRepository;
+    private readonly ITrackRepository _trackRepository;
 
-    public CommandHandler(IAlbumRepository albumRepository)
+    public CommandHandler(ITrackRepository trackRepository)
     {
-        _albumRepository = albumRepository;
+        _trackRepository = trackRepository;
     }
 
     public async Task<Result<ResultDto>> Handle(Command request, CancellationToken cancellationToken)
     {
-        var album = await _albumRepository.GetByIdAsync(request.Id);
-        await _albumRepository.DeleteAsync(album!);
+        var album = await _trackRepository.GetByIdAsync(request.Id);
+        await _trackRepository.DeleteAsync(album!);
         return new ResultDto(true, "Successful");
     }
 }

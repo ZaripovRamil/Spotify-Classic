@@ -20,6 +20,14 @@ public class Track : Entity
         Id = id;
     }
 
+    public Track(string name, string albumId, string fileId, Genre[] genres)
+    {
+        Name = name;
+        AlbumId = albumId;
+        FileId = fileId;
+        Genres = genres.ToList();
+    }
+
     public Track(string name, Album album, string fileId, params Genre[] genres) : this(name, album, fileId)
     {
         Genres = genres.ToList();
