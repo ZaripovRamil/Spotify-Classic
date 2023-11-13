@@ -18,6 +18,12 @@ public class Author : Entity
         UserId = user.Id;
     }
 
+    public Author(string userId, string name)
+    {
+        UserId = userId;
+        Name = name;
+    }
+
     public Author()
     {
     }

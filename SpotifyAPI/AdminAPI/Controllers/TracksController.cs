@@ -1,16 +1,8 @@
-using AdminAPI.ModelsExtensions;
-using DatabaseServices.CommandHandlers.CreateHandlers;
-using DatabaseServices.CommandHandlers.DeleteHandlers;
-using DatabaseServices.CommandHandlers.UpdateHandlers;
-using DatabaseServices.Repositories;
+using AdminAPI.Dto;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Models.Configuration;
-using Models.DTO.BackToFront.EntityCreationResult;
-using Models.DTO.BackToFront.Full;
-using Models.DTO.FrontToBack.EntityCreationData;
-using Models.DTO.FrontToBack.EntityUpdateData;
+using Utils.CQRS;
 
 namespace AdminAPI.Controllers;
 
@@ -19,110 +11,76 @@ namespace AdminAPI.Controllers;
 [Route("[controller]")]
 public class TracksController : Controller
 {
-    private readonly ITrackRepository _trackRepository;
-    private readonly ITrackCreateHandler _trackCreateHandler;
-    private readonly ITrackUpdateHandler _trackUpdateHandler;
-    private readonly ITrackDeleteHandler _trackDeleteHandler;
-    private readonly HttpClient _clientToStatic;
-    private readonly HttpClient _clientToSearch;
+    private readonly IMediator _mediator;
 
-    public TracksController(IOptions<Hosts> hostsOptions, ITrackRepository trackRepository,
-        ITrackCreateHandler trackCreateHandler, ITrackDeleteHandler trackDeleteHandler,
-        ITrackUpdateHandler trackUpdateHandler)
+    public TracksController(IMediator mediator)
     {
-        _trackRepository = trackRepository;
-        _trackCreateHandler = trackCreateHandler;
-        _trackDeleteHandler = trackDeleteHandler;
-        _trackUpdateHandler = trackUpdateHandler;
-        _clientToSearch = new HttpClient
-            { BaseAddress = new Uri($"http://{hostsOptions.Value.SearchApi}/search/") };
-        _clientToStatic = new HttpClient
-            { BaseAddress = new Uri($"http://{hostsOptions.Value.StaticApi}/tracks/") };
+        _mediator = mediator;
     }
 
-    [HttpGet("get/{id:guid}")]
-    public async Task<IActionResult> GetByIdAsync(Guid id)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetByIdAsync(string id)
     {
-        var track = await _trackRepository.GetByIdAsync(id.ToString());
-        return new JsonResult(track is null ? null : new TrackFull(track));
+        var query = new Features.Tracks.Get.ById.Query(id);
+        var res = await _mediator.Send(query);
+        return res.IsSuccessful ? new JsonResult(res.Value!) : NotFound(res.JoinErrors());
     }
 
-    // actually garbage, but looks not so bad now
-    [HttpPost("add")]
-    public async Task<IActionResult> AddAsync([FromForm] TrackCreationDataWithFile creationDataWithFile)
+    [HttpPost]
+    public async Task<IActionResult> AddAsync([FromForm] Features.Tracks.Create.RequestDto dto)
     {
-        var creationData = (TrackCreationData)creationDataWithFile;
-        var trackCreationResult = await _trackCreateHandler.CreateAsync(creationData);
-        if (!trackCreationResult.IsSuccessful)
-            return BadRequest(trackCreationResult);
-
-        var track = await _trackRepository.GetByIdAsync(trackCreationResult.TrackId!);
-        if (track is null)
-            return BadRequest();
-        var trackFull = new TrackFull(track);
-        var staticResponse =
-            await UploadContentToStaticAsync(creationDataWithFile.TrackFile, Guid.Parse(trackFull.FileId));
-        if (staticResponse.IsSuccessStatusCode) return new JsonResult(trackCreationResult);
-
-        // if static API rejected uploading, delete track from database. what if this fails too? cry, i suppose.
-        await DeleteAsync(Guid.Parse(trackCreationResult.TrackId!));
-        return BadRequest(new TrackCreationResult
+        var command = new Features.Tracks.Create.Command(dto.Name, dto.AlbumId, Guid.NewGuid().ToString(), dto.GenreIds,
+            dto.TrackFile);
+        var res = await _mediator.Send(command);
+        return res.IsSuccessful switch
         {
-            IsSuccessful = false,
-            ResultMessage = await staticResponse.Content.ReadAsStringAsync()
-        });
+            false => BadRequest(new Features.Albums.Create.ResultDto(false, res.JoinErrors(), null)),
+            true when res.Value!.IsSuccessful => new JsonResult(res.Value),
+            _ => BadRequest(res.Value)
+        };
     }
 
-    private async Task<HttpResponseMessage> UploadContentToStaticAsync(IFormFile track, Guid trackId)
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteAsync(string id)
     {
-        var formData = new MultipartFormDataContent();
-        var trackContent = new StreamContent(track.OpenReadStream());
-        formData.Add(trackContent, "file", $"{trackId}.mp3");
-
-        return await _clientToStatic.PostAsync("upload", formData);
+        var command = new Features.Tracks.Delete.Command(id);
+        return await SendResponse(command);
     }
 
-    [HttpDelete("delete/{id:guid}")]
-    public async Task<IActionResult> DeleteAsync(Guid id)
+    [HttpPut]
+    public async Task<IActionResult> UpdateAsync(Features.Tracks.Update.Command command)
     {
-        return new JsonResult(await _trackDeleteHandler.DeleteAsync(id.ToString()));
-    }
-
-    [HttpPut("update/{id:guid}")]
-    public async Task<IActionResult> UpdateAsync(Guid id, TrackUpdateData trackUpdateData)
-    {
-        return new JsonResult(await _trackUpdateHandler.UpdateAsync(id.ToString(), trackUpdateData));
+        return await SendResponse(command);
     }
 
     [HttpGet("search")]
     public async Task<IActionResult> FindTrackByAlbumAuthor([FromQuery] string? query)
     {
-        var tracks = await _clientToSearch.GetFromJsonAsync<IEnumerable<TrackFull>>(
-            $"tracks/by/albumAuthor?query={query}");
-        return new JsonResult(tracks);
+        var q = new Features.Tracks.Get.ByAlbumAuthor.Query(query);
+        var res = await _mediator.Send(q);
+        return res.IsSuccessful ? new JsonResult(res.Value) : StatusCode(503, res.JoinErrors());
     }
 
-    [HttpGet("get")]
+    [HttpGet]
     public async Task<IActionResult> GetWithFiltersAsync([FromQuery] int? pageSize, [FromQuery] int? pageIndex,
         [FromQuery] string? sortBy, [FromQuery] string? search)
     {
         pageSize ??= 20;
         pageIndex ??= 1;
-        var tracks = await _trackRepository.FilterAsync(t =>
-                search == null || t.Name.ToLower().Contains(search.ToLower()))
-            .Skip(pageSize.Value * (pageIndex.Value - 1))
-            .Take(pageSize.Value)
-            .Select(t => new TrackFull(t))
-            .ToListAsync();
-        Func<TrackFull, IComparable> sort = sortBy?.ToLower() switch
+     
+        var query = new Features.Tracks.Get.ByFilters.Query(pageSize.Value, pageIndex.Value, sortBy, search);
+        var res = await _mediator.Send(query);
+        return new JsonResult(res.Value);
+    }
+    
+    private async Task<IActionResult> SendResponse<T>(T request) where T : ICommand<ResultDto>
+    {
+        var res = await _mediator.Send(request);
+        return res.IsSuccessful switch
         {
-            "id" => track => track.Id,
-            "name" => track => track.Name,
-            "album" => track => track.Album.Name,
-            "author" => track => track.Album.Author.Name,
-            _ => track => track.Name
+            false => BadRequest(new ResultDto(false, res.JoinErrors())),
+            true when res.Value!.IsSuccessful => new JsonResult(res.Value),
+            _ => BadRequest(res.Value)
         };
-
-        return new JsonResult(tracks.OrderBy(sort));
     }
 }

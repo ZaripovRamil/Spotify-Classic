@@ -32,7 +32,8 @@ public class TrackRepository : Repository, ITrackRepository
         return DbContext.Tracks
             .Include(t => t.Album)
             .Include(t => t.Album.Author)
-            .Include(t => t.Genres);
+            .Include(t => t.Genres)
+            .AsNoTracking();
     }
 
     public List<Track> GetWithFiltersAsync(int? pageSize, int? pageIndex, string? query)

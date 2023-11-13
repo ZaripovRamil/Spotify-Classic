@@ -11,7 +11,7 @@ const Authors = () => {
   const [tableColumns, setTableColumns] = useState([]);
   useEffect(() => {
     const getTracks = async () => {
-      await fetcher.get('authors/get/')
+      await fetcher.get('authors/')
         .then(res => {
           if (res.status !== 200) return;
           setItems(res.data.map(item => {
@@ -51,8 +51,8 @@ const Authors = () => {
 
   const editItemsWithResultAsync = async (data) => {
     try {
-      return await fetcher.put(`authors/update/${data.id}`, { id: data.id, name: data.name })
-        .then(res => JSON.parse(res.data));
+      return await fetcher.put(`authors`, { id: data.id, name: data.name })
+        .then(res => res.data);
     } catch (err) {
       if (err.code === 401) {
         return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
@@ -63,8 +63,8 @@ const Authors = () => {
 
   const deleteItemsWithResultAsync = async (data) => {
     try {
-      return await fetcher.delete(`authors/delete/${data.id}`)
-        .then(res => JSON.parse(res.data));
+      return await fetcher.delete(`authors/${data.id}`)
+        .then(res => res.data);
     } catch (err) {
       if (err.code === 401) {
         return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
@@ -75,8 +75,8 @@ const Authors = () => {
 
   const insertItemsWithResultAsync = async (data) => {
     try {
-      const newAuthorResult = await fetcher.post(`authors/add`, data)
-        .then(r => JSON.parse(r.data));
+      const newAuthorResult = await fetcher.post(`authors`, data)
+        .then(r => r.data);
       if (!newAuthorResult.isSuccessful) return newAuthorResult;
       const author = await getAuthorByIdAsync(newAuthorResult.authorId);
       author.tableProps = { color: '#b3cf99' }
@@ -92,7 +92,7 @@ const Authors = () => {
 
   const getAuthorByIdAsync = async (id) => {
     try {
-      const res = await fetcher.get(`authors/get/${id}`);
+      const res = await fetcher.get(`authors/${id}`);
       return res.data;
     } catch (err) {
       if (err.code === 401) {

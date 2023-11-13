@@ -19,7 +19,7 @@ const Tracks = () => {
 
   useEffect(() => {
     const getTracks = () => {
-      fetcher.get(`tracks/get?pageSize=${filters.pageSize}&pageIndex=${filters.pageIndex}&sortBy=${filters.sortBy}&search=${filters.search}`)
+      fetcher.get(`tracks?pageSize=${filters.pageSize}&pageIndex=${filters.pageIndex}&sortBy=${filters.sortBy}&search=${filters.search}`)
         .then(res => {
           if (res.status !== 200) return;
           setItems(res.data.map(item => {
@@ -82,25 +82,25 @@ const Tracks = () => {
 
   const editItemsWithResultAsync = async (data) => {
     try {
-      return await fetcher.put(`tracks/update/${data.id}`, { id: data.id, name: data.name })
-        .then(res => JSON.parse(res.data));
+      return await fetcher.put(`tracks`, { id: data.id, name: data.name })
+        .then(res => res.data);
     } catch (err) {
       if (err.code === 401) {
-        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
+        return { isSuccessful: false, resultMessage: "Unauthorized. Authorize please." }
       }
-      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+      return err.response?.data ?? { isSuccessful: false, resultMessage: 'Unknown error' };
     }
   }
 
   const deleteItemsWithResultAsync = async (data) => {
     try {
-      return await fetcher.delete(`tracks/delete/${data.id}`)
-        .then(res => JSON.parse(res.data));
+      return await fetcher.delete(`tracks/${data.id}`)
+        .then(res => res.data);
     } catch (err) {
       if (err.code === 401) {
-        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
+        return { isSuccessful: false, resultMessage: "Unauthorized. Authorize please." }
       }
-      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+      return err.response?.data ?? { isSuccessful: false, resultMessage: 'Unknown error' };
     }
   }
 
@@ -114,7 +114,7 @@ const Tracks = () => {
       }
     });
     try {
-      const newTrackResult = await fetcher.post(`tracks/add`, formData)
+      const newTrackResult = await fetcher.post(`tracks`, formData)
         .then(r => r.data);
       if (!newTrackResult.isSuccessful) return newTrackResult;
       const track = await getTrackByIdAsync(newTrackResult.trackId);
@@ -123,21 +123,21 @@ const Tracks = () => {
       return newTrackResult;
     } catch (err) {
       if (err.code === 401) {
-        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
+        return { isSuccessful: false, resultMessage: "Unauthorized. Authorize please." }
       }
-      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+      return err.response?.data ?? { isSuccessful: false, resultMessage: 'Unknown error' };
     }
   };
 
   const getTrackByIdAsync = async (id) => {
     try {
-      const res = await fetcher.get(`tracks/get/${id}`);
+      const res = await fetcher.get(`tracks/${id}`);
       return res.data;
     } catch (err) {
       if (err.code === 401) {
-        return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
+        return { isSuccessful: false, resultMessage: "Unauthorized. Authorize please." }
       }
-      return err.response?.data ?? { isSuccessful: false, messageResult: 'Unknown error' };
+      return err.response?.data ?? { isSuccessful: false, resultMessage: 'Unknown error' };
     }
   };
 

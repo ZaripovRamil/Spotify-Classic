@@ -11,8 +11,8 @@ export const ChatsPage = ({component}) => {
 
     useEffect(() => {
         const getUsers = async () => {
-          await fetcher.get('users/get')
-            .then(res => {setUsers(res.data);console.log(res.data);})
+          await fetcher.get('users/rooms')
+            .then(res => {setUsers(res.data);})
             .catch(err => console.log(err));     
         }
         getUsers();

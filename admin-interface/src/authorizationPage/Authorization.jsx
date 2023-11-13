@@ -41,7 +41,7 @@ const Authorization = () => {
             .then(r => r.data)
             .then(r => {
                 if (!r.isSuccessful || r.token.length === 0) {
-                    return { isSuccessful: false, messageResult: r.messageResult || "Authorization failed" };
+                    return { isSuccessful: false, resultMessage: r.resultMessage || "Authorization failed" };
                 }
                 localStorage.setItem('access-token', r.token);
                 return r;

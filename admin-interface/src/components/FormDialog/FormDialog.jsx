@@ -26,7 +26,7 @@ const FormDialog = ({ isOpen, setIsOpen, formHeader, formData, setFormData, colu
     }
     const res = await submitFormDataWithResultAsync(formData);
     if (!res.isSuccessful) {
-      setFormError(res.messageResult);
+      setFormError(res.resultMessage);
       return;
     }
 

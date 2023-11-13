@@ -26,18 +26,9 @@ public class AuthorRepository : Repository, IAuthorRepository
         await DbContext.SaveChangesAsync();
     }
 
-    // Inefficient. If the author is already known, why to find it again?
-    // Honestly, I just didn't figure out how to do it more maintainable.
-    // It could receive the name parameter for the author to update, but what if 
-    // in future we want to be able to change not only Name?
-    // In the current implementation we only should add new lines here
-    // and in the calling code to create a valid author instance.
-    // May be separate this method to UpdateName, UpdateSmthElse, etc?
-    // but it seems to be too much work...
     public async Task UpdateAsync(Author author)
     {
-        var toChange = (await GetByIdAsync(author.Id))!;
-        toChange.Name = author.Name;
+        DbContext.Authors.Update(author);
         await DbContext.SaveChangesAsync();
     }
 
@@ -57,6 +48,7 @@ public class AuthorRepository : Repository, IAuthorRepository
     {
         return DbContext.Authors
             .Include(a => a.User)
-            .Include(a => a.Albums);
+            .Include(a => a.Albums)
+            .AsNoTracking();
     }
 }

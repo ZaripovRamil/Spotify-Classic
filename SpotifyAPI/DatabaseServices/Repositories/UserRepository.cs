@@ -49,9 +49,9 @@ public class UserRepository : Repository, IUserRepository
         throw new NotImplementedException();
     }
 
-    public async Task<User?> GetByNameAsync(string login) =>
+    public async Task<User?> GetByNameAsync(string name) =>
         await GetUsers()
-            .FirstOrDefaultAsync(u => u.UserName == login);
+            .FirstOrDefaultAsync(u => u.UserName == name);
 
     public async Task<User?> GetByEmailAsync(string email) =>
         await GetUsers()

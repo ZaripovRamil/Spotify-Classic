@@ -10,7 +10,7 @@ const AddAlbum = ({ insertItemsWithResultAsync }) => {
         name: '',
         authorId: '',
         albumType: '',
-        releaseDate: '',
+        releaseYear: '',
     });
     const addingFormColumns = [
         {
@@ -46,8 +46,8 @@ const AddAlbum = ({ insertItemsWithResultAsync }) => {
             isRequired: true,
         },
         {
-            name: 'releaseDate',
-            label: 'Release Date',
+            name: 'releaseYear',
+            label: 'Release Year',
             type: 'number',
             typeProps: {},
             isRequired: false,
