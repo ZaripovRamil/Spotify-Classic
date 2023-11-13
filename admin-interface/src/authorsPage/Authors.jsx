@@ -51,8 +51,8 @@ const Authors = () => {
 
   const editItemsWithResultAsync = async (data) => {
     try {
-      return await fetcher.put(`authors/${data.id}`, { id: data.id, name: data.name })
-        .then(res => JSON.parse(res.data));
+      return await fetcher.put(`authors`, { id: data.id, name: data.name })
+        .then(res => res.data);
     } catch (err) {
       if (err.code === 401) {
         return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
@@ -64,7 +64,7 @@ const Authors = () => {
   const deleteItemsWithResultAsync = async (data) => {
     try {
       return await fetcher.delete(`authors/${data.id}`)
-        .then(res => JSON.parse(res.data));
+        .then(res => res.data);
     } catch (err) {
       if (err.code === 401) {
         return { isSuccessful: false, messageResult: "Unauthorized. Authorize please." }
@@ -76,7 +76,7 @@ const Authors = () => {
   const insertItemsWithResultAsync = async (data) => {
     try {
       const newAuthorResult = await fetcher.post(`authors`, data)
-        .then(r => JSON.parse(r.data));
+        .then(r => r.data);
       if (!newAuthorResult.isSuccessful) return newAuthorResult;
       const author = await getAuthorByIdAsync(newAuthorResult.authorId);
       author.tableProps = { color: '#b3cf99' }

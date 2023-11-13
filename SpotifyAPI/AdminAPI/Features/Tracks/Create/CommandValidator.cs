@@ -36,7 +36,7 @@ public class CommandValidator : AbstractValidator<Command>
 
         RuleFor(c => c.GenreIds)
             .MustAsync(ExistGenres)
-            .WithMessage("");
+            .WithMessage(InvalidGenre);
 
         RuleFor(c => c.TrackFile)
             .Must(p => p.Length > 0)

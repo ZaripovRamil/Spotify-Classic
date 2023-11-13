@@ -32,5 +32,5 @@ public class CommandValidator : AbstractValidator<Command>
     }
 
     private async Task<bool> NotExist(string genreName, CancellationToken cancellationToken = default) =>
-        await _genreRepository.GetByIdAsync(genreName) is null;
+        await _genreRepository.GetByNameAsync(genreName) is null;
 }

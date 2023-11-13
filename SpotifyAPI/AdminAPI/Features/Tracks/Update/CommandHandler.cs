@@ -15,9 +15,9 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
 
     public async Task<Result<ResultDto>> Handle(Command request, CancellationToken cancellationToken)
     {
-        var album = await _trackRepository.GetByIdAsync(request.Id);
-        album!.Name = request.Name;
-        await _trackRepository.UpdateAsync(album);
+        var track = await _trackRepository.GetByIdAsync(request.Id);
+        track!.Name = request.Name;
+        await _trackRepository.UpdateAsync(track);
         return new ResultDto(true, "Successful");
     }
 }

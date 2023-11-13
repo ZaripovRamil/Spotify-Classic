@@ -16,7 +16,8 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
     public async Task<Result<ResultDto>> Handle(Command request, CancellationToken cancellationToken)
     {
         var author = await _authorRepository.GetByIdAsync(request.Id);
-        await _authorRepository.UpdateAsync(author!);
+        author!.Name = request.Name;
+        await _authorRepository.UpdateAsync(author);
         return new ResultDto(true, "Successful");
     }
 }

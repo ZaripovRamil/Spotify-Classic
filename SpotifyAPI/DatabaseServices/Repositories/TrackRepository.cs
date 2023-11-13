@@ -52,7 +52,8 @@ public class TrackRepository : Repository, ITrackRepository
 
     public async Task UpdateAsync(Track track)
     {
-        DbContext.Tracks.Update(track);
+        var toChange = (await GetByIdAsync(track.Id))!;
+        toChange.Name = track.Name;
         await DbContext.SaveChangesAsync();
     }
 }

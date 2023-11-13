@@ -82,8 +82,8 @@ const Tracks = () => {
 
   const editItemsWithResultAsync = async (data) => {
     try {
-      return await fetcher.put(`tracks/${data.id}`, { id: data.id, name: data.name })
-        .then(res => JSON.parse(res.data));
+      return await fetcher.put(`tracks`, { id: data.id, name: data.name })
+        .then(res => res.data);
     } catch (err) {
       if (err.code === 401) {
         return { isSuccessful: false, resultMessage: "Unauthorized. Authorize please." }
@@ -95,7 +95,7 @@ const Tracks = () => {
   const deleteItemsWithResultAsync = async (data) => {
     try {
       return await fetcher.delete(`tracks/${data.id}`)
-        .then(res => JSON.parse(res.data));
+        .then(res => res.data);
     } catch (err) {
       if (err.code === 401) {
         return { isSuccessful: false, resultMessage: "Unauthorized. Authorize please." }

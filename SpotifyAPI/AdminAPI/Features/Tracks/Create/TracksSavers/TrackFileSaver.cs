@@ -25,17 +25,17 @@ public class TrackFileSaver : ISaver<Command, string>
             var trackContent = new StreamContent(item.TrackFile.OpenReadStream());
             formData.Add(trackContent, "file", $"{item.FileId}.mp3");
 
-            var res = await client.PostAsync("upload", formData);
+            var res = await client.PostAsync("tracks/upload", formData);
             if (!res.IsSuccessStatusCode)
             {
                 _savedSuccessfully = false;
                 return new Result<string>(errors: await res.Content.ReadAsStringAsync());
             }
         }
-        catch (Exception e)
+        catch (Exception)
         {
             _savedSuccessfully = false;
-            return new Result<string>(errors: e.Message);
+            return new Result<string>(errors: "Network errors. Try again later");
         }
         
         _savedSuccessfully = true;
