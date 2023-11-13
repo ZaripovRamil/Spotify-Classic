@@ -26,7 +26,7 @@ export const MainPageSection = (props) => {
   const [playlists, setPlaylists] = useState(playlistsArray);
 
   useEffect(() => {
-    const authToken = localStorage.getItem("access-token")
+    const authToken = localStorage.getItem("access-token");
     authToken &&
       fetcher.get("Playlists/get").then((data) => setPlaylists(data.data));
   }, []);

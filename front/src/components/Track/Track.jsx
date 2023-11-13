@@ -5,7 +5,7 @@ import Ports from "../../constants/Ports";
 
 // care of http/https
 const fetcher = getFetcher(Ports.PlayerApi);
-const prefix = `https://localhost:${Ports.PlayerApi}/`;
+const prefix = `https://localhost:${Ports.StaticApi}/`;
 const Track = ({ props, track, idInAlbum, tracks }) => {
   const { tracksList, setTracksList, playerConf, setPlayerConf } = props;
 
@@ -43,7 +43,7 @@ const Track = ({ props, track, idInAlbum, tracks }) => {
             <div className="track-play-img">
               <img
                 className="track-img"
-                src={prefix + `Previews/get/${track.album.previewId}`}
+                src={prefix + `Previews/${track.album.previewId}`}
                 onError={({ currentTarget }) => {
                   currentTarget.onerror = null;
                 }}

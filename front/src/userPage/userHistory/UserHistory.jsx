@@ -39,17 +39,17 @@ export const UserHistory = (props) => {
     GetHistory();
   }, []);
 
-  useEffect(() => {
-    props.props.playerConf.trackId !== "" && setIsLoad(true);
-    fetcherPlayer
-      .get(`Tracks/addToHistory/${props.props.playerConf.trackId}`)
-      .then((res) => {
-        GetHistory();
-      })
-      .catch((res) => console.log(res));
+  // useEffect(() => {
+  //   props.props.playerConf.trackId !== "" && setIsLoad(true);
+  //   fetcherPlayer
+  //     .get(`Tracks/addToHistory/${props.props.playerConf.trackId}`)
+  //     .then((res) => {
+  //       GetHistory();
+  //     })
+  //     .catch((res) => console.log(res));
 
-    setIsLoad(false);
-  }, [props.props.playerConf.trackId]);
+  //   setIsLoad(false);
+  // }, [props.props.playerConf.trackId]);
 
   return (
     !isLoad && (

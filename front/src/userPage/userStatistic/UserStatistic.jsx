@@ -7,7 +7,7 @@ import { useReactToPrint } from "react-to-print";
 import "./UserStatistic.css";
 
 const fetcher = getFetcher(Ports.AuthApi);
-const prefix = `https://localhost:${Ports.PlayerApi}/`;
+const prefix = `https://localhost:${Ports.StaticApi}/`;
 export const UserStatisctics = () => {
   const navigate = useNavigate();
   const componentRef = useRef();
@@ -105,7 +105,7 @@ export const UserStatisctics = () => {
                             <img
                               src={
                                 prefix +
-                                `Previews/get/${data.track.album.previewId}`
+                                `Previews/${data.track.album.previewId}`
                               }
                               alt=""
                             />

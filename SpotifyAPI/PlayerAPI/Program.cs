@@ -1,3 +1,4 @@
+using DatabaseServices;
 using Models.Configuration;
 using PlayerAPI.ConfigurationExtensions;
 using Utils.ServiceCollectionExtensions;
@@ -18,6 +19,9 @@ builder.Services.AddRepositories(builder.Configuration);
 builder.Services.AddJwtAuthorization(builder.Configuration);
 builder.Services.AddSwaggerWithAuthorization();
 builder.Services.AddAllCors();
+
+builder.Services.AddMediatorForAssembly(typeof(Program).Assembly);
+builder.Services.AddSingleton<IDtoCreator, DtoCreator>();
 
 var app = builder.Build();
 
