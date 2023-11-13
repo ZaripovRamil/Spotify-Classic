@@ -1,12 +1,9 @@
 using AdminAPI.ConfigurationExtensions;
-using AdminAPI.Features.Albums.Create.AlbumSavers;
 using AdminAPI.ServiceCollectionExtensions;
-using AdminAPI.Services;
 using Models.Configuration;
 using Utils.ServiceCollectionExtensions;
 using Utils.WebApplicationExtensions;
 using FluentValidation;
-using Command = AdminAPI.Features.Albums.Create.Command;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,8 +19,7 @@ builder.Services.Configure<Hosts>(builder.Configuration.GetSection("Hosts"));
 builder.Services.AddHttpClients(builder.Configuration);
 builder.Services.AddRepositories(builder.Configuration);
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
-builder.Services.AddScoped<ISaver<Command, string>, DbInfoSaver>();
-builder.Services.AddScoped<ISaver<Command, string>, PreviewSaver>();
+builder.Services.AddDefinedServices(typeof(Program).Assembly);
 builder.Services.AddMediatorForAssembly(typeof(Program).Assembly)
     .AddPipelineBehaviors();
 

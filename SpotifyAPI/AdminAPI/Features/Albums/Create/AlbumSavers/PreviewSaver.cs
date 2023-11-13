@@ -1,9 +1,11 @@
 using AdminAPI.Services;
 using Models.Configuration;
 using Utils.CQRS;
+using Utils.CQRS.ServiceDefinition;
 
 namespace AdminAPI.Features.Albums.Create.AlbumSavers;
 
+[ServiceDefinition(ServiceLifetime.Scoped)]
 public class PreviewSaver : ISaver<Command, string>
 {
     private readonly IHttpClientFactory _httpClientFactory;

@@ -2,9 +2,11 @@ using AdminAPI.Services;
 using DatabaseServices.Repositories;
 using Models.Entities;
 using Utils.CQRS;
+using Utils.CQRS.ServiceDefinition;
 
 namespace AdminAPI.Features.Tracks.Create.TracksSavers;
 
+[ServiceDefinition(ServiceLifetime.Scoped)]
 public class DbInfoSaver : ISaver<Command, string>
 {
     private readonly ITrackRepository _trackRepository;

@@ -1,9 +1,11 @@
 using AdminAPI.Services;
 using Models.Configuration;
 using Utils.CQRS;
+using Utils.CQRS.ServiceDefinition;
 
 namespace AdminAPI.Features.Tracks.Create.TracksSavers;
 
+[ServiceDefinition(ServiceLifetime.Scoped)]
 public class TrackFileSaver : ISaver<Command, string>
 {
     private readonly IHttpClientFactory _httpClientFactory;
