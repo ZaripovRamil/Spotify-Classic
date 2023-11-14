@@ -1,8 +1,8 @@
 using AuthAPI.Configuration;
-using AuthAPI.Dto.OAuth;
 using AuthAPI.Features.GetStatistics;
 using AuthAPI.Features.SignIn;
 using DatabaseServices;
+using FluentValidation;
 using Models.Configuration;
 using Utils.ServiceCollectionExtensions;
 
@@ -24,10 +24,11 @@ public static class AddApplicationServicesExtension
 
         services.AddScoped<IDtoCreator, DtoCreator>();
         services.AddScoped<IStatisticSnapshotCreator, StatisticSnapshotCreator>();
-        services.AddTransient<Features.SignUp.OAuth.CommandHandler>();
 
         services.AddMediatorForAssembly(typeof(Program).Assembly)
             .AddPipelineBehaviors();
+        services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+        
         services.AddJwtAuthorization(configuration);
         services.AddSwaggerWithAuthorization();
         services.AddAllCors();

@@ -1,7 +1,7 @@
 using DatabaseServices.Repositories;
 using FluentValidation;
 using static Utils.CQRS.Validation.CommonValidationHandlers;
-using static Models.Entities.ValidationErrors.EntityErrors;
+using static Models.ValidationErrors.EntityErrors;
 
 namespace AdminAPI.Features.Genres.Create;
 

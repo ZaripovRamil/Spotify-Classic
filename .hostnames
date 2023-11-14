@@ -7,6 +7,7 @@ DatabaseApiHostname=database-api
 PlayerApiHostname=player-api
 SearchApiHostname=search-api
 StaticApiHostname=static-api
+UserApiHostname=user-api
 UsersFrontendHostname=localhost
 
 AdminApiPortHttps=7066
@@ -18,6 +19,7 @@ DatabaseApiPortHttps=7248
 PlayerApiPortHttps=7022
 SearchApiPortHttps=7039
 StaticApiPortHttps=7153
+UserApiPortHttps=7230
 UsersFrontendPort=3000
 
 AdminApiPortHttp=80
@@ -28,6 +30,7 @@ DatabaseApiPortHttp=80
 PlayerApiPortHttp=80
 SearchApiPortHttp=80
 StaticApiPortHttp=80
+UserApiPortHttp=80
 
 Hosts__AdminApi=${AdminApiHostname}:${AdminApiPortHttp}
 Hosts__AdminFrontend=${AdminFrontendHostname}:${AdminFrontendPort}
@@ -38,6 +41,7 @@ Hosts__DatabaseApi=${DatabaseApiHostname}:${DatabaseApiPortHttp}
 Hosts__PlayerApi=${PlayerApiHostname}:${PlayerApiPortHttp}
 Hosts__SearchApi=${SearchApiHostname}:${SearchApiPortHttp}
 Hosts__StaticApi=${StaticApiHostname}:${StaticApiPortHttp}
+Hosts__UserApi=${UserApiHostname}:${UserApiPortHttp}
 Hosts__UsersFrontend=${UsersFrontendHostname}:${UsersFrontendPort}
 
 REACT_APP_AdminApi=${AdminApiPortHttps}
@@ -46,4 +50,4 @@ REACT_APP_ChatApi=${ChatApiPortHttps}
 REACT_APP_PlayerApi=${PlayerApiPortHttps}
 REACT_APP_SearchApi=${SearchApiPortHttps}
 
-RunningEnvironment=Production
+RunningEnvironment=Development

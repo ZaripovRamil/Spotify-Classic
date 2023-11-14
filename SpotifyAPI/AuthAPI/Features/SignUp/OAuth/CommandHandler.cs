@@ -1,6 +1,6 @@
-﻿using Google.Apis.Auth;
+﻿using AuthAPI.Dto;
+using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
-using Models.DTO.BackToFront.Auth;
 using Models.Entities;
 using Utils.CQRS;
 

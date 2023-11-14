@@ -1,5 +1,5 @@
 using DatabaseServices.Repositories;
-using Models.DTO.BackToFront.Light;
+using Models.DTO.Light;
 using Utils.CQRS;
 
 namespace PlayerAPI.Features.GetAlbums;

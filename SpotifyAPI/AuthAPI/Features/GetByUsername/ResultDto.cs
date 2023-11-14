@@ -1,5 +1,5 @@
-﻿using Models.DTO.BackToFront.Full;
-using Models.DTO.BackToFront.Light;
+﻿using Models.DTO.Full;
+using Models.DTO.Light;
 using OneOf;
 
 namespace AuthAPI.Features.GetByUsername;

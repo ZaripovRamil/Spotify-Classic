@@ -1,6 +1,6 @@
 using DatabaseServices.Repositories;
 using FluentValidation;
-using static Models.Entities.ValidationErrors.TrackErrors;
+using static Models.ValidationErrors.TrackErrors;
 
 namespace AdminAPI.Features.Tracks.Delete;
 

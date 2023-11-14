@@ -6,6 +6,7 @@ DatabaseApiHostname=localhost
 PlayerApiHostname=localhost
 SearchApiHostname=localhost
 StaticApiHostname=localhost
+UserApiHostname=localhost
 UsersFrontendHostname=localhost
 
 AdminApiPortHttps=7066
@@ -16,6 +17,7 @@ DatabaseApiPortHttps=7248
 PlayerApiPortHttps=7022
 SearchApiPortHttps=7039
 StaticApiPortHttps=7153
+UserApiPortHttps=7230
 UsersFrontendPort=3000
 
 AdminApiPortHttp=5090
@@ -25,6 +27,7 @@ DatabaseApiPortHttp=5251
 PlayerApiPortHttp=5075
 SearchApiPortHttp=5282
 StaticApiPortHttp=5201
+UserApiPortHttp=5272
 
 Hosts__AdminApi=${AdminApiHostname}:${AdminApiPortHttp}
 Hosts__AdminFrontend=${AdminFrontendHostname}:${AdminFrontendPort}
@@ -34,6 +37,7 @@ Hosts__DatabaseApi=${DatabaseApiHostname}:${DatabaseApiPortHttp}
 Hosts__PlayerApi=${PlayerApiHostname}:${PlayerApiPortHttp}
 Hosts__SearchApi=${SearchApiHostname}:${SearchApiPortHttp}
 Hosts__StaticApi=${StaticApiHostname}:${StaticApiPortHttp}
+Hosts__UserApi=${UserApiHostname}:${UserApiPortHttp}
 Hosts__UsersFrontend=${UsersFrontendHostname}:${UsersFrontendPort}
 
 REACT_APP_AuthApi=${AuthApiPortHttps}

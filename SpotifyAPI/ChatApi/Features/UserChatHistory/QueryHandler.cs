@@ -1,6 +1,6 @@
-﻿using DatabaseServices.Repositories;
+﻿using ChatApi.Dto;
+using DatabaseServices.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Models.DTO.FrontToBack.Chat;
 using Utils.CQRS;
 
 namespace ChatApi.Features.UserChatHistory;

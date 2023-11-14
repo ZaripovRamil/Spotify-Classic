@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Models.DTO.FrontToBack;
-using Models.DTO.FrontToBack.EntityUpdateData;
 using Models.Entities;
 
 namespace AuthAPI.Controllers;

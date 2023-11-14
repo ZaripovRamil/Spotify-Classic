@@ -1,5 +1,5 @@
 using Models.Configuration;
-using Models.DTO.BackToFront.Full;
+using Models.DTO.Full;
 using Utils.CQRS;
 
 namespace AdminAPI.Features.Albums.Get.ByAuthorName;

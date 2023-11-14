@@ -65,7 +65,7 @@ public class OAuthController : Controller
     }
 
     [HttpPost("google/login")]
-    public async Task<IActionResult> LoginAsync([FromBody] Features.SignIn.OAuth.GoogleLoginData loginData)
+    public async Task<IActionResult> LoginAsync([FromBody] GoogleLoginData loginData)
     {
         try
         {
@@ -80,7 +80,7 @@ public class OAuthController : Controller
     }
 
     [HttpPost("google/register")]
-    public async Task<IActionResult> RegisterAsync([FromBody] Features.SignIn.OAuth.GoogleLoginData loginData)
+    public async Task<IActionResult> RegisterAsync([FromBody] GoogleLoginData loginData)
     {
         try
         {

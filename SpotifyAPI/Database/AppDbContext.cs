@@ -15,6 +15,7 @@ public class AppDbContext : IdentityDbContext<User>
     public DbSet<Playlist> Playlists { get; set; } = default!;
     public DbSet<Subscription> Subscriptions { get; set; } = default!;
     public DbSet<SupportChatMessage> SupportChatMessagesHistory { get; set; } = default!;
+    public DbSet<PlaylistTrack> PlaylistTracks { get; set; } = default!;
 
     public AppDbContext()
     {
@@ -56,6 +57,8 @@ public class AppDbContext : IdentityDbContext<User>
         builder.Entity<SupportChatMessage>()
             .HasOne(m => m.Sender)
             .WithMany();
+        builder.Entity<PlaylistTrack>()
+            .HasKey(pt => new { pt.PlaylistId, pt.TrackId });
 
         PopulateDb(builder);
     }

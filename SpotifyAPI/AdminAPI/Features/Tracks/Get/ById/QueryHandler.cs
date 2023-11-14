@@ -1,7 +1,7 @@
 using DatabaseServices.Repositories;
-using Models.DTO.BackToFront.Full;
+using Models.DTO.Full;
 using Utils.CQRS;
-using static Models.Entities.ValidationErrors.TrackErrors;
+using static Models.ValidationErrors.TrackErrors;
 
 namespace AdminAPI.Features.Tracks.Get.ById;
 

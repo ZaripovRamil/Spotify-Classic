@@ -1,4 +1,4 @@
-﻿using Models.DTO.BackToFront.Auth;
+﻿using AuthAPI.Dto;
 
 namespace AuthAPI.Features.SignUp.Standard;
 

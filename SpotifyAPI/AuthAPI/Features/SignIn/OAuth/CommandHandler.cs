@@ -1,7 +1,7 @@
 ﻿using AuthAPI.Dto.OAuth;
 using Google.Apis.Auth;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Models.DTO.BackToFront.Auth;
 using Models.Entities;
 using Utils.CQRS;
 
@@ -11,14 +11,13 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
 {
     private readonly UserManager<User> _userManager;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
-    private readonly Features.SignUp.OAuth.CommandHandler _commandHandler;
+    private readonly IMediator _mediator;
 
-    public CommandHandler(UserManager<User> userManager, IJwtTokenGenerator jwtTokenGenerator,
-        SignUp.OAuth.CommandHandler commandHandler)
+    public CommandHandler(UserManager<User> userManager, IJwtTokenGenerator jwtTokenGenerator, IMediator mediator)
     {
         _userManager = userManager;
         _jwtTokenGenerator = jwtTokenGenerator;
-        _commandHandler = commandHandler;
+        _mediator = mediator;
     }
 
     public async Task<Result<ResultDto>> Handle(Command request, CancellationToken cancellationToken)
@@ -45,7 +44,7 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
     private async Task<Result<ResultDto>> RegisterAsync(GoogleLoginData loginData)
     {
         var command = new Features.SignUp.OAuth.Command(loginData);
-        var regResult = await _commandHandler.Handle(command, new CancellationToken(false));
+        var regResult = await _mediator.Send(command);
         var result = new Result<ResultDto>(new ResultDto(null!));
         if (!regResult.IsSuccessful)
             result.Fail();

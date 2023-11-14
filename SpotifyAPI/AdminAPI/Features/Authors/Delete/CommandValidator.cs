@@ -1,6 +1,6 @@
 using DatabaseServices.Repositories;
 using FluentValidation;
-using static Models.Entities.ValidationErrors.AuthorErrors;
+using static Models.ValidationErrors.AuthorErrors;
 
 namespace AdminAPI.Features.Authors.Delete;
 

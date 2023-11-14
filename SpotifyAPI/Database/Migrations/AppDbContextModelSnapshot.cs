@@ -620,6 +620,19 @@ namespace Database.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Models.Entities.Joints.PlaylistTrack", b =>
+                {
+                    b.Property<string>("PlaylistId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("TrackId")
+                        .HasColumnType("text");
+
+                    b.HasKey("PlaylistId", "TrackId");
+
+                    b.ToTable("PlaylistTracks");
+                });
+
             modelBuilder.Entity("Models.Entities.Joints.UserTrack", b =>
                 {
                     b.Property<string>("Id")
@@ -655,6 +668,7 @@ namespace Database.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("OwnerId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("PreviewId")
@@ -951,7 +965,7 @@ namespace Database.Migrations
                         {
                             Id = "user1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a62a829d-5519-4ac9-8d28-a75cb70a5b5b",
+                            ConcurrencyStamp = "72f90829-e988-408b-ba43-adae9614b40c",
                             Email = "foo@bar.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -959,7 +973,7 @@ namespace Database.Migrations
                             PhoneNumberConfirmed = false,
                             ProfilePicId = "default_pfp",
                             Role = 0,
-                            SecurityStamp = "20a9c7e5-0fd3-4e0b-a781-3f41b63e2769",
+                            SecurityStamp = "5b27870a-2b16-425f-8334-0a799ebdece6",
                             TwoFactorEnabled = false,
                             UserName = "defaultUser"
                         },
@@ -967,7 +981,7 @@ namespace Database.Migrations
                         {
                             Id = "user2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5de47987-bcb0-46f6-b99d-c633ea80fb23",
+                            ConcurrencyStamp = "6546a9e5-05c1-43c1-be60-3b2108b3bd4c",
                             Email = "bar@foo.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -975,7 +989,7 @@ namespace Database.Migrations
                             PhoneNumberConfirmed = false,
                             ProfilePicId = "default_pfp",
                             Role = 0,
-                            SecurityStamp = "6de39e36-07ba-484d-95d4-c049422ad31c",
+                            SecurityStamp = "17e2e095-f39f-49d3-ace4-57aece0ab14e",
                             SubscriptionId = "Premium",
                             TwoFactorEnabled = false,
                             UserName = "subscriptionTestUser"
@@ -1112,7 +1126,9 @@ namespace Database.Migrations
                 {
                     b.HasOne("Models.Entities.User", "Owner")
                         .WithMany("Playlists")
-                        .HasForeignKey("OwnerId");
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Owner");
                 });

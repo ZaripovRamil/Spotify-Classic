@@ -1,5 +1,5 @@
-﻿using DatabaseServices;
-using Models.DTO.BackToFront.Statistics;
+﻿using AuthAPI.Features.GetStatistics.Dto;
+using DatabaseServices;
 using Models.Entities;
 
 namespace AuthAPI.Features.GetStatistics;

@@ -1,7 +1,7 @@
 using DatabaseServices.Repositories;
-using Models.DTO.BackToFront.Full;
+using Models.DTO.Full;
 using Utils.CQRS;
-using static Models.Entities.ValidationErrors.PlaylistErrors;
+using static Models.ValidationErrors.PlaylistErrors;
 
 namespace PlayerAPI.Features.GetPlaylistById;
 

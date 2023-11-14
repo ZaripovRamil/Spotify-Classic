@@ -1,5 +1,5 @@
 using FluentValidation;
-using static Models.Entities.ValidationErrors.UserErrors;
+using static Models.ValidationErrors.UserErrors;
 
 namespace AuthAPI.Features.UpdateUsername;
 

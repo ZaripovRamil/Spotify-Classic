@@ -1,4 +1,4 @@
-using Models.DTO.BackToFront.Light;
+using Models.DTO.Light;
 
 namespace SearchAPI.Features.SearchUsers;
 
