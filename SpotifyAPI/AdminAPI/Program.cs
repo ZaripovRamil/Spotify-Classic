@@ -4,11 +4,11 @@ using Utils.WebApplicationExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-
 builder.Configuration.AddEnvironmentFiles();
 builder.Configuration.AddEnvironmentVariables();
+
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddApplicationServices(builder.Configuration);
 

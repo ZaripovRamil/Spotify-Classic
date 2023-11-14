@@ -1,5 +1,5 @@
 using DatabaseServices.Repositories;
-using Models.DTO.BackToFront.Full;
+using Models.DTO.Full;
 using Utils.CQRS;
 
 namespace AdminAPI.Features.Authors.Get.All;

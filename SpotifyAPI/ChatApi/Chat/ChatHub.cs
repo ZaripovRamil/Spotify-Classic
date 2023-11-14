@@ -1,8 +1,8 @@
-﻿using ChatApi.Features.AddMessageToHistory;
+﻿using ChatApi.Dto;
+using ChatApi.Features.AddMessageToHistory;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using Models.DTO.FrontToBack.Chat;
 
 namespace ChatApi.Chat;
 

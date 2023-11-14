@@ -1,7 +1,7 @@
-﻿using MediatR;
+﻿using AuthAPI.Features.SignIn.Standard;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models.DTO.FrontToBack.Auth;
 
 namespace AuthAPI.Controllers;
 

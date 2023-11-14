@@ -1,5 +1,4 @@
 using FluentValidation;
-using Models.DTO.FrontToBack.EntityUpdateData;
 
 namespace AuthAPI.Features.UpdatePassword;
 

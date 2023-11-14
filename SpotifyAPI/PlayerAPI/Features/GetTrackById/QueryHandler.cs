@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using DatabaseServices.Repositories;
 using Microsoft.Extensions.Options;
 using Models.Configuration;
-using Models.DTO.BackToFront.Full;
+using Models.DTO.Full;
 using Utils.CQRS;
 
 namespace PlayerAPI.Features.GetTrackById;

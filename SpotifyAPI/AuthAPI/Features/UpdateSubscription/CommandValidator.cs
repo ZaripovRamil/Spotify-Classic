@@ -1,7 +1,6 @@
 using DatabaseServices.Repositories;
 using FluentValidation;
-using Models.DTO.FrontToBack;
-using static Models.Entities.ValidationErrors.SubscriptionErrors;
+using static Models.ValidationErrors.SubscriptionErrors;
 
 namespace AuthAPI.Features.UpdateSubscription;
 

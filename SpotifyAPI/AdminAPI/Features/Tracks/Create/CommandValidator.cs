@@ -1,9 +1,9 @@
 using DatabaseServices.Repositories;
 using FluentValidation;
 using static Utils.CQRS.Validation.CommonValidationHandlers;
-using static Models.Entities.ValidationErrors.EntityErrors;
-using static Models.Entities.ValidationErrors.TrackErrors;
-using static Models.Entities.ValidationErrors.AlbumErrors;
+using static Models.ValidationErrors.EntityErrors;
+using static Models.ValidationErrors.TrackErrors;
+using static Models.ValidationErrors.AlbumErrors;
 
 namespace AdminAPI.Features.Tracks.Create;
 

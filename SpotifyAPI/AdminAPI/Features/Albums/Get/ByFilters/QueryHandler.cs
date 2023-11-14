@@ -1,5 +1,5 @@
 using DatabaseServices.Repositories;
-using Models.DTO.BackToFront.Full;
+using Models.DTO.Full;
 using Models.Entities;
 using Utils.CQRS;
 using static AdminAPI.Features.Albums.Get.ByFilters.Spec;

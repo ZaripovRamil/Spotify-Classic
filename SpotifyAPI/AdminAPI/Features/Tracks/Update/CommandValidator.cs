@@ -1,8 +1,8 @@
 using DatabaseServices.Repositories;
 using FluentValidation;
 using static Utils.CQRS.Validation.CommonValidationHandlers;
-using static Models.Entities.ValidationErrors.EntityErrors;
-using static Models.Entities.ValidationErrors.TrackErrors;
+using static Models.ValidationErrors.EntityErrors;
+using static Models.ValidationErrors.TrackErrors;
 
 namespace AdminAPI.Features.Tracks.Update;
 
@@ -21,7 +21,7 @@ public class CommandValidator : AbstractValidator<Command>
     {
         RuleFor(c => c.Name)
             .Must(BeNotNullNotEmpty)
-            .WithMessage(FieldEmpty(nameof(Create.Command.Name)));
+            .WithMessage(FieldEmpty(nameof(Command.Name)));
         
         RuleFor(c => c.Name)
             .Must(ContainOnlyAllowedCharacters)

@@ -14,8 +14,13 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.0" />
         <PackageReference Include="Google.Apis.Auth.AspNetCore3" Version="1.60.0"/>
         <PackageReference Include="MediatR" Version="12.1.1"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="OneOf" Version="3.0.263"/>
     </ItemGroup>
 

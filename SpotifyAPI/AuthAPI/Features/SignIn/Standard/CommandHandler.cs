@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Models.DTO.BackToFront.Auth;
 using Models.Entities;
 using Utils.CQRS;
 

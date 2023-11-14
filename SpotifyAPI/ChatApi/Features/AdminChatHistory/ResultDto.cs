@@ -1,4 +1,4 @@
-﻿using Models.DTO.FrontToBack.Chat;
+﻿using ChatApi.Dto;
 
 namespace ChatApi.Features.AdminChatHistory;
 

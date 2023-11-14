@@ -1,12 +1,15 @@
 ﻿using Database;
 using Microsoft.EntityFrameworkCore;
 using Models.Entities;
+using Models.Entities.Joints;
 
 namespace DatabaseServices.Repositories;
 
 public interface IPlaylistRepository : IRepository<Playlist>
 {
     Task AddTrackAsync(Playlist playlist, Track track);
+    Task AddTracksAsync(string playlistId, List<string> trackIds);
+    Task DeleteTracksAsync(string playlistId, List<string> trackIds);
     Task DeleteTrackAsync(Playlist playlist, Track track);
 }
 
@@ -31,6 +34,22 @@ public class PlaylistRepository : Repository, IPlaylistRepository
         await DbContext.SaveChangesAsync();
     }
 
+    public async Task AddTracksAsync(string playlistId, List<string> trackIds)
+    {
+        foreach (var playlistTrack in trackIds.Select(trackId => new PlaylistTrack(playlistId, trackId)))
+            await DbContext.PlaylistTracks.AddAsync(playlistTrack);
+
+        await DbContext.SaveChangesAsync();
+    }
+
+    public async Task DeleteTracksAsync(string playlistId, List<string> trackIds)
+    {
+        foreach (var playlistTrack in trackIds.Select(trackId => new PlaylistTrack(playlistId, trackId)))
+            DbContext.PlaylistTracks.Remove(playlistTrack);
+
+        await DbContext.SaveChangesAsync();
+    }
+
     public IQueryable<Playlist> GetAll()
     {
         return DbContext.Playlists
@@ -39,7 +58,8 @@ public class PlaylistRepository : Repository, IPlaylistRepository
             .ThenInclude(t => t.Album)
             .ThenInclude(a => a.Author)
             .Include(p => p.Tracks)
-            .ThenInclude(t => t.Genres);
+            .ThenInclude(t => t.Genres)
+            .AsNoTracking();
     }
 
     public async Task DeleteAsync(Playlist playlist)
@@ -50,9 +70,7 @@ public class PlaylistRepository : Repository, IPlaylistRepository
 
     public async Task UpdateAsync(Playlist playlist)
     {
-        var toChange = (await GetByIdAsync(playlist.Id))!;
-        toChange.Name = playlist.Name;
-        toChange.PreviewId = playlist.PreviewId;
+        DbContext.Playlists.Update(playlist);
         await DbContext.SaveChangesAsync();
     }
 

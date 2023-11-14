@@ -1,5 +1,4 @@
-﻿using Models.DTO.FrontToBack.Auth;
-using Utils.CQRS;
+﻿using Utils.CQRS;
 
 namespace AuthAPI.Features.SignUp.Standard;
 

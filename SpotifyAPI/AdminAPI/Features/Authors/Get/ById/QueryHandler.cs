@@ -1,7 +1,7 @@
 using DatabaseServices.Repositories;
-using Models.DTO.BackToFront.Full;
+using Models.DTO.Full;
 using Utils.CQRS;
-using static Models.Entities.ValidationErrors.AuthorErrors;
+using static Models.ValidationErrors.AuthorErrors;
 
 namespace AdminAPI.Features.Authors.Get.ById;
 

@@ -1,4 +1,4 @@
-﻿using Models.DTO.BackToFront.Statistics;
+﻿using AuthAPI.Features.GetStatistics.Dto;
 using Models.Entities;
 
 namespace AuthAPI.Features.GetStatistics;

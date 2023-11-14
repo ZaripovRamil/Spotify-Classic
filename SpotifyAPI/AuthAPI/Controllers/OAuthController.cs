@@ -1,10 +1,12 @@
 using System.Net.Http.Headers;
 using System.Text.Json;
+using AuthAPI.Configuration;
+using AuthAPI.Constants;
+using AuthAPI.Dto.OAuth;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Models.Configuration;
-using Models.OAuth;
 
 namespace AuthAPI.Controllers;
 

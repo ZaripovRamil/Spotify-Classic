@@ -1,4 +1,4 @@
-using Models.DTO.BackToFront.Full;
+using Models.DTO.Full;
 
 namespace SearchAPI.Features.SearchAlbumsByAuthor;
 

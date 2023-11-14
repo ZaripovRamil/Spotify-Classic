@@ -1,6 +1,6 @@
 using DatabaseServices.Repositories;
 using FluentValidation;
-using static Models.Entities.ValidationErrors.AlbumErrors;
+using static Models.ValidationErrors.AlbumErrors;
 
 namespace AdminAPI.Features.Albums.Delete;
 

@@ -1,5 +1,4 @@
-﻿using Models.DTO.FrontToBack;
-using Models.Entities;
+﻿using Models.Entities;
 using Utils.CQRS;
 
 namespace AuthAPI.Features.UpdateSubscription;
