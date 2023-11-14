@@ -16,13 +16,13 @@ public class TracksController : Controller
     }
     
     [HttpGet("{id}")]
-    public async Task<Task<IActionResult>> DownloadByIdAsync(string id)
+    public async Task<IActionResult> DownloadByIdAsync(string id)
     {
         var q = new Features.Track.GetById.Query(id);
         var res = await _mediator.Send(q);
         return res.IsSuccessful
-            ? Task.FromResult<IActionResult>(new FileStreamResult(res.Value!, "application/octet-stream"))
-            : Task.FromResult<IActionResult>(NotFound());
+            ? new FileStreamResult(res.Value!, "application/octet-stream")
+            : NotFound();
     }
 
     [HttpPost("upload")]

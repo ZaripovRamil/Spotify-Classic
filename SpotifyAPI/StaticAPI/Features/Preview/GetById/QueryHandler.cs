@@ -7,7 +7,7 @@ public class QueryHandler : IQueryHandler<Query,Stream>
 {
     private readonly IFileProvider _fileProvider;
 
-    public QueryHandler(IFileProvider fp, IHlsConverter hlsConverter)
+    public QueryHandler(IFileProvider fp)
     {
         _fileProvider = fp;
     }

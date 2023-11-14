@@ -1,5 +1,4 @@
-﻿using AuthAPI.Features.SignIn.Standard;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,10 +17,10 @@ public class AuthController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Login(LoginData loginData)
+    public async Task<IActionResult> Login(Features.SignIn.Standard.LoginData loginData)
     {
         var command = new Features.SignIn.Standard.Command(loginData);
         var res = await _mediator.Send(command);
-        return res.IsSuccessful ? Ok(res.Value) : BadRequest();
+        return res.IsSuccessful ? Ok(res.Value!.LoginResult) : BadRequest();
     }
 }
