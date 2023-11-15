@@ -1,18 +1,11 @@
 ﻿using AuthAPI.Features.GetStatistics.Dto;
-using DatabaseServices;
+using Models.DTO.Light;
 using Models.Entities;
 
 namespace AuthAPI.Features.GetStatistics;
 
 public class StatisticSnapshotCreator : IStatisticSnapshotCreator
 {
-    private readonly IDtoCreator _dtoCreator;
-
-    public StatisticSnapshotCreator(IDtoCreator dtoCreator)
-    {
-        _dtoCreator = dtoCreator;
-    }
-
     public Task<StatisticSnapshot> Create(User? user)
     {
         var tracks = user!.History
@@ -31,17 +24,17 @@ public class StatisticSnapshotCreator : IStatisticSnapshotCreator
         {
             TotalListens = user.UserTracks.Count,
             Tracks = trackCounts
-                .Select(trackData => new TrackData(_dtoCreator.CreateLight(trackData.track)!, trackData.count))
+                .Select(trackData => new TrackData(new TrackLight(trackData.track), trackData.count))
                 .OrderByDescending(data => data.Count)
                 .ToArray(),
             Authors = trackCounts
                 .GroupBy(trackData => trackData.track.Album.Author)
                 .Select(authorTracks
-                    => new AuthorData(_dtoCreator.CreateLight(authorTracks.Key)!, authorTracks
+                    => new AuthorData(new AuthorLight(authorTracks.Key), authorTracks
                         .Sum(trackData => trackData.count)))
                 .OrderByDescending(data => data.Count)
                 .ToArray(),
-            Genres = dict.Select(pair => new GenreData(_dtoCreator.CreateLight(pair.Key)!, pair.Value))
+            Genres = dict.Select(pair => new GenreData(new GenreLight(pair.Key), pair.Value))
                 .OrderByDescending(data => data.Count)
                 .ToArray()
         });

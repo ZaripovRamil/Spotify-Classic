@@ -1,7 +1,6 @@
 using AuthAPI.Configuration;
 using AuthAPI.Features.GetStatistics;
 using AuthAPI.Features.SignIn;
-using DatabaseServices;
 using FluentValidation;
 using Models.Configuration;
 using Utils.ServiceCollectionExtensions;
@@ -22,7 +21,6 @@ public static class AddApplicationServicesExtension
         services.Configure<Hosts>(configuration.GetSection("Hosts"));
         services.Configure<GoogleOptions>(configuration.GetSection("OAuth:Google"));
 
-        services.AddScoped<IDtoCreator, DtoCreator>();
         services.AddScoped<IStatisticSnapshotCreator, StatisticSnapshotCreator>();
 
         services.AddMediatorForAssembly(typeof(Program).Assembly)

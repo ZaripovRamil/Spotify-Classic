@@ -1,4 +1,3 @@
-using DatabaseServices;
 using Utils.ServiceCollectionExtensions;
 
 namespace SearchAPI.ServiceCollectionExtensions;
@@ -13,7 +12,6 @@ public static class AddApplicationServicesExtensions
 
         services.AddMediatorForAssembly(typeof(Program).Assembly);
         services.AddRepositories(configuration);
-        services.AddSingleton<IDtoCreator, DtoCreator>();
 
         return services;
     }
