@@ -1,4 +1,3 @@
-using Models.Entities;
 using UserAPI.Dto;
 using Utils.CQRS;
 
