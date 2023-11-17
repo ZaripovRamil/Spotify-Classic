@@ -2,9 +2,9 @@ namespace StaticAPI.Services;
 
 public interface IFileProvider
 {
-    public Stream? GetFileAsStream(string assetName, string fileName);
-    public long GetFileLength(string assetName, string fileName);
-    public bool Exists(string assetName, string fileName);
-    public Task UploadAsync(string assetName, string fileName, Stream fileStream);
-    public Task DeleteFileAsync(string assetName, string fileName);
+    public Task<Stream?> GetFileAsStreamAsync(string assetName, string fileName,
+        CancellationToken cancellationToken = default);
+    public Task UploadAsync(string assetName, string fileName, Stream fileStream,
+        CancellationToken cancellationToken = default);
+    public Task DeleteFileAsync(string assetName, string fileName, CancellationToken cancellationToken = default);
 }

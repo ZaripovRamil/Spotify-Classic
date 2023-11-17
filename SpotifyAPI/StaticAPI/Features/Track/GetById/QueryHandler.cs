@@ -11,14 +11,14 @@ public class QueryHandler : IQueryHandler<Query,Stream>
     {
         _fileProvider = fp;
     }
-    public Task<Result<Stream>> Handle(Query request, CancellationToken cancellationToken)
+    public async Task<Result<Stream>> Handle(Query request, CancellationToken cancellationToken)
     {
         var id = request.Id;
         var idSplit = id.Split('.');
         var fileName = Path.Combine(idSplit[0], idSplit.Length > 1 ? id : $"{id}.index.m3u8");
-        var track = _fileProvider.GetFileAsStream("Tracks", fileName);
+        var track = await _fileProvider.GetFileAsStreamAsync("Tracks", fileName, cancellationToken);
         return track is null ? 
-            Task.FromResult(new Result<Stream>("Track not found")) :
-            Task.FromResult(new Result<Stream>(track));
+            new Result<Stream>("Track not found") :
+            new Result<Stream>(track);
     }
 }

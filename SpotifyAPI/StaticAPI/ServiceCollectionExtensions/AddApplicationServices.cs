@@ -9,8 +9,9 @@ public static class AddApplicationServicesExtension
     public static IServiceCollection AddApplicationServices(this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddTransient<IFileProvider, FileProvider>();
+        services.AddTransient<IFileProvider, S3Storage>();
         services.AddTransient<IHlsConverter, HlsConverter>();
+        services.AddS3Client(configuration);
 
         services.AddMediatorForAssembly(typeof(Program).Assembly);
         services.Configure<JwtTokenSettings>(configuration.GetSection("JWTTokenSettings"));
