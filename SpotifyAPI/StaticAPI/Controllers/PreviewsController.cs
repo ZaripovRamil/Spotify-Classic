@@ -14,8 +14,8 @@ public class PreviewsController : Controller
     }
 
     // TO DO: change this to receive the whole path to the file, not just id
-    [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetById(Guid id)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(string id)
     {
         var q = new Features.Preview.GetById.Query(id);
         var res = await _mediator.Send(q);

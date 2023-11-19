@@ -4,18 +4,26 @@ namespace StaticAPI.Services;
 
 public class HlsConverter : IHlsConverter
 {
-    private const string FfmpegPath = @"C:\ProgramData\chocolatey\bin\ffmpeg.exe";
-    
     public async Task SaveHlsFromMp3Async(string sourcePath, string outputDirectory)
     {
-        var fileName = Path.Combine(outputDirectory, Path.GetFileNameWithoutExtension(sourcePath));
+        var fileName = Path.GetFileNameWithoutExtension(sourcePath);
+        var fileNameWithExt = Path.GetFileName(sourcePath);
         var ffmpegArgs =
-            $"-i {sourcePath} -hls_time 10 -hls_playlist_type vod -hls_segment_filename {fileName}.%05d.ts {fileName}.index.m3u8";
-        var ffmpegProcess = new Process();
-        ffmpegProcess.StartInfo.FileName = FfmpegPath;
-        ffmpegProcess.StartInfo.Arguments = ffmpegArgs;
-        ffmpegProcess.Start();
+            $"-hide_banner -loglevel panic -i /source/{fileNameWithExt} -hls_time 10" +
+            $" -hls_playlist_type vod -hls_segment_filename" +
+            $" /result/{fileName}.%05d.ts /result/{fileName}.index.m3u8";
 
-        await ffmpegProcess.WaitForExitAsync();
+        var dockerArgs =
+            $"run --rm -v {outputDirectory}:/result" +
+            $" -v {Path.GetDirectoryName(sourcePath)}:/source" +
+            $" jrottenberg/ffmpeg {ffmpegArgs}";
+
+        var dockerProcess = new Process();
+        dockerProcess.StartInfo.FileName = "docker";
+        dockerProcess.StartInfo.Arguments = dockerArgs;
+        dockerProcess.StartInfo.RedirectStandardOutput = false;
+        dockerProcess.Start();
+
+        await dockerProcess.WaitForExitAsync();
     }
 }

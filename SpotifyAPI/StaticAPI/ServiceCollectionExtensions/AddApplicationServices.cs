@@ -1,4 +1,5 @@
 using Models.Configuration;
+using StaticAPI.Features.Track.UploadTrack;
 using StaticAPI.Services;
 using Utils.ServiceCollectionExtensions;
 
@@ -11,6 +12,7 @@ public static class AddApplicationServicesExtension
     {
         services.AddTransient<IFileProvider, S3Storage>();
         services.AddTransient<IHlsConverter, HlsConverter>();
+        services.AddHostedService<HlsConverterBackgroundService>();
         services.AddS3Client(configuration);
 
         services.AddMediatorForAssembly(typeof(Program).Assembly);
