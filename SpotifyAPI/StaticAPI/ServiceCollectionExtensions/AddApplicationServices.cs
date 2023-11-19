@@ -10,7 +10,7 @@ public static class AddApplicationServicesExtension
     public static IServiceCollection AddApplicationServices(this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddTransient<IFileProvider, S3Storage>();
+        services.AddTransient<IStorage, S3Storage>();
         services.AddTransient<IHlsConverter, HlsConverter>();
         services.AddHostedService<HlsConverterBackgroundService>();
         services.AddS3Client(configuration);

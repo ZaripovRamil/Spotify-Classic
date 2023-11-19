@@ -6,17 +6,17 @@ namespace StaticAPI.Features.Preview.GetById;
 
 public class QueryHandler : IQueryHandler<Query,Stream>
 {
-    private readonly IFileProvider _fileProvider;
+    private readonly IStorage _storage;
 
-    public QueryHandler(IFileProvider fp)
+    public QueryHandler(IStorage fp)
     {
-        _fileProvider = fp;
+        _storage = fp;
     }
 
     public async Task<Result<Stream>> Handle(Query request, CancellationToken cancellationToken)
     {
         var preview =
-            await _fileProvider.GetFileAsStreamAsync(PreviewsBucketName, $"{request.Id}.jpg", cancellationToken);
+            await _storage.GetFileAsStreamAsync(PreviewsBucketName, $"{request.Id}.jpg", cancellationToken);
         return preview is null ?
             new Result<Stream>("Preview not found") :
             new Result<Stream>(preview);

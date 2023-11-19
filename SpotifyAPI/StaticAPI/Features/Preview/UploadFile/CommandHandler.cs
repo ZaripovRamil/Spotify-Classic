@@ -8,11 +8,11 @@ namespace StaticAPI.Features.Preview.UploadFile;
 
 public class CommandHandler : ICommandHandler<Command, ResultDto>
 {
-    private readonly IFileProvider _fileProvider;
+    private readonly IStorage _storage;
 
-    public CommandHandler(IFileProvider fp)
+    public CommandHandler(IStorage fp)
     {
-        _fileProvider = fp;
+        _storage = fp;
     }
     
     public async Task<Result<ResultDto>> Handle(Command request, CancellationToken cancellationToken)
@@ -21,7 +21,7 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
             return new Result<ResultDto>("Empty file");
         if (request.File.FileName.Length == 0)
             return new Result<ResultDto>("Filename is not provided");
-        await _fileProvider.UploadAsync(PreviewsBucketName, request.File.FileName, request.File.OpenReadStream(),
+        await _storage.UploadAsync(PreviewsBucketName, request.File.FileName, request.File.OpenReadStream(),
             cancellationToken);
         return new ResultDto(true, "Successful");
     }

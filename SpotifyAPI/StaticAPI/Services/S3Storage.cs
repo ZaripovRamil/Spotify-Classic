@@ -3,7 +3,7 @@ using Amazon.S3.Model;
 
 namespace StaticAPI.Services;
 
-public class S3Storage : IFileProvider
+public class S3Storage : IStorage
 {
     private readonly IAmazonS3 _s3Client;
 

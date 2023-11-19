@@ -1,6 +1,6 @@
 namespace StaticAPI.Services;
 
-public interface IFileProvider
+public interface IStorage
 {
     public Task<Stream?> GetFileAsStreamAsync(string assetName, string fileName,
         CancellationToken cancellationToken = default);
