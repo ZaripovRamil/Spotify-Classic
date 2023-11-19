@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Models.DTO.Full;
 using Models.DTO.Light;
 using Models.Entities;
@@ -15,15 +16,14 @@ public class QueryHandler : IQueryHandler<Query, ResultDto>
         _userManager = userManager;
     }
 
-    public Task<Result<ResultDto>> Handle(Query request, CancellationToken cancellationToken)
+    public async Task<Result<ResultDto>> Handle(Query request, CancellationToken cancellationToken)
     {
-        var user = _userManager.Users.FirstOrDefault(u => u.UserName == request.Username);
-        return Task.FromResult(new Result<ResultDto>(new ResultDto(
-            request.RequestingUser != null && request.RequestingUser.UserName == request.Username
-                ?
-                request.RequestingUser == null ? null : new UserFull(request.RequestingUser)
-                : user == null
-                    ? null
-                    : new UserLight(user))));
+        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == request.Username,
+            cancellationToken: cancellationToken);
+
+        if (request.RequestingUser != null && request.RequestingUser.UserName == request.Username)
+            return new ResultDto(request.RequestingUser == null ? null : new UserFull(request.RequestingUser));
+
+        return new ResultDto(user == null ? null : new UserLight(user));
     }
 }
