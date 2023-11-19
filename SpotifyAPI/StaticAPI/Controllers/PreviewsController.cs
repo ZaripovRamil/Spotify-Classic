@@ -13,7 +13,6 @@ public class PreviewsController : Controller
         _mediator = mediator;
     }
 
-    // TO DO: change this to receive the whole path to the file, not just id
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(string id)
     {
