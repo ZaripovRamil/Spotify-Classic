@@ -1,22 +1,24 @@
 ﻿using Utils.CQRS;
 using StaticAPI.Services;
+using static StaticAPI.Constants.S3Storage;
 
 namespace StaticAPI.Features.Preview.GetById;
 
 public class QueryHandler : IQueryHandler<Query,Stream>
 {
-    private readonly IFileProvider _fileProvider;
+    private readonly IStorage _storage;
 
-    public QueryHandler(IFileProvider fp)
+    public QueryHandler(IStorage fp)
     {
-        _fileProvider = fp;
+        _storage = fp;
     }
 
-    public Task<Result<Stream>> Handle(Query request, CancellationToken cancellationToken)
+    public async Task<Result<Stream>> Handle(Query request, CancellationToken cancellationToken)
     {
-        var preview = _fileProvider.GetFileAsStream("Previews", $"{request.Id}.jpg");
+        var preview =
+            await _storage.GetFileAsStreamAsync(PreviewsBucketName, $"{request.Id}.jpg", cancellationToken);
         return preview is null ?
-            Task.FromResult(new Result<Stream>("Preview not found") ):
-            Task.FromResult(new Result<Stream>(preview));
+            new Result<Stream>("Preview not found") :
+            new Result<Stream>(preview);
     }
 }

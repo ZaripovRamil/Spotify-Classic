@@ -10,3 +10,16 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+
+  minio:
+    image: minio/minio:latest
+    hostname: minio
+    restart: always
+    command: server --console-address ":9001" /data
+    volumes:
+      - ~/apps/Spotify/minio-data:/data
+    env_file:
+      - ./SpotifyAPI/.minio-secrets
+    ports:
+      - "9000:9000"
+      - "9001:9001"

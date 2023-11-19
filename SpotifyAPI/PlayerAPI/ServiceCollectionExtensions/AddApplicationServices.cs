@@ -1,4 +1,3 @@
-using DatabaseServices;
 using Models.Configuration;
 using Utils.ServiceCollectionExtensions;
 
@@ -17,7 +16,6 @@ public static class AddApplicationServicesExtensions
         services.AddAllCors();
 
         services.AddMediatorForAssembly(typeof(Program).Assembly);
-        services.AddSingleton<IDtoCreator, DtoCreator>();
 
         return services;
     }

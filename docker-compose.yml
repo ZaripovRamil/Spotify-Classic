@@ -170,5 +170,15 @@ services:
     env_file:
       - ./SpotifyAPI/.rabbitmq-secrets
   
-#  ffmpeg:
-#    image: jrottenberg/ffmpeg
+  minio:
+    image: minio/minio:latest
+    hostname: minio
+    restart: always
+    command: server --console-address ":9001" /data
+    volumes:
+      - ~/apps/Spotify/minio-data:/data
+    env_file:
+      - ./SpotifyAPI/.minio-secrets
+    ports:
+      - "9000:9000"
+      - "9001:9001"

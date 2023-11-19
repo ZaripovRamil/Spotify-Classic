@@ -18,4 +18,12 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="AWSSDK.S3" Version="3.7.300.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="TestData\Data\" />
+    </ItemGroup>
+
 </Project>

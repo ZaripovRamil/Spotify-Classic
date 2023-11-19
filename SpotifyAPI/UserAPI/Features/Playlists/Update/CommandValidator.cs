@@ -30,8 +30,15 @@ public class CommandValidator : AbstractValidator<Command>
         RuleFor(c => c.PlaylistId)
             .MustAsync(Exist)
             .WithMessage(PlaylistNotFound);
+
+        RuleFor(c => c)
+            .MustAsync(UserOwnPlaylist)
+            .WithMessage(OwnerDoesNotMatch);
     }
 
     private async Task<bool> Exist(string playlistId, CancellationToken cancellationToken = default) =>
         await _playlistRepository.GetByIdAsync(playlistId) is not null;
+
+    private async Task<bool> UserOwnPlaylist(Command command, CancellationToken cancellationToken) =>
+        (await _playlistRepository.GetByIdAsync(command.PlaylistId))!.OwnerId == command.UpdaterUserId;
 }

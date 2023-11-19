@@ -1,5 +1,6 @@
 using StaticAPI.ConfigurationExtensions;
 using StaticAPI.ServiceCollectionExtensions;
+using StaticAPI.WebApplicationExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    await app.EnsureTestDataUploadedAsync();
 }
 
 app.UseCors();

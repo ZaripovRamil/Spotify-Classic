@@ -2,4 +2,4 @@
 
 namespace StaticAPI.Features.Preview.GetById;
 
-public record Query(Guid Id) : IQuery<Stream>;
+public record Query(string Id) : IQuery<Stream>;

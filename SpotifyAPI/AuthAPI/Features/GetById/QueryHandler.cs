@@ -1,5 +1,7 @@
-﻿using DatabaseServices;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Models.DTO.Full;
+using Models.DTO.Light;
 using Models.Entities;
 using Utils.CQRS;
 
@@ -8,19 +10,20 @@ namespace AuthAPI.Features.GetById;
 public class QueryHandler : IQueryHandler<Query, ResultDto>
 {
     private readonly UserManager<User> _userManager;
-    private readonly IDtoCreator _dtoCreator;
 
-    public QueryHandler(UserManager<User> userManager, IDtoCreator dtoCreator)
+    public QueryHandler(UserManager<User> userManager)
     {
         _userManager = userManager;
-        _dtoCreator = dtoCreator;
     }
 
-    public Task<Result<ResultDto>> Handle(Query request, CancellationToken cancellationToken)
+    public async Task<Result<ResultDto>> Handle(Query request, CancellationToken cancellationToken)
     {
-        return Task.FromResult(new Result<ResultDto>(new ResultDto(
-            request.RequestingUser != null && request.RequestingUser.Id == request.Id
-                ? _dtoCreator.CreateFull(request.RequestingUser)
-                : _dtoCreator.CreateLight(_userManager.Users.FirstOrDefault(u => u.Id == request.Id)))));
+        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == request.Id,
+            cancellationToken: cancellationToken);
+
+        if (request.RequestingUser != null && request.RequestingUser.Id == request.Id)
+            return new ResultDto(request.RequestingUser == null ? null : new UserFull(request.RequestingUser));
+        
+        return new ResultDto(user == null ? null : new UserLight(user));
     }
 }
