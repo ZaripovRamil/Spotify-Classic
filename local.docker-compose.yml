@@ -10,7 +10,14 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
-
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning
+    volumes:
+      - cache:/data
   minio:
     image: minio/minio:latest
     hostname: minio
@@ -23,3 +30,6 @@ services:
     ports:
       - "9000:9000"
       - "9001:9001"
+volumes:
+  cache:
+    driver: local
