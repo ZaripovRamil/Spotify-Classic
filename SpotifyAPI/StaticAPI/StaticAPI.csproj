@@ -20,6 +20,7 @@
 
     <ItemGroup>
       <PackageReference Include="AWSSDK.S3" Version="3.7.300.4" />
+      <PackageReference Include="MongoDB.Driver" Version="2.23.0" />
     </ItemGroup>
 
     <ItemGroup>

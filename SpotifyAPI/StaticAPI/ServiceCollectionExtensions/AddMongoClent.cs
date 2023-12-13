@@ -1,0 +1,20 @@
+using Amazon.S3;
+using MongoDB.Driver;
+using AmazonS3Config = StaticAPI.Configuration.AmazonS3Config;
+
+namespace StaticAPI.ServiceCollectionExtensions;
+
+static class AddMongoClientExtension
+{
+    public static IServiceCollection AddMongoClient(this IServiceCollection services, IConfiguration configuration)
+    {
+        var config =  configuration.GetSection("MongoConfig").Get<Configuration.MongoConfig>();
+        if (config is null) throw new ArgumentException("Mongo Config is not provided in the current configuration");
+
+        services.AddSingleton<IMongoDatabase>(options => {
+            var client = new MongoClient(config.ConnectionString);
+            return client.GetDatabase(config.DatabaseName);
+        });
+        return services;
+    }
+}
