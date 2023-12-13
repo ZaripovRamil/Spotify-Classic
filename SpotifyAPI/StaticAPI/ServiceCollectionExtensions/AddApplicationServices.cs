@@ -1,4 +1,5 @@
 using Models.Configuration;
+using Models.Metadata;
 using StaticAPI.Configuration;
 using StaticAPI.Features.Track.UploadTrack;
 using StaticAPI.Services;
@@ -16,6 +17,9 @@ public static class AddApplicationServicesExtension
         services.AddHostedService<HlsConverterBackgroundService>();
         services.AddS3Client(configuration);
         services.AddMongoClient(configuration);
+
+        services.AddScoped<IRepository<ImageMetadata>, ImageMetadataRepository>();
+        services.AddScoped<IRepository<TrackMetadata>, TrackMetadataRepository>();
         
         services.AddMediatorForAssembly(typeof(Program).Assembly);
         services.Configure<JwtTokenSettings>(configuration.GetSection("JWTTokenSettings"));

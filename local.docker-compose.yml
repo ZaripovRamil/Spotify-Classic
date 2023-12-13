@@ -23,3 +23,12 @@ services:
     ports:
       - "9000:9000"
       - "9001:9001"
+    
+  mongo:
+    image: mongo
+    hostname: mongo
+    restart: always
+    volumes:
+      - ~/apps/Spotify/mongo/data:/data/db
+    ports:
+      - "27017:27017"
