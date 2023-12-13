@@ -1,5 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Models.DTO;
+
 namespace StaticAPI.Controllers;
 
 [ApiController]
@@ -22,9 +24,9 @@ public class PreviewsController : Controller
     }
     
     [HttpPost("upload")]
-    public async Task<IActionResult> UploadFileAsync([FromForm] IFormFile? file)
+    public async Task<IActionResult> UploadFileAsync([FromForm] ImageDataDto? imageData)
     {
-        var c = new Features.Preview.UploadFile.Command(file);
+        var c = new Features.Preview.UploadFile.Command(imageData);
         var res = await _mediator.Send(c);
         return res.IsSuccessful ? Ok() : BadRequest(res.JoinErrors());
     }
