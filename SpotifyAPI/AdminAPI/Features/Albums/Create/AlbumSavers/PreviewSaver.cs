@@ -29,8 +29,8 @@ public class PreviewSaver : ISaver<Command, string>
             
             var albumContent = new StreamContent(item.PreviewImage.OpenReadStream());
 
-           var metadata = await _metadataCreator.CreateMetadata(item);
-           var formData = new MultipartFormDataContent
+            var metadata = await _metadataCreator.CreateMetadata(item);
+            var formData = new MultipartFormDataContent
             {
                 {albumContent, "File", $"{item.PreviewId}.jpg"},
                 
@@ -41,7 +41,7 @@ public class PreviewSaver : ISaver<Command, string>
                     "ImageMetadata" },
 
             };
-           var res = await client.PostAsync("previews/upload", formData);
+            var res = await client.PostAsync("previews/upload", formData);
             if (!res.IsSuccessStatusCode)
             {
                 _savedSuccessfully = false;
