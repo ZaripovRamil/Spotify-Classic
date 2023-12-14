@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO;
+using Models.DTO.FileDataDTO;
 
 namespace StaticAPI.Controllers;
 

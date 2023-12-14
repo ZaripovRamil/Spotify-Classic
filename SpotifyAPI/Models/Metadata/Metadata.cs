@@ -2,8 +2,8 @@
 
 public class Metadata
 {
-    public string FileId { get; set; }
-    public string FileName { get; set; }
+    public string FileId { get; set; } = default!;
+    public string FileName { get; set; } = default!;
     public long FileSize { get; set; }
 
     public Metadata() { }
