@@ -19,16 +19,18 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
     
     public async Task<Result<ResultDto>> Handle(Command request, CancellationToken cancellationToken)
     {
-        
-        if (request.Data.File is null || request.Data.File.Length == 0)
+        if(request.Data is null)
+            return new Result<ResultDto>("Empty data");
+        var file = request.Data.File;
+        if (file is null || file.Length == 0)
             return new Result<ResultDto>("Empty file");
-        if (request.Data.File.FileName.Length == 0)
+        if (file.FileName.Length == 0)
             return new Result<ResultDto>("Filename is not provided");
         
         if(request.Data.ImageMetadata is null)
             return new Result<ResultDto>("Empty metadata");
         
-        await _storage.UploadAsync(PreviewsBucketName, request.Data.File.FileName, request.Data.File.OpenReadStream(),
+        await _storage.UploadAsync(PreviewsBucketName, file.FileName, file.OpenReadStream(),
             cancellationToken);
         return new ResultDto(true, "Successful");
     }

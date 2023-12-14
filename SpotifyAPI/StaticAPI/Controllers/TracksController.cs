@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Models.DTO.FileDataDTO;
 using StaticAPI.Features.Track.UploadTrack;
 
 namespace StaticAPI.Controllers;
@@ -26,9 +27,9 @@ public class TracksController : Controller
     }
 
     [HttpPost("upload")]
-    public async Task<IActionResult> UploadFileAsync([FromForm] IFormFile? file)
+    public async Task<IActionResult> UploadFileAsync([FromForm] TrackDataDto? trackData)
     {
-        var c = new Command(file);
+        var c = new Command(trackData);
         var res = await _mediator.Send(c);
         return res.IsSuccessful ? Ok() : BadRequest(res.JoinErrors());
     }
