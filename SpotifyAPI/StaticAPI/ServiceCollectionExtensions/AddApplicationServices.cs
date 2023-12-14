@@ -1,6 +1,7 @@
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Models.Configuration;
 using Models.Metadata;
-using StaticAPI.Configuration;
+using StackExchange.Redis;
 using StaticAPI.Features.Track.UploadTrack;
 using StaticAPI.Services;
 using Utils.ServiceCollectionExtensions;
@@ -14,6 +15,9 @@ public static class AddApplicationServicesExtension
     {
         services.AddTransient<IStorage, S3Storage>();
         services.AddTransient<IHlsConverter, HlsConverter>();
+        services.AddTransient<IFileProcessingService, FileProcessingService>();
+        services.AddTransient<IFileUploader, FileUploader>();
+        services.AddTransient<RedisCache>();
         services.AddHostedService<HlsConverterBackgroundService>();
         services.AddS3Client(configuration);
         services.AddMongoClient(configuration);
@@ -24,7 +28,19 @@ public static class AddApplicationServicesExtension
         services.AddMediatorForAssembly(typeof(Program).Assembly);
         services.Configure<JwtTokenSettings>(configuration.GetSection("JWTTokenSettings"));
         services.Configure<Hosts>(configuration.GetSection("Hosts"));
-                   
+        
+        
+        services.AddSingleton<IConnectionMultiplexer>(x =>
+        {
+            var config = ConfigurationOptions.Parse("localhost:6379", true);
+
+            return ConnectionMultiplexer.Connect(config);
+        });
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = "localhost:6379";
+        });
+        
         services.AddJwtAuthorization(configuration);
         services.AddSwaggerWithAuthorization();
         services.AddAllCors();
