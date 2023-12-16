@@ -1,5 +1,8 @@
+using System.Text;
+using System.Text.Json;
 using AdminAPI.Services;
 using Models.Configuration;
+using Models.Metadata;
 using Utils.CQRS;
 using Utils.CQRS.ServiceDefinition;
 
@@ -9,11 +12,13 @@ namespace AdminAPI.Features.Tracks.Create.TracksSavers;
 public class TrackFileSaver : ISaver<Command, string>
 {
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IMetadataCreator<Command,TrackMetadata> _metadataCreator;
     private bool _savedSuccessfully;
 
-    public TrackFileSaver(IHttpClientFactory httpClientFactory)
+    public TrackFileSaver(IHttpClientFactory httpClientFactory, IMetadataCreator<Command,TrackMetadata> metadataCreator)
     {
         _httpClientFactory = httpClientFactory;
+        _metadataCreator = metadataCreator;
     }
 
     public async Task<Result<string>> SaveAsync(Command item)
@@ -21,10 +26,22 @@ public class TrackFileSaver : ISaver<Command, string>
         try
         {
             var client = _httpClientFactory.CreateClient(nameof(Hosts.StaticApi));
-            var formData = new MultipartFormDataContent();
             var trackContent = new StreamContent(item.TrackFile.OpenReadStream());
-            formData.Add(trackContent, "file", $"{item.FileId}.mp3");
 
+            var metadata = await _metadataCreator.CreateMetadata(item);
+            
+            var formData = new MultipartFormDataContent
+            {
+                {trackContent, "File", $"{item.FileId}.mp3"},
+                
+                { new StringContent(
+                        JsonSerializer.Serialize(metadata.Value),
+                        Encoding.UTF8,
+                        "application/json"),
+                    "TrackMetadata" },
+
+            };
+            
             var res = await client.PostAsync("tracks/upload", formData);
             if (!res.IsSuccessStatusCode)
             {
