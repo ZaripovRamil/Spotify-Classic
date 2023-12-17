@@ -3,9 +3,12 @@ using Models.Metadata;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using Utils.CQRS;
+using Utils.CQRS.ServiceDefinition;
 
 namespace AdminAPI.Features.Albums.Create.Metadata;
 
+
+[ServiceDefinition(ServiceLifetime.Scoped)]
 public class PreviewMetadataCreator: IMetadataCreator<Command,ImageMetadata>
 {
     public Task<Result<ImageMetadata>> CreateMetadata(Command item)
