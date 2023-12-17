@@ -32,6 +32,7 @@ public class RedisCache : IRedisCache
 
     public async Task Set<T>(T value) where T : Metadata
     {
+        if (value.FileId is null) throw new InvalidDataException();
         await _cache.SetStringAsync(value.FileId, JsonSerializer.Serialize(value));
     }
 
