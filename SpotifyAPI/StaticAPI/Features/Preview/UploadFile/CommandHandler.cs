@@ -10,11 +10,11 @@ namespace StaticAPI.Features.Preview.UploadFile;
 
 public class CommandHandler : ICommandHandler<Command, ResultDto>
 {
-    private readonly IStorage _storage;
 
-    public CommandHandler(IStorage fp)
+    private readonly IFileUploader _fileUploader;
+    public CommandHandler(IFileUploader fileUploader)
     {
-        _storage = fp;
+        _fileUploader = fileUploader;
     }
     
     public async Task<Result<ResultDto>> Handle(Command request, CancellationToken cancellationToken)
@@ -29,9 +29,11 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
         
         if(request.Data.ImageMetadata is null)
             return new Result<ResultDto>("Empty metadata");
+
+        await _fileUploader.UploadFileAsync(file, request.Data.ImageMetadata, cancellationToken);
         
-        await _storage.UploadAsync(PreviewsBucketName, file.FileName, file.OpenReadStream(),
-            cancellationToken);
+        /*await _storage.UploadAsync(PreviewsBucketName, file.FileName, file.OpenReadStream(),
+            cancellationToken);*/
         return new ResultDto(true, "Successful");
     }
 }

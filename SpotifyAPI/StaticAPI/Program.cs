@@ -1,3 +1,5 @@
+using External.Redis;
+using StackExchange.Redis;
 using StaticAPI.ConfigurationExtensions;
 using StaticAPI.ServiceCollectionExtensions;
 using StaticAPI.WebApplicationExtensions;
@@ -11,6 +13,18 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddApplicationServices(builder.Configuration);
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(x =>
+{
+    var configuration = ConfigurationOptions.Parse("localhost:6379", true);
+
+    return ConnectionMultiplexer.Connect(configuration);
+});
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = "localhost:6379";
+});
+builder.Services.AddSingleton<IRedisCache, RedisCache>();
 
 var app = builder.Build();
 

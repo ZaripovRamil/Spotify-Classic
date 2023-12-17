@@ -11,6 +11,11 @@ public interface IRedisCache
     public Task Set<T>(T value) where T : Metadata;
 
     public Task Clear();
+
+    public Task<long> GetCounter(string key);
+    public Task IncrementCounter(string key);
+    
+    
 }
 
 public class RedisCache : IRedisCache
@@ -39,5 +44,18 @@ public class RedisCache : IRedisCache
     {
         var server = _redis.GetServer(_redis.GetEndPoints()[0]);
         await server.FlushAllDatabasesAsync();
+    }
+    
+    public async Task IncrementCounter(string key)
+    {
+        var redisDb = _redis.GetDatabase();
+        var newValue = await redisDb.StringIncrementAsync($"{key}:counter");
+        Console.WriteLine(newValue);
+    }
+    public async Task<long> GetCounter(string key)
+    {
+        var redisDb = _redis.GetDatabase();
+        var value = await redisDb.StringGetAsync($"{key}:counter");
+        return (long)value;
     }
 }

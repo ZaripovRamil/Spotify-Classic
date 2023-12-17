@@ -36,7 +36,7 @@ public class HlsConverterBackgroundService : BackgroundService
                 Console.WriteLine(e); // watta hell
             }
             
-            await Task.Delay(IdlePeriod, stoppingToken);
+            await Task.Delay(TimeSpan.FromSeconds(60), stoppingToken);
         }
     }
 

@@ -14,7 +14,17 @@ public class RedisClearingService : BackgroundService
         _redis = redis;
         _cache = cache;
     }
-
+    
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        while (!stoppingToken.IsCancellationRequested)
+        {
+            
+            //ClearCache();
+            await Task.Delay(_idlePeriod, stoppingToken);
+        }
+    }
+    
     /*public Task StartAsync(CancellationToken cancellationToken)
     {
         
@@ -32,14 +42,4 @@ public class RedisClearingService : BackgroundService
         var server = _redis.GetServer(_redis.GetEndPoints()[0]);
         server.FlushAllDatabases();
     }*/
-    
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-    {
-        while (!stoppingToken.IsCancellationRequested)
-        {
-            
-            //ClearCache();
-            await Task.Delay(_idlePeriod, stoppingToken);
-        }
-    }
 }
