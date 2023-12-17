@@ -1,11 +1,10 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Models.DTO.FileDataDTO;
+namespace Utils.Bind;
 
 public class FormDataJsonBinder : IModelBinder
 {
-
     public Task BindModelAsync(ModelBindingContext bindingContext)
     {
         if (bindingContext == null)

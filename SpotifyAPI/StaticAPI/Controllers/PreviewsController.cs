@@ -1,7 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Models.DTO;
-using Models.DTO.FileDataDTO;
+using StaticAPI.Dto.FileDataDTO;
 
 namespace StaticAPI.Controllers;
 
@@ -21,9 +20,11 @@ public class PreviewsController : Controller
     {
         var q = new Features.Preview.GetById.Query(id);
         var res = await _mediator.Send(q);
-        return res.IsSuccessful ? File(res.Value!, "application/octet-stream", $"{id}.jpg"): NotFound(res.JoinErrors());
+        return res.IsSuccessful
+            ? File(res.Value!, "application/octet-stream", $"{id}.jpg")
+            : NotFound(res.JoinErrors());
     }
-    
+
     [HttpPost("upload")]
     public async Task<IActionResult> UploadFileAsync([FromForm] ImageDataDto? imageData)
     {

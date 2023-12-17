@@ -1,6 +1,5 @@
-﻿using Models.DTO;
-using Models.DTO.FileDataDTO;
-using StaticAPI.Dto;
+﻿using StaticAPI.Dto;
+using StaticAPI.Dto.FileDataDTO;
 using Utils.CQRS;
 
 namespace StaticAPI.Features.Preview.UploadFile;

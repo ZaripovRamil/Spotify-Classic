@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Models.DTO.FileDataDTO;
+using StaticAPI.Dto.FileDataDTO;
 using StaticAPI.Features.Track.UploadTrack;
 
 namespace StaticAPI.Controllers;
@@ -15,7 +15,7 @@ public class TracksController : Controller
     {
         _mediator = mediator;
     }
-    
+
     [HttpGet("{id}")]
     public async Task<IActionResult> DownloadByIdAsync(string id)
     {
