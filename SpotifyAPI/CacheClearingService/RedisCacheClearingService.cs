@@ -1,3 +1,4 @@
+using External.Redis;
 using StackExchange.Redis;
 
 namespace CacheClearingService;
@@ -5,17 +6,18 @@ namespace CacheClearingService;
 public class RedisCacheClearingService : IHostedService
 {
     private readonly IConnectionMultiplexer _redis;
+    private readonly IRedisCache _cache;
 
-    public RedisCacheClearingService(IConnectionMultiplexer redis)
+    public RedisCacheClearingService(IConnectionMultiplexer redis, IRedisCache cache)
     {
         _redis = redis;
+        _cache = cache;
     }
 
-    public Task StartAsync(CancellationToken cancellationToken)
+    public async Task StartAsync(CancellationToken cancellationToken)
     {
-        ClearCache();
+        await ClearCache();
         Thread.Sleep(TimeSpan.FromDays(1));
-        return Task.CompletedTask;
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
@@ -23,9 +25,8 @@ public class RedisCacheClearingService : IHostedService
         return Task.CompletedTask;
     }
 
-    private void ClearCache()
+    private async Task ClearCache()
     {
-        var server = _redis.GetServer(_redis.GetEndPoints()[0]);
-        server.FlushAllDatabases();
+        await _cache.Clear();
     }
 }
