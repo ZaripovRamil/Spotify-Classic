@@ -1,16 +1,13 @@
 using External.Redis;
-using StackExchange.Redis;
 
 namespace CacheClearingService;
 
 public class RedisCacheClearingService : IHostedService
 {
-    private readonly IConnectionMultiplexer _redis;
     private readonly IRedisCache _cache;
 
-    public RedisCacheClearingService(IConnectionMultiplexer redis, IRedisCache cache)
+    public RedisCacheClearingService(IRedisCache cache)
     {
-        _redis = redis;
         _cache = cache;
     }
 
