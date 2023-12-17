@@ -12,7 +12,7 @@ public class CommandValidator : AbstractValidator<Command>
 
     private void RegisterRules()
     {
-        RuleFor(c => c.Data).Must((command, dto) => dto is not null)
+        RuleFor(c => c.Data).Must((_, dto) => dto is not null)
             .WithMessage(FieldEmpty(nameof(Command.Data)));
     }
 }

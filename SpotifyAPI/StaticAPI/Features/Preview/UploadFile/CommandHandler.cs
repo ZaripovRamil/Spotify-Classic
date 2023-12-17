@@ -15,7 +15,7 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
 
     public async Task<Result<ResultDto>> Handle(Command request, CancellationToken cancellationToken)
     {
-        await _fileUploader.UploadFileAsync(request.Data.File, request.Data.ImageMetadata, cancellationToken);
+        await _fileUploader.UploadFileAsync(request.Data!.File!, request.Data.ImageMetadata!, cancellationToken);
 
         /*await _storage.UploadAsync(PreviewsBucketName, file.FileName, file.OpenReadStream(),
             cancellationToken);*/
