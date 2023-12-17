@@ -1,6 +1,7 @@
-﻿namespace StaticAPI.Services;
-
 using Models.Metadata;
+
+namespace StaticAPI.Services;
+
 
 public interface IFileProcessingService
 {

@@ -1,4 +1,6 @@
-﻿using Models.Metadata;
+
+using Models.Metadata;
+
 using static StaticAPI.Constants.S3Storage;
 
 namespace StaticAPI.Services;
