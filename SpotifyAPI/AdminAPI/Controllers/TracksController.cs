@@ -29,7 +29,7 @@ public class TracksController : Controller
     [HttpPost]
     public async Task<IActionResult> AddAsync([FromForm] Features.Tracks.Create.RequestDto dto)
     {
-        var command = new Features.Tracks.Create.Command(dto.Name, dto.AlbumId, Guid.NewGuid().ToString(), dto.GenreIds,
+        var command = new Features.Tracks.Create.Command(dto.Name, dto.AlbumId, Guid.NewGuid().ToString(), dto.GenreIds, null,
             dto.TrackFile);
         var res = await _mediator.Send(command);
         return res.IsSuccessful switch

@@ -19,6 +19,7 @@ public static class AddApplicationServicesExtension
         services.AddTransient<IFileUploader, FileUploader>();
         services.AddTransient<RedisCache>();
         services.AddHostedService<HlsConverterBackgroundService>();
+        services.AddHostedService<RedisClearingService>();
         services.AddS3Client(configuration);
         services.AddMongoClient(configuration);
 

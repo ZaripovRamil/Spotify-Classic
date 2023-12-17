@@ -1,4 +1,5 @@
 ﻿using Models.DTO;
+using Models.DTO.FileDataDTO;
 using StaticAPI.Dto;
 using Utils.CQRS;
 

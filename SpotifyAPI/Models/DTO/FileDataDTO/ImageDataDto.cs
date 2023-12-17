@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Models.Metadata;
 
-namespace Models.DTO;
+namespace Models.DTO.FileDataDTO;
 
 public class ImageDataDto
 {

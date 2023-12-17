@@ -1,16 +1,10 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Models;
+namespace Models.DTO.FileDataDTO;
 
 public class FormDataJsonBinder : IModelBinder
 {
-    private readonly ILogger<FormDataJsonBinder> _logger;
-
-    public FormDataJsonBinder(ILogger<FormDataJsonBinder> logger)
-    {
-        _logger = logger;
-    }
 
     public Task BindModelAsync(ModelBindingContext bindingContext)
     {
@@ -42,9 +36,8 @@ public class FormDataJsonBinder : IModelBinder
             var result = JsonSerializer.Deserialize(value, bindingContext.ModelType);
             bindingContext.Result = ModelBindingResult.Success(result);
         }
-        catch (Exception ex)
+        catch
         {
-            _logger.LogError(ex, ex.Message);
             bindingContext.Result = ModelBindingResult.Failed();
         }
 
