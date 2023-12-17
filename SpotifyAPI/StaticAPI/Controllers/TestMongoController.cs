@@ -1,6 +1,6 @@
+using DatabaseServices.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Models.Metadata;
-using StaticAPI.Services;
 
 namespace StaticAPI.Controllers;
 
@@ -15,10 +15,10 @@ public class TestMongoController: Controller
     }
     
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public Task<IActionResult> Get()
     {
-        var people = await _imageMetadataRepository.GetAllAsync();
-        return Ok(people);
+        var metadata =  _imageMetadataRepository.GetAllAsync();
+        return Task.FromResult<IActionResult>(Ok(metadata));
     }
     
     
@@ -26,27 +26,27 @@ public class TestMongoController: Controller
     [Route("{id}")]
     public async Task<IActionResult> Get(string id)
     {
-        var people = await _imageMetadataRepository.GetByIdAsync(id);
-        if (people == null)
+        var metadata = await _imageMetadataRepository.GetByIdAsync(id);
+        if (metadata == null)
         {
             return NotFound();
         }
  
-        return Ok(people);
+        return Ok(metadata);
     }
  
     [HttpPost]
     public async Task<IActionResult> Post(ImageMetadata newPeople)
     {
-        await _imageMetadataRepository.CreateAsync(newPeople);
+        await _imageMetadataRepository.AddAsync(newPeople);
         return CreatedAtAction(nameof(Get), new { id = newPeople.FileId }, newPeople);
     }
     
     [HttpPut]
     public async Task<IActionResult> Put(ImageMetadata updatePeople)
     {
-        var people = await _imageMetadataRepository.GetByIdAsync(updatePeople.FileId);
-        if (people == null)
+        var metadata = await _imageMetadataRepository.GetByIdAsync(updatePeople.FileId);
+        if (metadata == null)
         {
             return NotFound();
         }
@@ -58,13 +58,13 @@ public class TestMongoController: Controller
     [HttpDelete]
     public async Task<IActionResult> Delete(string id)
     {
-        var people = await _imageMetadataRepository.GetByIdAsync(id);
-        if (people == null)
+        var metadata = await _imageMetadataRepository.GetByIdAsync(id);
+        if (metadata == null)
         {
             return NotFound();
         }
  
-        await _imageMetadataRepository.DeleteAsync(id);
+        await _imageMetadataRepository.DeleteAsync(metadata);
         return NoContent();
     }
 }
