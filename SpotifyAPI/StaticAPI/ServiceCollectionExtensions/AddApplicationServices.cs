@@ -13,6 +13,7 @@ public static class AddApplicationServicesExtension
         services.AddTransient<IStorage, S3Storage>();
         services.AddTransient<IHlsConverter, HlsConverter>();
         services.AddHostedService<HlsConverterBackgroundService>();
+        services.AddHostedService<RedisClearingService>();
         services.AddS3Client(configuration);
 
         services.AddMediatorForAssembly(typeof(Program).Assembly);

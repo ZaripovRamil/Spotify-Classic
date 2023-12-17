@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\External.Redis\External.Redis.csproj" />
       <ProjectReference Include="..\Models\Models.csproj" />
       <ProjectReference Include="..\Utils\Utils.csproj" />
     </ItemGroup>
@@ -20,6 +21,7 @@
 
     <ItemGroup>
       <PackageReference Include="AWSSDK.S3" Version="3.7.300.4" />
+      <PackageReference Include="StackExchange.Redis" Version="2.7.10" />
     </ItemGroup>
 
     <ItemGroup>
