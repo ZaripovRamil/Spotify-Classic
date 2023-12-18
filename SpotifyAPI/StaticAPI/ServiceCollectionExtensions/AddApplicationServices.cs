@@ -23,8 +23,8 @@ public static class AddApplicationServicesExtension
         services.AddS3Client(configuration);
         services.AddMongoClient(configuration);
 
-        services.AddScoped<IRepository<ImageMetadata>, ImageMetadataRepository>();
-        services.AddScoped<IRepository<TrackMetadata>, TrackMetadataRepository>();
+        services.AddTransient<IRepository<ImageMetadata>, ImageMetadataRepository>();
+        services.AddTransient<IRepository<TrackMetadata>, TrackMetadataRepository>();
         
         services.AddMediatorForAssembly(typeof(Program).Assembly);
         services.Configure<JwtTokenSettings>(configuration.GetSection("JWTTokenSettings"));

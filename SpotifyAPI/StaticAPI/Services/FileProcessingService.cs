@@ -28,7 +28,6 @@ public class FileProcessingService : IFileProcessingService
         throw new ArgumentException($"Unsupported metadata type {metadata.GetType()}");
     }
     
-
     public async Task EventuateProcessing(Metadata item, CancellationToken cancellationToken)
     {
         await UploadToMongo(item);
@@ -59,13 +58,17 @@ public class FileProcessingService : IFileProcessingService
         foreach (var item in items)
         {
             if (item is null) continue;
-            if (item.IsProcessed) _redisCache.Delete<Metadata>(item.FileId);
             var counter = await _redisCache.GetCounter(item.FileId);
-
-            if (counter == 2)
+            if (item.IsProcessed)
+            {
+                await _redisCache.Delete<Metadata>(item.FileId);
+                await _redisCache.DeleteCounter(item.FileId);
+            }
+            else if (counter == 2)
             { 
                 await EventuateProcessing(item, cancellationToken);
-                _redisCache.Delete<Metadata>(item.FileId);
+                await _redisCache.Delete<Metadata>(item.FileId);
+                await _redisCache.DeleteCounter(item.FileId);
             }
         }
     }
