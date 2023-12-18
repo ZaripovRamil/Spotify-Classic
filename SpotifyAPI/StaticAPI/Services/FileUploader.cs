@@ -16,7 +16,7 @@ public class FileUploader: IFileUploader
         _storage = fp;
         _redisCache = redisCache;
     }
-    public async Task UploadFileAsync(IFormFile file, Metadata metadata,  CancellationToken cancellationToken)
+    public async Task UploadFileAsync(IFormFile file, Metadata metadata,  CancellationToken cancellationToken = default)
     {
         var uploadMetadataTask = Task.Run(async () =>
         {
