@@ -16,6 +16,6 @@ public class PreviewMetadataCreator: IMetadataCreator<Command,ImageMetadata>
         var stream = item.PreviewImage.OpenReadStream();
         using var image = Image.Load<Rgba32>(stream);
         stream.Position = 0;
-        return Task.FromResult(new Result<ImageMetadata>(new ImageMetadata(item.PreviewId, item.PreviewImage.FileName, item.PreviewImage.Length,image.Width, image.Height)));
+        return Task.FromResult(new Result<ImageMetadata>(new ImageMetadata(item.PreviewId, $"{item.PreviewId}.jpg", item.PreviewImage.Length,image.Width, image.Height)));
     }
 }

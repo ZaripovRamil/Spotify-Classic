@@ -189,10 +189,7 @@ services:
     ports:
       - "9000:9000"
       - "9001:9001"
-volumes:
-  cache:
-    driver: local
-        
+    
   mongo:
     image: mongo
     hostname: mongo
@@ -202,3 +199,6 @@ volumes:
     ports:
       - "27017:27017"
 
+volumes:
+  cache:
+    driver: local

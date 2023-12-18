@@ -26,7 +26,7 @@ public class TrackMetadataCreator: IMetadataCreator<Command,TrackMetadata>
         var album = await _albumRepository.GetByIdAsync(item.AlbumId);
         var author = album?.Author;
         
-        return new Result<TrackMetadata>(new TrackMetadata(item.FileId, item.TrackFile.FileName, item.TrackFile.Length,
+        return new Result<TrackMetadata>(new TrackMetadata(item.FileId, $"{item.FileId}.mp3", item.TrackFile.Length,
             durationInSeconds, item.Name, album!.Name, author!.Name,
             item.TrackId!, album.Id, author.Id));
     }

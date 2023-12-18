@@ -38,6 +38,7 @@ public class TestMongoController: Controller
     [HttpPost]
     public async Task<IActionResult> Post(ImageMetadata newPeople)
     {
+        newPeople.FileId = new Guid().ToString();
         await _imageMetadataRepository.AddAsync(newPeople);
         return CreatedAtAction(nameof(Get), new { id = newPeople.FileId }, newPeople);
     }

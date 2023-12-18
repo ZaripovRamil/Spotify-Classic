@@ -7,11 +7,11 @@ namespace StaticAPI.Features.Track.UploadTrack;
 
 public class CommandHandler : ICommandHandler<Command, ResultDto>
 {
-    private readonly IStorage _storage;
+    private readonly IFileUploader _fileUploader;
 
-    public CommandHandler(IStorage fp)
+    public CommandHandler(IFileUploader fileUploader)
     {
-        _storage = fp;
+        _fileUploader = fileUploader;
     }
     
     public async Task<Result<ResultDto>> Handle(Command request, CancellationToken cancellationToken)
@@ -27,7 +27,7 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
         if(request.Data.TrackMetadata is null)
             return new Result<ResultDto>("Empty metadata");
         
-        await _storage.UploadAsync(TracksPendingBucketName, file.FileName, file.OpenReadStream(),
+        await _fileUploader.UploadFileAsync(request.Data.File, request.Data.TrackMetadata,
             cancellationToken);
 
         return new ResultDto(true,"Successful");

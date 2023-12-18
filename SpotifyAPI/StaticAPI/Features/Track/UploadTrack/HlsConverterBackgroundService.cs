@@ -7,7 +7,7 @@ namespace StaticAPI.Features.Track.UploadTrack;
 
 public class HlsConverterBackgroundService : BackgroundService
 {
-    private const int IdlePeriod = 1000; 
+    private readonly TimeSpan _idlePeriod = TimeSpan.FromSeconds(30); 
     
     private readonly IHlsConverter _hlsConverter;
     private readonly IAmazonS3 _s3Client;
@@ -36,7 +36,7 @@ public class HlsConverterBackgroundService : BackgroundService
                 Console.WriteLine(e); // watta hell
             }
             
-            await Task.Delay(TimeSpan.FromSeconds(60), stoppingToken);
+            await Task.Delay(_idlePeriod, stoppingToken);
         }
     }
 

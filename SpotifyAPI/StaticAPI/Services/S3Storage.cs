@@ -33,6 +33,7 @@ public class S3Storage : IStorage
             Key = fileName,
             InputStream = fileStream
         };
+        request.Headers.ContentLength = fileStream.Length;
         
         await _s3Client.PutObjectAsync(request, cancellationToken);
     }

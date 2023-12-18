@@ -1,9 +1,10 @@
-using Microsoft.Extensions.Caching.StackExchangeRedis;
+using External.Redis;
 using Models.Configuration;
 using Models.Metadata;
 using StackExchange.Redis;
 using StaticAPI.Features.Track.UploadTrack;
 using StaticAPI.Services;
+using StaticAPI.Services.Interfaces;
 using Utils.ServiceCollectionExtensions;
 
 namespace StaticAPI.ServiceCollectionExtensions;
@@ -17,7 +18,6 @@ public static class AddApplicationServicesExtension
         services.AddTransient<IHlsConverter, HlsConverter>();
         services.AddTransient<IFileProcessingService, FileProcessingService>();
         services.AddTransient<IFileUploader, FileUploader>();
-        services.AddTransient<RedisCache>();
         services.AddHostedService<HlsConverterBackgroundService>();
         services.AddHostedService<RedisClearingService>();
         services.AddS3Client(configuration);
@@ -41,6 +41,7 @@ public static class AddApplicationServicesExtension
         {
             options.Configuration = "localhost:6379";
         });
+        services.AddSingleton<IRedisCache, RedisCache>();
         
         services.AddJwtAuthorization(configuration);
         services.AddSwaggerWithAuthorization();
