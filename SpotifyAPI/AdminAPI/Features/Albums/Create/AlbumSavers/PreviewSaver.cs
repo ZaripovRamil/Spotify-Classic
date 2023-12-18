@@ -39,7 +39,6 @@ public class PreviewSaver : ISaver<Command, string>
                         Encoding.UTF8,
                         "application/json"),
                     "ImageMetadata" },
-
             };
             var res = await client.PostAsync("previews/upload", formData);
             if (!res.IsSuccessStatusCode)

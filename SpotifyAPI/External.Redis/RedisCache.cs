@@ -36,7 +36,6 @@ public class RedisCache : IRedisCache
     public async Task<IEnumerable<T?>> GetAll<T>() where T : Metadata
     {
         var server = _redis.GetServer(_redis.GetEndPoints()[0]);
-        var db = _redis.GetDatabase();
         var values = server.Keys().Select(async key => JsonSerializer.Deserialize<T>(
             await _cache.GetStringAsync(key!) ?? string.Empty,
             new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }));
@@ -71,7 +70,7 @@ public class RedisCache : IRedisCache
     public async Task IncrementCounter(string key)
     {
         var redisDb = _redis.GetDatabase();
-        var newValue = await redisDb.StringIncrementAsync($"{key}:counter");
+        await redisDb.StringIncrementAsync($"{key}:counter");
     }
     public async Task<long> GetCounter(string key)
     {
