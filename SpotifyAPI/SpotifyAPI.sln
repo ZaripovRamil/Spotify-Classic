@@ -42,6 +42,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatHistorySaverService", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserAPI", "UserAPI\UserAPI.csproj", "{C3A9AC71-6813-42D9-AE45-CAC30686900D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "External.Redis", "External.Redis\External.Redis.csproj", "{CBF6C567-EEC6-4615-803A-6E50552D4CF5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -96,6 +98,10 @@ Global
 		{C3A9AC71-6813-42D9-AE45-CAC30686900D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3A9AC71-6813-42D9-AE45-CAC30686900D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3A9AC71-6813-42D9-AE45-CAC30686900D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBF6C567-EEC6-4615-803A-6E50552D4CF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBF6C567-EEC6-4615-803A-6E50552D4CF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBF6C567-EEC6-4615-803A-6E50552D4CF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBF6C567-EEC6-4615-803A-6E50552D4CF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C9B1E0A1-FB54-466E-AD04-54A52C67A425} = {328F43A3-0410-4551-ADE8-0C06A3D222E9}

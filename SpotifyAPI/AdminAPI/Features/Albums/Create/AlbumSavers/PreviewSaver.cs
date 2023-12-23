@@ -1,5 +1,8 @@
+using System.Text;
+using System.Text.Json;
 using AdminAPI.Services;
 using Models.Configuration;
+using Models.Metadata;
 using Utils.CQRS;
 using Utils.CQRS.ServiceDefinition;
 
@@ -9,11 +12,13 @@ namespace AdminAPI.Features.Albums.Create.AlbumSavers;
 public class PreviewSaver : ISaver<Command, string>
 {
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IMetadataCreator<Command,ImageMetadata> _metadataCreator;
     private bool _savedSuccessfully;
 
-    public PreviewSaver(IHttpClientFactory httpClientFactory)
+    public PreviewSaver(IHttpClientFactory httpClientFactory, IMetadataCreator<Command,ImageMetadata> metadataCreator )
     {
         _httpClientFactory = httpClientFactory;
+        _metadataCreator = metadataCreator;
     }
 
     public async Task<Result<string>> SaveAsync(Command item)
@@ -21,10 +26,20 @@ public class PreviewSaver : ISaver<Command, string>
         try
         {
             var client = _httpClientFactory.CreateClient(nameof(Hosts.StaticApi));
-            var formData = new MultipartFormDataContent();
+            
             var albumContent = new StreamContent(item.PreviewImage.OpenReadStream());
-            formData.Add(albumContent, "file", $"{item.PreviewId}.jpg");
 
+            var metadata = await _metadataCreator.CreateMetadata(item);
+            var formData = new MultipartFormDataContent
+            {
+                {albumContent, "File", $"{item.PreviewId}.jpg"},
+                
+                { new StringContent(
+                        JsonSerializer.Serialize(metadata.Value),
+                        Encoding.UTF8,
+                        "application/json"),
+                    "ImageMetadata" },
+            };
             var res = await client.PostAsync("previews/upload", formData);
             if (!res.IsSuccessStatusCode)
             {

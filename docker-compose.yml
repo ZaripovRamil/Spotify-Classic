@@ -10,7 +10,14 @@ services:
       - ~/apps/Spotify/postgres-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-  
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning
+    volumes:
+      - cache:/data
   admin_api:
     image: admin_api
     hostname: ${AdminApiHostname}
@@ -182,3 +189,16 @@ services:
     ports:
       - "9000:9000"
       - "9001:9001"
+    
+  mongo:
+    image: mongo
+    hostname: mongo
+    restart: always
+    volumes:
+      - ~/apps/Spotify/mongo/data:/data/db
+    ports:
+      - "27017:27017"
+
+volumes:
+  cache:
+    driver: local

@@ -7,24 +7,18 @@ namespace StaticAPI.Features.Track.UploadTrack;
 
 public class CommandHandler : ICommandHandler<Command, ResultDto>
 {
-    private readonly IStorage _storage;
+    private readonly IFileUploader _fileUploader;
 
-    public CommandHandler(IStorage fp)
+    public CommandHandler(IFileUploader fileUploader)
     {
-        _storage = fp;
+        _fileUploader = fileUploader;
     }
     
     public async Task<Result<ResultDto>> Handle(Command request, CancellationToken cancellationToken)
     {
-        var file = request.File;
-        if (file is null || file.Length == 0)
-            return new Result<ResultDto>("Empty file");
-        if (file.FileName.Length == 0)
-            return new Result<ResultDto>("Filename is not provided");
-        
-        await _storage.UploadAsync(TracksPendingBucketName, file.FileName, file.OpenReadStream(),
+        var file = request.Data!.File;
+        await _fileUploader.UploadFileAsync(file!, request.Data.TrackMetadata!,
             cancellationToken);
-
         return new ResultDto(true,"Successful");
     }
 }

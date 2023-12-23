@@ -1,6 +1,7 @@
 ﻿using StaticAPI.Dto;
+using StaticAPI.Dto.FileDataDTO;
 using Utils.CQRS;
 
 namespace StaticAPI.Features.Preview.UploadFile;
 
-public record Command(IFormFile? File) : ICommand<ResultDto>;
+public record Command(ImageDataDto? Data) : ICommand<ResultDto>;

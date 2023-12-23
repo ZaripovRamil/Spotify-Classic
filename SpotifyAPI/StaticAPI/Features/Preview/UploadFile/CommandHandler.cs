@@ -1,28 +1,21 @@
-﻿
-using StaticAPI.Dto;
+﻿using StaticAPI.Dto;
 using StaticAPI.Services;
 using Utils.CQRS;
-using static StaticAPI.Constants.S3Storage;
 
 namespace StaticAPI.Features.Preview.UploadFile;
 
 public class CommandHandler : ICommandHandler<Command, ResultDto>
 {
-    private readonly IStorage _storage;
+    private readonly IFileUploader _fileUploader;
 
-    public CommandHandler(IStorage fp)
+    public CommandHandler(IFileUploader fileUploader)
     {
-        _storage = fp;
+        _fileUploader = fileUploader;
     }
-    
+
     public async Task<Result<ResultDto>> Handle(Command request, CancellationToken cancellationToken)
     {
-        if (request.File is null || request.File.Length == 0)
-            return new Result<ResultDto>("Empty file");
-        if (request.File.FileName.Length == 0)
-            return new Result<ResultDto>("Filename is not provided");
-        await _storage.UploadAsync(PreviewsBucketName, request.File.FileName, request.File.OpenReadStream(),
-            cancellationToken);
+        await _fileUploader.UploadFileAsync(request.Data!.File!, request.Data.ImageMetadata!, cancellationToken);
         return new ResultDto(true, "Successful");
     }
 }
