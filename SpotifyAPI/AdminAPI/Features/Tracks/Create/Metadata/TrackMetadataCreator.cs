@@ -17,7 +17,7 @@ public class TrackMetadataCreator: IMetadataCreator<Command,TrackMetadata>
     }
     public async Task<Result<TrackMetadata>> CreateMetadata(Command item)
     {
-        await using var stream = item.TrackFile.OpenReadStream();
+        var stream = item.TrackFile.OpenReadStream();
         await using var mp3Reader = new Mp3FileReader(stream);
         var duration = mp3Reader.TotalTime;
         var durationInSeconds = (uint)duration.TotalSeconds;
