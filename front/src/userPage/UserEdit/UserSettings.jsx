@@ -9,16 +9,13 @@ export const UserSettings =({userInfo}) => {
     const [errorMessage,setErrorMessage] = useState("")
     const [successMessage,setSuccessMessage] = useState("")
 
-    useEffect(()=>{
-        console.log(userInfo)
-    },[])
     const handleSubmitForm = (event) => {
         event.preventDefault();
         setSuccessMessage("")
         setErrorMessage("")
         fetcher.put(`User/update/username/${nickname}`)
             .then(res => {setSuccessMessage("Никнейм сменен"); })
-            .catch(err => {console.log(err); setErrorMessage("что то пошло не так(")});
+            .catch(err => {console.log(err); setErrorMessage(err.response.data)});
     };
 
     return(
@@ -39,7 +36,7 @@ export const UserSettings =({userInfo}) => {
                         
                             
                     </div>
-                    <div className="message noMargin-error-message">{successMessage}</div>  
+                    {successMessage && <div className="message noMargin-error-message">{successMessage}</div>}
                     <div className="error-message">{errorMessage}</div>  
                     <input className="save-btn" type="submit" value="Save"/> 
                 </div>

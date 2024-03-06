@@ -113,7 +113,7 @@ public class UserController : Controller
         var user = await GetContextUser();
         var command = new Features.UpdateUsername.Command(username, user);
         var res = await _mediator.Send(command);
-        return res.IsSuccessful ? Ok() : BadRequest();
+        return res.IsSuccessful ? Ok() : BadRequest(res.JoinErrors());
     }
 
     private async Task<User?> GetContextUser()

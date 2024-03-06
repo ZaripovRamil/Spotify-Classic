@@ -9,7 +9,7 @@ public static class AddIdentityExtension
 {
     public static IServiceCollection AddIdentity(this IServiceCollection services, bool isDevelopment)
     {
-        services.AddIdentity<User, IdentityRole>(options =>
+        services.AddIdentityCore<User>(options =>
             {
                 if (!isDevelopment) return;
                 options.User.RequireUniqueEmail = true;
@@ -22,6 +22,8 @@ public static class AddIdentityExtension
                 options.SignIn.RequireConfirmedEmail = false;
                 options.SignIn.RequireConfirmedAccount = false;
             })
+            .AddRoles<IdentityRole>()
+            .AddSignInManager<SignInManager<User>>()
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
 

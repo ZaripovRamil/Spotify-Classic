@@ -20,12 +20,12 @@ const GoogleCallbackPage = () => {
                 return fetcher.post('oauth/google/login', {access_token: resp.data.access_token, id_token: resp.data.id_token});
             })
             .then(resp => {
-                if (resp.data.isSuccessful) {
-                    localStorage.setItem('access-token', resp.data.token);
+                if (resp.data.loginResult.isSuccessful) {
+                    localStorage.setItem('access-token', resp.data.loginResult.token);
                     navigate('/main');
                 }
                 else {
-                    alert(resp.data.resultMessage);
+                    alert(resp.data.loginResult.resultMessage);
                 }
             });
     }, [])

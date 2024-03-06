@@ -27,7 +27,7 @@ export const PageBuilder = ({ component }) => {
       }));
     }
     localStorage.setItem("player-config", JSON.stringify(playerConf));
-  }, []);
+  }, [playerConf]);
 
   useEffect(() => {
     localStorage.setItem("player-tracklist", JSON.stringify(tracksList));

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./MainPage.css";
 import wheelImgSrc from "./media/wheel.png";
 import klipartzImgSrc from "./media/klipartz.png";
@@ -9,6 +10,8 @@ import Ports from "../constants/Ports";
 const fetcher = getFetcher(Ports.PlayerApi);
 
 export const MainPageSection = (props) => {
+  const navigate = useNavigate();
+
   const playlistsArray = [
     {
       id: "504e5f8a-49b1-4c2f-940b-568ac3e8fef2",
@@ -28,7 +31,10 @@ export const MainPageSection = (props) => {
   useEffect(() => {
     const authToken = localStorage.getItem("access-token");
     authToken &&
-      fetcher.get("Playlists/get").then((data) => setPlaylists(data.data));
+      fetcher.get("Playlists/get").then((data) => setPlaylists(data.data))
+      .catch((err) => {
+        if (err.response.status === 401) navigate("/authorize");
+      });
   }, []);
 
   return (

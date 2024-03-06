@@ -69,8 +69,10 @@ export const UserPassword = () => {
           placeholder="New password"
           onChange={(e) => updatePasswordBlock("password", e.target.value)}
         />
+        { /*  */}
         <img
-          style={{ width: "25px" }}
+          alt="show/hide password"
+          style={{ width: "25px", filter: "invert(100%)" }}
           src={passwordHide ? passwordHideIcon : passwordShowIcon}
           onClick={() => setPasswordHide(!passwordHide)}
         />
@@ -86,8 +88,8 @@ export const UserPassword = () => {
           }
         />
       </div>
-      <div className="message noMargin-error-message">{successMessage}</div>
-      <div className="error-message noMargin-error-message">{errorMessage}</div>
+      {successMessage && <div className="message noMargin-error-message">{successMessage}</div>}
+      {errorMessage && <div className="error-message noMargin-error-message">{errorMessage}</div>}
       <input
         className="save-btn"
         type="button"

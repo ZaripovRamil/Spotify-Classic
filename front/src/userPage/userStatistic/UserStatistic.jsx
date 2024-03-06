@@ -58,8 +58,8 @@ export const UserStatisctics = () => {
     fetcher
       .get("user/get/statistics")
       .then((res) => {
-        setStatictic(res.data);
-        console.log(res.data);
+        setStatictic(res.data.snapshot);
+        console.log(res.data.snapshot);
         setIsLoad(true);
       })
       .catch((err) => {

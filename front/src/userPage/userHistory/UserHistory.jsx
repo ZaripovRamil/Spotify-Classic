@@ -31,7 +31,7 @@ export const UserHistory = (props) => {
   function GetHistory() {
     fetcherAuth
       .get("User/GetHistory")
-      .then((res) => setHistoryTracks(res.data))
+      .then((res) => setHistoryTracks(res.data.history))
       .catch((res) => console.log(res));
   }
 
@@ -57,7 +57,7 @@ export const UserHistory = (props) => {
         <div className="history-block">
           <NavLink className={"clear"}>Clear</NavLink>
           <div>
-            {historyTracks.map((track, id) => (
+            {historyTracks && historyTracks.map((track, id) => (
               <Track
                 key={id}
                 props={props.props}
