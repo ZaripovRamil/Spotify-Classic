@@ -57,11 +57,7 @@ export const Header = () => {
           )}
         </div>
         <Link
-          to={
-            localStorage.getItem("access-token") && page != "user"
-              ? "/user"
-              : "/authorize"
-          }
+          to="/user"
         >
           <div className="avatar"></div>
         </Link>

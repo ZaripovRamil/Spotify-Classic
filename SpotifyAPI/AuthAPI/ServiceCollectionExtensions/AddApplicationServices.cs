@@ -28,6 +28,7 @@ public static class AddApplicationServicesExtension
         services.AddValidatorsFromAssembly(typeof(Program).Assembly);
         
         services.AddJwtAuthorization(configuration);
+        services.AddAuthorization();
         services.AddSwaggerWithAuthorization();
         services.AddAllCors();
         

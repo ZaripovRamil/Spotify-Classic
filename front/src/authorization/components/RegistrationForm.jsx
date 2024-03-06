@@ -73,10 +73,11 @@ export const RegisterForm = () => {
   };
 
   const handleRegistrationResult = (data) => {
-    if (data && data.isSuccessful) {
+    if (data && data.registrationResult.isSuccessful) {
       navigate("/authorize");
     }
-    const resultMessage = data.resultMessage.toLowerCase();
+    console.log(data);
+    const resultMessage = data.registrationResult.resultMessage.toLowerCase();
     if (resultMessage.indexOf("login") > -1) {
       errors.login = AuthorizationErrors.loginIsAlreadyTaken;
     }

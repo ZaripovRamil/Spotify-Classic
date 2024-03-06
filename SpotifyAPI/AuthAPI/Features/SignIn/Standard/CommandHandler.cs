@@ -8,11 +8,13 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
 {
     private readonly SignInManager<User> _signInManager;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
+    private readonly UserManager<User> _userManager;
 
-    public CommandHandler(SignInManager<User> signInManager, IJwtTokenGenerator jwtTokenGenerator)
+    public CommandHandler(SignInManager<User> signInManager, IJwtTokenGenerator jwtTokenGenerator, UserManager<User> userManager)
     {
         _signInManager = signInManager;
         _jwtTokenGenerator = jwtTokenGenerator;
+        _userManager = userManager;
     }
 
     public async Task<Result<ResultDto>> Handle(Command request, CancellationToken cancellationToken)
@@ -20,8 +22,9 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
         var loginData = request.LoginData;
         if (loginData.Username is null || loginData.Password is null)
             return new Result<ResultDto>(new ResultDto(new LoginResult(false, "", "Empty login or/and password")));
+        var user = await _userManager.FindByNameAsync(request.LoginData.Username);
         var loginResult = await _signInManager
-            .PasswordSignInAsync(loginData.Username, loginData.Password, loginData.RememberMe, false);
+            .CheckPasswordSignInAsync(user, loginData.Password, false);
         if (!loginResult.Succeeded)
         {
             string errorMessage;
