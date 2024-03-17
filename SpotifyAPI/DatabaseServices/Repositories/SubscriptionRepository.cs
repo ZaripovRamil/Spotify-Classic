@@ -6,7 +6,7 @@ namespace DatabaseServices.Repositories;
 
 public interface ISubscriptionRepository : IUniqueNameEntityRepository<Subscription>
 {
-    Task SetToUserAsync(User user, Subscription? subscription);
+    Task SetToUserAsync(string userId, Subscription? subscription);
 }
 
 public class SubscriptionRepository : Repository, ISubscriptionRepository
@@ -49,13 +49,14 @@ public class SubscriptionRepository : Repository, ISubscriptionRepository
         return await GetAll().FirstOrDefaultAsync(s => s.Name == name);
     }
 
-    public async Task SetToUserAsync(User user, Subscription? subscription)
+    public async Task SetToUserAsync(string userId, Subscription? subscription)
     {
+        var user = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        if (user is null) throw new Exception("User not found");
         user.Subscription = subscription;
         user.SubscriptionExpire = ValidateSubscription(user)
             ? user.SubscriptionExpire?.Add(TimeSpan.FromDays(30))
             : (DateTime.Now + TimeSpan.FromDays(30)).ToUniversalTime();
-        DbContext.Entry(user).State = EntityState.Modified;
         await DbContext.SaveChangesAsync();
     }
 

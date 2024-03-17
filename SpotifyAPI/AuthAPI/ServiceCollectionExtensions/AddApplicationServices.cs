@@ -27,7 +27,7 @@ public static class AddApplicationServicesExtension
             .AddPipelineBehaviors();
         services.AddValidatorsFromAssembly(typeof(Program).Assembly);
         
-        services.AddJwtAuthorization(configuration);
+        services.AddJwtAuthentication(configuration);
         services.AddAuthorization();
         services.AddSwaggerWithAuthorization();
         services.AddAllCors();

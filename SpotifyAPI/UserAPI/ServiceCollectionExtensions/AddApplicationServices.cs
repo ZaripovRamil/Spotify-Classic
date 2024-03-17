@@ -16,7 +16,7 @@ public static class AddApplicationServicesExtension
         services.AddMediatorForAssembly(typeof(Program).Assembly)
             .AddPipelineBehaviors();
 
-        services.AddJwtAuthorization(configuration);
+        services.AddJwtAuthentication(configuration);
         services.AddSwaggerWithAuthorization();
         services.AddAllCors();
 

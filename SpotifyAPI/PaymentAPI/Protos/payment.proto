@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+message SubscriptionUpdateData {
+  string SubscriptionId = 1;
+}
+
+message ResultDto {
+  bool Ok = 1;
+  string Message = 2;
+}
+
+service PaymentService {
+  rpc UpdateSubscription (SubscriptionUpdateData) returns (ResultDto);
+}

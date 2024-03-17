@@ -1,21 +1,25 @@
 using Models.Configuration;
 using Utils.ServiceCollectionExtensions;
 
-namespace PlayerAPI.ServiceCollectionExtensions;
+namespace PaymentAPI.ServiceCollectionExtensions;
 
-public static class AddApplicationServicesExtensions
+public static class AddApplicationServicesExtension
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<JwtTokenSettings>(configuration.GetSection("JWTTokenSettings"));
         services.Configure<Hosts>(configuration.GetSection("Hosts"));
 
+        services.AddMediatorForAssembly(typeof(Program).Assembly);
         services.AddRepositories(configuration);
+
+        services.AddSignalR();
+
         services.AddJwtAuthentication(configuration);
+        services.AddAuthorization();
+        
         services.AddSwaggerWithAuthorization();
         services.AddAllCors();
-
-        services.AddMediatorForAssembly(typeof(Program).Assembly);
 
         return services;
     }

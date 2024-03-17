@@ -1,5 +1,4 @@
 ﻿using AuthAPI.Features.UpdatePassword;
-using AuthAPI.Features.UpdateSubscription;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -84,17 +83,6 @@ public class UserController : Controller
         var res = await _mediator.Send(query);
         return res.IsSuccessful ? Ok(res.Value) : BadRequest(res.Errors);
     }
-
-    [HttpPut]
-    [Route("subscription/update")]
-    public async Task<IActionResult> UpdateSubscription([FromBody] SubscriptionUpdateData data)
-    {
-        var user = await GetContextUser();
-        var command = new Features.UpdateSubscription.Command(data, user);
-        var res = await _mediator.Send(command);
-        return res.IsSuccessful ? Ok() : BadRequest();
-    }
-
 
     [HttpPut]
     [Route("update/password")]
