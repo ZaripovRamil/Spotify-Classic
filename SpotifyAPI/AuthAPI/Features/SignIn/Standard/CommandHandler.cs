@@ -23,6 +23,8 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
         if (loginData.Username is null || loginData.Password is null)
             return new Result<ResultDto>(new ResultDto(new LoginResult(false, "", "Empty login or/and password")));
         var user = await _userManager.FindByNameAsync(request.LoginData.Username);
+        if (user is null)
+            return new Result<ResultDto>(new ResultDto(new LoginResult(false, "", "No such a user")));
         var loginResult = await _signInManager
             .CheckPasswordSignInAsync(user, loginData.Password, false);
         if (!loginResult.Succeeded)
