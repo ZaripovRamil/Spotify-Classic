@@ -17,7 +17,8 @@ public static class AddApplicationServicesExtension
 
         services.AddJwtAuthentication(configuration);
         services.AddAuthorization();
-        
+
+        services.AddEndpointsApiExplorer();
         services.AddSwaggerWithAuthorization();
         services.AddAllCors();
 

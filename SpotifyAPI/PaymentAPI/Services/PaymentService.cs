@@ -1,8 +1,10 @@
 using DatabaseServices.Repositories;
 using Grpc.Core;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PaymentAPI.Services;
 
+[Authorize]
 public class PaymentService : global::PaymentService.PaymentServiceBase
 {
     private readonly ISubscriptionRepository _subscriptionRepository;

@@ -1,4 +1,5 @@
 class Ports {
+  static PaymentApi = process.env.REACT_APP_PaymentApi;
   static PlayerApi = process.env.REACT_APP_PlayerApi;
   static AuthApi = process.env.REACT_APP_AuthApi;
   static SearchApi = process.env.REACT_APP_SearchApi;

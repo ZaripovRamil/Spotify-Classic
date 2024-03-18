@@ -20,7 +20,15 @@ if (app.Environment.IsDevelopment())
     app.ApplyMigrations();
 }
 
+app.Use(async (context, next) =>
+{
+    Console.WriteLine($"Request {DateTime.Now}: {context.Request.Path}");
+    await next();
+    Console.WriteLine($"Response {DateTime.Now}: {context.Response.StatusCode}");
+});
+
 app.UseCors();
+
 
 app.UseAuthentication();
 

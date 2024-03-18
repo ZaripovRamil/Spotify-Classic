@@ -6,7 +6,10 @@ import passwordHideIcon from "../media/PasswordHide.png";
 import passwordShowIcon from "../media/PasswordShow.png";
 import "./UserSubscription.css";
 
-const fetcher = getFetcher(Ports.AuthApi);
+import { PaymentServiceClient } from "./protos/payment_grpc_web_pb";
+import { SubscriptionUpdateData, ResultDto } from "./protos/payment_pb";
+
+const fetcher = new PaymentServiceClient(`http://localhost:8080`);
 
 export const SubscribeForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -28,16 +31,19 @@ export const SubscribeForm = () => {
   const handleSubmitForm = (event) => {
     setErrorMessage("");
     event.preventDefault();
-    fetcher
-      .put("User/subscription/update", data)
-      .then((res) => {
-        window.location.reload();
-        console.log("sucess");
-      })
-      .catch((err) => {
+    const token = localStorage.getItem("access-token");
+    const metadata = { "Authorization": `Bearer ${token}` };
+    const request = new SubscriptionUpdateData();
+    request.setSubscriptionid("Premium");
+    fetcher.updateSubscription(request, metadata, (err, response) => {
+      if (err) {
         console.log(err);
         setErrorMessage("что то пошло не так(");
-      });
+      } else {
+        window.location.reload();
+        console.log("sucess");
+      }
+    });
   };
 
   return (
