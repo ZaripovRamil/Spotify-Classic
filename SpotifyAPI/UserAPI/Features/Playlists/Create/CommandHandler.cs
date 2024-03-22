@@ -1,6 +1,7 @@
 using DatabaseServices.Repositories;
 using Models.Entities;
 using Utils.CQRS;
+using static Models.ValidationErrors.CommonConstants;
 
 namespace UserAPI.Features.Playlists.Create;
 
@@ -17,6 +18,6 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
     {
         var playlist = new Playlist(request.Name, request.OwnerId);
         await _playlistRepository.AddAsync(playlist);
-        return new ResultDto(true, "Successful", playlist.OwnerId);
+        return new ResultDto(true, Successful, playlist.OwnerId);
     }
 }

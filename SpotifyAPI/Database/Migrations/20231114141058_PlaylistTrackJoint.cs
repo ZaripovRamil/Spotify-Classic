@@ -19,7 +19,7 @@ namespace Database.Migrations
                 table: "Playlists",
                 type: "text",
                 nullable: false,
-                defaultValue: "",
+                defaultValue: string.Empty,
                 oldClrType: typeof(string),
                 oldType: "text",
                 oldNullable: true);

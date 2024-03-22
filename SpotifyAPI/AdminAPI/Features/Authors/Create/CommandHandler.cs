@@ -1,6 +1,7 @@
 using DatabaseServices.Repositories;
 using Models.Entities;
 using Utils.CQRS;
+using static Models.ValidationErrors.CommonConstants;
 
 namespace AdminAPI.Features.Authors.Create;
 
@@ -17,6 +18,6 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
     {
         var author = new Author(request.UserId, request.Name);
         await _authorRepository.AddAsync(author);
-        return new ResultDto(true, "Successful", author.Id);
+        return new ResultDto(true, Successful, author.Id);
     }
 }

@@ -1,6 +1,7 @@
 using DatabaseServices.Repositories;
 using Models.Entities;
 using Utils.CQRS;
+using static Models.ValidationErrors.CommonConstants;
 
 namespace AdminAPI.Features.Genres.Create;
 
@@ -17,6 +18,6 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
     {
         var genre = new Genre(request.Name);
         await _genreRepository.AddAsync(genre);
-        return new ResultDto(true, "Successful", genre.Id);
+        return new ResultDto(true, Successful, genre.Id);
     }
 }

@@ -1,6 +1,7 @@
 using AdminAPI.Dto;
 using DatabaseServices.Repositories;
 using Utils.CQRS;
+using static Models.ValidationErrors.CommonConstants;
 
 namespace AdminAPI.Features.Albums.Update;
 
@@ -18,6 +19,6 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
         var album = await _albumRepository.GetByIdAsync(request.Id);
         album!.Name = request.Name;
         await _albumRepository.UpdateAsync(album);
-        return new ResultDto(true, "Successful");
+        return new ResultDto(true, Successful);
     }
 }

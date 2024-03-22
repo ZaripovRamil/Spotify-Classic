@@ -1,6 +1,8 @@
 using DatabaseServices.Repositories;
 using Grpc.Core;
 using Microsoft.AspNetCore.Authorization;
+using static Models.ValidationErrors.SubscriptionErrors;
+using static Models.ValidationErrors.CommonConstants;
 
 namespace PaymentAPI.Services;
 
@@ -18,7 +20,7 @@ public class PaymentService : global::PaymentService.PaymentServiceBase
     {
         var subscription = await _subscriptionRepository.GetByIdAsync(request.SubscriptionId);
         if (subscription is null)
-            return new ResultDto { Ok = false, Message = "Subscription not found" };
+            return new ResultDto { Ok = false, Message = SubscriptionNotFound };
         var userId = GetContextUserId(context);
         try
         {
@@ -28,11 +30,11 @@ public class PaymentService : global::PaymentService.PaymentServiceBase
         {
             return new ResultDto { Ok = false, Message = e.Message };
         }
-        return new ResultDto { Ok = true, Message = "Successful" };
+        return new ResultDto { Ok = true, Message = Successful };
     }
 
     private static string GetContextUserId(ServerCallContext context)
     {
-        return context.GetHttpContext().User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value ?? "";
+        return context.GetHttpContext().User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value ?? string.Empty;
     }
 }

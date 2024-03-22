@@ -1,6 +1,7 @@
 ﻿using Database;
 using Microsoft.EntityFrameworkCore;
 using Models.Entities;
+using static Models.ValidationErrors.SubscriptionErrors;
 
 namespace DatabaseServices.Repositories;
 
@@ -52,7 +53,7 @@ public class SubscriptionRepository : Repository, ISubscriptionRepository
     public async Task SetToUserAsync(string userId, Subscription? subscription)
     {
         var user = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
-        if (user is null) throw new Exception("User not found");
+        if (user is null) throw new Exception(UserNotFound);
         user.Subscription = subscription;
         user.SubscriptionExpire = ValidateSubscription(user)
             ? user.SubscriptionExpire?.Add(TimeSpan.FromDays(30))

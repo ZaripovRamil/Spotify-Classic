@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Models.Entities;
 using Utils.CQRS;
+using static Models.ValidationErrors.CommonConstants;
 
 namespace AuthAPI.Features.SignIn.Standard;
 
@@ -21,10 +22,10 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
     {
         var loginData = request.LoginData;
         if (loginData.Username is null || loginData.Password is null)
-            return new Result<ResultDto>(new ResultDto(new LoginResult(false, "", "Empty login or/and password")));
-        var user = await _userManager.FindByNameAsync(request.LoginData.Username);
+            return new Result<ResultDto>(new ResultDto(new LoginResult(false, string.Empty, "Empty login or/and password")));
+        var user = await _userManager.FindByNameAsync(request.LoginData.Username!);
         if (user is null)
-            return new Result<ResultDto>(new ResultDto(new LoginResult(false, "", "No such a user")));
+            return new Result<ResultDto>(new ResultDto(new LoginResult(false, string.Empty, "No such a user")));
         var loginResult = await _signInManager
             .CheckPasswordSignInAsync(user, loginData.Password, false);
         if (!loginResult.Succeeded)
@@ -38,7 +39,7 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
                 errorMessage = loginResult.RequiresTwoFactor
                     ? "Two factor authentication is required"
                     : "No such a user";
-            return new Result<ResultDto>(new ResultDto(new LoginResult(false, "", errorMessage)));
+            return new Result<ResultDto>(new ResultDto(new LoginResult(false, string.Empty, errorMessage)));
         }
 
         // admins are not allowed to be authorized more than one hour
@@ -48,7 +49,7 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
                 : TimeSpan.Zero;
         var token = await _jwtTokenGenerator.GenerateJwtTokenAsync(loginData.Username, additionalLifetime);
         return token is null
-            ? new Result<ResultDto>(new ResultDto(new LoginResult(false, "", "Authorization failed")))
-            : new Result<ResultDto>(new ResultDto(new LoginResult(true, token, "Successful")));
+            ? new Result<ResultDto>(new ResultDto(new LoginResult(false, string.Empty, "Authorization failed")))
+            : new Result<ResultDto>(new ResultDto(new LoginResult(true, token, Successful)));
     }
 }

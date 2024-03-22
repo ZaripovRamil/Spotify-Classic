@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Models.Entities;
 using Utils.CQRS;
+using static Models.ValidationErrors.CommonConstants;
 
 namespace AuthAPI.Features.SignIn.OAuth;
 
@@ -37,8 +38,8 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
             : TimeSpan.Zero;
         var token = await _jwtTokenGenerator.GenerateJwtTokenAsync(user!.UserName!, additionalLifetime);
         return token is null
-            ? new Result<ResultDto>(new ResultDto(new LoginResult(false, "", "Authorization failed")))
-            : new Result<ResultDto>(new ResultDto(new LoginResult(true, token, "Successful")));
+            ? new Result<ResultDto>(new ResultDto(new LoginResult(false, string.Empty, "Authorization failed")))
+            : new Result<ResultDto>(new ResultDto(new LoginResult(true, token, Successful)));
     }
 
     private async Task<Result<ResultDto>> RegisterAsync(GoogleLoginData loginData)

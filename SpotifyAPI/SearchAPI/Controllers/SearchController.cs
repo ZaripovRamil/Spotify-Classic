@@ -16,7 +16,7 @@ public class SearchController:Controller
     [HttpGet]
     public async Task<IActionResult> Search([FromQuery]string? query)
     {
-        var q = new Features.GlobalSearch.Query(query ?? "");
+        var q = new Features.GlobalSearch.Query(query ?? string.Empty);
         var res = await _mediator.Send(q);
         return res.IsSuccessful ? Ok(res.Value) : BadRequest(res.Errors);
     }
@@ -24,7 +24,7 @@ public class SearchController:Controller
     [HttpGet("users")]
     public async Task<IActionResult> SearchUsers([FromQuery]string? query)
     {
-        var q = new Features.SearchUsers.Query(query ?? "");
+        var q = new Features.SearchUsers.Query(query ?? string.Empty);
         var res = await _mediator.Send(q);
         return res.IsSuccessful ? Ok(res.Value) : BadRequest(res.Errors);
     }
@@ -32,7 +32,7 @@ public class SearchController:Controller
     [HttpGet("albums")]
     public async Task<IActionResult> SearchAlbums([FromQuery]string? query)
     {
-        var q = new Features.SearchAlbums.Query(query ?? "");
+        var q = new Features.SearchAlbums.Query(query ?? string.Empty);
         var res = await _mediator.Send(q);
         return res.IsSuccessful ? Ok(res.Value) : BadRequest(res.Errors);
     }
@@ -40,7 +40,7 @@ public class SearchController:Controller
     [HttpGet("albums/by/author")]
     public async Task<IActionResult> SearchAlbumsByAuthor([FromQuery] string? query)
     {
-        var q = new Features.SearchAlbumsByAuthor.Query(query ?? "");
+        var q = new Features.SearchAlbumsByAuthor.Query(query ?? string.Empty);
         var res = await _mediator.Send(q);
         return res.IsSuccessful ? Ok(res.Value) : BadRequest(res.Errors);
     }
@@ -48,7 +48,7 @@ public class SearchController:Controller
     [HttpGet("authors/by/user")]
     public async Task<IActionResult> SearchAuthorsByUser([FromQuery] string? query)
     {
-        var q = new Features.SearchAuthorsByUser.Query(query ?? "");
+        var q = new Features.SearchAuthorsByUser.Query(query ?? string.Empty);
         var res = await _mediator.Send(q);
         return res.IsSuccessful ? Ok(res.Value) : BadRequest(res.Errors);
     }
@@ -56,7 +56,7 @@ public class SearchController:Controller
     [HttpGet("tracks/by/albumAuthor")]
     public async Task<IActionResult> SearchTracksByAlbumOrAuthor([FromQuery] string? query)
     {
-        var q = new Features.SearchTracksByAlbumOrAuthor.Query(query ?? "");
+        var q = new Features.SearchTracksByAlbumOrAuthor.Query(query ?? string.Empty);
         var res = await _mediator.Send(q);
         return res.IsSuccessful ? Ok(res.Value) : BadRequest(res.Errors);
     }

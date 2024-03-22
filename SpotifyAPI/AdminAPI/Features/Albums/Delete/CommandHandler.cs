@@ -1,6 +1,7 @@
 using AdminAPI.Dto;
 using DatabaseServices.Repositories;
 using Utils.CQRS;
+using static Models.ValidationErrors.CommonConstants;
 
 namespace AdminAPI.Features.Albums.Delete;
 
@@ -17,6 +18,6 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
     {
         var album = await _albumRepository.GetByIdAsync(request.Id);
         await _albumRepository.DeleteAsync(album!);
-        return new ResultDto(true, "Successful");
+        return new ResultDto(true, Successful);
     }
 }
