@@ -1,0 +1,53 @@
+import 'package:flutter/material.dart';
+import 'package:spotik_mobile/home_page/home_page.dart';
+import 'package:spotik_mobile/drawer/drawer.dart';
+import 'package:spotik_mobile/player/player.dart';
+import 'package:spotik_mobile/user_page/user_page.dart';
+import 'package:spotik_mobile/utils/ui_constants.dart';
+
+import '../utils/pages.dart';
+
+class PageBuilder extends StatefulWidget {
+  const PageBuilder({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _PageBuilder();
+}
+
+class _PageBuilder extends State<PageBuilder> {
+  var selectedElement = Pages.home;
+
+  @override
+  Widget build(BuildContext context) {
+    var pages = {Pages.home: const HomePage(), Pages.user: const UserPage()};
+
+    goToSelectedElement(String selectedItem) {
+      setState(() {
+        selectedElement = selectedItem;
+      });
+    }
+
+    return Container(
+        decoration: const BoxDecoration(
+            gradient: RadialGradient(
+                colors: [
+              CustomColors.backgroundRadialColor,
+              CustomColors.backgroundColor
+            ],
+                center: Alignment(-1, -1.8),
+                radius: 2)),
+        child: Scaffold(
+          // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              title: const Text(""),
+              iconTheme: Theme.of(context).iconTheme),
+          body: pages[selectedElement],
+          bottomNavigationBar: const Player(),
+          drawer: MyDrawer(
+            onSelectedItem: goToSelectedElement,
+          ),
+        ));
+  }
+}

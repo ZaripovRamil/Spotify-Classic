@@ -1,0 +1,22 @@
+import 'dart:ui';
+
+class TextSize {
+  static const largeTextSize = 40.0;
+  static const mediumTextSize = 20.0;
+  static const smallTextSize = 14.0;
+}
+
+class Fonts {
+  static const String fontNameDefault = "PoiterOne";
+  static const String fontNameTitle = "PPHatton";
+}
+
+class CustomColors {
+  static const Color goldenColor = Color.fromRGBO(255, 197, 84, 1);
+  static const Color backgroundColor = Color.fromRGBO(30, 30, 35, 1);
+  static const Color backgroundRadialColor = Color.fromRGBO(246, 34, 5, 0.2);
+  static const Color whiteColor = Color.fromRGBO(252, 252, 252, 1);
+  static const Color subtitleColor = Color.fromRGBO(252, 252, 252, 0.65);
+  static const Color errorColor = Color.fromRGBO(255, 69, 69, 0.9);
+  static const Color inputBgColor = Color.fromRGBO(80, 80, 87, 0.5);
+}
