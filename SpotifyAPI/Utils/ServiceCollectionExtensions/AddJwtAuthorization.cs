@@ -8,7 +8,7 @@ namespace Utils.ServiceCollectionExtensions;
 
 public static class AddJwtAuthorizationExtension
 {
-    public static IServiceCollection AddJwtAuthorization(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(opts =>

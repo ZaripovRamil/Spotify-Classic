@@ -4,6 +4,7 @@ using Utils.CQRS;
 namespace AdminAPI.Features.Albums.Create;
 
 public record Command(
+    string Id,
     string Name,
     string AuthorId,
     AlbumType AlbumType,

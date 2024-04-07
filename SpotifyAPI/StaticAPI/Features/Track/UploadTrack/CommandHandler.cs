@@ -1,7 +1,7 @@
 ﻿using StaticAPI.Dto;
-using StaticAPI.Services;
+using StaticAPI.Services.Interfaces;
 using Utils.CQRS;
-using static StaticAPI.Constants.S3Storage;
+using static Models.ValidationErrors.CommonConstants;
 
 namespace StaticAPI.Features.Track.UploadTrack;
 
@@ -19,6 +19,6 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
         var file = request.Data!.File;
         await _fileUploader.UploadFileAsync(file!, request.Data.TrackMetadata!,
             cancellationToken);
-        return new ResultDto(true,"Successful");
+        return new ResultDto(true,Successful);
     }
 }

@@ -1,6 +1,7 @@
 using AdminAPI.Features.Tracks.Create.TracksSavers;
 using AdminAPI.Services;
 using Utils.CQRS;
+using static Models.ValidationErrors.CommonConstants;
 
 namespace AdminAPI.Features.Tracks.Create;
 
@@ -31,7 +32,7 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
         
         await Task.WhenAll(res);
         if (!Array.Exists(res, r => !r.Result.IsSuccessful))
-                return new ResultDto(true, "Successful", trackIdResult.Value);
+                return new ResultDto(true, Successful, trackIdResult.Value);
             
         await Task.WhenAll(_savers.Select(async s => await s.UnSaveAsync(request)));
         return new ResultDto(false, string.Join('\n', res.SelectMany(r => r.Result.Errors)), null);

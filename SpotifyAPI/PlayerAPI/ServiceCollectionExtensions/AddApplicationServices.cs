@@ -11,7 +11,7 @@ public static class AddApplicationServicesExtensions
         services.Configure<Hosts>(configuration.GetSection("Hosts"));
 
         services.AddRepositories(configuration);
-        services.AddJwtAuthorization(configuration);
+        services.AddJwtAuthentication(configuration);
         services.AddSwaggerWithAuthorization();
         services.AddAllCors();
 

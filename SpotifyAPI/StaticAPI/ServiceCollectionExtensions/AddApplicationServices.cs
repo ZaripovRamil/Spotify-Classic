@@ -43,7 +43,7 @@ public static class AddApplicationServicesExtension
         });
         services.AddSingleton<IRedisCache, RedisCache>();
         
-        services.AddJwtAuthorization(configuration);
+        services.AddJwtAuthentication(configuration);
         services.AddSwaggerWithAuthorization();
         services.AddAllCors();
 

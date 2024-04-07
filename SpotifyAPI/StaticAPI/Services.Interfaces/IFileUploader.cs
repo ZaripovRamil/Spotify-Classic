@@ -1,6 +1,6 @@
 using Models.Metadata;
 
-namespace StaticAPI.Services;
+namespace StaticAPI.Services.Interfaces;
 
 public interface IFileUploader
 {

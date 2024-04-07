@@ -19,7 +19,7 @@ namespace Database.Migrations
                 table: "UserTrack",
                 type: "text",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_UserTrack",

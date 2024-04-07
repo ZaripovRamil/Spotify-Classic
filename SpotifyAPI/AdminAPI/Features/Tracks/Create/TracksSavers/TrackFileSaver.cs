@@ -21,6 +21,16 @@ public class TrackFileSaver : ISaver<Command, string>
         _metadataCreator = metadataCreator;
     }
 
+    public async Task<Result> PrepareAsync(Command item)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<Result> UnPrepareAsync(Command item)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<Result<string>> SaveAsync(Command item)
     {
         try

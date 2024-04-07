@@ -26,8 +26,9 @@ public class Album : Entity
         ReleaseYear = releaseYear;
     }
 
-    public Album(string name, string authorId, AlbumType albumType, int releaseYear, string previewId)
+    public Album(string id, string name, string authorId, AlbumType albumType, int releaseYear, string previewId)
     {
+        Id = id;
         Name = name;
         AuthorId = authorId;
         Type = albumType;

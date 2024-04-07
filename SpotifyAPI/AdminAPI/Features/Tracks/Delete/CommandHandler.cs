@@ -1,6 +1,7 @@
 using AdminAPI.Dto;
 using DatabaseServices.Repositories;
 using Utils.CQRS;
+using static Models.ValidationErrors.CommonConstants;
 
 namespace AdminAPI.Features.Tracks.Delete;
 
@@ -17,6 +18,6 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
     {
         var album = await _trackRepository.GetByIdAsync(request.Id);
         await _trackRepository.DeleteAsync(album!);
-        return new ResultDto(true, "Successful");
+        return new ResultDto(true, Successful);
     }
 }

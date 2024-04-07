@@ -14,7 +14,7 @@ public class CommandValidator : AbstractValidator<Command>
     {
         _authorRepository = authorRepository;
         
-        RegisterRules();
+        // RegisterRules();
     }
 
     private void RegisterRules()
