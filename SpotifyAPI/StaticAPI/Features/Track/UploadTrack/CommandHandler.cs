@@ -1,5 +1,5 @@
 ﻿using StaticAPI.Dto;
-using StaticAPI.Services;
+using StaticAPI.Services.Interfaces;
 using Utils.CQRS;
 using static Models.ValidationErrors.CommonConstants;
 

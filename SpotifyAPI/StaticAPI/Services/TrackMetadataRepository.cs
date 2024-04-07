@@ -2,6 +2,7 @@ using Microsoft.Extensions.Options;
 using Models.Metadata;
 using MongoDB.Driver;
 using StaticAPI.Configuration;
+using StaticAPI.Services.Interfaces;
 
 namespace StaticAPI.Services;
 

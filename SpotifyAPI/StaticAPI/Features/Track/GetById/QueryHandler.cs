@@ -1,4 +1,4 @@
-﻿using StaticAPI.Services;
+﻿using StaticAPI.Services.Interfaces;
 using Utils.CQRS;
 using static StaticAPI.Constants.S3Storage;
 

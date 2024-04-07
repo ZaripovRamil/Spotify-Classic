@@ -1,6 +1,4 @@
-﻿using External.Redis;
-using StackExchange.Redis;
-using StaticAPI.Services.Interfaces;
+﻿using StaticAPI.Services.Interfaces;
 
 namespace StaticAPI.Features.Track.UploadTrack;
 

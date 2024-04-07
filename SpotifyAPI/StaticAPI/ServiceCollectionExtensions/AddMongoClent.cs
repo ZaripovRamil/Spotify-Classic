@@ -1,7 +1,5 @@
-using Amazon.S3;
 using MongoDB.Driver;
 using StaticAPI.Configuration;
-using AmazonS3Config = StaticAPI.Configuration.AmazonS3Config;
 
 namespace StaticAPI.ServiceCollectionExtensions;
 

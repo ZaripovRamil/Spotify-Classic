@@ -20,6 +20,16 @@ public class DbInfoSaver : ISaver<Command, string>
         _genreRepository = genreRepository;
     }
 
+    public async Task<Result> PrepareAsync(Command item)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<Result> UnPrepareAsync(Command item)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<Result<string>> SaveAsync(Command item)
     {
         var genresTasks = item.GenreIds.Select(async i => (await _genreRepository.GetByIdAsync(i))!).ToArray();

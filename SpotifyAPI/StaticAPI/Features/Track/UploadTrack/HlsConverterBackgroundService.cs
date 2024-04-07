@@ -1,6 +1,6 @@
 using Amazon.S3;
 using Amazon.S3.Model;
-using StaticAPI.Services;
+using StaticAPI.Services.Interfaces;
 using static StaticAPI.Constants.S3Storage;
 
 namespace StaticAPI.Features.Track.UploadTrack;

@@ -1,5 +1,4 @@
-﻿using AdminAPI.Features.Albums.Create.AlbumSavers;
-using AdminAPI.Services;
+﻿using AdminAPI.Services;
 using Utils.CQRS;
 using static Models.ValidationErrors.CommonConstants;
 
@@ -16,16 +15,19 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
 
     public async Task<Result<ResultDto>> Handle(Command request, CancellationToken cancellationToken)
     {
-        Result<string>? albumIdResult = null;
-        var res =_savers.Select(async s =>
+        var prepare = _savers.Select(s => s.PrepareAsync(request)).ToArray();
+        var prepResults = await Task.WhenAll(prepare);
+        if (Array.Exists(prepResults, r => !r.IsSuccessful))
         {
-            if (s is not DbInfoSaver) return await s.SaveAsync(request);
-            return albumIdResult = await s.SaveAsync(request);
-        }).ToArray();
+            await Task.WhenAll(_savers.Select(async s => await s.UnPrepareAsync(request)));
+            return new Result<ResultDto>(errors: string.Join('\n', prepResults.SelectMany(r => r.Errors)));
+        }
+
+        var res =_savers.Select(s => s.SaveAsync(request)).ToArray();
         
-        await Task.WhenAll(res);
-        if (!Array.Exists(res, r => !r.Result.IsSuccessful))
-            return new ResultDto(true, Successful, albumIdResult!.Value);
+        var commitResults = await Task.WhenAll(res);
+        if (!Array.Exists(commitResults, r => !r.IsSuccessful))
+            return new ResultDto(true, Successful, request.Id);
         
         await Task.WhenAll(_savers.Select(async s => await s.UnSaveAsync(request)));
         return new ResultDto(false, string.Join('\n', res.SelectMany(r => r.Result.Errors)), null);
