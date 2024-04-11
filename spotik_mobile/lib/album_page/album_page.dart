@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spotik_mobile/album_page/widgets/songs_list.dart';
 import 'package:spotik_mobile/utils/ui_constants.dart';
 
 class AlbumPage extends StatefulWidget {
@@ -21,12 +22,11 @@ class _AlbumPageState extends State<AlbumPage> {
                   Expanded(
                     flex: 10,
                     child: Container(
-                        margin: const EdgeInsets.only(bottom: 15),
-                        child: Expanded(
-                          child: Image.network(
-                            "https://kartinki.pibig.info/uploads/posts/2023-04/1682442196_kartinki-pibig-info-p-kartinki-dlya-oblozhki-muzikalnogo-alboma-1.jpg",
-                          ),
-                        )),
+                      margin: const EdgeInsets.only(bottom: 15),
+                      child: Image.network(
+                        "https://kartinki.pibig.info/uploads/posts/2023-04/1682442196_kartinki-pibig-info-p-kartinki-dlya-oblozhki-muzikalnogo-alboma-1.jpg",
+                      ),
+                    ),
                   ),
                   Expanded(
                     child: Center(
@@ -77,29 +77,5 @@ class _AlbumPageState extends State<AlbumPage> {
         child: const SongsList(),
       )),
     ]);
-  }
-}
-
-class SongsList extends StatefulWidget {
-  const SongsList({super.key});
-
-  @override
-  State<SongsList> createState() => _SongsListState();
-}
-
-class _SongsListState extends State<SongsList> {
-  @override
-  Widget build(BuildContext context) {
-    return ListView.separated(
-        itemCount: 10,
-        padding: const EdgeInsets.only(right: 20, left: 20),
-        separatorBuilder: (context, i) => const Divider(),
-        itemBuilder: (context, i) {
-          return ListTile(
-            leading: Text("1", style: Theme.of(context).textTheme.labelSmall, ),
-            title: Text("Song Name 1", style: Theme.of(context).textTheme.displaySmall),
-            trailing: Text("3:00", style: Theme.of(context).textTheme.displaySmall),
-          );
-        });
   }
 }
