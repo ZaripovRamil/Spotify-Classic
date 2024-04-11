@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spotik_mobile/utils/ui_constants.dart';
 
 ThemeData customTheme() => ThemeData(
-  scaffoldBackgroundColor: CustomColors.backgroundColor,
+    scaffoldBackgroundColor: CustomColors.backgroundColor,
     fontFamily: Fonts.fontNameTitle,
     brightness: Brightness.dark,
     textTheme: const TextTheme(
@@ -11,7 +11,9 @@ ThemeData customTheme() => ThemeData(
         displayMedium: TextStyle(
             fontSize: TextSize.mediumTextSize, color: CustomColors.whiteColor),
         displaySmall: TextStyle(
-            fontSize: TextSize.smallTextSize, color: CustomColors.whiteColor)),
+            fontSize: TextSize.smallTextSize, color: CustomColors.whiteColor),
+        labelSmall: TextStyle(
+            fontSize: TextSize.smallTextSize, color: CustomColors.goldenColor)),
     iconTheme: const IconThemeData(color: CustomColors.goldenColor),
     primaryColor: CustomColors.whiteColor,
     buttonTheme: const ButtonThemeData(

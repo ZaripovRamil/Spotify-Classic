@@ -81,6 +81,9 @@ flutter:
           weight: 700
         - asset: fonts/PPHatton-Medium-500.otf
         - asset: fonts/PPHatton-Ultralight.otf
+    - family:  CustomIcons
+      fonts:
+        - asset: fonts/CustomIcons.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

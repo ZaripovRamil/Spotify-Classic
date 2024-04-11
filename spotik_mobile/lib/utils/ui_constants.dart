@@ -1,5 +1,8 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+
 class TextSize {
   static const largeTextSize = 40.0;
   static const mediumTextSize = 20.0;
@@ -19,4 +22,15 @@ class CustomColors {
   static const Color subtitleColor = Color.fromRGBO(252, 252, 252, 0.65);
   static const Color errorColor = Color.fromRGBO(255, 69, 69, 0.9);
   static const Color inputBgColor = Color.fromRGBO(80, 80, 87, 0.5);
+}
+
+
+class CustomIcons {
+  CustomIcons._();
+
+  static const _kFontFam = 'CustomIcons';
+  static const String? _kFontPkg = null;
+
+  static const IconData album_like_icon = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData album_play_icon = IconData(0xf144, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

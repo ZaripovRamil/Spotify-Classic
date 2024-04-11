@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spotik_mobile/album_page/album_page.dart';
 import 'package:spotik_mobile/home_page/home_page.dart';
 import 'package:spotik_mobile/drawer/drawer.dart';
 import 'package:spotik_mobile/player/player.dart';
@@ -19,7 +20,10 @@ class _PageBuilder extends State<PageBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    var pages = {Pages.home: const HomePage(), Pages.user: const UserPage()};
+    var pages = {
+      Pages.home: const HomePage(),
+      Pages.user: const UserPage(),
+      Pages.album: const AlbumPage()};
 
     goToSelectedElement(String selectedItem) {
       setState(() {
