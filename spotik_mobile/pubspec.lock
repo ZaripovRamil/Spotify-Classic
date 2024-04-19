@@ -109,10 +109,10 @@ packages:
     dependency: "direct main"
     description:
       name: cupertino_icons
-      sha256: d57953e10f9f8327ce64a508a355f0b1ec902193f66288e8cb5070e7c47eeb2d
+      sha256: ba631d1c7f7bef6b729a622b7b752645a2d076dba9976925b8f25725a30e1ee6
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.6"
+    version: "1.0.8"
   fake_async:
     dependency: transitive
     description:
@@ -260,10 +260,10 @@ packages:
     dependency: transitive
     description:
       name: path_provider_android
-      sha256: "51f0d2c554cfbc9d6a312ab35152fc77e2f0b758ce9f1a444a3a1e5b8f3c6b7f"
+      sha256: a248d8146ee5983446bf03ed5ea8f6533129a12b11f12057ad1b4a67a2b3b41d
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.3"
+    version: "2.2.4"
   path_provider_foundation:
     dependency: transitive
     description:
