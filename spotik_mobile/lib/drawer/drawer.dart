@@ -29,6 +29,10 @@ class MyDrawer extends StatelessWidget {
           _HomeDrawerElement(
             title: 'Album',
             onClick: () => goToPage(Pages.album),
+          ),
+          _HomeDrawerElement(
+            title: 'Profile',
+            onClick: () => goToPage(Pages.profile),
           )
         ],
       ),
