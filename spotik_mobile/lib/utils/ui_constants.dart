@@ -20,6 +20,16 @@ class CustomColors {
   static const Color subtitleColor = Color.fromRGBO(252, 252, 252, 0.65);
   static const Color errorColor = Color.fromRGBO(255, 69, 69, 0.9);
   static const Color inputBgColor = Color.fromRGBO(80, 80, 87, 0.5);
+  static const Color playerBackgroundColor = Color.fromRGBO(19, 19, 22, 1);
+}
+
+class CustomDecorations {
+  static const BoxDecoration backgroundDecoration = BoxDecoration(
+            gradient: RadialGradient(colors: [
+          CustomColors.backgroundRadialColor,
+          CustomColors.backgroundColor
+        ], center: Alignment(-1, -1.8), radius: 2));
+
 }
 
 

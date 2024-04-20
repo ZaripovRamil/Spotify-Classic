@@ -1,5 +1,8 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:spotik_mobile/models/player_provider.dart';
+import 'package:spotik_mobile/player/player_widget.dart';
+import 'package:spotik_mobile/player/slide_top_route.dart';
 import 'package:spotik_mobile/utils/ui_constants.dart';
 
 class BottomPlayer extends StatefulWidget {
@@ -10,111 +13,127 @@ class BottomPlayer extends StatefulWidget {
 }
 
 class _BottomPlayerState extends State<BottomPlayer> {
-  PlayerState _playerState = PlayerState.paused;
 
-  bool get _isPlaying => _playerState == PlayerState.playing;
-
-  bool get _isPaused => _playerState == PlayerState.paused;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 20),
-      decoration: const BoxDecoration(
-          color: CustomColors.backgroundColor,
-          boxShadow: [
-            BoxShadow(color: CustomColors.goldenColor, blurRadius: 5.0)
-          ]),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            flex: 2,
-            child: Image.network(
-              "https://kartinki.pibig.info/uploads/posts/2023-04/1682442196_kartinki-pibig-info-p-kartinki-dlya-oblozhki-muzikalnogo-alboma-1.jpg",
-            ),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          Expanded(
-            flex: 13,
-            child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
+    return Consumer<PlayerProvider>(builder: (context, value, child) {
+      final tracklist = value.trackList;
+
+      final currentTrack = tracklist[value.currentTrackIndex!];
+
+      return InkWell(
+        onTap: () {
+          Navigator.push(context, SlideTopRoute(page: PlayerWidget()));
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 20),
+          decoration: const BoxDecoration(
+              color: CustomColors.playerBackgroundColor,
+              boxShadow: [
+                BoxShadow(color: CustomColors.subtitleColor, blurRadius: 4.0)
+              ]),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                flex: 2,
+                child: Image.network(
+                  currentTrack.album.prewiewId,
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                flex: 13,
+                child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        children: [
-                          Text(
-                            "Song Name",
-                            style: Theme.of(context)
-                                .textTheme
-                                .displaySmall
-                                ?.copyWith(fontSize: 10.0),
-                          ),
-                          Text(
-                            "Author",
-                            style: Theme.of(context)
-                                .textTheme
-                                .displaySmall
-                                ?.copyWith(
-                                    fontSize: 10.0,
-                                    color: Colors.white.withOpacity(0.65)),
-                          )
-                        ],
-                      ),
                       Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          InkWell(
-                            onTap: (){},
-                            child: const Icon(
-                              Icons.skip_previous,
-                              size: 24,
-                              color: CustomColors.whiteColor,
-                            ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                currentTrack.name,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .displaySmall
+                                    ?.copyWith(fontSize: 10.0),
+                              ),
+                              Text(
+                                currentTrack.album.author.name,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .displaySmall
+                                    ?.copyWith(
+                                        fontSize: 10.0,
+                                        color: Colors.white.withOpacity(0.65)),
+                              )
+                            ],
                           ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                _playerState = (_isPlaying)
-                                    ? PlayerState.paused
-                                    : PlayerState.playing;
-                              });
-                            },
-                            child: Icon(
-                              (_isPlaying) ? Icons.pause : Icons.play_arrow,
-                              size: 24,
-                              color: CustomColors.whiteColor,
-                            ),
-                          ),
-                          InkWell(
-                            onTap: (){},
-                            child: const Icon(
-                              Icons.skip_next,
-                              size: 24,
-                              color: CustomColors.whiteColor,
-                            ),
+                          Row(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  value.playPreviousSong();
+                                },
+                                child: const Icon(
+                                  Icons.skip_previous,
+                                  size: 24,
+                                  color: CustomColors.whiteColor,
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  value.pauseOrResume();
+                                },
+                                child: Icon(
+                                  (value.isPlaying) ? Icons.pause : Icons.play_arrow,
+                                  size: 24,
+                                  color: CustomColors.whiteColor,
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  value.playNextSong();
+                                },
+                                child: const Icon(
+                                  Icons.skip_next,
+                                  size: 24,
+                                  color: CustomColors.whiteColor,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  SliderTheme(
-                      data: Theme.of(context).sliderTheme,
-                      child: Slider(
-                        value: 0.0,
-                        onChanged: (double value) {},
-                      ))
-                ]),
-          )
-        ],
-      ),
-    );
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      SliderTheme(
+                          data: Theme.of(context).sliderTheme,
+                          child: Slider(
+                            min: 0,
+                            max: value.totalDuration.inSeconds.toDouble(),
+                            value: value.currentDuration.inSeconds.toDouble(),
+                            onChanged: (double value) {
+                              
+                            },
+                            onChangeEnd: (double double){
+                              value.seek(Duration(seconds: double.toInt()));
+                            },
+                          ))
+                    ]),
+              )
+            ],
+          ),
+        ),
+      );
+    });
   }
 }
