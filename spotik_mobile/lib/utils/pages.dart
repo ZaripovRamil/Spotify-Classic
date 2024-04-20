@@ -4,4 +4,5 @@ class Pages {
   static String search = "search";
   static String album = "album";
   static String profile = "profile";
+  static String subscription = "subscription";
 }
