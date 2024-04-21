@@ -1,6 +1,14 @@
 ﻿version: '3'
 
 services:
+  envoy:
+    image: spotify-front-proxy
+    build:
+      context: ./front/envoy
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+      - "9901:9901"
   postgres:
     image: postgres:alpine
     hostname: postgres
@@ -23,15 +31,13 @@ services:
     hostname: ${AdminApiHostname}
     build:
       context: SpotifyAPI
-      dockerfile: AdminAPI/Dockerfile.${RunningEnvironment}
+      dockerfile: AdminAPI/Dockerfile.Production
     env_file:
       - SpotifyAPI/.secrets
       - .hostnames
       - SpotifyAPI/.kestrel-conf
     ports:
       - "${AdminApiPortHttps}:443"
-    depends_on:
-      - db_api
     working_dir: "/app"
   
   auth_api:
@@ -39,7 +45,7 @@ services:
     hostname: ${AuthApiHostname}
     build:
       context: SpotifyAPI
-      dockerfile: AuthAPI/Dockerfile.${RunningEnvironment}
+      dockerfile: AuthAPI/Dockerfile.Production
     env_file:
       - SpotifyAPI/.postgres-secrets
       - SpotifyAPI/.secrets
@@ -47,8 +53,6 @@ services:
       - SpotifyAPI/.kestrel-conf
     ports:
       - "${AuthApiPortHttps}:443"
-    depends_on:
-      - db_api
     working_dir: "/app"
   
   chat_api:
@@ -56,7 +60,7 @@ services:
     hostname: ${ChatApiHostname}
     build:
       context: SpotifyAPI
-      dockerfile: ChatApi/Dockerfile.${RunningEnvironment}
+      dockerfile: ChatApi/Dockerfile.Production
     env_file:
       - SpotifyAPI/.rabbitmq-secrets
       - SpotifyAPI/.postgres-secrets
@@ -65,8 +69,21 @@ services:
       - SpotifyAPI/.kestrel-conf
     ports:
       - "${ChatApiPortHttps}:443"
-    depends_on:
-      - db_api
+    working_dir: "/app"
+  
+  payment_api:
+    image: payment_api
+    hostname: ${PaymentApiHostname}
+    build:
+      context: SpotifyAPI
+      dockerfile: PaymentAPI/Dockerfile
+    env_file:
+      - SpotifyAPI/.postgres-secrets
+      - SpotifyAPI/.secrets
+      - .hostnames
+      - SpotifyAPI/.kestrel-conf
+    ports:
+      - "${PaymentApiPortHttps}:443"
     working_dir: "/app"
   
   player_api:
@@ -74,15 +91,13 @@ services:
     hostname: ${PlayerApiHostname}
     build:
       context: SpotifyAPI
-      dockerfile: PlayerAPI/Dockerfile.${RunningEnvironment}
+      dockerfile: PlayerAPI/Dockerfile.Production
     env_file:
       - SpotifyAPI/.secrets
       - .hostnames
       - SpotifyAPI/.kestrel-conf
     ports:
       - "${PlayerApiPortHttps}:443"
-    depends_on:
-      - db_api
     working_dir: "/app"
   
   search_api:
@@ -90,7 +105,7 @@ services:
     hostname: ${SearchApiHostname}
     build:
       context: SpotifyAPI
-      dockerfile: SearchAPI/Dockerfile.${RunningEnvironment}
+      dockerfile: SearchAPI/Dockerfile.Production
     env_file:
       - SpotifyAPI/.postgres-secrets
       - SpotifyAPI/.secrets
@@ -98,8 +113,6 @@ services:
       - SpotifyAPI/.kestrel-conf
     ports:
       - "${SearchApiPortHttps}:443"
-    depends_on:
-      - db_api
     working_dir: "/app"
   
   static_api:
@@ -107,7 +120,7 @@ services:
     hostname: ${StaticApiHostname}
     build:
       context: SpotifyAPI
-      dockerfile: StaticAPI/Dockerfile.${RunningEnvironment}
+      dockerfile: StaticAPI/Dockerfile.Production
     env_file:
       - SpotifyAPI/.secrets
       - .hostnames
@@ -116,8 +129,6 @@ services:
       - "${StaticApiPortHttps}:443"
     volumes:
       - ./SpotifyAPI/StaticAPI/Assets:/assets
-    depends_on:
-      - db_api
     working_dir: "/app"
     
   chat_history_saver_service:
@@ -125,7 +136,7 @@ services:
     hostname: ${ChatHistorySaverServiceHostname}
     build:
       context: SpotifyAPI
-      dockerfile: ChatHistorySaverService/Dockerfile.${RunningEnvironment}
+      dockerfile: ChatHistorySaverService/Dockerfile.Production
     env_file:
       - SpotifyAPI/.rabbitmq-secrets
       - SpotifyAPI/.postgres-secrets

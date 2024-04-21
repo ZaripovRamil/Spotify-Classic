@@ -36,6 +36,12 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
   audioplayers: ^6.0.0
+  freezed: ^2.5.2
+  freezed_annotation: ^2.4.1
+  build_runner: ^2.4.9
+  json_annotation: ^4.8.1
+  json_serializable: ^6.7.1
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:

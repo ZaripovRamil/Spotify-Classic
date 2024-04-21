@@ -29,8 +29,8 @@ public class AlbumsController : Controller
     [HttpPost]
     public async Task<IActionResult> AddAsync([FromForm] Features.Albums.Create.RequestDto dto)
     {
-        var command = new Features.Albums.Create.Command(dto.Name, dto.AuthorId, dto.AlbumType, dto.ReleaseYear,
-            Guid.NewGuid().ToString(), dto.PreviewFile);
+        var command = new Features.Albums.Create.Command(Guid.NewGuid().ToString(), dto.Name, dto.AuthorId,
+            dto.AlbumType, dto.ReleaseYear, Guid.NewGuid().ToString(), dto.PreviewFile);
         var res = await _mediator.Send(command);
         return res.IsSuccessful switch
         {

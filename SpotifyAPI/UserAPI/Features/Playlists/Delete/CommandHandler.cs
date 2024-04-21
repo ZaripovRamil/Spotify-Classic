@@ -1,6 +1,7 @@
 using DatabaseServices.Repositories;
 using UserAPI.Dto;
 using Utils.CQRS;
+using static Models.ValidationErrors.CommonConstants;
 
 namespace UserAPI.Features.Playlists.Delete;
 
@@ -17,6 +18,6 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
     {
         var playlist = await _playlistRepository.GetByIdAsync(request.Id);
         await _playlistRepository.DeleteAsync(playlist!);
-        return new ResultDto(true, "Successful");
+        return new ResultDto(true, Successful);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using StaticAPI.Dto;
-using StaticAPI.Services;
+using StaticAPI.Services.Interfaces;
 using Utils.CQRS;
+using static Models.ValidationErrors.CommonConstants;
 
 namespace StaticAPI.Features.Preview.UploadFile;
 
@@ -15,7 +16,15 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
 
     public async Task<Result<ResultDto>> Handle(Command request, CancellationToken cancellationToken)
     {
-        await _fileUploader.UploadFileAsync(request.Data!.File!, request.Data.ImageMetadata!, cancellationToken);
-        return new ResultDto(true, "Successful");
+        try
+        {
+            await _fileUploader.UploadFileAsync(request.Data!.File!, request.Data.ImageMetadata!, cancellationToken);
+        }
+        catch (Exception)
+        {
+            return new ResultDto(false, "Failed to upload file");
+        }
+        
+        return new ResultDto(true, Successful);
     }
 }

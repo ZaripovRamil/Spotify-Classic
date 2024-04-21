@@ -20,6 +20,9 @@ ThemeData customTheme() => ThemeData(
         textTheme: ButtonTextTheme.primary),
     sliderTheme: SliderThemeData(
         overlayShape: SliderComponentShape.noOverlay,
-        thumbShape: SliderComponentShape.noThumb,
+        // thumbShape: SliderComponentShape.noThumb,
+        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 0),
         activeTrackColor: CustomColors.whiteColor,
-        trackHeight: 5));
+        trackHeight: 5
+        
+        ));

@@ -1,6 +1,7 @@
 using AdminAPI.Dto;
 using DatabaseServices.Repositories;
 using Utils.CQRS;
+using static Models.ValidationErrors.CommonConstants;
 
 namespace AdminAPI.Features.Authors.Delete;
 
@@ -17,6 +18,6 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
     {
         var author = await _authorRepository.GetByIdAsync(request.Id);
         await _authorRepository.DeleteAsync(author!);
-        return new ResultDto(true, "Successful");
+        return new ResultDto(true, Successful);
     }
 }

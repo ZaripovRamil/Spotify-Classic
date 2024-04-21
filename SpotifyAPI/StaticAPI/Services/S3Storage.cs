@@ -1,5 +1,6 @@
 using Amazon.S3;
 using Amazon.S3.Model;
+using StaticAPI.Services.Interfaces;
 
 namespace StaticAPI.Services;
 

@@ -12,9 +12,6 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddApplicationServices(builder.Configuration);
 
-
-
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

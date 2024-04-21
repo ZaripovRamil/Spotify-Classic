@@ -8,8 +8,11 @@ using Utils.CQRS;
 
 namespace PlayerAPI.Features.GetTrackById;
 
-public partial class QueryHandler: IQueryHandler<Query, Stream>
-{  
+public class QueryHandler: IQueryHandler<Query, Stream>
+{
+    private static Regex TrackIdRegex() =>
+        new("^[a-zA-Z0-9_.-]+$", RegexOptions.Compiled, TimeSpan.FromMilliseconds(500));
+    
     private readonly ITrackRepository _trackRepository;
     private readonly IUserRepository _userRepository;
     private readonly HttpClient _clientToStatic;
@@ -61,7 +64,4 @@ public partial class QueryHandler: IQueryHandler<Query, Stream>
         var track = await _trackRepository.GetByIdAsync(trackId);
         if (user != null && track != null)  await _userRepository.AddTrackToHistoryAsync(user, track);
     }
-    
-    [GeneratedRegex("^[a-zA-Z0-9_.-]+$", default, 500)]
-    private static partial Regex TrackIdRegex();
 }

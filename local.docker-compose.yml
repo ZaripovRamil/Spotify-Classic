@@ -1,6 +1,14 @@
 version: '3'
 
 services:
+  envoy:
+    image: spotify-front-proxy
+    build:
+      context: ./front/envoy
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+      - "9901:9901"
   rabbitmq:
     image: rabbitmq:3-alpine
     hostname: rabbitmq

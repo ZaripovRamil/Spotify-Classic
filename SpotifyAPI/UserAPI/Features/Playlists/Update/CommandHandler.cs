@@ -1,6 +1,7 @@
 using DatabaseServices.Repositories;
 using UserAPI.Dto;
 using Utils.CQRS;
+using static Models.ValidationErrors.CommonConstants;
 
 namespace UserAPI.Features.Playlists.Update;
 
@@ -19,6 +20,6 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
         playlist!.Name = request.Name;
         playlist.PreviewId = request.PreviewId;
         await _playlistRepository.UpdateAsync(playlist);
-        return new ResultDto(true, "Successful");
+        return new ResultDto(true, Successful);
     }
 }

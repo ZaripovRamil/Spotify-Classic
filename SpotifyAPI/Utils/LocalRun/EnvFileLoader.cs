@@ -35,7 +35,7 @@ public static partial class EnvFileLoader
         {
             var variableName = match.Groups[1].Value;
 
-            var variableValue = Environment.GetEnvironmentVariable(variableName) ?? "";
+            var variableValue = Environment.GetEnvironmentVariable(variableName) ?? string.Empty;
 
             return variableValue;
         });

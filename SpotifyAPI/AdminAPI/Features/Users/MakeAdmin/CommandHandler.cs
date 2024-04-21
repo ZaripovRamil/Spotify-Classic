@@ -2,6 +2,7 @@ using AdminAPI.Dto;
 using DatabaseServices.Repositories;
 using Models.Entities.Enums;
 using Utils.CQRS;
+using static Models.ValidationErrors.CommonConstants;
 
 namespace AdminAPI.Features.Users.MakeAdmin;
 
@@ -18,6 +19,6 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
     {
         var user = await _userRepository.GetByNameAsync(request.Login);
         await _userRepository.SetRoleAsync(user!, Role.Admin);
-        return new ResultDto(true, "Successful");
+        return new ResultDto(true, Successful);
     }
 }

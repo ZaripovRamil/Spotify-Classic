@@ -1,6 +1,7 @@
 using AdminAPI.Dto;
 using DatabaseServices.Repositories;
 using Utils.CQRS;
+using static Models.ValidationErrors.CommonConstants;
 
 namespace AdminAPI.Features.Authors.Update;
 
@@ -18,6 +19,6 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
         var author = await _authorRepository.GetByIdAsync(request.Id);
         author!.Name = request.Name;
         await _authorRepository.UpdateAsync(author);
-        return new ResultDto(true, "Successful");
+        return new ResultDto(true, Successful);
     }
 }
