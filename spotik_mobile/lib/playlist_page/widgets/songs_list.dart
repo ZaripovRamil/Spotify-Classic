@@ -45,7 +45,7 @@ class _SongsListState extends State<SongsList> {
                   style: Theme.of(context).textTheme.displaySmall),
               subtitle: Text(
                 track.album.author.name,
-                style: TextStyle(fontSize: 13),
+                style: const TextStyle(fontSize: 13),
               ),
               // trailing:
               //     Text("3:00", style: Theme.of(context).textTheme.displaySmall),

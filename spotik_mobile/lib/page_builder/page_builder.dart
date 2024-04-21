@@ -9,7 +9,6 @@ import 'package:spotik_mobile/player/bottom_player.dart';
 import 'package:spotik_mobile/search_page/search_page.dart';
 import 'package:spotik_mobile/subscription_page/subscription_page.dart';
 import 'package:spotik_mobile/playlist_page/playlist_page.dart';
-import 'package:spotik_mobile/user_page/user_page.dart';
 import 'package:spotik_mobile/utils/ui_constants.dart';
 
 import '../utils/pages.dart';
@@ -28,7 +27,6 @@ class _PageBuilder extends State<PageBuilder> {
   Widget build(BuildContext context) {
     var pages = {
       Pages.home: const HomePage(),
-      Pages.user: const UserPage(),
       Pages.playlist: const PlaylistPage(),
       Pages.profile: const ProfilePage(),
       Pages.subscription: const SubscriptionPage(),
@@ -50,10 +48,9 @@ class _PageBuilder extends State<PageBuilder> {
             backgroundColor: Colors.transparent,
             appBar: AppBar(
                 backgroundColor: Colors.transparent,
-                title: const Text(""),
                 iconTheme: Theme.of(context).iconTheme),
             body: pages[selectedElement],
-             bottomNavigationBar: (value.trackList.length == 0)? Text("") : const BottomPlayer(),
+             bottomNavigationBar: value.trackList.isEmpty ? null : const BottomPlayer(),
             drawer: MyDrawer(
               onSelectedItem: goToSelectedElement,
             ),

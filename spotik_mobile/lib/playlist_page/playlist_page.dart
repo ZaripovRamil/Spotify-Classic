@@ -119,7 +119,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                                 color: CustomColors.goldenColor,
                               ),
                             ),
-                            IconButton(
+                            const IconButton(
                               iconSize: 35,
                               onPressed: null,
                               icon: Icon(

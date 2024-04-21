@@ -24,7 +24,7 @@ class _BottomPlayerState extends State<BottomPlayer> {
 
       return InkWell(
         onTap: () {
-          Navigator.push(context, SlideTopRoute(page: PlayerWidget()));
+          Navigator.push(context, SlideTopRoute(page: const PlayerWidget()));
         },
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 20),
