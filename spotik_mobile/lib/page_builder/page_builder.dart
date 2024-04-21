@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spotik_mobile/auth_page/auth_page.dart';
 import 'package:spotik_mobile/drawer/drawer.dart';
 import 'package:spotik_mobile/home_page/home_page.dart';
 import 'package:spotik_mobile/profile_page/profile_page.dart';
@@ -30,6 +31,7 @@ class _PageBuilder extends State<PageBuilder> {
       Pages.playlist: const PlaylistPage(),
       Pages.profile: const ProfilePage(),
       Pages.subscription: const SubscriptionPage(),
+      Pages.auth: const AuthPage()
     };
 
     goToSelectedElement(String selectedItem) {

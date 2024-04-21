@@ -5,4 +5,5 @@ class Pages {
   static String playlist = "album";
   static String profile = "profile";
   static String subscription = "subscription";
+  static String auth = "auth";
 }
