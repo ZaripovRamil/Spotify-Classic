@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotik_mobile/drawer/drawer.dart';
 import 'package:spotik_mobile/home_page/home_page.dart';
+import 'package:spotik_mobile/profile_page/profile_page.dart';
 import 'package:spotik_mobile/models/player_provider.dart';
 import 'package:spotik_mobile/player/bottom_player.dart';
+import 'package:spotik_mobile/subscription_page/subscription_page.dart';
 import 'package:spotik_mobile/playlist_page/playlist_page.dart';
 import 'package:spotik_mobile/user_page/user_page.dart';
 import 'package:spotik_mobile/utils/ui_constants.dart';
@@ -25,7 +27,9 @@ class _PageBuilder extends State<PageBuilder> {
     var pages = {
       Pages.home: const HomePage(),
       Pages.user: const UserPage(),
-      Pages.playlist: const PlaylistPage()
+      Pages.playlist: const PlaylistPage(),
+      Pages.profile: const ProfilePage(),
+      Pages.subscription: const SubscriptionPage(),
     };
 
     goToSelectedElement(String selectedItem) {
