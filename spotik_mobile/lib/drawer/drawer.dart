@@ -41,6 +41,10 @@ class MyDrawer extends StatelessWidget {
           _HomeDrawerElement(
               title: 'Auth',
               onClick: () => goToPage(Pages.auth)
+          ),
+          _HomeDrawerElement(
+              title: 'Search',
+              onClick: () => goToPage(Pages.search)
           )
         ],
       ),
