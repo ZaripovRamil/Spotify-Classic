@@ -5,6 +5,7 @@ class TextSize {
   static const largeTextSize = 40.0;
   static const mediumTextSize = 20.0;
   static const smallTextSize = 14.0;
+  static const tinyTextSize = 10.0;
 }
 
 class Fonts {
