@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:spotik_mobile/home_page/home_page.dart';
 import 'package:spotik_mobile/utils/ui_constants.dart';
 
-void main() => runApp(const AuthPage());
-
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
 
