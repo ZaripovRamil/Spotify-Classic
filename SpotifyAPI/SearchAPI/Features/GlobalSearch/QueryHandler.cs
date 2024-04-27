@@ -1,10 +1,11 @@
 using DatabaseServices.Repositories;
 using Models.DTO.Light;
+using Models.DTO.Search;
 using Utils.CQRS;
 
 namespace SearchAPI.Features.GlobalSearch;
 
-public class QueryHandler : IQueryHandler<Query, ResultDto>
+public class QueryHandler : IQueryHandler<Query, SearchResult>
 {
     private readonly ITrackRepository _trackRepository;
     private readonly IAlbumRepository _albumRepository;
@@ -20,10 +21,10 @@ public class QueryHandler : IQueryHandler<Query, ResultDto>
         _trackRepository = trackRepository;
     }
 
-    public async Task<Result<ResultDto>> Handle(Query request, CancellationToken cancellationToken)
+    public async Task<Result<SearchResult>> Handle(Query request, CancellationToken cancellationToken)
     {
         // .Take(10) now works in server memory, which is not good
-        return new ResultDto(
+        return new SearchResult(
             await _trackRepository
                 .FilterAsync(TrackSpec.NameContains(request.Filter))
                 .Take(10)

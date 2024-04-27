@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Models.DTO.Auth;
 using Models.Entities;
 using Utils.CQRS;
 using static Models.ValidationErrors.CommonConstants;

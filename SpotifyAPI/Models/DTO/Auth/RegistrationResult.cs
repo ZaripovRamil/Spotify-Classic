@@ -1,6 +1,6 @@
 ﻿using Models.Entities;
 
-namespace AuthAPI.Dto;
+namespace Models.DTO.Auth;
 
 public class RegistrationResult
 {

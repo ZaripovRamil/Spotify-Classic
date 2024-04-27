@@ -1,4 +1,4 @@
-﻿namespace AuthAPI.Dto;
+﻿namespace Models.DTO.Auth;
 
 public enum RegistrationCode
 {

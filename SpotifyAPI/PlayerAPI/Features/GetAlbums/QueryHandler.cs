@@ -1,10 +1,11 @@
 using DatabaseServices.Repositories;
+using Models.DTO.Albums;
 using Models.DTO.Light;
 using Utils.CQRS;
 
 namespace PlayerAPI.Features.GetAlbums;
 
-public class QueryHandler: IQueryHandler<Query, ResultDto>
+public class QueryHandler: IQueryHandler<Query, AlbumsResult>
 {
     private readonly IAlbumRepository _albumRepository;
 
@@ -13,9 +14,9 @@ public class QueryHandler: IQueryHandler<Query, ResultDto>
         _albumRepository = albumRepository;
     }
 
-    public async Task<Result<ResultDto>> Handle(Query request, CancellationToken cancellationToken)
+    public async Task<Result<AlbumsResult>> Handle(Query request, CancellationToken cancellationToken)
     {
-        return new ResultDto(
+        return new AlbumsResult(
             await _albumRepository
                 .GetAllAsync()
                 .Select(a => new AlbumLight(a))

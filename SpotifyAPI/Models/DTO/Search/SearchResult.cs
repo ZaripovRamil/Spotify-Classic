@@ -1,8 +1,8 @@
 ﻿using Models.DTO.Light;
 
-namespace SearchAPI.Features.GlobalSearch;
+namespace Models.DTO.Search;
 
-public record ResultDto(
+public record SearchResult(
     List<TrackLight> Tracks,
     List<AlbumLight> Albums,
     List<AuthorLight> Authors,
