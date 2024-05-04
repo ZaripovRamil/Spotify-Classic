@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spotik_mobile/models/Track/track.dart';
+import 'package:spotik_mobile/models/dto/track_light/track.dart';
 import 'package:spotik_mobile/models/player_provider.dart';
 
 class SongsList extends StatefulWidget {
   const SongsList({required this.tracks, required this.playlistId, super.key});
-  final List<Track> tracks;
+  final List<TrackLight> tracks;
   final String playlistId;
 
   @override
@@ -25,15 +25,15 @@ class _SongsListState extends State<SongsList> {
   @override
   Widget build(BuildContext context) {
     return Consumer<PlayerProvider>(builder: (context, value, child) {
-      final List<Track> trackList = widget.tracks;
+      final List<TrackLight> trackList = widget.tracks;
       return ListView.separated(
           itemCount: widget.tracks.length,
           padding: const EdgeInsets.only(right: 20, left: 20),
           separatorBuilder: (context, i) => const Divider(),
           itemBuilder: (context, i) {
-            final Track track = trackList[i];
+            final TrackLight track = trackList[i];
             return ListTile(
-              leading: Image.network(track.album.prewiewId),
+              leading: Image.network(track.album.previewId),
               // Text(
               //   "${i+1}",
               //   style: Theme.of(context)

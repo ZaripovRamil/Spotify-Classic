@@ -1,9 +1,9 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:spotik_mobile/models/Track/track.dart';
+import 'package:spotik_mobile/models/dto/track_light/track.dart';
 
 class PlayerProvider extends ChangeNotifier {
-  List<Track> _trackList = [];
+  List<TrackLight> _trackList = [];
 
   int? _currentTrackIndex;
   String? _currentTrackListId;
@@ -92,7 +92,7 @@ class PlayerProvider extends ChangeNotifier {
 
   //getters
 
-  List<Track> get trackList => _trackList;
+  List<TrackLight> get trackList => _trackList;
   int? get currentTrackIndex => _currentTrackIndex;
   String? get currentTrackListId => _currentTrackListId;
   bool get isPlaying => _isPlaying;
@@ -110,7 +110,7 @@ class PlayerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  set trackList(List<Track> newtrackList) {
+  set trackList(List<TrackLight> newtrackList) {
     _trackList = newtrackList;
     notifyListeners();
   }
@@ -120,7 +120,7 @@ class PlayerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  set tracklist(List<Track> newTracklist) {
+  set tracklist(List<TrackLight> newTracklist) {
     _trackList = newTracklist;
     notifyListeners();
   }

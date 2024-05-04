@@ -13,8 +13,6 @@ class BottomPlayer extends StatefulWidget {
 }
 
 class _BottomPlayerState extends State<BottomPlayer> {
-
-
   @override
   Widget build(BuildContext context) {
     return Consumer<PlayerProvider>(builder: (context, value, child) {
@@ -38,7 +36,7 @@ class _BottomPlayerState extends State<BottomPlayer> {
               Expanded(
                 flex: 2,
                 child: Image.network(
-                  currentTrack.album.prewiewId,
+                  currentTrack.album.previewId,
                 ),
               ),
               const SizedBox(

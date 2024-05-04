@@ -14,32 +14,34 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-Author _$AuthorFromJson(Map<String, dynamic> json) {
-  return _Author.fromJson(json);
+AuthorLight _$AuthorLightFromJson(Map<String, dynamic> json) {
+  return _AuthorLight.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Author {
+mixin _$AuthorLight {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $AuthorCopyWith<Author> get copyWith => throw _privateConstructorUsedError;
+  $AuthorLightCopyWith<AuthorLight> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $AuthorCopyWith<$Res> {
-  factory $AuthorCopyWith(Author value, $Res Function(Author) then) =
-      _$AuthorCopyWithImpl<$Res, Author>;
+abstract class $AuthorLightCopyWith<$Res> {
+  factory $AuthorLightCopyWith(
+          AuthorLight value, $Res Function(AuthorLight) then) =
+      _$AuthorLightCopyWithImpl<$Res, AuthorLight>;
   @useResult
   $Res call({String id, String name});
 }
 
 /// @nodoc
-class _$AuthorCopyWithImpl<$Res, $Val extends Author>
-    implements $AuthorCopyWith<$Res> {
-  _$AuthorCopyWithImpl(this._value, this._then);
+class _$AuthorLightCopyWithImpl<$Res, $Val extends AuthorLight>
+    implements $AuthorLightCopyWith<$Res> {
+  _$AuthorLightCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -66,21 +68,22 @@ class _$AuthorCopyWithImpl<$Res, $Val extends Author>
 }
 
 /// @nodoc
-abstract class _$$AuthorImplCopyWith<$Res> implements $AuthorCopyWith<$Res> {
-  factory _$$AuthorImplCopyWith(
-          _$AuthorImpl value, $Res Function(_$AuthorImpl) then) =
-      __$$AuthorImplCopyWithImpl<$Res>;
+abstract class _$$AuthorLightImplCopyWith<$Res>
+    implements $AuthorLightCopyWith<$Res> {
+  factory _$$AuthorLightImplCopyWith(
+          _$AuthorLightImpl value, $Res Function(_$AuthorLightImpl) then) =
+      __$$AuthorLightImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String id, String name});
 }
 
 /// @nodoc
-class __$$AuthorImplCopyWithImpl<$Res>
-    extends _$AuthorCopyWithImpl<$Res, _$AuthorImpl>
-    implements _$$AuthorImplCopyWith<$Res> {
-  __$$AuthorImplCopyWithImpl(
-      _$AuthorImpl _value, $Res Function(_$AuthorImpl) _then)
+class __$$AuthorLightImplCopyWithImpl<$Res>
+    extends _$AuthorLightCopyWithImpl<$Res, _$AuthorLightImpl>
+    implements _$$AuthorLightImplCopyWith<$Res> {
+  __$$AuthorLightImplCopyWithImpl(
+      _$AuthorLightImpl _value, $Res Function(_$AuthorLightImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -89,7 +92,7 @@ class __$$AuthorImplCopyWithImpl<$Res>
     Object? id = null,
     Object? name = null,
   }) {
-    return _then(_$AuthorImpl(
+    return _then(_$AuthorLightImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -105,11 +108,11 @@ class __$$AuthorImplCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _$AuthorImpl implements _Author {
-  const _$AuthorImpl({required this.id, required this.name});
+class _$AuthorLightImpl implements _AuthorLight {
+  const _$AuthorLightImpl({required this.id, required this.name});
 
-  factory _$AuthorImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AuthorImplFromJson(json);
+  factory _$AuthorLightImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AuthorLightImplFromJson(json);
 
   @override
   final String id;
@@ -118,14 +121,14 @@ class _$AuthorImpl implements _Author {
 
   @override
   String toString() {
-    return 'Author(id: $id, name: $name)';
+    return 'AuthorLight(id: $id, name: $name)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AuthorImpl &&
+            other is _$AuthorLightImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name));
   }
@@ -137,22 +140,24 @@ class _$AuthorImpl implements _Author {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$AuthorImplCopyWith<_$AuthorImpl> get copyWith =>
-      __$$AuthorImplCopyWithImpl<_$AuthorImpl>(this, _$identity);
+  _$$AuthorLightImplCopyWith<_$AuthorLightImpl> get copyWith =>
+      __$$AuthorLightImplCopyWithImpl<_$AuthorLightImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$AuthorImplToJson(
+    return _$$AuthorLightImplToJson(
       this,
     );
   }
 }
 
-abstract class _Author implements Author {
-  const factory _Author(
-      {required final String id, required final String name}) = _$AuthorImpl;
+abstract class _AuthorLight implements AuthorLight {
+  const factory _AuthorLight(
+      {required final String id,
+      required final String name}) = _$AuthorLightImpl;
 
-  factory _Author.fromJson(Map<String, dynamic> json) = _$AuthorImpl.fromJson;
+  factory _AuthorLight.fromJson(Map<String, dynamic> json) =
+      _$AuthorLightImpl.fromJson;
 
   @override
   String get id;
@@ -160,6 +165,6 @@ abstract class _Author implements Author {
   String get name;
   @override
   @JsonKey(ignore: true)
-  _$$AuthorImplCopyWith<_$AuthorImpl> get copyWith =>
+  _$$AuthorLightImplCopyWith<_$AuthorLightImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

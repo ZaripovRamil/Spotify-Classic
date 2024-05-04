@@ -6,17 +6,18 @@ part of 'album.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$AlbumImpl _$$AlbumImplFromJson(Map<String, dynamic> json) => _$AlbumImpl(
+_$AlbumLightImpl _$$AlbumLightImplFromJson(Map<String, dynamic> json) =>
+    _$AlbumLightImpl(
       id: json['id'] as String,
-      prewiewId: json['prewiewId'] as String,
+      previewId: json['previewId'] as String,
       name: json['name'] as String,
-      author: Author.fromJson(json['author'] as Map<String, dynamic>),
+      author: AuthorLight.fromJson(json['author'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$AlbumImplToJson(_$AlbumImpl instance) =>
+Map<String, dynamic> _$$AlbumLightImplToJson(_$AlbumLightImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'prewiewId': instance.prewiewId,
+      'previewId': instance.previewId,
       'name': instance.name,
       'author': instance.author.toJson(),
     };

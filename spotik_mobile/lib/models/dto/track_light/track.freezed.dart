@@ -14,36 +14,38 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-Track _$TrackFromJson(Map<String, dynamic> json) {
-  return _Track.fromJson(json);
+TrackLight _$TrackLightFromJson(Map<String, dynamic> json) {
+  return _TrackLight.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Track {
+mixin _$TrackLight {
   String get id => throw _privateConstructorUsedError;
   String get fileId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  Album get album => throw _privateConstructorUsedError;
+  AlbumLight get album => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $TrackCopyWith<Track> get copyWith => throw _privateConstructorUsedError;
+  $TrackLightCopyWith<TrackLight> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $TrackCopyWith<$Res> {
-  factory $TrackCopyWith(Track value, $Res Function(Track) then) =
-      _$TrackCopyWithImpl<$Res, Track>;
+abstract class $TrackLightCopyWith<$Res> {
+  factory $TrackLightCopyWith(
+          TrackLight value, $Res Function(TrackLight) then) =
+      _$TrackLightCopyWithImpl<$Res, TrackLight>;
   @useResult
-  $Res call({String id, String fileId, String name, Album album});
+  $Res call({String id, String fileId, String name, AlbumLight album});
 
-  $AlbumCopyWith<$Res> get album;
+  $AlbumLightCopyWith<$Res> get album;
 }
 
 /// @nodoc
-class _$TrackCopyWithImpl<$Res, $Val extends Track>
-    implements $TrackCopyWith<$Res> {
-  _$TrackCopyWithImpl(this._value, this._then);
+class _$TrackLightCopyWithImpl<$Res, $Val extends TrackLight>
+    implements $TrackLightCopyWith<$Res> {
+  _$TrackLightCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -74,38 +76,39 @@ class _$TrackCopyWithImpl<$Res, $Val extends Track>
       album: null == album
           ? _value.album
           : album // ignore: cast_nullable_to_non_nullable
-              as Album,
+              as AlbumLight,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $AlbumCopyWith<$Res> get album {
-    return $AlbumCopyWith<$Res>(_value.album, (value) {
+  $AlbumLightCopyWith<$Res> get album {
+    return $AlbumLightCopyWith<$Res>(_value.album, (value) {
       return _then(_value.copyWith(album: value) as $Val);
     });
   }
 }
 
 /// @nodoc
-abstract class _$$TrackImplCopyWith<$Res> implements $TrackCopyWith<$Res> {
-  factory _$$TrackImplCopyWith(
-          _$TrackImpl value, $Res Function(_$TrackImpl) then) =
-      __$$TrackImplCopyWithImpl<$Res>;
+abstract class _$$TrackLightImplCopyWith<$Res>
+    implements $TrackLightCopyWith<$Res> {
+  factory _$$TrackLightImplCopyWith(
+          _$TrackLightImpl value, $Res Function(_$TrackLightImpl) then) =
+      __$$TrackLightImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String fileId, String name, Album album});
+  $Res call({String id, String fileId, String name, AlbumLight album});
 
   @override
-  $AlbumCopyWith<$Res> get album;
+  $AlbumLightCopyWith<$Res> get album;
 }
 
 /// @nodoc
-class __$$TrackImplCopyWithImpl<$Res>
-    extends _$TrackCopyWithImpl<$Res, _$TrackImpl>
-    implements _$$TrackImplCopyWith<$Res> {
-  __$$TrackImplCopyWithImpl(
-      _$TrackImpl _value, $Res Function(_$TrackImpl) _then)
+class __$$TrackLightImplCopyWithImpl<$Res>
+    extends _$TrackLightCopyWithImpl<$Res, _$TrackLightImpl>
+    implements _$$TrackLightImplCopyWith<$Res> {
+  __$$TrackLightImplCopyWithImpl(
+      _$TrackLightImpl _value, $Res Function(_$TrackLightImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -116,7 +119,7 @@ class __$$TrackImplCopyWithImpl<$Res>
     Object? name = null,
     Object? album = null,
   }) {
-    return _then(_$TrackImpl(
+    return _then(_$TrackLightImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -132,7 +135,7 @@ class __$$TrackImplCopyWithImpl<$Res>
       album: null == album
           ? _value.album
           : album // ignore: cast_nullable_to_non_nullable
-              as Album,
+              as AlbumLight,
     ));
   }
 }
@@ -140,15 +143,15 @@ class __$$TrackImplCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _$TrackImpl implements _Track {
-  const _$TrackImpl(
+class _$TrackLightImpl implements _TrackLight {
+  const _$TrackLightImpl(
       {required this.id,
       required this.fileId,
       required this.name,
       required this.album});
 
-  factory _$TrackImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TrackImplFromJson(json);
+  factory _$TrackLightImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TrackLightImplFromJson(json);
 
   @override
   final String id;
@@ -157,18 +160,18 @@ class _$TrackImpl implements _Track {
   @override
   final String name;
   @override
-  final Album album;
+  final AlbumLight album;
 
   @override
   String toString() {
-    return 'Track(id: $id, fileId: $fileId, name: $name, album: $album)';
+    return 'TrackLight(id: $id, fileId: $fileId, name: $name, album: $album)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$TrackImpl &&
+            other is _$TrackLightImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.fileId, fileId) || other.fileId == fileId) &&
             (identical(other.name, name) || other.name == name) &&
@@ -182,25 +185,26 @@ class _$TrackImpl implements _Track {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$TrackImplCopyWith<_$TrackImpl> get copyWith =>
-      __$$TrackImplCopyWithImpl<_$TrackImpl>(this, _$identity);
+  _$$TrackLightImplCopyWith<_$TrackLightImpl> get copyWith =>
+      __$$TrackLightImplCopyWithImpl<_$TrackLightImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$TrackImplToJson(
+    return _$$TrackLightImplToJson(
       this,
     );
   }
 }
 
-abstract class _Track implements Track {
-  const factory _Track(
+abstract class _TrackLight implements TrackLight {
+  const factory _TrackLight(
       {required final String id,
       required final String fileId,
       required final String name,
-      required final Album album}) = _$TrackImpl;
+      required final AlbumLight album}) = _$TrackLightImpl;
 
-  factory _Track.fromJson(Map<String, dynamic> json) = _$TrackImpl.fromJson;
+  factory _TrackLight.fromJson(Map<String, dynamic> json) =
+      _$TrackLightImpl.fromJson;
 
   @override
   String get id;
@@ -209,9 +213,9 @@ abstract class _Track implements Track {
   @override
   String get name;
   @override
-  Album get album;
+  AlbumLight get album;
   @override
   @JsonKey(ignore: true)
-  _$$TrackImplCopyWith<_$TrackImpl> get copyWith =>
+  _$$TrackLightImplCopyWith<_$TrackLightImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

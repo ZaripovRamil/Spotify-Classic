@@ -14,36 +14,38 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-Album _$AlbumFromJson(Map<String, dynamic> json) {
-  return _Album.fromJson(json);
+AlbumLight _$AlbumLightFromJson(Map<String, dynamic> json) {
+  return _AlbumLight.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Album {
+mixin _$AlbumLight {
   String get id => throw _privateConstructorUsedError;
-  String get prewiewId => throw _privateConstructorUsedError;
+  String get previewId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  Author get author => throw _privateConstructorUsedError;
+  AuthorLight get author => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $AlbumCopyWith<Album> get copyWith => throw _privateConstructorUsedError;
+  $AlbumLightCopyWith<AlbumLight> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $AlbumCopyWith<$Res> {
-  factory $AlbumCopyWith(Album value, $Res Function(Album) then) =
-      _$AlbumCopyWithImpl<$Res, Album>;
+abstract class $AlbumLightCopyWith<$Res> {
+  factory $AlbumLightCopyWith(
+          AlbumLight value, $Res Function(AlbumLight) then) =
+      _$AlbumLightCopyWithImpl<$Res, AlbumLight>;
   @useResult
-  $Res call({String id, String prewiewId, String name, Author author});
+  $Res call({String id, String previewId, String name, AuthorLight author});
 
-  $AuthorCopyWith<$Res> get author;
+  $AuthorLightCopyWith<$Res> get author;
 }
 
 /// @nodoc
-class _$AlbumCopyWithImpl<$Res, $Val extends Album>
-    implements $AlbumCopyWith<$Res> {
-  _$AlbumCopyWithImpl(this._value, this._then);
+class _$AlbumLightCopyWithImpl<$Res, $Val extends AlbumLight>
+    implements $AlbumLightCopyWith<$Res> {
+  _$AlbumLightCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -54,7 +56,7 @@ class _$AlbumCopyWithImpl<$Res, $Val extends Album>
   @override
   $Res call({
     Object? id = null,
-    Object? prewiewId = null,
+    Object? previewId = null,
     Object? name = null,
     Object? author = null,
   }) {
@@ -63,9 +65,9 @@ class _$AlbumCopyWithImpl<$Res, $Val extends Album>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      prewiewId: null == prewiewId
-          ? _value.prewiewId
-          : prewiewId // ignore: cast_nullable_to_non_nullable
+      previewId: null == previewId
+          ? _value.previewId
+          : previewId // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
           ? _value.name
@@ -74,56 +76,57 @@ class _$AlbumCopyWithImpl<$Res, $Val extends Album>
       author: null == author
           ? _value.author
           : author // ignore: cast_nullable_to_non_nullable
-              as Author,
+              as AuthorLight,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $AuthorCopyWith<$Res> get author {
-    return $AuthorCopyWith<$Res>(_value.author, (value) {
+  $AuthorLightCopyWith<$Res> get author {
+    return $AuthorLightCopyWith<$Res>(_value.author, (value) {
       return _then(_value.copyWith(author: value) as $Val);
     });
   }
 }
 
 /// @nodoc
-abstract class _$$AlbumImplCopyWith<$Res> implements $AlbumCopyWith<$Res> {
-  factory _$$AlbumImplCopyWith(
-          _$AlbumImpl value, $Res Function(_$AlbumImpl) then) =
-      __$$AlbumImplCopyWithImpl<$Res>;
+abstract class _$$AlbumLightImplCopyWith<$Res>
+    implements $AlbumLightCopyWith<$Res> {
+  factory _$$AlbumLightImplCopyWith(
+          _$AlbumLightImpl value, $Res Function(_$AlbumLightImpl) then) =
+      __$$AlbumLightImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String prewiewId, String name, Author author});
+  $Res call({String id, String previewId, String name, AuthorLight author});
 
   @override
-  $AuthorCopyWith<$Res> get author;
+  $AuthorLightCopyWith<$Res> get author;
 }
 
 /// @nodoc
-class __$$AlbumImplCopyWithImpl<$Res>
-    extends _$AlbumCopyWithImpl<$Res, _$AlbumImpl>
-    implements _$$AlbumImplCopyWith<$Res> {
-  __$$AlbumImplCopyWithImpl(
-      _$AlbumImpl _value, $Res Function(_$AlbumImpl) _then)
+class __$$AlbumLightImplCopyWithImpl<$Res>
+    extends _$AlbumLightCopyWithImpl<$Res, _$AlbumLightImpl>
+    implements _$$AlbumLightImplCopyWith<$Res> {
+  __$$AlbumLightImplCopyWithImpl(
+      _$AlbumLightImpl _value, $Res Function(_$AlbumLightImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? id = null,
-    Object? prewiewId = null,
+    Object? previewId = null,
     Object? name = null,
     Object? author = null,
   }) {
-    return _then(_$AlbumImpl(
+    return _then(_$AlbumLightImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      prewiewId: null == prewiewId
-          ? _value.prewiewId
-          : prewiewId // ignore: cast_nullable_to_non_nullable
+      previewId: null == previewId
+          ? _value.previewId
+          : previewId // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
           ? _value.name
@@ -132,7 +135,7 @@ class __$$AlbumImplCopyWithImpl<$Res>
       author: null == author
           ? _value.author
           : author // ignore: cast_nullable_to_non_nullable
-              as Author,
+              as AuthorLight,
     ));
   }
 }
@@ -140,79 +143,80 @@ class __$$AlbumImplCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _$AlbumImpl implements _Album {
-  const _$AlbumImpl(
+class _$AlbumLightImpl implements _AlbumLight {
+  const _$AlbumLightImpl(
       {required this.id,
-      required this.prewiewId,
+      required this.previewId,
       required this.name,
       required this.author});
 
-  factory _$AlbumImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AlbumImplFromJson(json);
+  factory _$AlbumLightImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AlbumLightImplFromJson(json);
 
   @override
   final String id;
   @override
-  final String prewiewId;
+  final String previewId;
   @override
   final String name;
   @override
-  final Author author;
+  final AuthorLight author;
 
   @override
   String toString() {
-    return 'Album(id: $id, prewiewId: $prewiewId, name: $name, author: $author)';
+    return 'AlbumLight(id: $id, previewId: $previewId, name: $name, author: $author)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AlbumImpl &&
+            other is _$AlbumLightImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.prewiewId, prewiewId) ||
-                other.prewiewId == prewiewId) &&
+            (identical(other.previewId, previewId) ||
+                other.previewId == previewId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.author, author) || other.author == author));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, prewiewId, name, author);
+  int get hashCode => Object.hash(runtimeType, id, previewId, name, author);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$AlbumImplCopyWith<_$AlbumImpl> get copyWith =>
-      __$$AlbumImplCopyWithImpl<_$AlbumImpl>(this, _$identity);
+  _$$AlbumLightImplCopyWith<_$AlbumLightImpl> get copyWith =>
+      __$$AlbumLightImplCopyWithImpl<_$AlbumLightImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$AlbumImplToJson(
+    return _$$AlbumLightImplToJson(
       this,
     );
   }
 }
 
-abstract class _Album implements Album {
-  const factory _Album(
+abstract class _AlbumLight implements AlbumLight {
+  const factory _AlbumLight(
       {required final String id,
-      required final String prewiewId,
+      required final String previewId,
       required final String name,
-      required final Author author}) = _$AlbumImpl;
+      required final AuthorLight author}) = _$AlbumLightImpl;
 
-  factory _Album.fromJson(Map<String, dynamic> json) = _$AlbumImpl.fromJson;
+  factory _AlbumLight.fromJson(Map<String, dynamic> json) =
+      _$AlbumLightImpl.fromJson;
 
   @override
   String get id;
   @override
-  String get prewiewId;
+  String get previewId;
   @override
   String get name;
   @override
-  Author get author;
+  AuthorLight get author;
   @override
   @JsonKey(ignore: true)
-  _$$AlbumImplCopyWith<_$AlbumImpl> get copyWith =>
+  _$$AlbumLightImplCopyWith<_$AlbumLightImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

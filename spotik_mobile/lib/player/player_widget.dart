@@ -15,10 +15,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   String formatTime(Duration duration){
     String twoDigitSeconds = duration.inSeconds.remainder(60).toString().padLeft(2,'0');
     return "${duration.inMinutes}:$twoDigitSeconds";
-
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +44,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                       const EdgeInsets.symmetric(vertical: 60, horizontal: 80),
                   child: Center(
                     child: Image.network(
-                      currentTrack.album.prewiewId,
+                      currentTrack.album.previewId,
                     ),
                   ),
                 ),
