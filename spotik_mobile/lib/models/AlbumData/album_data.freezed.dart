@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'album.dart';
+part of 'album_data.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-Album _$AlbumFromJson(Map<String, dynamic> json) {
+AlbumData _$AlbumDataFromJson(Map<String, dynamic> json) {
   return _Album.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Album {
+mixin _$AlbumData {
   String get id => throw _privateConstructorUsedError;
   String get prewiewId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
@@ -27,13 +27,14 @@ mixin _$Album {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $AlbumCopyWith<Album> get copyWith => throw _privateConstructorUsedError;
+  $AlbumDataCopyWith<AlbumData> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $AlbumCopyWith<$Res> {
-  factory $AlbumCopyWith(Album value, $Res Function(Album) then) =
-      _$AlbumCopyWithImpl<$Res, Album>;
+abstract class $AlbumDataCopyWith<$Res> {
+  factory $AlbumDataCopyWith(AlbumData value, $Res Function(AlbumData) then) =
+      _$AlbumDataCopyWithImpl<$Res, AlbumData>;
   @useResult
   $Res call({String id, String prewiewId, String name, Author author});
 
@@ -41,9 +42,9 @@ abstract class $AlbumCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$AlbumCopyWithImpl<$Res, $Val extends Album>
-    implements $AlbumCopyWith<$Res> {
-  _$AlbumCopyWithImpl(this._value, this._then);
+class _$AlbumDataCopyWithImpl<$Res, $Val extends AlbumData>
+    implements $AlbumDataCopyWith<$Res> {
+  _$AlbumDataCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -88,7 +89,7 @@ class _$AlbumCopyWithImpl<$Res, $Val extends Album>
 }
 
 /// @nodoc
-abstract class _$$AlbumImplCopyWith<$Res> implements $AlbumCopyWith<$Res> {
+abstract class _$$AlbumImplCopyWith<$Res> implements $AlbumDataCopyWith<$Res> {
   factory _$$AlbumImplCopyWith(
           _$AlbumImpl value, $Res Function(_$AlbumImpl) then) =
       __$$AlbumImplCopyWithImpl<$Res>;
@@ -102,7 +103,7 @@ abstract class _$$AlbumImplCopyWith<$Res> implements $AlbumCopyWith<$Res> {
 
 /// @nodoc
 class __$$AlbumImplCopyWithImpl<$Res>
-    extends _$AlbumCopyWithImpl<$Res, _$AlbumImpl>
+    extends _$AlbumDataCopyWithImpl<$Res, _$AlbumImpl>
     implements _$$AlbumImplCopyWith<$Res> {
   __$$AlbumImplCopyWithImpl(
       _$AlbumImpl _value, $Res Function(_$AlbumImpl) _then)
@@ -161,7 +162,7 @@ class _$AlbumImpl implements _Album {
 
   @override
   String toString() {
-    return 'Album(id: $id, prewiewId: $prewiewId, name: $name, author: $author)';
+    return 'AlbumData(id: $id, prewiewId: $prewiewId, name: $name, author: $author)';
   }
 
   @override
@@ -194,7 +195,7 @@ class _$AlbumImpl implements _Album {
   }
 }
 
-abstract class _Album implements Album {
+abstract class _Album implements AlbumData {
   const factory _Album(
       {required final String id,
       required final String prewiewId,

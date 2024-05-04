@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'album.dart';
+part of 'album_data.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

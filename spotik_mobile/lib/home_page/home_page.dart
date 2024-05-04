@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:spotik_mobile/components/drawer/drawer.dart';
+import 'package:spotik_mobile/home_page/components/playlist_card.dart';
+import 'package:spotik_mobile/models/AlbumData/album_data.dart';
+import 'package:spotik_mobile/models/Author/author.dart';
 import 'package:spotik_mobile/utils/ui_constants.dart';
 
 class HomePage extends StatefulWidget {
@@ -8,18 +12,12 @@ class HomePage extends StatefulWidget {
   State<StatefulWidget> createState() => _HomePageState();
 }
 
-class AlbumData {
-  final String title;
-  final String authorName;
-
-  AlbumData({
-    required this.title,
-    required this.authorName,
-  });
-}
-
 class _HomePageState extends State<HomePage> {
-  final data = AlbumData(title: "Title", authorName: "Author");
+  final data = const AlbumData(
+      id: "1",
+      name: "Title",
+      prewiewId: "assets/compositor.png",
+      author: Author(id: "1", name: "Author name"));
 
   AlbumData getData() {
     return data;
@@ -29,6 +27,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        iconTheme: Theme.of(context).iconTheme,
+      ),
+      drawer: const MyDrawer(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -69,67 +72,13 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: _buildPlaylistCard(context, getData()),
+                    child: PlaylistCard(data: getData()),
                   );
                 },
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildPlaylistCard(BuildContext context, AlbumData data) {
-    return SizedBox(
-      width: 170.0,
-      child: GestureDetector(
-        onTap: () {
-
-        },
-        child: Card(
-          color: Colors.transparent,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              ClipRRect(
-                borderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(10.0)),
-                child: Image.asset(
-                  "assets/compositor.png",
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      data.title,
-                      style: const TextStyle(
-                        fontSize: TextSize.mediumTextSize,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      data.authorName,
-                      style: const TextStyle(
-                        fontSize: TextSize.smallTextSize,
-                        color: Colors.grey,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        )
       ),
     );
   }

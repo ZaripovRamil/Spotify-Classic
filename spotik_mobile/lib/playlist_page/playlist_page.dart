@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spotik_mobile/models/Album/album.dart';
+import 'package:spotik_mobile/models/AlbumData/album_data.dart';
 import 'package:spotik_mobile/models/Author/author.dart';
 import 'package:spotik_mobile/models/Playlist/playlist.dart';
 import 'package:spotik_mobile/models/Track/track.dart';
 import 'package:spotik_mobile/models/player_provider.dart';
-import 'package:spotik_mobile/playlist_page/widgets/songs_list.dart';
+import 'package:spotik_mobile/components/songs_list.dart';
 import 'package:spotik_mobile/utils/ui_constants.dart';
 
-class PlaylistPage extends StatefulWidget {
-  const PlaylistPage({super.key});
+class PlaylistPage extends StatelessWidget {
+  const PlaylistPage({required this.playlistId, super.key});
+  final String? playlistId;
 
-  @override
-  State<PlaylistPage> createState() => _PlaylistPageState();
-}
-
-class _PlaylistPageState extends State<PlaylistPage> {
   final Playlist playlist = const Playlist(
       id: "playlist1",
       prewiewId:
@@ -26,9 +22,10 @@ class _PlaylistPageState extends State<PlaylistPage> {
         Track(
             id: "1",
             fileId:
-                "https://dl3s2.muzofond.fm/aHR0cDovL2YubXAzcG9pc2submV0L21wMy8wMDUvMDIzLzQ0Ni81MDIzNDQ2Lm1wMw==",
+            //'https://cdn.bitmovin.com/content/assets/art-of-motion-dash-hls-progressive/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa-audio-only.m3u8',
+              "https://dl3s2.muzofond.fm/aHR0cDovL2YubXAzcG9pc2submV0L21wMy8wMDUvMDIzLzQ0Ni81MDIzNDQ2Lm1wMw==",
             name: "Song Name 1",
-            album: Album(
+            album: AlbumData(
                 id: "1",
                 prewiewId:
                     "https://kartinki.pibig.info/uploads/posts/2023-04/1682442196_kartinki-pibig-info-p-kartinki-dlya-oblozhki-muzikalnogo-alboma-1.jpg",
@@ -39,7 +36,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
             fileId:
                 "https://dl3s2.muzofond.fm/aHR0cDovL2YubXAzcG9pc2submV0L21wMy8wMDUvMDIzLzQ0NS81MDIzNDQ1Lm1wMw==",
             name: "Song Name 2",
-            album: Album(
+            album: AlbumData(
                 id: "1",
                 prewiewId:
                     "https://kartinki.pibig.info/uploads/posts/2023-04/1682442196_kartinki-pibig-info-p-kartinki-dlya-oblozhki-muzikalnogo-alboma-1.jpg",
@@ -50,7 +47,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
             fileId:
                 "https://dl3s2.muzofond.fm/aHR0cDovL2YubXAzcG9pc2submV0L21wMy8wMDUvMDIzLzQzOC81MDIzNDM4Lm1wMw==",
             name: "Song Name 3",
-            album: Album(
+            album: AlbumData(
                 id: "1",
                 prewiewId:
                     "https://cs10.pikabu.ru/post_img/big/2019/03/14/0/1552511660192387395.jpg",
@@ -60,7 +57,6 @@ class _PlaylistPageState extends State<PlaylistPage> {
 
   @override
   Widget build(BuildContext context) {
-  
     return Consumer<PlayerProvider>(builder: (context, value, child) {
       return Column(children: <Widget>[
         Expanded(
@@ -143,3 +139,5 @@ class _PlaylistPageState extends State<PlaylistPage> {
     });
   }
 }
+
+

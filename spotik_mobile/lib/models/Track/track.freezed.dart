@@ -23,7 +23,7 @@ mixin _$Track {
   String get id => throw _privateConstructorUsedError;
   String get fileId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  Album get album => throw _privateConstructorUsedError;
+  AlbumData get album => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,9 +35,9 @@ abstract class $TrackCopyWith<$Res> {
   factory $TrackCopyWith(Track value, $Res Function(Track) then) =
       _$TrackCopyWithImpl<$Res, Track>;
   @useResult
-  $Res call({String id, String fileId, String name, Album album});
+  $Res call({String id, String fileId, String name, AlbumData album});
 
-  $AlbumCopyWith<$Res> get album;
+  $AlbumDataCopyWith<$Res> get album;
 }
 
 /// @nodoc
@@ -74,14 +74,14 @@ class _$TrackCopyWithImpl<$Res, $Val extends Track>
       album: null == album
           ? _value.album
           : album // ignore: cast_nullable_to_non_nullable
-              as Album,
+              as AlbumData,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $AlbumCopyWith<$Res> get album {
-    return $AlbumCopyWith<$Res>(_value.album, (value) {
+  $AlbumDataCopyWith<$Res> get album {
+    return $AlbumDataCopyWith<$Res>(_value.album, (value) {
       return _then(_value.copyWith(album: value) as $Val);
     });
   }
@@ -94,10 +94,10 @@ abstract class _$$TrackImplCopyWith<$Res> implements $TrackCopyWith<$Res> {
       __$$TrackImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String fileId, String name, Album album});
+  $Res call({String id, String fileId, String name, AlbumData album});
 
   @override
-  $AlbumCopyWith<$Res> get album;
+  $AlbumDataCopyWith<$Res> get album;
 }
 
 /// @nodoc
@@ -132,7 +132,7 @@ class __$$TrackImplCopyWithImpl<$Res>
       album: null == album
           ? _value.album
           : album // ignore: cast_nullable_to_non_nullable
-              as Album,
+              as AlbumData,
     ));
   }
 }
@@ -157,7 +157,7 @@ class _$TrackImpl implements _Track {
   @override
   final String name;
   @override
-  final Album album;
+  final AlbumData album;
 
   @override
   String toString() {
@@ -198,7 +198,7 @@ abstract class _Track implements Track {
       {required final String id,
       required final String fileId,
       required final String name,
-      required final Album album}) = _$TrackImpl;
+      required final AlbumData album}) = _$TrackImpl;
 
   factory _Track.fromJson(Map<String, dynamic> json) = _$TrackImpl.fromJson;
 
@@ -209,7 +209,7 @@ abstract class _Track implements Track {
   @override
   String get name;
   @override
-  Album get album;
+  AlbumData get album;
   @override
   @JsonKey(ignore: true)
   _$$TrackImplCopyWith<_$TrackImpl> get copyWith =>

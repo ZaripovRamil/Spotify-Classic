@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-
-import '../utils/pages.dart';
+import 'package:spotik_mobile/utils/navigation_routes.dart';
 
 class MyDrawer extends StatelessWidget {
-  const MyDrawer({super.key, required this.onSelectedItem});
+  const MyDrawer({super.key});
 
-  final Function(String route) onSelectedItem;
 
   @override
   Widget build(BuildContext context) {
     goToPage(String route) {
       Navigator.of(context).pop();
-      onSelectedItem(route);
+      Navigator.pushNamed(context, route);
     }
 
     return Drawer(
@@ -20,27 +18,19 @@ class MyDrawer extends StatelessWidget {
         children: [
           _HomeDrawerElement(
             title: 'Home',
-            onClick: () => goToPage(Pages.home),
-          ),
-          _HomeDrawerElement(
-            title: 'Playlist',
-            onClick: () => goToPage(Pages.playlist),
+            onClick: () => goToPage(NavigationRoutes.main),
           ),
           _HomeDrawerElement(
             title: 'Profile',
-            onClick: () => goToPage(Pages.profile),
+            onClick: () => goToPage(NavigationRoutes.profile),
           ),
           _HomeDrawerElement(
-            title: 'Subscription',
-            onClick: () => goToPage(Pages.subscription)
-          ),
-          _HomeDrawerElement(
-              title: 'Auth',
-              onClick: () => goToPage(Pages.auth)
+              title: 'Authorization',
+              onClick: () => goToPage(NavigationRoutes.auth)
           ),
           _HomeDrawerElement(
               title: 'Search',
-              onClick: () => goToPage(Pages.search)
+              onClick: () => goToPage(NavigationRoutes.search)
           )
         ],
       ),
