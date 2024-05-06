@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using GraphQL.Contracts.AuthAPI.Auth;
+using Microsoft.AspNetCore.Http;
 using Models.DTO.Albums;
 
 namespace GraphQL.Contracts.PlayerAPI;
 
+[ExtendObjectType("Query")]
 public class GetAlbumsQuery : GraphQLRequest
 {
     protected GetAlbumsQuery(IHttpContextAccessor contextAccessor) : base("http://localhost:7022", contextAccessor)

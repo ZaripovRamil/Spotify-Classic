@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using GraphQL.Contracts.AuthAPI.Auth;
+using Microsoft.AspNetCore.Http;
 using Models.DTO.Auth;
 
 namespace GraphQL.Contracts.AuthAPI.Registration;
 
+[ExtendObjectType("Mutation")]
 public class RegistrationMutation : GraphQLRequest
 {
     public RegistrationMutation(IHttpContextAccessor contextAccessor) : base("http://localhost:7249", contextAccessor)
