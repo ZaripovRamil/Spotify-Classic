@@ -1,6 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:spotik_mobile/models/dto/track_light/track.dart';
+import 'package:spotik_mobile/models/entity/track_light/track.dart';
 
 class PlayerProvider extends ChangeNotifier {
   List<Track> _trackList = [];

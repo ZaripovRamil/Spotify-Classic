@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:spotik_mobile/models/dto/login/login.dart';
+import 'package:spotik_mobile/services/graphql/client.dart';
+import 'package:spotik_mobile/utils/constants/graphql_requests.dart';
 import 'package:spotik_mobile/utils/navigation_routes.dart';
 import 'package:spotik_mobile/utils/storage.dart';
 import 'package:spotik_mobile/utils/ui_constants.dart';
@@ -209,8 +212,14 @@ class LoginCard extends StatelessWidget {
                               CustomColors.backgroundRadialColor)),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          await Storage.setToken('token');
-                          Navigator.popAndPushNamed(context, NavigationRoutes.main);
+                          return;
+                          var data = LoginDto.fromJson(await GqlService.mutate(Mutations.login("asf", 'asdf', true)));
+                          if (data.isSuccessful) {
+                            await Storage.setToken(data.token);
+                            Navigator.popAndPushNamed(context, NavigationRoutes.main);
+                          } else {
+                            print(data.resultMessage);
+                          }
                         }
                       },
                       child: const Text('Login',

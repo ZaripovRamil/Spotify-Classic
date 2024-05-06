@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:spotik_mobile/models/dto/author_light/author.dart';
+import 'package:spotik_mobile/models/entity/author_light/author.dart';
 
 part 'album.freezed.dart';
 part 'album.g.dart';

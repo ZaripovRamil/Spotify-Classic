@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spotik_mobile/models/dto/album_full/album.dart';
-import 'package:spotik_mobile/models/dto/album_light/album.dart';
-import 'package:spotik_mobile/models/dto/author_light/author.dart';
-import 'package:spotik_mobile/models/dto/track_light/track.dart';
+import 'package:spotik_mobile/models/entity/album_full/album.dart';
+import 'package:spotik_mobile/models/entity/album_light/album.dart';
+import 'package:spotik_mobile/models/entity/author_light/author.dart';
+import 'package:spotik_mobile/models/entity/track_light/track.dart';
 import 'package:spotik_mobile/models/player_provider.dart';
 import 'package:spotik_mobile/components/songs_list.dart';
 import 'package:spotik_mobile/utils/ui_constants.dart';

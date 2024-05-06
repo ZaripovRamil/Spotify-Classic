@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spotik_mobile/models/dto/album_light/album.dart';
+import 'package:spotik_mobile/models/entity/album_light/album.dart';
 import 'package:spotik_mobile/utils/navigation_routes.dart';
 import 'package:spotik_mobile/utils/ui_constants.dart';
 

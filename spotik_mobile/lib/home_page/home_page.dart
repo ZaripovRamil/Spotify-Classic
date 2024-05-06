@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:spotik_mobile/components/drawer/drawer.dart';
 import 'package:spotik_mobile/home_page/components/playlist_card.dart';
-import 'package:spotik_mobile/models/dto/album_light/album.dart';
-import 'package:spotik_mobile/models/dto/author_light/author.dart';
+import 'package:spotik_mobile/models/entity/album_light/album.dart';
+import 'package:spotik_mobile/models/entity/author_light/author.dart';
 import 'package:spotik_mobile/utils/ui_constants.dart';
 
 class HomePage extends StatefulWidget {

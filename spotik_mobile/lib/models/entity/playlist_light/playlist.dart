@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:spotik_mobile/models/dto/user_light/user.dart';
+import 'package:spotik_mobile/models/entity/user_light/user.dart';
 
 part 'playlist.freezed.dart';
 part 'playlist.g.dart';

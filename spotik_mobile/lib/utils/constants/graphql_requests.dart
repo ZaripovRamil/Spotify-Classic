@@ -141,7 +141,7 @@ mutation Login($username: String!, $password: String!, $rememberMe: Boolean!) {
 
   static MutationOptions register(String login, String name, String email, String password) {
     return MutationOptions(document: gql(r'''
-mutation Register($login: String!, name: String!, $email: String!, $password: String!) {
+mutation Register($login: String!, $name: String!, $email: String!, $password: String!) {
   register(login: $login, name: $name, email: $email, password: $password) {
     isSuccessful
     userId
