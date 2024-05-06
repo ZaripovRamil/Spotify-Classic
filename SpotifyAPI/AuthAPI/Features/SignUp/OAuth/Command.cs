@@ -1,4 +1,4 @@
-﻿using AuthAPI.Dto.OAuth;
+﻿using Models.DTO.OAuth;
 using Utils.CQRS;
 
 namespace AuthAPI.Features.SignUp.OAuth;

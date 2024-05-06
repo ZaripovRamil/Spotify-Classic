@@ -1,5 +1,4 @@
-﻿using AuthAPI.Dto;
-using Google.Apis.Auth;
+﻿using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
 using Models.DTO.Auth;
 using Models.Entities;

@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace AuthAPI.Dto.OAuth;
+namespace Models.DTO.OAuth;
 
 public class GoogleUserInfoDto
 {

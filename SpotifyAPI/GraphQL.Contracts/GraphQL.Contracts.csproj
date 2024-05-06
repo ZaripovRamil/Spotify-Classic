@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Google.Protobuf" Version="3.22.0-rc3"/>
+        <PackageReference Include="Grpc.Net.Client" Version="2.51.0"/>
+        <PackageReference Include="Grpc.Tools" Version="2.52.0-pre1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <Protobuf Include="PaymentAPI\Protobuf\payment.proto">
+            <GrpcServices>Client</GrpcServices>
+            <Access>Public</Access>
+            <ProtoCompile>True</ProtoCompile>
+            <CompileOutputs>True</CompileOutputs>
+            <OutputDir>obj\Debug\net8.0\</OutputDir>
+            <Generator>MSBuild:Compile</Generator>
+        </Protobuf>
+        <ProjectReference Include="..\GraphQL.Proxy\GraphQL.Proxy.csproj"/>
+        <ProjectReference Include="..\Models\Models.csproj"/>
+    </ItemGroup>
+
+</Project>
