@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:spotik_mobile/home_page/home_page.dart';
+import 'package:spotik_mobile/utils/navigation_routes.dart';
+import 'package:spotik_mobile/utils/storage.dart';
 import 'package:spotik_mobile/utils/ui_constants.dart';
 
 class AuthPage extends StatelessWidget {
@@ -128,12 +129,7 @@ class SignupCard extends StatelessWidget {
                                 CustomColors.backgroundRadialColor)),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            Navigator.of(context).pop();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const HomePage()),
-                            );
+                            Navigator.popAndPushNamed(context, NavigationRoutes.main);
                           }
                         },
                         child: const Text('Signup',
@@ -211,14 +207,10 @@ class LoginCard extends StatelessWidget {
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
                               CustomColors.backgroundRadialColor)),
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          Navigator.of(context).pop();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomePage()),
-                          );
+                          await Storage.setToken('token');
+                          Navigator.popAndPushNamed(context, NavigationRoutes.main);
                         }
                       },
                       child: const Text('Login',

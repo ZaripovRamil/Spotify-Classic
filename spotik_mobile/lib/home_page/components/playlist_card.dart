@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spotik_mobile/models/dto/album_light/album.dart';
+import 'package:spotik_mobile/utils/navigation_routes.dart';
 import 'package:spotik_mobile/utils/ui_constants.dart';
 
 class PlaylistCard extends StatelessWidget {
@@ -12,7 +13,7 @@ class PlaylistCard extends StatelessWidget {
       width: 170.0,
       child: GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, '/album', arguments: data.id);
+          Navigator.pushNamed(context, NavigationRoutes.album, arguments: data.id);
         },
         child: Card(
           color: CustomColors.backgroundColor,

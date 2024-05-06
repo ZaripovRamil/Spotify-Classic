@@ -2,17 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spotik_mobile/utils/constants/resources.dart';
+import 'package:spotik_mobile/utils/storage.dart';
 
 class GqlService {
   static AuthLink authLink = AuthLink(getToken: () async {
-    final storage = await SharedPreferences.getInstance();
-    final token = storage.get('auth_token') as String?;
-
-    if (token != null) {
-      return 'Bearer $token';
-    } else {
-      throw Exception('Authorization token not found');
-    }
+    return await Storage.getToken();
   });
 
   static HttpLink httpLink = HttpLink(Endpoints.graphQL);

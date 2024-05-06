@@ -8,8 +8,7 @@ class MyDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     goToPage(String route) {
-      Navigator.of(context).pop();
-      Navigator.pushNamed(context, route);
+      Navigator.popAndPushNamed(context, route);
     }
 
     return Drawer(
