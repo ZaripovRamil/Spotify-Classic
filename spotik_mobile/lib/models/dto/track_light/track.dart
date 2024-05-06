@@ -5,16 +5,16 @@ part 'track.freezed.dart';
 part 'track.g.dart';
 
 @freezed
-class TrackLight with _$TrackLight {
+class Track with _$Track {
   // ignore: invalid_annotation_target
   @JsonSerializable(explicitToJson: true)
-  const factory TrackLight (
+  const factory Track (
       {
         required String id,
         required String fileId,
         required String name,
-        required AlbumLight album,
-      }) = _TrackLight;
+        required AlbumData album,
+      }) = _Track;
 
-  factory TrackLight.fromJson(Map<String, dynamic> json) => _$TrackLightFromJson(json);
+  factory Track.fromJson(Map<String, dynamic> json) => _$TrackFromJson(json);
 }

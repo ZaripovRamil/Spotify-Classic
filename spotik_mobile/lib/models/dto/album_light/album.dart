@@ -5,16 +5,16 @@ part 'album.freezed.dart';
 part 'album.g.dart';
 
 @freezed
-class AlbumLight with _$AlbumLight {
+class AlbumData with _$AlbumData {
   // ignore: invalid_annotation_target
   @JsonSerializable(explicitToJson: true)
-  const factory AlbumLight (
+  const factory AlbumData (
       {
         required String id,
         required String previewId,
         required String name,
-        required AuthorLight author
-      }) = _AlbumLight;
+        required Author author
+      }) = _AlbumData;
 
-  factory AlbumLight.fromJson(Map<String, dynamic> json) => _$AlbumLightFromJson(json);
+  factory AlbumData.fromJson(Map<String, dynamic> json) => _$AlbumDataFromJson(json);
 }

@@ -4,16 +4,16 @@ part 'user.freezed.dart';
 part 'user.g.dart';
 
 @freezed
-class UserLight with _$UserLight {
+class User with _$User {
   // ignore: invalid_annotation_target
   @JsonSerializable(explicitToJson: true)
-  const factory UserLight (
+  const factory User (
       {
         required String id,
         required String profilePicId,
         required String name,
         required String? username,
-      }) = _UserLight;
+      }) = _User;
 
-  factory UserLight.fromJson(Map<String, dynamic> json) => _$UserLightFromJson(json);
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }

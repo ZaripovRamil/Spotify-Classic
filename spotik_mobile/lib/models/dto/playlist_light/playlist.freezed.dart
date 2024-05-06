@@ -14,44 +14,39 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-PlaylistLight _$PlaylistLightFromJson(Map<String, dynamic> json) {
-  return _PlaylistLight.fromJson(json);
+Playlist _$PlaylistFromJson(Map<String, dynamic> json) {
+  return _Playlist.fromJson(json);
 }
 
 /// @nodoc
-mixin _$PlaylistLight {
+mixin _$Playlist {
   String get id => throw _privateConstructorUsedError;
   String get previewId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  UserLight get owner => throw _privateConstructorUsedError;
+  User get owner => throw _privateConstructorUsedError;
   int get trackCount => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $PlaylistLightCopyWith<PlaylistLight> get copyWith =>
+  $PlaylistCopyWith<Playlist> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PlaylistLightCopyWith<$Res> {
-  factory $PlaylistLightCopyWith(
-          PlaylistLight value, $Res Function(PlaylistLight) then) =
-      _$PlaylistLightCopyWithImpl<$Res, PlaylistLight>;
+abstract class $PlaylistCopyWith<$Res> {
+  factory $PlaylistCopyWith(Playlist value, $Res Function(Playlist) then) =
+      _$PlaylistCopyWithImpl<$Res, Playlist>;
   @useResult
   $Res call(
-      {String id,
-      String previewId,
-      String name,
-      UserLight owner,
-      int trackCount});
+      {String id, String previewId, String name, User owner, int trackCount});
 
-  $UserLightCopyWith<$Res> get owner;
+  $UserCopyWith<$Res> get owner;
 }
 
 /// @nodoc
-class _$PlaylistLightCopyWithImpl<$Res, $Val extends PlaylistLight>
-    implements $PlaylistLightCopyWith<$Res> {
-  _$PlaylistLightCopyWithImpl(this._value, this._then);
+class _$PlaylistCopyWithImpl<$Res, $Val extends Playlist>
+    implements $PlaylistCopyWith<$Res> {
+  _$PlaylistCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -83,7 +78,7 @@ class _$PlaylistLightCopyWithImpl<$Res, $Val extends PlaylistLight>
       owner: null == owner
           ? _value.owner
           : owner // ignore: cast_nullable_to_non_nullable
-              as UserLight,
+              as User,
       trackCount: null == trackCount
           ? _value.trackCount
           : trackCount // ignore: cast_nullable_to_non_nullable
@@ -93,38 +88,34 @@ class _$PlaylistLightCopyWithImpl<$Res, $Val extends PlaylistLight>
 
   @override
   @pragma('vm:prefer-inline')
-  $UserLightCopyWith<$Res> get owner {
-    return $UserLightCopyWith<$Res>(_value.owner, (value) {
+  $UserCopyWith<$Res> get owner {
+    return $UserCopyWith<$Res>(_value.owner, (value) {
       return _then(_value.copyWith(owner: value) as $Val);
     });
   }
 }
 
 /// @nodoc
-abstract class _$$PlaylistLightImplCopyWith<$Res>
-    implements $PlaylistLightCopyWith<$Res> {
-  factory _$$PlaylistLightImplCopyWith(
-          _$PlaylistLightImpl value, $Res Function(_$PlaylistLightImpl) then) =
-      __$$PlaylistLightImplCopyWithImpl<$Res>;
+abstract class _$$PlaylistImplCopyWith<$Res>
+    implements $PlaylistCopyWith<$Res> {
+  factory _$$PlaylistImplCopyWith(
+          _$PlaylistImpl value, $Res Function(_$PlaylistImpl) then) =
+      __$$PlaylistImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {String id,
-      String previewId,
-      String name,
-      UserLight owner,
-      int trackCount});
+      {String id, String previewId, String name, User owner, int trackCount});
 
   @override
-  $UserLightCopyWith<$Res> get owner;
+  $UserCopyWith<$Res> get owner;
 }
 
 /// @nodoc
-class __$$PlaylistLightImplCopyWithImpl<$Res>
-    extends _$PlaylistLightCopyWithImpl<$Res, _$PlaylistLightImpl>
-    implements _$$PlaylistLightImplCopyWith<$Res> {
-  __$$PlaylistLightImplCopyWithImpl(
-      _$PlaylistLightImpl _value, $Res Function(_$PlaylistLightImpl) _then)
+class __$$PlaylistImplCopyWithImpl<$Res>
+    extends _$PlaylistCopyWithImpl<$Res, _$PlaylistImpl>
+    implements _$$PlaylistImplCopyWith<$Res> {
+  __$$PlaylistImplCopyWithImpl(
+      _$PlaylistImpl _value, $Res Function(_$PlaylistImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -136,7 +127,7 @@ class __$$PlaylistLightImplCopyWithImpl<$Res>
     Object? owner = null,
     Object? trackCount = null,
   }) {
-    return _then(_$PlaylistLightImpl(
+    return _then(_$PlaylistImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -152,7 +143,7 @@ class __$$PlaylistLightImplCopyWithImpl<$Res>
       owner: null == owner
           ? _value.owner
           : owner // ignore: cast_nullable_to_non_nullable
-              as UserLight,
+              as User,
       trackCount: null == trackCount
           ? _value.trackCount
           : trackCount // ignore: cast_nullable_to_non_nullable
@@ -164,16 +155,16 @@ class __$$PlaylistLightImplCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _$PlaylistLightImpl implements _PlaylistLight {
-  const _$PlaylistLightImpl(
+class _$PlaylistImpl implements _Playlist {
+  const _$PlaylistImpl(
       {required this.id,
       required this.previewId,
       required this.name,
       required this.owner,
       required this.trackCount});
 
-  factory _$PlaylistLightImpl.fromJson(Map<String, dynamic> json) =>
-      _$$PlaylistLightImplFromJson(json);
+  factory _$PlaylistImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PlaylistImplFromJson(json);
 
   @override
   final String id;
@@ -182,20 +173,20 @@ class _$PlaylistLightImpl implements _PlaylistLight {
   @override
   final String name;
   @override
-  final UserLight owner;
+  final User owner;
   @override
   final int trackCount;
 
   @override
   String toString() {
-    return 'PlaylistLight(id: $id, previewId: $previewId, name: $name, owner: $owner, trackCount: $trackCount)';
+    return 'Playlist(id: $id, previewId: $previewId, name: $name, owner: $owner, trackCount: $trackCount)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PlaylistLightImpl &&
+            other is _$PlaylistImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.previewId, previewId) ||
                 other.previewId == previewId) &&
@@ -213,27 +204,27 @@ class _$PlaylistLightImpl implements _PlaylistLight {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$PlaylistLightImplCopyWith<_$PlaylistLightImpl> get copyWith =>
-      __$$PlaylistLightImplCopyWithImpl<_$PlaylistLightImpl>(this, _$identity);
+  _$$PlaylistImplCopyWith<_$PlaylistImpl> get copyWith =>
+      __$$PlaylistImplCopyWithImpl<_$PlaylistImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$PlaylistLightImplToJson(
+    return _$$PlaylistImplToJson(
       this,
     );
   }
 }
 
-abstract class _PlaylistLight implements PlaylistLight {
-  const factory _PlaylistLight(
+abstract class _Playlist implements Playlist {
+  const factory _Playlist(
       {required final String id,
       required final String previewId,
       required final String name,
-      required final UserLight owner,
-      required final int trackCount}) = _$PlaylistLightImpl;
+      required final User owner,
+      required final int trackCount}) = _$PlaylistImpl;
 
-  factory _PlaylistLight.fromJson(Map<String, dynamic> json) =
-      _$PlaylistLightImpl.fromJson;
+  factory _Playlist.fromJson(Map<String, dynamic> json) =
+      _$PlaylistImpl.fromJson;
 
   @override
   String get id;
@@ -242,11 +233,11 @@ abstract class _PlaylistLight implements PlaylistLight {
   @override
   String get name;
   @override
-  UserLight get owner;
+  User get owner;
   @override
   int get trackCount;
   @override
   @JsonKey(ignore: true)
-  _$$PlaylistLightImplCopyWith<_$PlaylistLightImpl> get copyWith =>
+  _$$PlaylistImplCopyWith<_$PlaylistImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

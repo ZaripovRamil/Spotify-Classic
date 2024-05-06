@@ -7,45 +7,37 @@ class AuthPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: DefaultTabController(
-        length: 2,
-        child: Scaffold(
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
           backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            title: const Text('Auth',
-                style: TextStyle(
-                  fontSize: TextSize.mediumTextSize,
-                  fontWeight: FontWeight.bold,
-                  color: CustomColors.goldenColor,
-                )),
-            bottom: const TabBar(
-              tabs: [
-                Tab(
-                    child: Text('Login',
-                        style: TextStyle(
-                          fontSize: TextSize.mediumTextSize,
-                          fontWeight: FontWeight.bold,
-                          color: CustomColors.goldenColor,
-                        ))),
-                Tab(
-                    child: Text('Signup',
-                        style: TextStyle(
-                          fontSize: TextSize.mediumTextSize,
-                          fontWeight: FontWeight.bold,
-                          color: CustomColors.goldenColor,
-                        ))),
-              ],
-            ),
-          ),
-          body: TabBarView(
-            children: [
-              LoginCard(),
-              SignupCard(),
+          title: const Text('Authorization',
+              style: TextStyle(
+                fontSize: TextSize.mediumTextSize,
+                fontWeight: FontWeight.bold,
+                color: CustomColors.goldenColor,
+              )),
+          iconTheme: Theme.of(context).iconTheme,
+          bottom: TabBar(
+            indicatorColor: CustomColors.goldenColor,
+            labelStyle: Theme.of(context).textTheme.displayMedium,
+            tabs: const [
+              Tab(
+                text: 'Login',
+              ),
+              Tab(
+                text: 'Signup',
+              ),
             ],
           ),
+        ),
+        body: TabBarView(
+          children: [
+            LoginCard(),
+            SignupCard(),
+          ],
         ),
       ),
     );

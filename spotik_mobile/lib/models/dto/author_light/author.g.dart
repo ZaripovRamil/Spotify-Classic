@@ -6,13 +6,12 @@ part of 'author.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$AuthorLightImpl _$$AuthorLightImplFromJson(Map<String, dynamic> json) =>
-    _$AuthorLightImpl(
+_$AuthorImpl _$$AuthorImplFromJson(Map<String, dynamic> json) => _$AuthorImpl(
       id: json['id'] as String,
       name: json['name'] as String,
     );
 
-Map<String, dynamic> _$$AuthorLightImplToJson(_$AuthorLightImpl instance) =>
+Map<String, dynamic> _$$AuthorImplToJson(_$AuthorImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

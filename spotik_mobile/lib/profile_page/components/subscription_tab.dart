@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:spotik_mobile/utils/ui_constants.dart';
 
-import '../utils/ui_constants.dart';
-
-class SubscriptionPage extends StatefulWidget {
-  const SubscriptionPage({super.key});
+class SubscriptionTab extends StatefulWidget {
+  const SubscriptionTab({super.key});
 
   @override
-  State<StatefulWidget> createState() => _SubscriptionPageState();
+  State<StatefulWidget> createState() => _SubscriptionTabState();
 }
 
-class _SubscriptionPageState extends State<SubscriptionPage> {
+class _SubscriptionTabState extends State<SubscriptionTab> {
   String? _invalidMonthMessage;
   String? _invalidYearMessage;
 
@@ -19,10 +18,6 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
     return Scaffold(
       resizeToAvoidBottomInset : false,
       backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: const Text('Subscription'),
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

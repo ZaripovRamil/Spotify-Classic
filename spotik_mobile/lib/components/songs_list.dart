@@ -5,7 +5,7 @@ import 'package:spotik_mobile/models/player_provider.dart';
 
 class SongsList extends StatefulWidget {
   const SongsList({required this.tracks, required this.playlistId, super.key});
-  final List<TrackLight> tracks;
+  final List<Track> tracks;
   final String playlistId;
 
   @override
@@ -25,13 +25,13 @@ class _SongsListState extends State<SongsList> {
   @override
   Widget build(BuildContext context) {
     return Consumer<PlayerProvider>(builder: (context, value, child) {
-      final List<TrackLight> trackList = widget.tracks;
+      final List<Track> trackList = widget.tracks;
       return ListView.separated(
           itemCount: widget.tracks.length,
           padding: const EdgeInsets.only(right: 20, left: 20),
           separatorBuilder: (context, i) => const Divider(),
           itemBuilder: (context, i) {
-            final TrackLight track = trackList[i];
+            final Track track = trackList[i];
             return ListTile(
               leading: Image.network(track.album.previewId),
               // Text(

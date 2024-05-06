@@ -14,45 +14,44 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-AlbumFull _$AlbumFullFromJson(Map<String, dynamic> json) {
-  return _AlbumFull.fromJson(json);
+Album _$AlbumFromJson(Map<String, dynamic> json) {
+  return _Album.fromJson(json);
 }
 
 /// @nodoc
-mixin _$AlbumFull {
+mixin _$Album {
   String get id => throw _privateConstructorUsedError;
   String get previewId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  AuthorLight get author => throw _privateConstructorUsedError;
-  List<TrackLight> get tracks => throw _privateConstructorUsedError;
+  Author get author => throw _privateConstructorUsedError;
+  List<Track> get tracks => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $AlbumFullCopyWith<AlbumFull> get copyWith =>
-      throw _privateConstructorUsedError;
+  $AlbumCopyWith<Album> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $AlbumFullCopyWith<$Res> {
-  factory $AlbumFullCopyWith(AlbumFull value, $Res Function(AlbumFull) then) =
-      _$AlbumFullCopyWithImpl<$Res, AlbumFull>;
+abstract class $AlbumCopyWith<$Res> {
+  factory $AlbumCopyWith(Album value, $Res Function(Album) then) =
+      _$AlbumCopyWithImpl<$Res, Album>;
   @useResult
   $Res call(
       {String id,
       String previewId,
       String name,
-      AuthorLight author,
-      List<TrackLight> tracks,
+      Author author,
+      List<Track> tracks,
       String type});
 
-  $AuthorLightCopyWith<$Res> get author;
+  $AuthorCopyWith<$Res> get author;
 }
 
 /// @nodoc
-class _$AlbumFullCopyWithImpl<$Res, $Val extends AlbumFull>
-    implements $AlbumFullCopyWith<$Res> {
-  _$AlbumFullCopyWithImpl(this._value, this._then);
+class _$AlbumCopyWithImpl<$Res, $Val extends Album>
+    implements $AlbumCopyWith<$Res> {
+  _$AlbumCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -85,11 +84,11 @@ class _$AlbumFullCopyWithImpl<$Res, $Val extends AlbumFull>
       author: null == author
           ? _value.author
           : author // ignore: cast_nullable_to_non_nullable
-              as AuthorLight,
+              as Author,
       tracks: null == tracks
           ? _value.tracks
           : tracks // ignore: cast_nullable_to_non_nullable
-              as List<TrackLight>,
+              as List<Track>,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -99,39 +98,38 @@ class _$AlbumFullCopyWithImpl<$Res, $Val extends AlbumFull>
 
   @override
   @pragma('vm:prefer-inline')
-  $AuthorLightCopyWith<$Res> get author {
-    return $AuthorLightCopyWith<$Res>(_value.author, (value) {
+  $AuthorCopyWith<$Res> get author {
+    return $AuthorCopyWith<$Res>(_value.author, (value) {
       return _then(_value.copyWith(author: value) as $Val);
     });
   }
 }
 
 /// @nodoc
-abstract class _$$AlbumFullImplCopyWith<$Res>
-    implements $AlbumFullCopyWith<$Res> {
-  factory _$$AlbumFullImplCopyWith(
-          _$AlbumFullImpl value, $Res Function(_$AlbumFullImpl) then) =
-      __$$AlbumFullImplCopyWithImpl<$Res>;
+abstract class _$$AlbumImplCopyWith<$Res> implements $AlbumCopyWith<$Res> {
+  factory _$$AlbumImplCopyWith(
+          _$AlbumImpl value, $Res Function(_$AlbumImpl) then) =
+      __$$AlbumImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {String id,
       String previewId,
       String name,
-      AuthorLight author,
-      List<TrackLight> tracks,
+      Author author,
+      List<Track> tracks,
       String type});
 
   @override
-  $AuthorLightCopyWith<$Res> get author;
+  $AuthorCopyWith<$Res> get author;
 }
 
 /// @nodoc
-class __$$AlbumFullImplCopyWithImpl<$Res>
-    extends _$AlbumFullCopyWithImpl<$Res, _$AlbumFullImpl>
-    implements _$$AlbumFullImplCopyWith<$Res> {
-  __$$AlbumFullImplCopyWithImpl(
-      _$AlbumFullImpl _value, $Res Function(_$AlbumFullImpl) _then)
+class __$$AlbumImplCopyWithImpl<$Res>
+    extends _$AlbumCopyWithImpl<$Res, _$AlbumImpl>
+    implements _$$AlbumImplCopyWith<$Res> {
+  __$$AlbumImplCopyWithImpl(
+      _$AlbumImpl _value, $Res Function(_$AlbumImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -144,7 +142,7 @@ class __$$AlbumFullImplCopyWithImpl<$Res>
     Object? tracks = null,
     Object? type = null,
   }) {
-    return _then(_$AlbumFullImpl(
+    return _then(_$AlbumImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -160,11 +158,11 @@ class __$$AlbumFullImplCopyWithImpl<$Res>
       author: null == author
           ? _value.author
           : author // ignore: cast_nullable_to_non_nullable
-              as AuthorLight,
+              as Author,
       tracks: null == tracks
           ? _value._tracks
           : tracks // ignore: cast_nullable_to_non_nullable
-              as List<TrackLight>,
+              as List<Track>,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -176,18 +174,18 @@ class __$$AlbumFullImplCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _$AlbumFullImpl implements _AlbumFull {
-  const _$AlbumFullImpl(
+class _$AlbumImpl implements _Album {
+  const _$AlbumImpl(
       {required this.id,
       required this.previewId,
       required this.name,
       required this.author,
-      required final List<TrackLight> tracks,
+      required final List<Track> tracks,
       required this.type})
       : _tracks = tracks;
 
-  factory _$AlbumFullImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AlbumFullImplFromJson(json);
+  factory _$AlbumImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AlbumImplFromJson(json);
 
   @override
   final String id;
@@ -196,10 +194,10 @@ class _$AlbumFullImpl implements _AlbumFull {
   @override
   final String name;
   @override
-  final AuthorLight author;
-  final List<TrackLight> _tracks;
+  final Author author;
+  final List<Track> _tracks;
   @override
-  List<TrackLight> get tracks {
+  List<Track> get tracks {
     if (_tracks is EqualUnmodifiableListView) return _tracks;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_tracks);
@@ -210,14 +208,14 @@ class _$AlbumFullImpl implements _AlbumFull {
 
   @override
   String toString() {
-    return 'AlbumFull(id: $id, previewId: $previewId, name: $name, author: $author, tracks: $tracks, type: $type)';
+    return 'Album(id: $id, previewId: $previewId, name: $name, author: $author, tracks: $tracks, type: $type)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AlbumFullImpl &&
+            other is _$AlbumImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.previewId, previewId) ||
                 other.previewId == previewId) &&
@@ -235,28 +233,27 @@ class _$AlbumFullImpl implements _AlbumFull {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$AlbumFullImplCopyWith<_$AlbumFullImpl> get copyWith =>
-      __$$AlbumFullImplCopyWithImpl<_$AlbumFullImpl>(this, _$identity);
+  _$$AlbumImplCopyWith<_$AlbumImpl> get copyWith =>
+      __$$AlbumImplCopyWithImpl<_$AlbumImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$AlbumFullImplToJson(
+    return _$$AlbumImplToJson(
       this,
     );
   }
 }
 
-abstract class _AlbumFull implements AlbumFull {
-  const factory _AlbumFull(
+abstract class _Album implements Album {
+  const factory _Album(
       {required final String id,
       required final String previewId,
       required final String name,
-      required final AuthorLight author,
-      required final List<TrackLight> tracks,
-      required final String type}) = _$AlbumFullImpl;
+      required final Author author,
+      required final List<Track> tracks,
+      required final String type}) = _$AlbumImpl;
 
-  factory _AlbumFull.fromJson(Map<String, dynamic> json) =
-      _$AlbumFullImpl.fromJson;
+  factory _Album.fromJson(Map<String, dynamic> json) = _$AlbumImpl.fromJson;
 
   @override
   String get id;
@@ -265,13 +262,13 @@ abstract class _AlbumFull implements AlbumFull {
   @override
   String get name;
   @override
-  AuthorLight get author;
+  Author get author;
   @override
-  List<TrackLight> get tracks;
+  List<Track> get tracks;
   @override
   String get type;
   @override
   @JsonKey(ignore: true)
-  _$$AlbumFullImplCopyWith<_$AlbumFullImpl> get copyWith =>
+  _$$AlbumImplCopyWith<_$AlbumImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

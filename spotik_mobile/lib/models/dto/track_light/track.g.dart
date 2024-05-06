@@ -6,15 +6,14 @@ part of 'track.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$TrackLightImpl _$$TrackLightImplFromJson(Map<String, dynamic> json) =>
-    _$TrackLightImpl(
+_$TrackImpl _$$TrackImplFromJson(Map<String, dynamic> json) => _$TrackImpl(
       id: json['id'] as String,
       fileId: json['fileId'] as String,
       name: json['name'] as String,
-      album: AlbumLight.fromJson(json['album'] as Map<String, dynamic>),
+      album: AlbumData.fromJson(json['album'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$TrackLightImplToJson(_$TrackLightImpl instance) =>
+Map<String, dynamic> _$$TrackImplToJson(_$TrackImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'fileId': instance.fileId,

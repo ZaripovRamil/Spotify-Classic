@@ -6,15 +6,14 @@ part of 'user.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$UserLightImpl _$$UserLightImplFromJson(Map<String, dynamic> json) =>
-    _$UserLightImpl(
+_$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
       id: json['id'] as String,
       profilePicId: json['profilePicId'] as String,
       name: json['name'] as String,
       username: json['username'] as String?,
     );
 
-Map<String, dynamic> _$$UserLightImplToJson(_$UserLightImpl instance) =>
+Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'profilePicId': instance.profilePicId,

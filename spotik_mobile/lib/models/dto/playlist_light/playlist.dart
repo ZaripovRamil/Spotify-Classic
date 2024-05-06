@@ -5,17 +5,17 @@ part 'playlist.freezed.dart';
 part 'playlist.g.dart';
 
 @freezed
-class PlaylistLight with _$PlaylistLight {
+class Playlist with _$Playlist {
   // ignore: invalid_annotation_target
   @JsonSerializable(explicitToJson: true)
-  const factory PlaylistLight (
+  const factory Playlist (
       {
         required String id,
         required String previewId,
         required String name,
-        required UserLight owner,
+        required User owner,
         required int trackCount,
-      }) = _PlaylistLight;
+      }) = _Playlist;
 
-  factory PlaylistLight.fromJson(Map<String, dynamic> json) => _$PlaylistLightFromJson(json);
+  factory Playlist.fromJson(Map<String, dynamic> json) => _$PlaylistFromJson(json);
 }

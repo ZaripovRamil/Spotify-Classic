@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:spotik_mobile/models/dto/track_light/track.dart';
 
 class PlayerProvider extends ChangeNotifier {
-  List<TrackLight> _trackList = [];
+  List<Track> _trackList = [];
 
   int? _currentTrackIndex;
   String? _currentTrackListId;
@@ -92,7 +92,7 @@ class PlayerProvider extends ChangeNotifier {
 
   //getters
 
-  List<TrackLight> get trackList => _trackList;
+  List<Track> get trackList => _trackList;
   int? get currentTrackIndex => _currentTrackIndex;
   String? get currentTrackListId => _currentTrackListId;
   bool get isPlaying => _isPlaying;
@@ -110,7 +110,7 @@ class PlayerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  set trackList(List<TrackLight> newtrackList) {
+  set trackList(List<Track> newtrackList) {
     _trackList = newtrackList;
     notifyListeners();
   }
@@ -120,7 +120,7 @@ class PlayerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  set tracklist(List<TrackLight> newTracklist) {
+  set tracklist(List<Track> newTracklist) {
     _trackList = newTracklist;
     notifyListeners();
   }

@@ -4,14 +4,14 @@ part 'author.freezed.dart';
 part 'author.g.dart';
 
 @freezed
-class AuthorLight with _$AuthorLight {
+class Author with _$Author {
   // ignore: invalid_annotation_target
   @JsonSerializable(explicitToJson: true)
-  const factory AuthorLight (
+  const factory Author (
       {
         required String id,
         required String name,
-      }) = _AuthorLight;
+      }) = _Author;
 
-  factory AuthorLight.fromJson(Map<String, dynamic> json) => _$AuthorLightFromJson(json);
+  factory Author.fromJson(Map<String, dynamic> json) => _$AuthorFromJson(json);
 }

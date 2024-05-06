@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotik_mobile/models/player_provider.dart';
-import 'package:spotik_mobile/player/player_widget.dart';
-import 'package:spotik_mobile/player/slide_top_route.dart';
+import 'package:spotik_mobile/components/player/player_widget.dart';
+import 'package:spotik_mobile/components/player/slide_top_route.dart';
 import 'package:spotik_mobile/utils/ui_constants.dart';
 
 class BottomPlayer extends StatefulWidget {

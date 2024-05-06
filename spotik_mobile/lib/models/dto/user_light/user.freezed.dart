@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-UserLight _$UserLightFromJson(Map<String, dynamic> json) {
-  return _UserLight.fromJson(json);
+User _$UserFromJson(Map<String, dynamic> json) {
+  return _User.fromJson(json);
 }
 
 /// @nodoc
-mixin _$UserLight {
+mixin _$User {
   String get id => throw _privateConstructorUsedError;
   String get profilePicId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
@@ -27,22 +27,21 @@ mixin _$UserLight {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $UserLightCopyWith<UserLight> get copyWith =>
-      throw _privateConstructorUsedError;
+  $UserCopyWith<User> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $UserLightCopyWith<$Res> {
-  factory $UserLightCopyWith(UserLight value, $Res Function(UserLight) then) =
-      _$UserLightCopyWithImpl<$Res, UserLight>;
+abstract class $UserCopyWith<$Res> {
+  factory $UserCopyWith(User value, $Res Function(User) then) =
+      _$UserCopyWithImpl<$Res, User>;
   @useResult
   $Res call({String id, String profilePicId, String name, String? username});
 }
 
 /// @nodoc
-class _$UserLightCopyWithImpl<$Res, $Val extends UserLight>
-    implements $UserLightCopyWith<$Res> {
-  _$UserLightCopyWithImpl(this._value, this._then);
+class _$UserCopyWithImpl<$Res, $Val extends User>
+    implements $UserCopyWith<$Res> {
+  _$UserCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -79,22 +78,20 @@ class _$UserLightCopyWithImpl<$Res, $Val extends UserLight>
 }
 
 /// @nodoc
-abstract class _$$UserLightImplCopyWith<$Res>
-    implements $UserLightCopyWith<$Res> {
-  factory _$$UserLightImplCopyWith(
-          _$UserLightImpl value, $Res Function(_$UserLightImpl) then) =
-      __$$UserLightImplCopyWithImpl<$Res>;
+abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
+  factory _$$UserImplCopyWith(
+          _$UserImpl value, $Res Function(_$UserImpl) then) =
+      __$$UserImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String id, String profilePicId, String name, String? username});
 }
 
 /// @nodoc
-class __$$UserLightImplCopyWithImpl<$Res>
-    extends _$UserLightCopyWithImpl<$Res, _$UserLightImpl>
-    implements _$$UserLightImplCopyWith<$Res> {
-  __$$UserLightImplCopyWithImpl(
-      _$UserLightImpl _value, $Res Function(_$UserLightImpl) _then)
+class __$$UserImplCopyWithImpl<$Res>
+    extends _$UserCopyWithImpl<$Res, _$UserImpl>
+    implements _$$UserImplCopyWith<$Res> {
+  __$$UserImplCopyWithImpl(_$UserImpl _value, $Res Function(_$UserImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -105,7 +102,7 @@ class __$$UserLightImplCopyWithImpl<$Res>
     Object? name = null,
     Object? username = freezed,
   }) {
-    return _then(_$UserLightImpl(
+    return _then(_$UserImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -129,15 +126,15 @@ class __$$UserLightImplCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _$UserLightImpl implements _UserLight {
-  const _$UserLightImpl(
+class _$UserImpl implements _User {
+  const _$UserImpl(
       {required this.id,
       required this.profilePicId,
       required this.name,
       required this.username});
 
-  factory _$UserLightImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UserLightImplFromJson(json);
+  factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserImplFromJson(json);
 
   @override
   final String id;
@@ -150,14 +147,14 @@ class _$UserLightImpl implements _UserLight {
 
   @override
   String toString() {
-    return 'UserLight(id: $id, profilePicId: $profilePicId, name: $name, username: $username)';
+    return 'User(id: $id, profilePicId: $profilePicId, name: $name, username: $username)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UserLightImpl &&
+            other is _$UserImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.profilePicId, profilePicId) ||
                 other.profilePicId == profilePicId) &&
@@ -174,26 +171,25 @@ class _$UserLightImpl implements _UserLight {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UserLightImplCopyWith<_$UserLightImpl> get copyWith =>
-      __$$UserLightImplCopyWithImpl<_$UserLightImpl>(this, _$identity);
+  _$$UserImplCopyWith<_$UserImpl> get copyWith =>
+      __$$UserImplCopyWithImpl<_$UserImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UserLightImplToJson(
+    return _$$UserImplToJson(
       this,
     );
   }
 }
 
-abstract class _UserLight implements UserLight {
-  const factory _UserLight(
+abstract class _User implements User {
+  const factory _User(
       {required final String id,
       required final String profilePicId,
       required final String name,
-      required final String? username}) = _$UserLightImpl;
+      required final String? username}) = _$UserImpl;
 
-  factory _UserLight.fromJson(Map<String, dynamic> json) =
-      _$UserLightImpl.fromJson;
+  factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
   @override
   String get id;
@@ -205,6 +201,6 @@ abstract class _UserLight implements UserLight {
   String? get username;
   @override
   @JsonKey(ignore: true)
-  _$$UserLightImplCopyWith<_$UserLightImpl> get copyWith =>
+  _$$UserImplCopyWith<_$UserImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
