@@ -1,5 +1,4 @@
-﻿using AuthAPI.Dto;
-using Models.DTO.Auth;
+﻿using Models.DTO.Auth;
 
 namespace AuthAPI.Features.SignUp.OAuth;
 

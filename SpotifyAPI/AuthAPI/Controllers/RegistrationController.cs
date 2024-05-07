@@ -1,5 +1,4 @@
-﻿using AuthAPI.Features.SignUp.Standard;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO.Auth;

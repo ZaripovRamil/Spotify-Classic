@@ -1,5 +1,4 @@
-﻿using AuthAPI.Dto;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Models.DTO.Auth;
 using Models.Entities;
 using Utils.CQRS;
