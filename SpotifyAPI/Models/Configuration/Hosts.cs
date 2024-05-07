@@ -10,6 +10,7 @@ public class Hosts
     public required string ChatApi { get; set; }
     public required string ChatHistorySaverService { get; set; }
     public required string UserApi { get; set; }
+    public required string GraphQlApi { get; set; }
     public required string UsersFrontend { get; set; }
     public required string AdminFrontend { get; set; }
 }

@@ -1,5 +1,4 @@
-﻿using GraphQL.Contracts.AuthAPI.Auth;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Models.DTO.Search;
 
 namespace GraphQL.Contracts.SearchAPI;
@@ -7,7 +6,7 @@ namespace GraphQL.Contracts.SearchAPI;
 [ExtendObjectType("Query")]
 public class SearchQuery : GraphQLRequest
 {
-    protected SearchQuery(IHttpContextAccessor contextAccessor) : base("http://localhost:7039", contextAccessor)
+    public SearchQuery(IHttpContextAccessor contextAccessor) : base("http://localhost:5282", contextAccessor)
     {
     }
 

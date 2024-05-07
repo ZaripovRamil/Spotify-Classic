@@ -39,7 +39,8 @@ public class HttpProxy : IHttpProxy
         request.RequestUri = AddQueryParameters(request.RequestUri, queryParams);
         if (!string.IsNullOrEmpty(authorizationToken))
         {
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", authorizationToken);
+            request.Headers.Add("Authorization", authorizationToken);
+            //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", authorizationToken);
         }
 
         return request;

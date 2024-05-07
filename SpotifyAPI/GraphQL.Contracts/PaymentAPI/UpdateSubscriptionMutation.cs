@@ -6,7 +6,7 @@ namespace GraphQL.Contracts.PaymentAPI;
 public class UpdateSubscriptionMutation
 {
     private readonly PaymentService.PaymentServiceClient _paymentServiceClient =
-        new(GrpcChannel.ForAddress("http://localhost:7254"));
+        new(GrpcChannel.ForAddress("http://localhost:5170"));
 
     public async Task<ResultDto?> UpdateSubscription(string id)
     {

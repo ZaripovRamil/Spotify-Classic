@@ -5,7 +5,7 @@ namespace GraphQL.Contracts.AuthAPI.Auth;
 [ExtendObjectType("Mutation")]
 public class LoginMutation : GraphQLRequest
 {
-    public LoginMutation(IHttpContextAccessor contextAccessor) : base("http://localhost:7249", contextAccessor)
+    public LoginMutation(IHttpContextAccessor contextAccessor) : base("http://localhost:5209", contextAccessor)
     {
     }
 

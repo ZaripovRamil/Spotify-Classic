@@ -8,14 +8,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="HotChocolate.AspNetCore" Version="13.8.1"/>
-        <PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="7.7.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.1"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
+        <PackageReference Include="HotChocolate.AspNetCore" Version="13.8.1" />
+        <PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="7.7.0" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.1" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\GraphQL.Contracts\GraphQL.Contracts.csproj"/>
+        <ProjectReference Include="..\GraphQL.Contracts\GraphQL.Contracts.csproj" />
+        <ProjectReference Include="..\Utils\Utils.csproj" />
     </ItemGroup>
 
 </Project>
