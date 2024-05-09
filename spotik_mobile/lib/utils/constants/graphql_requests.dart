@@ -1,9 +1,9 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class Queries {
-  static QueryOptions albums = QueryOptions(document: gql('''
+  static CustomQueryOptions albums = CustomQueryOptions(QueryOptions(document: gql('''
 query {
-  getAlbums {
+  albums {
     albums {
       id,
       previewId,
@@ -15,12 +15,12 @@ query {
     }
   }
 }
-'''));
+''')), 'albums');
 
-  static QueryOptions album(String id) {
-    return QueryOptions(document: gql(r'''
+  static CustomQueryOptions album(String id) {
+    return CustomQueryOptions(QueryOptions(document: gql(r'''
 query GetAlbum($albumId: String!) {
-  getAlbum(albumId: $albumId) {
+  album(id: $albumId) {
     id,
     previewId,
     name,
@@ -47,12 +47,12 @@ query GetAlbum($albumId: String!) {
 }
 '''), variables: {
       'albumId': id
-    });
+    }), 'album');
   }
 
-  static QueryOptions history = QueryOptions(document: gql('''
+  static CustomQueryOptions history = CustomQueryOptions(QueryOptions(document: gql('''
 query {
-  getHistory {
+  history {
     history {
       id,
       fileId,
@@ -69,11 +69,11 @@ query {
     }
   }
 }
-'''));
+''')), 'history');
 
-  static QueryOptions search(String query) {
-    return QueryOptions(document: gql(r'''
-query Search($query: String) {
+  static CustomQueryOptions search(String query) {
+    return CustomQueryOptions(QueryOptions(document: gql(r'''
+query Search($query: String!) {
   search(query: $query) {
     tracks {
       id,
@@ -110,7 +110,7 @@ query Search($query: String) {
         id,
         profilePicId,
         name,
-        username
+        userName
       },
       trackCount
     }
@@ -118,46 +118,50 @@ query Search($query: String) {
 }
 '''), variables: {
       'query': query
-    });
+    }), 'search');
   }
 }
 
 class Mutations {
-  static MutationOptions login(String username, String password, bool rememberMe) {
-    return MutationOptions(document: gql(r'''
-mutation Login($username: String!, $password: String!, $rememberMe: Boolean!) {
-  login(username: $username, password: $password, rememberMe: $rememberMe) {
+  static CustomMutationOptions login(String username, String password, bool rememberMe) {
+    return CustomMutationOptions(MutationOptions(document: gql(r'''
+mutation Login($loginData: LoginDataInput!) {
+  login(loginData: $loginData) {
     isSuccessful
     token
     resultMessage
   }
 }
 '''), variables: {
-      "username": username,
-      "password": password,
-      "rememberMe": rememberMe
-    });
+      "loginData": {
+        "username": username,
+        "password": password,
+        "rememberMe": rememberMe
+      }
+    }), 'login');
   }
 
-  static MutationOptions register(String login, String name, String email, String password) {
-    return MutationOptions(document: gql(r'''
-mutation Register($login: String!, $name: String!, $email: String!, $password: String!) {
-  register(login: $login, name: $name, email: $email, password: $password) {
+  static CustomMutationOptions register(String login, String name, String email, String password) {
+    return CustomMutationOptions(MutationOptions(document: gql(r'''
+mutation Register($registerData: RegistrationDataInput!) {
+  register(registrationData: $registerData) {
     isSuccessful
     userId
     resultMessage
   }
 }
 '''), variables: {
-      "login": login,
-      "name": name,
-      "email": email,
-      "password": password,
-    });
+      "registerData": {
+        "login": login,
+        "name": name,
+        "email": email,
+        "password": password,
+      }
+    }), 'register');
   }
 
-  static MutationOptions updateSubscription(String id) {
-    return MutationOptions(document: gql(r'''
+  static CustomMutationOptions updateSubscription(String id) {
+    return CustomMutationOptions(MutationOptions(document: gql(r'''
 mutation UpdateSubscription($id: String!) {
   updateSubscription(id: $id) {
     ok
@@ -166,6 +170,20 @@ mutation UpdateSubscription($id: String!) {
 }
 '''), variables: {
       "id": id,
-    });
+    }), 'updateSubscription');
   }
+}
+
+class CustomMutationOptions {
+  MutationOptions options;
+  String resultParam;
+
+  CustomMutationOptions(this.options, this.resultParam);
+}
+
+class CustomQueryOptions {
+  QueryOptions options;
+  String resultParam;
+
+  CustomQueryOptions(this.options, this.resultParam);
 }

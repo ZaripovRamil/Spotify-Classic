@@ -8,6 +8,7 @@ public class TrackUploader : IUploader
     private readonly IAmazonS3 _client;
     private const string UploadBucket = Constants.S3Storage.TracksPendingBucketName;
     private const string CheckBucket = Constants.S3Storage.TracksBucketName;
+    private const string HlsExtension = ".index.m3u8";
     
     public TrackUploader(IAmazonS3 client)
     {
@@ -17,7 +18,8 @@ public class TrackUploader : IUploader
     public async Task UploadAsync(string filePath, CancellationToken cancellationToken = default)
     {
         var fileName = Path.GetFileName(filePath);
-        if (await IUploader.DoesObjectExistAsync(_client, CheckBucket, fileName))
+        var processedFileName = Path.GetFileNameWithoutExtension(fileName) + HlsExtension;
+        if (await IUploader.DoesObjectExistAsync(_client, CheckBucket, processedFileName))
             return;
         
         var putRequest = new PutObjectRequest
@@ -27,7 +29,7 @@ public class TrackUploader : IUploader
             FilePath = filePath
         };
         
-        await _client.PutObjectAsync(putRequest, cancellationToken);
+        var res = await _client.PutObjectAsync(putRequest, cancellationToken);
     }
 
     public async Task EnsureBucketExistsAsync()

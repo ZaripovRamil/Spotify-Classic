@@ -152,10 +152,19 @@ class SignupCard extends StatelessWidget {
   }
 }
 
-class LoginCard extends StatelessWidget {
-  LoginCard({super.key});
+class LoginCard extends StatefulWidget {
+  const LoginCard({super.key});
 
+  @override
+  State<LoginCard> createState() => _LoginCardState();
+}
+
+class _LoginCardState extends State<LoginCard> {
   final _formKey = GlobalKey<FormState>();
+
+  String login = '';
+
+  String password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -174,9 +183,14 @@ class LoginCard extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     TextFormField(
+                      onChanged: (value) {
+                        setState(() {
+                          login = value;
+                        });
+                      },
                       style: const TextStyle(color: CustomColors.goldenColor),
                       decoration: const InputDecoration(
-                          labelText: 'Email',
+                          labelText: 'Username',
                           labelStyle: TextStyle(
                             color: CustomColors.goldenColor,
                           )),
@@ -190,6 +204,11 @@ class LoginCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     TextFormField(
+                      onChanged: (value) {
+                        setState(() {
+                          password = value;
+                        });
+                      },
                       style: const TextStyle(color: CustomColors.goldenColor),
                       decoration: const InputDecoration(
                           labelText: 'Password',
@@ -212,8 +231,8 @@ class LoginCard extends StatelessWidget {
                               CustomColors.backgroundRadialColor)),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          return;
-                          var data = LoginDto.fromJson(await GqlService.mutate(Mutations.login("asf", 'asdf', true)));
+                          var res = await GqlService.mutate(Mutations.login(login, password, true));
+                          var data = LoginDto.fromJson(res);
                           if (data.isSuccessful) {
                             await Storage.setToken(data.token);
                             Navigator.popAndPushNamed(context, NavigationRoutes.main);
@@ -228,7 +247,7 @@ class LoginCard extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             color: CustomColors.goldenColor,
                           )),
-                    ),
+                    )
                   ],
                 ),
               ),

@@ -27,7 +27,6 @@ public class HttpProxy : IHttpProxy
         var request = BuildGetMessage(path, queryParams, authorizationToken);
 
         var response = await _httpClient.SendAsync(request);
-        response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<TOut>(content);
     }
@@ -52,7 +51,6 @@ public class HttpProxy : IHttpProxy
         var request = BuildPostMessage(path, queryParams, bodyParams, authorizationToken);
 
         var response = await _httpClient.SendAsync(request);
-        response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<TOut>(content);
     }
@@ -63,7 +61,6 @@ public class HttpProxy : IHttpProxy
         var request = BuildPutMessage(path, queryParams, bodyParams, authorizationToken);
 
         var response = await _httpClient.SendAsync(request);
-        response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<TOut>(content);
     }

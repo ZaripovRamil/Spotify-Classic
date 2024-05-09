@@ -1,5 +1,5 @@
 class Endpoints {
-  static String graphQL = 'https://localhost:5000/graphql';
-  static String tracks = 'https://localhost:5001/tracks';
-  static String previews = 'https://localhost:5001/preview';
+  static String graphQL = 'http://10.0.2.2:5245/graphql';
+  static String tracks = 'http://10.0.2.2:5075/tracks';
+  static String previews = 'http://10.0.2.2:5201/previews';
 }
