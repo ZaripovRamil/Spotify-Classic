@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:spotik_mobile/utils/constants/graphql_requests.dart';
 import 'package:spotik_mobile/utils/constants/resources.dart';
 import 'package:spotik_mobile/utils/storage.dart';
 
@@ -19,7 +20,7 @@ class GqlService {
     ),
   );
 
-  static Future<Map<String, dynamic>> query<T>(QueryOptions options) async {
+  static Future<Map<String, dynamic>> query(QueryOptions options) async {
     final QueryResult result = await client.value.query(options);
 
     if (result.hasException) {
@@ -29,13 +30,13 @@ class GqlService {
     return result.data!;
   }
 
-  static Future<Map<String, dynamic>> mutate<T>(MutationOptions options) async {
-    final QueryResult result = await client.value.mutate(options);
+  static Future<Map<String, dynamic>> mutate(CustomMutationOptions customOpts) async {
+    final QueryResult result = await client.value.mutate(customOpts.options);
 
     if (result.hasException) {
       throw result.exception!;
     }
 
-    return result.data!;
+    return result.data![customOpts.resultParam];
   }
 }
