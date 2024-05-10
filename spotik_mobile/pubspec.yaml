@@ -44,6 +44,7 @@ dependencies:
   provider: ^6.1.2
   graphql_flutter: ^5.1.2
   shared_preferences: ^2.2.3
+  flutter_bloc: ^8.1.5
 
 dev_dependencies:
   flutter_test:

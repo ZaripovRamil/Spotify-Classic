@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:spotik_mobile/models/dto/login/login.dart';
-import 'package:spotik_mobile/services/graphql/client.dart';
-import 'package:spotik_mobile/utils/constants/graphql_requests.dart';
-import 'package:spotik_mobile/utils/navigation_routes.dart';
-import 'package:spotik_mobile/utils/storage.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spotik_mobile/auth_page/bloc/auth_bloc.dart';
+import 'package:spotik_mobile/auth_page/services/auth_repository.dart';
+import 'package:spotik_mobile/auth_page/widgets/login_card.dart';
+import 'package:spotik_mobile/auth_page/widgets/signup.dart';
 import 'package:spotik_mobile/utils/ui_constants.dart';
 
 class AuthPage extends StatelessWidget {
@@ -11,246 +11,41 @@ class AuthPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          title: const Text('Authorization',
-              style: TextStyle(
-                fontSize: TextSize.mediumTextSize,
-                fontWeight: FontWeight.bold,
-                color: CustomColors.goldenColor,
-              )),
-          iconTheme: Theme.of(context).iconTheme,
-          bottom: TabBar(
-            indicatorColor: CustomColors.goldenColor,
-            labelStyle: Theme.of(context).textTheme.displayMedium,
-            tabs: const [
-              Tab(
-                text: 'Login',
-              ),
-              Tab(
-                text: 'Signup',
-              ),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: [
-            LoginCard(),
-            SignupCard(),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class SignupCard extends StatelessWidget {
-  SignupCard({super.key});
-
-  final _formKey = GlobalKey<FormState>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Center(
-            child: Card(
-          color: Colors.transparent,
-          margin: const EdgeInsets.all(20.0),
-          child: Container(
-            color: Colors.transparent,
-            padding: const EdgeInsets.all(16.0),
-            child: SingleChildScrollView(
-              child: Form(
-                key: _formKey,
-                child: Theme(
-                  data: Theme.of(context).copyWith(
-                    inputDecorationTheme: const InputDecorationTheme(
-                      fillColor: Colors.transparent,
-                      filled: true,
-                    ),
+    return RepositoryProvider(
+      create: (context) => AuthRepository(),
+      child: BlocProvider(
+        create: (context) => AuthBloc(authRepository: context.read<AuthRepository>()),
+        child: DefaultTabController(
+          length: 2,
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              title: const Text('Authorization',
+                  style: TextStyle(
+                    fontSize: TextSize.mediumTextSize,
+                    fontWeight: FontWeight.bold,
+                    color: CustomColors.goldenColor,
+                  )),
+              iconTheme: Theme.of(context).iconTheme,
+              bottom: TabBar(
+                indicatorColor: CustomColors.goldenColor,
+                labelStyle: Theme.of(context).textTheme.displayMedium,
+                tabs: const [
+                  Tab(
+                    text: 'Login',
                   ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      TextFormField(
-                        style: const TextStyle(color: CustomColors.goldenColor),
-                        decoration: const InputDecoration(
-                            labelText: 'Name',
-                            labelStyle: TextStyle(
-                              color: CustomColors.goldenColor,
-                            )),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your name';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      TextFormField(
-                        style: const TextStyle(color: CustomColors.goldenColor),
-                        decoration: const InputDecoration(
-                            labelText: 'Email',
-                            labelStyle: TextStyle(
-                              color: CustomColors.goldenColor,
-                            )),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your email';
-                          }
-                          // Add more complex email validation here if needed
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      TextFormField(
-                        style: const TextStyle(color: CustomColors.goldenColor),
-                        decoration: const InputDecoration(
-                          labelText: 'Password',
-                          labelStyle: TextStyle(
-                            color: CustomColors.goldenColor,
-                          ),
-                        ),
-                        obscureText: true,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your password';
-                          }
-                          // Add more complex password validation here if needed
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 20),
-                      ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                CustomColors.backgroundRadialColor)),
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            Navigator.popAndPushNamed(context, NavigationRoutes.main);
-                          }
-                        },
-                        child: const Text('Signup',
-                            style: TextStyle(
-                              fontSize: TextSize.mediumTextSize,
-                              fontWeight: FontWeight.bold,
-                              color: CustomColors.goldenColor,
-                            )),
-                      ),
-                    ],
+                  Tab(
+                    text: 'Signup',
                   ),
-                ),
+                ],
               ),
             ),
-          ),
-        )));
-  }
-}
-
-class LoginCard extends StatefulWidget {
-  const LoginCard({super.key});
-
-  @override
-  State<LoginCard> createState() => _LoginCardState();
-}
-
-class _LoginCardState extends State<LoginCard> {
-  final _formKey = GlobalKey<FormState>();
-
-  String login = '';
-
-  String password = '';
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Center(
-        child: Card(
-          color: Colors.transparent,
-          margin: const EdgeInsets.all(20.0),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SingleChildScrollView(
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    TextFormField(
-                      onChanged: (value) {
-                        setState(() {
-                          login = value;
-                        });
-                      },
-                      style: const TextStyle(color: CustomColors.goldenColor),
-                      decoration: const InputDecoration(
-                          labelText: 'Username',
-                          labelStyle: TextStyle(
-                            color: CustomColors.goldenColor,
-                          )),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your email';
-                        }
-                        // Add more complex email validation here if needed
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 10),
-                    TextFormField(
-                      onChanged: (value) {
-                        setState(() {
-                          password = value;
-                        });
-                      },
-                      style: const TextStyle(color: CustomColors.goldenColor),
-                      decoration: const InputDecoration(
-                          labelText: 'Password',
-                          labelStyle: TextStyle(
-                            color: CustomColors.goldenColor,
-                          )),
-                      obscureText: true,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
-                        }
-                        // Add more complex password validation here if needed
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              CustomColors.backgroundRadialColor)),
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          var res = await GqlService.mutate(Mutations.login(login, password, true));
-                          var data = LoginDto.fromJson(res);
-                          if (data.isSuccessful) {
-                            await Storage.setToken(data.token);
-                            Navigator.popAndPushNamed(context, NavigationRoutes.main);
-                          } else {
-                            print(data.resultMessage);
-                          }
-                        }
-                      },
-                      child: const Text('Login',
-                          style: TextStyle(
-                            fontSize: TextSize.mediumTextSize,
-                            fontWeight: FontWeight.bold,
-                            color: CustomColors.goldenColor,
-                          )),
-                    )
-                  ],
-                ),
-              ),
+            body: TabBarView(
+              children: [
+                LoginCard(),
+                SignupCard(),
+              ],
             ),
           ),
         ),
@@ -258,3 +53,7 @@ class _LoginCardState extends State<LoginCard> {
     );
   }
 }
+
+
+
+
