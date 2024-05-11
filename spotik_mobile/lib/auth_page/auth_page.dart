@@ -41,7 +41,7 @@ class AuthPage extends StatelessWidget {
                 ],
               ),
             ),
-            body: TabBarView(
+            body: const TabBarView(
               children: [
                 LoginCard(),
                 SignupCard(),

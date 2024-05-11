@@ -25,23 +25,23 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: customTheme(),
-      initialRoute: NavigationRoutes.main,
+      initialRoute: NavigationRoutes.auth,
       onGenerateRoute: (settings) {
-        switch (settings.name){
+        switch (settings.name) {
           case NavigationRoutes.main :
-            return MaterialPageRoute(builder: (context) => const PageBuilder(childWidget: HomePage(),));
+            return MaterialPageRoute(builder: (context) => const PageBuilder(childWidget: HomePage()));
           case NavigationRoutes.search :
-            return MaterialPageRoute(builder: (context) => const PageBuilder(childWidget: SearchPage(),));
+            return MaterialPageRoute(builder: (context) => const PageBuilder(childWidget: SearchPage()));
           case NavigationRoutes.playlist :
             String? playlistId = settings.arguments as String?;
-            return MaterialPageRoute(builder: (context) => PageBuilder(childWidget: PlaylistPage(playlistId: playlistId),));
+            return MaterialPageRoute(builder: (context) => PageBuilder(childWidget: PlaylistPage(playlistId: playlistId)));
           case NavigationRoutes.album :
             String? albumId = settings.arguments as String?;
-            return MaterialPageRoute(builder: (context) => PageBuilder(childWidget: AlbumPage(albumId: albumId),)); 
+            return MaterialPageRoute(builder: (context) => PageBuilder(childWidget: AlbumPage(albumId: albumId)));
           case NavigationRoutes.auth :
-            return MaterialPageRoute(builder: (context) => const PageBuilder(childWidget: AuthPage(),));
+            return MaterialPageRoute(builder: (context) => const PageBuilder(childWidget: AuthPage()));
           case NavigationRoutes.profile :
-            return MaterialPageRoute(builder: (context) => const PageBuilder(childWidget: ProfilePage(),));
+            return MaterialPageRoute(builder: (context) => const PageBuilder(childWidget: ProfilePage()));
         }
         return MaterialPageRoute( builder: (context) => const Text("data"));
       },

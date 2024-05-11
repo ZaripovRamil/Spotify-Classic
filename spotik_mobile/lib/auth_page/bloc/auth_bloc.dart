@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:spotik_mobile/auth_page/services/auth_repository.dart';
+import 'package:spotik_mobile/utils/storage.dart';
 
 part 'auth_bloc.freezed.dart';
 
@@ -14,28 +15,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(const AuthState.submitting());
 
       await Future.delayed(const Duration(milliseconds: 2000));
-      // var data = await authRepository.login(event.email, event.password);
-      // if (data.isSuccessful) {
-      //   await Storage.setToken(data.token);
-      //   emit(const AuthState.submitted());
-      // } else {
-      //   emit(AuthState.error(errorMessage: data.resultMessage));
-      // }
-
-      emit(const AuthState.submitted());
+      var data = await authRepository.login(event.email, event.password);
+      if (data.isSuccessful) {
+        await Storage.setToken(data.token);
+        emit(const AuthState.submitted());
+      } else {
+        emit(AuthState.error(errorMessage: data.resultMessage));
+      }
     });
     on<AuthSignupEvent>((event, emit) async {
       emit(const AuthState.submitting());
 
       await Future.delayed(const Duration(milliseconds: 2000));
-      // var data = await authRepository.signup(event.login, event.name, event.email, event.password);
-      // if (data.isSuccessful) {
-      //   emit(const AuthState.submitted());
-      // } else {
-      //   emit(AuthState.error(errorMessage: data.resultMessage));
-      // }
-
-      emit(const AuthState.submitted());
+      var data = await authRepository.signup(event.login, event.name, event.email, event.password);
+      if (data.isSuccessful) {
+        emit(const AuthState.submitted());
+      } else {
+        emit(AuthState.error(errorMessage: data.resultMessage));
+      }
     });
   }
 }
