@@ -35,13 +35,13 @@ class _LoginFormState extends State<LoginForm> {
             style: const TextStyle(color: CustomColors.goldenColor),
             controller: _emailController,
             decoration: const InputDecoration(
-                labelText: 'Email',
+                labelText: 'Username',
                 labelStyle: TextStyle(
                   color: CustomColors.goldenColor,
                 )),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter your email';
+                return 'Please enter your username';
               }
               // Add more complex email validation here if needed
               return null;

@@ -18,13 +18,21 @@ class AuthApiProvider {
 
   Future<RegisterDto> signup(String login, String name, String email, String password) async {
     try {
-      return RegisterDto.fromJson(
+      var res = RegisterDto.fromJson(
           await GqlService.mutate(Mutations.register(login, name, email, password)));
-    } catch (_) {
+      if (res.userId == null || res.userId!.isEmpty) {
+        return const RegisterDto(
+            isSuccessful: false,
+            userId: null,
+            resultMessage: "Try stronger password");
+      }
+
+      return res;
+    } catch (ex) {
       return const RegisterDto(
         isSuccessful: false,
-        userId: "",
-        resultMessage: "Something went wrong. Try more strong password or another login"
+        userId: null,
+        resultMessage: "Something went wrong. Try stronger password or another login"
       );
     }
   }

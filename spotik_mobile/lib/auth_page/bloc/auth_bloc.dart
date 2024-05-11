@@ -14,7 +14,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthLoginEvent>((event, emit) async {
       emit(const AuthState.submitting());
 
-      await Future.delayed(const Duration(milliseconds: 2000));
       var data = await authRepository.login(event.email, event.password);
       if (data.isSuccessful) {
         await Storage.setToken(data.token);
@@ -23,10 +22,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthState.error(errorMessage: data.resultMessage));
       }
     });
+
     on<AuthSignupEvent>((event, emit) async {
       emit(const AuthState.submitting());
 
-      await Future.delayed(const Duration(milliseconds: 2000));
       var data = await authRepository.signup(event.login, event.name, event.email, event.password);
       if (data.isSuccessful) {
         emit(const AuthState.submitted());
