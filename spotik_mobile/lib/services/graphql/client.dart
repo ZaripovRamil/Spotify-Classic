@@ -6,7 +6,8 @@ import 'package:spotik_mobile/utils/storage.dart';
 
 class GqlService {
   static AuthLink authLink = AuthLink(getToken: () async {
-    return await Storage.getToken();
+    var token = await Storage.getToken();
+    return 'Bearer $token';
   });
 
   static HttpLink httpLink = HttpLink(Endpoints.graphQL);

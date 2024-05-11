@@ -1,21 +1,23 @@
+import 'package:jwt_decode/jwt_decode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Storage {
-  static String tokenKey = 'auth_token';
+  static const String _tokenKey = 'auth_token';
 
   static Future<String> getToken() async {
-    final storage = await SharedPreferences.getInstance();
-    final token = storage.get(tokenKey) as String?;
-
-    if (token != null) {
-      return 'Bearer $token';
-    }
-
-    return '';
+    return await SharedPreferences.getInstance().then((storage) {
+      return storage.getString(_tokenKey) ?? '';
+    });
   }
 
   static Future setToken(String token) async {
-    final storage = await SharedPreferences.getInstance();
-    storage.setString(tokenKey, token);
+    await SharedPreferences.getInstance().then((storage) async {
+      await storage.setString(_tokenKey, token);
+    });
+  }
+
+  static Future<bool> isTokenExpired() async {
+    final token = await getToken();
+    return token.isEmpty || Jwt.isExpired(token);
   }
 }
