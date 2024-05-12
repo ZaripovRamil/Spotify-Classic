@@ -27,11 +27,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(const AuthState.submitting());
 
       var data = await authRepository.signup(event.login, event.name, event.email, event.password);
-      if (data.isSuccessful) {
-        emit(const AuthState.submitted());
-      } else {
+      if (!data.isSuccessful) {
         emit(AuthState.error(errorMessage: data.resultMessage));
       }
+      
+      var loginRes = await authRepository.login(event.name, event.password);
+      if (!loginRes.isSuccessful) {
+        emit(AuthState.error(errorMessage: data.resultMessage));
+      }
+
+      await Storage.setToken(loginRes.token);
+      emit(const AuthState.submitted());
     });
   }
 }
