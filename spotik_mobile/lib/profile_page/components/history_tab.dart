@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotik_mobile/models/entity/track_light/track.dart';
-import 'package:spotik_mobile/profile_page/bloc/history_bloc.dart';
+import 'package:spotik_mobile/profile_page/bloc/history/history_bloc.dart';
 import 'package:spotik_mobile/utils/ui_constants.dart';
 
 class HistoryTab extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:spotik_mobile/models/dto/history/history.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:spotik_mobile/profile_page/services/history_repository.dart';
+import 'package:spotik_mobile/profile_page/services/history/history_repository.dart';
 
 part 'history_bloc.freezed.dart';
 

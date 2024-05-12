@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spotik_mobile/profile_page/bloc/history_bloc.dart';
+import 'package:spotik_mobile/profile_page/bloc/history/history_bloc.dart';
+import 'package:spotik_mobile/profile_page/bloc/subscription/subscription_bloc.dart';
 import 'package:spotik_mobile/profile_page/components/history_tab.dart';
 import 'package:spotik_mobile/profile_page/components/subscription_tab.dart';
-import 'package:spotik_mobile/profile_page/services/history_repository.dart';
+import 'package:spotik_mobile/profile_page/services/history/history_repository.dart';
+import 'package:spotik_mobile/profile_page/services/subscription/subscription_repository.dart';
 import 'package:spotik_mobile/utils/ui_constants.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -20,6 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
       providers: [
         RepositoryProvider<HistoryRepository>(
             create: (context) => HistoryRepository()),
+        RepositoryProvider(create: (context) => SubscriptionRepository())
       ],
       child: MultiBlocProvider(
         providers: [
@@ -28,6 +31,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 historyRepository: context.read<HistoryRepository>())
               ..add(const HistoryEvent.load()),
           ),
+          BlocProvider(
+              create: (context) => SubcriptionBloc(
+                  subcriptionRepository:
+                      context.read<SubscriptionRepository>()))
         ],
         child: Scaffold(
           backgroundColor: Colors.transparent,
