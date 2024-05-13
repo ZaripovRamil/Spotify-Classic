@@ -16,9 +16,9 @@ class AlbumsCarousel extends StatelessWidget {
               context
                   .read<AlbumsBloc>()
                   .add(const AlbumEvent.getAlbums());
-              return const CircularProgressIndicator();
+              return const SizedBox(width: 50, height: 50, child: Center(child: CircularProgressIndicator()));
             },
-            loading: () => const CircularProgressIndicator(),
+            loading: () => const SizedBox(width: 50, height: 50, child: Center(child: CircularProgressIndicator())),
             loaded: (albums) {
               return ListView.builder(
                 scrollDirection: Axis.horizontal,
