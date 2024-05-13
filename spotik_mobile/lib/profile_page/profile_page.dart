@@ -6,6 +6,7 @@ import 'package:spotik_mobile/profile_page/components/history_tab.dart';
 import 'package:spotik_mobile/profile_page/components/subscription_tab.dart';
 import 'package:spotik_mobile/profile_page/services/history/history_repository.dart';
 import 'package:spotik_mobile/profile_page/services/subscription/subscription_repository.dart';
+import 'package:spotik_mobile/utils/storage.dart';
 import 'package:spotik_mobile/utils/ui_constants.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -58,13 +59,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           'assets/avatar.png',
                         ),
                       ),
-                      title: const Text(
-                        'Username',
-                        style: TextStyle(
-                          fontSize: TextSize.mediumTextSize,
-                          color: CustomColors.goldenColor,
-                        ),
-                      ),
+                      title: const UsernameLoader(),
                     ),
                   ),
                   TabBar(
@@ -90,5 +85,32 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
+  }
+}
+
+class UsernameLoader extends StatelessWidget {
+  const UsernameLoader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: getUsername(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          final String username = snapshot.data ?? '';
+          return Text(username,
+            style: const TextStyle(
+            fontSize: TextSize.mediumTextSize,
+            color: CustomColors.goldenColor,
+          ),);
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
+    );
+  }
+
+  Future<String> getUsername() async {
+    return await Storage.getUsername();
   }
 }

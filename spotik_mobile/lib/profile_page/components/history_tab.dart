@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotik_mobile/models/entity/track_light/track.dart';
 import 'package:spotik_mobile/profile_page/bloc/history/history_bloc.dart';
+import 'package:spotik_mobile/utils/constants/resources.dart';
 import 'package:spotik_mobile/utils/ui_constants.dart';
 
 class HistoryTab extends StatelessWidget {
@@ -51,8 +52,8 @@ class HistoryList extends StatelessWidget {
       itemBuilder: (context, index) {
         final item = tracks[index];
         return ListTile(
-          leading: Image.asset(
-            item.album.previewId,
+          leading: Image.network(
+            Endpoints.getPreviewUrl(item.album.previewId),
             fit: BoxFit.cover,
           ),
           title: Text(item.name),

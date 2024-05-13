@@ -20,4 +20,11 @@ class Storage {
     final token = await getToken();
     return token.isEmpty || Jwt.isExpired(token);
   }
+
+  static const String _usernameKey = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
+
+  static Future<String> getUsername() async {
+    final token = await getToken();
+    return token.isEmpty ? '' : Jwt.parseJwt(token)[_usernameKey];
+  }
 }

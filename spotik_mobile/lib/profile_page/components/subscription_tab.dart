@@ -21,7 +21,7 @@ class _SubscriptionTabState extends State<SubscriptionTab> {
         body: SingleChildScrollView(
             child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: state.when(
+                child: Center(child: state.when(
                     initial: () => const SubscriptionForm(),
                     submitting: () => const CircularProgressIndicator(),
                     submitted: () => const Column(
@@ -31,7 +31,7 @@ class _SubscriptionTabState extends State<SubscriptionTab> {
                             SubscriptionForm(),
                           ],
                         ),
-                    error: (message) => Text(message)))));
+                    error: (message) => Text(message))))));
   }
 }
 
@@ -42,7 +42,7 @@ class SubscriptionForm extends StatefulWidget {
   State<StatefulWidget> createState() => _SubscriptionFormState();
 }
 
-class _SubscriptionFormState extends State<SubscriptionTab> {
+class _SubscriptionFormState extends State<SubscriptionForm> {
   String? _invalidMonthMessage;
   String? _invalidYearMessage;
 

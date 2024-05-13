@@ -22,10 +22,7 @@ class PlayerProvider extends ChangeNotifier {
 
   void play() async {
     final String path = Endpoints.getTrackUrl(_trackList[_currentTrackIndex!].id);
-    final audioSource = HlsAudioSource(
-        Uri.parse(path)
-    );
-    // var headers = { 'Authorization': 'Bearer ${await Storage.getToken()}' };
+    final audioSource = HlsAudioSource(Uri.parse(path));
     await _audioPlayer.setAudioSource(audioSource);
     await _audioPlayer.play();
     notifyListeners();
