@@ -32,7 +32,17 @@ class HistoryTab extends StatelessWidget {
         Expanded(
             child: state.when(
                 initial: () => const Text("History is empty"),
-                loading: () => const CircularProgressIndicator(),
+                loading: () => const Center(
+                      heightFactor: 1,
+                      widthFactor: 1,
+                      child: SizedBox(
+                        height: 40,
+                        width: 40,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 1.5,
+                        ),
+                      ),
+                    ),
                 loaded: (data) => HistoryList(tracks: data.history!),
                 error: (message) => Text(message)))
       ],
