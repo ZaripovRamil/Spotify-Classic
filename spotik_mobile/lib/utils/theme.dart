@@ -24,5 +24,4 @@ ThemeData customTheme() => ThemeData(
         thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 0),
         activeTrackColor: CustomColors.whiteColor,
         trackHeight: 5
-        
         ));

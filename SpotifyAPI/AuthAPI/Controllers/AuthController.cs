@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Models.DTO.Auth;
 
 namespace AuthAPI.Controllers;
 
@@ -17,7 +18,7 @@ public class AuthController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Login(Features.SignIn.Standard.LoginData loginData)
+    public async Task<IActionResult> Login(LoginData loginData)
     {
         var command = new Features.SignIn.Standard.Command(loginData);
         var res = await _mediator.Send(command);

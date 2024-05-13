@@ -1,7 +1,8 @@
-﻿using AuthAPI.Dto.OAuth;
-using Google.Apis.Auth;
+﻿using Google.Apis.Auth;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Models.DTO.Auth;
+using Models.DTO.OAuth;
 using Models.Entities;
 using Utils.CQRS;
 using static Models.ValidationErrors.CommonConstants;

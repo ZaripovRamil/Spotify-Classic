@@ -7,6 +7,7 @@ PlayerApiHostname=localhost
 SearchApiHostname=localhost
 StaticApiHostname=localhost
 UserApiHostname=localhost
+GraphQLApiHostname=localhost
 UsersFrontendHostname=localhost
 
 AdminApiPortHttps=7066
@@ -28,6 +29,7 @@ PlayerApiPortHttp=5075
 SearchApiPortHttp=5282
 StaticApiPortHttp=5201
 UserApiPortHttp=5272
+GraphQLApiPortHttp=5245
 
 Hosts__AdminApi=${AdminApiHostname}:${AdminApiPortHttp}
 Hosts__AdminFrontend=${AdminFrontendHostname}:${AdminFrontendPort}
@@ -38,6 +40,7 @@ Hosts__PlayerApi=${PlayerApiHostname}:${PlayerApiPortHttp}
 Hosts__SearchApi=${SearchApiHostname}:${SearchApiPortHttp}
 Hosts__StaticApi=${StaticApiHostname}:${StaticApiPortHttp}
 Hosts__UserApi=${UserApiHostname}:${UserApiPortHttp}
+Hosts__GraphQLApi=${GraphQLApiHostname}:${GraphQLApiPortHttp}
 Hosts__UsersFrontend=${UsersFrontendHostname}:${UsersFrontendPort}
 
 REACT_APP_AuthApi=${AuthApiPortHttps}

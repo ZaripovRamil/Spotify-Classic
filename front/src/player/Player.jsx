@@ -84,6 +84,8 @@ const Player = ({ props }) => {
     });
   };
 
+  console.log(tracksList);
+
   ReactPlayer.removeCustomPlayers();
 
   return (

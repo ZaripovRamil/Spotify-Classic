@@ -1,7 +1,7 @@
-﻿using AuthAPI.Features.SignUp.Standard;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Models.DTO.Auth;
 
 namespace AuthAPI.Controllers;
 
@@ -22,6 +22,6 @@ public class RegistrationController : Controller
     {
         var command = new Features.SignUp.Standard.Command(rData);
         var res = await _mediator.Send(command);
-        return res.IsSuccessful ? Ok(res.Value) : BadRequest();
+        return res.IsSuccessful ? Ok(res.Value!.RegistrationResult) : BadRequest();
     }
 }

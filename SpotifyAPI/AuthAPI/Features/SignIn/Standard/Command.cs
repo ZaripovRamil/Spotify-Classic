@@ -1,4 +1,5 @@
-﻿using Utils.CQRS;
+﻿using Models.DTO.Auth;
+using Utils.CQRS;
 
 namespace AuthAPI.Features.SignIn.Standard;
 
