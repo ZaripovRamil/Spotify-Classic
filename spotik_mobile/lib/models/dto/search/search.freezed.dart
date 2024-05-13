@@ -20,10 +20,10 @@ SearchDto _$SearchDtoFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$SearchDto {
-  List<Track> get Tracks => throw _privateConstructorUsedError;
-  List<Album> get Albums => throw _privateConstructorUsedError;
-  List<Author> get Authors => throw _privateConstructorUsedError;
-  List<Playlist> get Playlists => throw _privateConstructorUsedError;
+  List<Track> get tracks => throw _privateConstructorUsedError;
+  List<AlbumData> get albums => throw _privateConstructorUsedError;
+  List<Author> get authors => throw _privateConstructorUsedError;
+  List<Playlist> get playlists => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,10 +37,10 @@ abstract class $SearchDtoCopyWith<$Res> {
       _$SearchDtoCopyWithImpl<$Res, SearchDto>;
   @useResult
   $Res call(
-      {List<Track> Tracks,
-      List<Album> Albums,
-      List<Author> Authors,
-      List<Playlist> Playlists});
+      {List<Track> tracks,
+      List<AlbumData> albums,
+      List<Author> authors,
+      List<Playlist> playlists});
 }
 
 /// @nodoc
@@ -56,27 +56,27 @@ class _$SearchDtoCopyWithImpl<$Res, $Val extends SearchDto>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? Tracks = null,
-    Object? Albums = null,
-    Object? Authors = null,
-    Object? Playlists = null,
+    Object? tracks = null,
+    Object? albums = null,
+    Object? authors = null,
+    Object? playlists = null,
   }) {
     return _then(_value.copyWith(
-      Tracks: null == Tracks
-          ? _value.Tracks
-          : Tracks // ignore: cast_nullable_to_non_nullable
+      tracks: null == tracks
+          ? _value.tracks
+          : tracks // ignore: cast_nullable_to_non_nullable
               as List<Track>,
-      Albums: null == Albums
-          ? _value.Albums
-          : Albums // ignore: cast_nullable_to_non_nullable
-              as List<Album>,
-      Authors: null == Authors
-          ? _value.Authors
-          : Authors // ignore: cast_nullable_to_non_nullable
+      albums: null == albums
+          ? _value.albums
+          : albums // ignore: cast_nullable_to_non_nullable
+              as List<AlbumData>,
+      authors: null == authors
+          ? _value.authors
+          : authors // ignore: cast_nullable_to_non_nullable
               as List<Author>,
-      Playlists: null == Playlists
-          ? _value.Playlists
-          : Playlists // ignore: cast_nullable_to_non_nullable
+      playlists: null == playlists
+          ? _value.playlists
+          : playlists // ignore: cast_nullable_to_non_nullable
               as List<Playlist>,
     ) as $Val);
   }
@@ -91,10 +91,10 @@ abstract class _$$SearchDtoImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<Track> Tracks,
-      List<Album> Albums,
-      List<Author> Authors,
-      List<Playlist> Playlists});
+      {List<Track> tracks,
+      List<AlbumData> albums,
+      List<Author> authors,
+      List<Playlist> playlists});
 }
 
 /// @nodoc
@@ -108,27 +108,27 @@ class __$$SearchDtoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? Tracks = null,
-    Object? Albums = null,
-    Object? Authors = null,
-    Object? Playlists = null,
+    Object? tracks = null,
+    Object? albums = null,
+    Object? authors = null,
+    Object? playlists = null,
   }) {
     return _then(_$SearchDtoImpl(
-      Tracks: null == Tracks
-          ? _value._Tracks
-          : Tracks // ignore: cast_nullable_to_non_nullable
+      tracks: null == tracks
+          ? _value._tracks
+          : tracks // ignore: cast_nullable_to_non_nullable
               as List<Track>,
-      Albums: null == Albums
-          ? _value._Albums
-          : Albums // ignore: cast_nullable_to_non_nullable
-              as List<Album>,
-      Authors: null == Authors
-          ? _value._Authors
-          : Authors // ignore: cast_nullable_to_non_nullable
+      albums: null == albums
+          ? _value._albums
+          : albums // ignore: cast_nullable_to_non_nullable
+              as List<AlbumData>,
+      authors: null == authors
+          ? _value._authors
+          : authors // ignore: cast_nullable_to_non_nullable
               as List<Author>,
-      Playlists: null == Playlists
-          ? _value._Playlists
-          : Playlists // ignore: cast_nullable_to_non_nullable
+      playlists: null == playlists
+          ? _value._playlists
+          : playlists // ignore: cast_nullable_to_non_nullable
               as List<Playlist>,
     ));
   }
@@ -139,53 +139,53 @@ class __$$SearchDtoImplCopyWithImpl<$Res>
 @JsonSerializable(explicitToJson: true)
 class _$SearchDtoImpl implements _SearchDto {
   const _$SearchDtoImpl(
-      {required final List<Track> Tracks,
-      required final List<Album> Albums,
-      required final List<Author> Authors,
-      required final List<Playlist> Playlists})
-      : _Tracks = Tracks,
-        _Albums = Albums,
-        _Authors = Authors,
-        _Playlists = Playlists;
+      {required final List<Track> tracks,
+      required final List<AlbumData> albums,
+      required final List<Author> authors,
+      required final List<Playlist> playlists})
+      : _tracks = tracks,
+        _albums = albums,
+        _authors = authors,
+        _playlists = playlists;
 
   factory _$SearchDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$SearchDtoImplFromJson(json);
 
-  final List<Track> _Tracks;
+  final List<Track> _tracks;
   @override
-  List<Track> get Tracks {
-    if (_Tracks is EqualUnmodifiableListView) return _Tracks;
+  List<Track> get tracks {
+    if (_tracks is EqualUnmodifiableListView) return _tracks;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_Tracks);
+    return EqualUnmodifiableListView(_tracks);
   }
 
-  final List<Album> _Albums;
+  final List<AlbumData> _albums;
   @override
-  List<Album> get Albums {
-    if (_Albums is EqualUnmodifiableListView) return _Albums;
+  List<AlbumData> get albums {
+    if (_albums is EqualUnmodifiableListView) return _albums;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_Albums);
+    return EqualUnmodifiableListView(_albums);
   }
 
-  final List<Author> _Authors;
+  final List<Author> _authors;
   @override
-  List<Author> get Authors {
-    if (_Authors is EqualUnmodifiableListView) return _Authors;
+  List<Author> get authors {
+    if (_authors is EqualUnmodifiableListView) return _authors;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_Authors);
+    return EqualUnmodifiableListView(_authors);
   }
 
-  final List<Playlist> _Playlists;
+  final List<Playlist> _playlists;
   @override
-  List<Playlist> get Playlists {
-    if (_Playlists is EqualUnmodifiableListView) return _Playlists;
+  List<Playlist> get playlists {
+    if (_playlists is EqualUnmodifiableListView) return _playlists;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_Playlists);
+    return EqualUnmodifiableListView(_playlists);
   }
 
   @override
   String toString() {
-    return 'SearchDto(Tracks: $Tracks, Albums: $Albums, Authors: $Authors, Playlists: $Playlists)';
+    return 'SearchDto(tracks: $tracks, albums: $albums, authors: $authors, playlists: $playlists)';
   }
 
   @override
@@ -193,21 +193,21 @@ class _$SearchDtoImpl implements _SearchDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SearchDtoImpl &&
-            const DeepCollectionEquality().equals(other._Tracks, _Tracks) &&
-            const DeepCollectionEquality().equals(other._Albums, _Albums) &&
-            const DeepCollectionEquality().equals(other._Authors, _Authors) &&
+            const DeepCollectionEquality().equals(other._tracks, _tracks) &&
+            const DeepCollectionEquality().equals(other._albums, _albums) &&
+            const DeepCollectionEquality().equals(other._authors, _authors) &&
             const DeepCollectionEquality()
-                .equals(other._Playlists, _Playlists));
+                .equals(other._playlists, _playlists));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(_Tracks),
-      const DeepCollectionEquality().hash(_Albums),
-      const DeepCollectionEquality().hash(_Authors),
-      const DeepCollectionEquality().hash(_Playlists));
+      const DeepCollectionEquality().hash(_tracks),
+      const DeepCollectionEquality().hash(_albums),
+      const DeepCollectionEquality().hash(_authors),
+      const DeepCollectionEquality().hash(_playlists));
 
   @JsonKey(ignore: true)
   @override
@@ -225,22 +225,22 @@ class _$SearchDtoImpl implements _SearchDto {
 
 abstract class _SearchDto implements SearchDto {
   const factory _SearchDto(
-      {required final List<Track> Tracks,
-      required final List<Album> Albums,
-      required final List<Author> Authors,
-      required final List<Playlist> Playlists}) = _$SearchDtoImpl;
+      {required final List<Track> tracks,
+      required final List<AlbumData> albums,
+      required final List<Author> authors,
+      required final List<Playlist> playlists}) = _$SearchDtoImpl;
 
   factory _SearchDto.fromJson(Map<String, dynamic> json) =
       _$SearchDtoImpl.fromJson;
 
   @override
-  List<Track> get Tracks;
+  List<Track> get tracks;
   @override
-  List<Album> get Albums;
+  List<AlbumData> get albums;
   @override
-  List<Author> get Authors;
+  List<Author> get authors;
   @override
-  List<Playlist> get Playlists;
+  List<Playlist> get playlists;
   @override
   @JsonKey(ignore: true)
   _$$SearchDtoImplCopyWith<_$SearchDtoImpl> get copyWith =>

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:spotik_mobile/models/dto/search/search.dart';
+import 'package:spotik_mobile/models/player_provider.dart';
 import 'package:spotik_mobile/search_page/bloc/search_bloc.dart';
 import 'package:spotik_mobile/search_page/services/search_repository.dart';
 
@@ -14,58 +16,6 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  final TextEditingController _searchController = TextEditingController();
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return RepositoryProvider(
-  //       create: (context) => SearchRepository(),
-  //       child: BlocConsumer<SearchBloc, SearchState>(
-  //         listener: ((context, state) {}),
-  //         builder: (context, state) {
-  //           return Scaffold(
-  //             appBar: AppBar(
-  //               backgroundColor: Colors.transparent,
-  //               title: const Text('Search',
-  //                   style: TextStyle(
-  //                     color: CustomColors.goldenColor,
-  //                   )),
-  //             ),
-  //             body: Column(
-  //               children: <Widget>[
-  //                 Padding(
-  //                   padding: const EdgeInsets.all(8.0),
-  //                   child: TextField(
-  //                     controller: _searchController,
-  //                     decoration: InputDecoration(
-  //                       labelText: 'Search',
-  //                       labelStyle: const TextStyle(
-  //                         color: CustomColors.goldenColor,
-  //                       ),
-  //                       suffixIcon: IconButton(
-  //                           icon: const Icon(Icons.search),
-  //                           onPressed: () async {
-  //                             await _search(context, _searchController.text);
-  //                           }),
-  //                     ),
-  //                   ),
-  //                 ),
-  //                 Expanded(
-  //                   child: _ResultPageMainPart(),
-  //                 )
-  //               ],
-  //             ),
-  //           );
-  //         },
-  //       ));
-  // }
-
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider(
@@ -83,28 +33,51 @@ class _SearchPageState extends State<SearchPage> {
           ),
           body: Column(
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    labelText: 'Search',
-                    labelStyle: const TextStyle(
-                      color: CustomColors.goldenColor,
-                    ),
-                    suffixIcon: IconButton(
-                        icon: const Icon(Icons.search),
-                        onPressed: () async {
-                          await _search(context, _searchController.text);
-                        }),
-                  ),
-                ),
-              ),
+              const SearchBar(),
               Expanded(
                 child: _ResultPageMainPart(),
               )
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class SearchBar extends StatefulWidget {
+
+  const SearchBar({super.key});
+
+  @override
+  State<SearchBar> createState() => _SearchBarState();
+}
+
+class _SearchBarState extends State<SearchBar> {
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextField(
+        controller: _searchController,
+        decoration: InputDecoration(
+          labelText: 'Search',
+          labelStyle: const TextStyle(
+            color: CustomColors.goldenColor,
+          ),
+          suffixIcon: IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () async {
+                await _search(context, _searchController.text);
+              }),
         ),
       ),
     );
@@ -121,28 +94,36 @@ class SearchResultList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: searchResult.Tracks.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-            title: Row(children: [
-          Image.asset(
-            "assets/compositor.png",
-            height: 40,
-          ),
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(searchResult.Tracks[index].name,
-                style: const TextStyle(
-                    color: CustomColors.goldenColor,
-                    fontSize: TextSize.smallTextSize)),
-            Text(searchResult.Authors[index].name,
-                style: const TextStyle(
-                    color: CustomColors.goldenColor,
-                    fontSize: TextSize.tinyTextSize)),
-          ])
-        ]));
-      },
-    );
+    return Consumer<PlayerProvider>(builder: (context, value, child) {
+      var playerProvider = Provider.of<PlayerProvider>(context, listen: false);
+      return ListView.builder(
+        itemCount: searchResult.tracks.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+              onTap: () {
+                playerProvider.tracklist = searchResult.tracks;
+                value.currentTrackListId = searchResult.tracks[index].album.id;
+                playerProvider.currentTrackIndex = index;
+              },
+              title: Row(children: [
+                Image.asset(
+                  "assets/compositor.png",
+                  height: 40,
+                ),
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text(searchResult.tracks[index].name,
+                      style: const TextStyle(
+                          color: CustomColors.goldenColor,
+                          fontSize: TextSize.smallTextSize)),
+                  Text(searchResult.tracks[index].album.author.name,
+                      style: const TextStyle(
+                          color: CustomColors.goldenColor,
+                          fontSize: TextSize.tinyTextSize)),
+                ])
+              ]));
+        },
+      );
+    });
   }
 }
 

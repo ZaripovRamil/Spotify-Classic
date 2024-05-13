@@ -8,24 +8,24 @@ part of 'search.dart';
 
 _$SearchDtoImpl _$$SearchDtoImplFromJson(Map<String, dynamic> json) =>
     _$SearchDtoImpl(
-      Tracks: (json['Tracks'] as List<dynamic>)
+      tracks: (json['tracks'] as List<dynamic>)
           .map((e) => Track.fromJson(e as Map<String, dynamic>))
           .toList(),
-      Albums: (json['Albums'] as List<dynamic>)
-          .map((e) => Album.fromJson(e as Map<String, dynamic>))
+      albums: (json['albums'] as List<dynamic>)
+          .map((e) => AlbumData.fromJson(e as Map<String, dynamic>))
           .toList(),
-      Authors: (json['Authors'] as List<dynamic>)
+      authors: (json['authors'] as List<dynamic>)
           .map((e) => Author.fromJson(e as Map<String, dynamic>))
           .toList(),
-      Playlists: (json['Playlists'] as List<dynamic>)
+      playlists: (json['playlists'] as List<dynamic>)
           .map((e) => Playlist.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
 Map<String, dynamic> _$$SearchDtoImplToJson(_$SearchDtoImpl instance) =>
     <String, dynamic>{
-      'Tracks': instance.Tracks.map((e) => e.toJson()).toList(),
-      'Albums': instance.Albums.map((e) => e.toJson()).toList(),
-      'Authors': instance.Authors.map((e) => e.toJson()).toList(),
-      'Playlists': instance.Playlists.map((e) => e.toJson()).toList(),
+      'tracks': instance.tracks.map((e) => e.toJson()).toList(),
+      'albums': instance.albums.map((e) => e.toJson()).toList(),
+      'authors': instance.authors.map((e) => e.toJson()).toList(),
+      'playlists': instance.playlists.map((e) => e.toJson()).toList(),
     };

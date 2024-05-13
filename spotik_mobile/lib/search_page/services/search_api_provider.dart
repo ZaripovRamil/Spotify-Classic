@@ -6,8 +6,9 @@ import 'package:spotik_mobile/utils/constants/graphql_requests.dart';
 class SearchApiProvider {
   Future<SearchResultDto> search(String query) async {
     try {
+      var res = await GqlService.query(Queries.search(query));
       var data =
-          SearchDto.fromJson(await GqlService.query(Queries.search(query)));
+          SearchDto.fromJson(res);
       return SearchResultDto(isSuccessful: true, data: data, errorMessage: '');
     } catch (ex) {
       return const SearchResultDto(
