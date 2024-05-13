@@ -3,8 +3,8 @@ import 'package:spotik_mobile/models/entity/album_light/album.dart';
 import 'package:spotik_mobile/utils/navigation_routes.dart';
 import 'package:spotik_mobile/utils/ui_constants.dart';
 
-class PlaylistCard extends StatelessWidget {
-  const PlaylistCard({required this.data, super.key});
+class AlbumCard extends StatelessWidget {
+  const AlbumCard({required this.data, super.key});
   final AlbumData data;
 
   @override
@@ -20,7 +20,7 @@ class PlaylistCard extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
-          child: Column(
+          child: SingleChildScrollView(child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               ClipRRect(
@@ -59,6 +59,6 @@ class PlaylistCard extends StatelessWidget {
           ),
         )
       ),
-    );
+    ));
   }
 }

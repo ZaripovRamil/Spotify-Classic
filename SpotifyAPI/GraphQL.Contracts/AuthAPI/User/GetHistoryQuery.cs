@@ -6,7 +6,7 @@ namespace GraphQL.Contracts.AuthAPI.User;
 [ExtendObjectType("Query")]
 public class GetHistoryQuery : GraphQLRequest
 {
-    public GetHistoryQuery(IHttpContextAccessor contextAccessor) : base("http://localhost:5209", contextAccessor)
+    public GetHistoryQuery(IHttpContextAccessor httpContextAccessor) : base("http://localhost:5209", httpContextAccessor)
     {
     }
 

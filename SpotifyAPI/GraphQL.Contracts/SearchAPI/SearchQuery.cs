@@ -6,7 +6,7 @@ namespace GraphQL.Contracts.SearchAPI;
 [ExtendObjectType("Query")]
 public class SearchQuery : GraphQLRequest
 {
-    public SearchQuery(IHttpContextAccessor contextAccessor) : base("http://localhost:5282", contextAccessor)
+    public SearchQuery(IHttpContextAccessor httpContextAccessor) : base("http://localhost:5282", httpContextAccessor)
     {
     }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotik_mobile/models/entity/track_light/track.dart';
 import 'package:spotik_mobile/models/player_provider.dart';
+import 'package:spotik_mobile/utils/constants/resources.dart';
 
 class SongsList extends StatefulWidget {
   const SongsList({required this.tracks, required this.playlistId, super.key});
@@ -33,7 +34,7 @@ class _SongsListState extends State<SongsList> {
           itemBuilder: (context, i) {
             final Track track = trackList[i];
             return ListTile(
-              leading: Image.network(track.album.previewId),
+              leading: Image.network(Endpoints.getPreviewUrl(track.album.previewId)),
               // Text(
               //   "${i+1}",
               //   style: Theme.of(context)

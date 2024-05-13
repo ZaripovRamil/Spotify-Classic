@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:spotik_mobile/models/player_provider.dart';
 import 'package:spotik_mobile/components/player/player_widget.dart';
 import 'package:spotik_mobile/components/player/slide_top_route.dart';
+import 'package:spotik_mobile/utils/constants/resources.dart';
 import 'package:spotik_mobile/utils/ui_constants.dart';
 
 class BottomPlayer extends StatefulWidget {
@@ -36,7 +37,7 @@ class _BottomPlayerState extends State<BottomPlayer> {
               Expanded(
                 flex: 2,
                 child: Image.network(
-                  currentTrack.album.previewId,
+                  Endpoints.getPreviewUrl(currentTrack.album.previewId),
                 ),
               ),
               const SizedBox(

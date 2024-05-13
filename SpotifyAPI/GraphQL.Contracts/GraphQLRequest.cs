@@ -7,12 +7,13 @@ public class GraphQLRequest
 {
     protected string TargetHostname { get; }
     protected HttpProxy Proxy { get; }
-    protected string? Token { get; }
+    protected string? Token => HttpContextAccessor.HttpContext!.Request.Headers.Authorization;
+    private IHttpContextAccessor HttpContextAccessor { get; }
 
-    protected GraphQLRequest(string targetHostname, IHttpContextAccessor contextAccessor)
+    protected GraphQLRequest(string targetHostname, IHttpContextAccessor httpContextAccessor)
     {
         TargetHostname = targetHostname;
-        Token = contextAccessor.HttpContext!.Request.Headers.Authorization;
+        HttpContextAccessor = httpContextAccessor;
         Proxy = new HttpProxy();
     }
 }

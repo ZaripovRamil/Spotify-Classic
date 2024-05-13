@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotik_mobile/models/player_provider.dart';
+import 'package:spotik_mobile/utils/constants/resources.dart';
 import 'package:spotik_mobile/utils/ui_constants.dart';
 
 class PlayerWidget extends StatefulWidget {
@@ -44,7 +45,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                       const EdgeInsets.symmetric(vertical: 60, horizontal: 80),
                   child: Center(
                     child: Image.network(
-                      currentTrack.album.previewId,
+                      Endpoints.getPreviewUrl(currentTrack.album.previewId),
                     ),
                   ),
                 ),

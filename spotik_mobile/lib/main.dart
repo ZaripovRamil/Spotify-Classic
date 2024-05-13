@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotik_mobile/album_page/album_page.dart';
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
             String? playlistId = settings.arguments as String?;
             return MaterialPageRoute(builder: (context) => PageBuilder(childWidget: PlaylistPage(playlistId: playlistId)));
           case NavigationRoutes.album :
-            String? albumId = settings.arguments as String?;
+            String? albumId = settings.arguments as String;
             return MaterialPageRoute(builder: (context) => PageBuilder(childWidget: AlbumPage(albumId: albumId)));
           case NavigationRoutes.auth :
             return MaterialPageRoute(builder: (context) => const PageBuilder(childWidget: AuthPage()));
@@ -75,6 +77,6 @@ class AuthGuard extends StatelessWidget {
   }
 
   Future<bool> checkTokenValidity() async {
-    return await Storage.isTokenExpired();
+    return !await Storage.isTokenExpired();
   }
 }

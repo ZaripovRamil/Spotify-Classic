@@ -1,6 +1,7 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:spotik_mobile/models/entity/track_light/track.dart';
+import 'package:spotik_mobile/utils/constants/resources.dart';
 
 class PlayerProvider extends ChangeNotifier {
   List<Track> _trackList = [];
@@ -19,30 +20,29 @@ class PlayerProvider extends ChangeNotifier {
     listenToDuration();
   }
 
-  bool _isPlaying = false;
-
   void play() async {
-    final String path = _trackList[_currentTrackIndex!].fileId;
-    await _audioPlayer.stop();
-    await _audioPlayer.play(UrlSource(path));
-    _isPlaying = true;
+    final String path = Endpoints.getTrackUrl(_trackList[_currentTrackIndex!].id);
+    final audioSource = HlsAudioSource(
+        Uri.parse(path)
+    );
+    // var headers = { 'Authorization': 'Bearer ${await Storage.getToken()}' };
+    await _audioPlayer.setAudioSource(audioSource);
+    await _audioPlayer.play();
     notifyListeners();
   }
 
   void pause() async {
     await _audioPlayer.pause();
-    _isPlaying = false;
     notifyListeners();
   }
 
   void resume() async {
-    await _audioPlayer.resume();
-    _isPlaying = true;
+    await _audioPlayer.play();
     notifyListeners();
   }
 
   void pauseOrResume() async {
-    if (_isPlaying) {
+    if (_audioPlayer.playing) {
       pause();
     } else {
       resume();
@@ -77,17 +77,21 @@ class PlayerProvider extends ChangeNotifier {
   }
 
   void listenToDuration() {
-    _audioPlayer.onDurationChanged.listen((newDuration) {
-      _totalDuration = newDuration;
+    _audioPlayer.durationStream.listen((newDuration) {
+      _totalDuration = newDuration!;
       notifyListeners();
     });
 
-    _audioPlayer.onPositionChanged.listen((newPosition) {
+    _audioPlayer.positionStream.listen((newPosition) {
       _currentDuration = newPosition;
       notifyListeners();
     });
 
-    _audioPlayer.onPlayerComplete.listen((event) {playNextSong();});
+    _audioPlayer.processingStateStream.listen((state) {
+      if (state == ProcessingState.completed) {
+        playNextSong();
+      }
+    });
   }
 
   //getters
@@ -95,7 +99,7 @@ class PlayerProvider extends ChangeNotifier {
   List<Track> get trackList => _trackList;
   int? get currentTrackIndex => _currentTrackIndex;
   String? get currentTrackListId => _currentTrackListId;
-  bool get isPlaying => _isPlaying;
+  bool get isPlaying => _audioPlayer.playing;
   Duration get currentDuration => _currentDuration;
   Duration get totalDuration => _totalDuration;
 

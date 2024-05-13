@@ -7,7 +7,7 @@ namespace GraphQL.Contracts.PlayerAPI;
 [ExtendObjectType("Query")]
 public class GetAlbumsQuery: GraphQLRequest
 {
-    public GetAlbumsQuery(IHttpContextAccessor contextAccessor) : base("https://localhost:7022", contextAccessor)
+    public GetAlbumsQuery(IHttpContextAccessor httpContextAccessor) : base("https://localhost:7022", httpContextAccessor)
     {
     }
     
