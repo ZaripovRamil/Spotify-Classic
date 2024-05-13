@@ -3,4 +3,5 @@ class Pages {
   static String search = "search";
   static String profile = "profile";
   static String auth = "auth";
+  static String chat = "chat";
 }

@@ -30,6 +30,10 @@ class MyDrawer extends StatelessWidget {
           _HomeDrawerElement(
               title: 'Search',
               onClick: () => goToPage(NavigationRoutes.search)
+          ),
+          _HomeDrawerElement(
+              title: 'Support Chat',
+              onClick: () => goToPage(NavigationRoutes.chat)
           )
         ],
       ),

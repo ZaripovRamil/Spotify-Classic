@@ -21,8 +21,8 @@ class GqlService {
     ),
   );
 
-  static Future<Map<String, dynamic>> query(QueryOptions options) async {
-    final QueryResult result = await client.value.query(options);
+  static Future<Map<String, dynamic>> query(CustomQueryOptions options) async {
+    final QueryResult result = await client.value.query(options.options);
 
     if (result.hasException) {
       throw result.exception!;

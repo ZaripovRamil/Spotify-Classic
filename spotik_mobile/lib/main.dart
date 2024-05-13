@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotik_mobile/album_page/album_page.dart';
 import 'package:spotik_mobile/auth_page/auth_page.dart';
+import 'package:spotik_mobile/chat/widgets/chat_page.dart';
 import 'package:spotik_mobile/home_page/home_page.dart';
 import 'package:spotik_mobile/models/player_provider.dart';
 import 'package:spotik_mobile/page_builder/page_builder.dart';
@@ -45,6 +46,8 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => const PageBuilder(childWidget: AuthPage()));
           case NavigationRoutes.profile :
             return MaterialPageRoute(builder: (context) => const PageBuilder(childWidget: ProfilePage()));
+          case NavigationRoutes.chat :
+            return MaterialPageRoute(builder: (context) => PageBuilder(childWidget: ChatPage()));
         }
         return MaterialPageRoute( builder: (context) => const Text("data"));
       },
