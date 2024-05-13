@@ -21,17 +21,29 @@ class _SubscriptionTabState extends State<SubscriptionTab> {
         body: SingleChildScrollView(
             child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Center(child: state.when(
-                    initial: () => const SubscriptionForm(),
-                    submitting: () => const CircularProgressIndicator(),
-                    submitted: () => const Column(
-                          children: [
-                            Text(
-                                "The subscription has been successfully updated"),
-                            SubscriptionForm(),
-                          ],
-                        ),
-                    error: (message) => Text(message))))));
+                child: Center(
+                  child: state.when(
+                      initial: () => const SubscriptionForm(),
+                      submitting: () => const Center(
+                            heightFactor: 1,
+                            widthFactor: 1,
+                            child: SizedBox(
+                              height: 40,
+                              width: 40,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 1.5,
+                              ),
+                            ),
+                          ),
+                      submitted: () => const Column(
+                            children: [
+                              Text(
+                                  "The subscription has been successfully updated"),
+                              SubscriptionForm(),
+                            ],
+                          ),
+                      error: (message) => Text(message)),
+                ))));
   }
 }
 
