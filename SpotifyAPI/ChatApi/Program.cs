@@ -1,5 +1,6 @@
 using ChatApi.Chat;
 using ChatApi.ConfigurationExtensions;
+using ChatApi.Features.MobileChat;
 using ChatApi.ServiceCollectionExtensions;
 using Utils.ServiceCollectionExtensions;
 using Utils.WebApplicationExtensions;
@@ -13,6 +14,7 @@ builder.Services.AddMasstransitRabbitMq(builder.Configuration, typeof(Program).A
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddGrpc();
 
 builder.Services.AddApplicationServices(builder.Configuration);
 
@@ -28,7 +30,10 @@ app.UseCors();
 
 app.MapHub<ChatHub>("/chat");
 
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapGrpcService<ChatGrpcService>();
 
 app.MapControllers();
 
