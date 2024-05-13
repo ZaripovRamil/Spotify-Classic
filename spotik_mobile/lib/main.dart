@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotik_mobile/album_page/album_page.dart';
 import 'package:spotik_mobile/auth_page/auth_page.dart';
+import 'package:spotik_mobile/chat/widgets/chat_page.dart';
 import 'package:spotik_mobile/home_page/home_page.dart';
 import 'package:spotik_mobile/models/player_provider.dart';
 import 'package:spotik_mobile/page_builder/page_builder.dart';
-import 'package:spotik_mobile/playlist_page/playlist_page.dart';
 import 'package:spotik_mobile/profile_page/profile_page.dart';
 import 'package:spotik_mobile/search_page/search_page.dart';
 import 'package:spotik_mobile/utils/navigation_routes.dart';
@@ -37,9 +37,6 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => const PageBuilder(childWidget: HomePage()));
           case NavigationRoutes.search :
             return MaterialPageRoute(builder: (context) => const PageBuilder(childWidget: SearchPage()));
-          case NavigationRoutes.playlist :
-            String? playlistId = settings.arguments as String?;
-            return MaterialPageRoute(builder: (context) => PageBuilder(childWidget: PlaylistPage(playlistId: playlistId)));
           case NavigationRoutes.album :
             String? albumId = settings.arguments as String;
             return MaterialPageRoute(builder: (context) => PageBuilder(childWidget: AlbumPage(albumId: albumId)));
@@ -47,6 +44,8 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => const PageBuilder(childWidget: AuthPage()));
           case NavigationRoutes.profile :
             return MaterialPageRoute(builder: (context) => const PageBuilder(childWidget: ProfilePage()));
+          case NavigationRoutes.chat :
+            return MaterialPageRoute(builder: (context) => PageBuilder(childWidget: ChatPage()));
         }
         return MaterialPageRoute( builder: (context) => const Text("data"));
       },

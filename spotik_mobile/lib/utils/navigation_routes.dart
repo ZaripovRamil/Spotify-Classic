@@ -6,4 +6,5 @@ class NavigationRoutes {
   static const String playlist = '/playlist';
   static const String auth = '/auth';
   static const String profile = '/profile';
+  static const String chat = '/chat';
 }
