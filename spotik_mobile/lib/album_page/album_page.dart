@@ -30,9 +30,9 @@ class AlbumPage extends StatelessWidget {
                         context
                             .read<AlbumBloc>()
                             .add(AlbumEvent.getAlbum(id: albumId));
-                        return const CircularProgressIndicator();
+                        return const Center(child: CircularProgressIndicator());
                       },
-                      loading: () => const CircularProgressIndicator(),
+                      loading: () => const Center(child: CircularProgressIndicator()),
                       loaded: (album) => AlbumView(album: album),
                       error: (value) => Text(value)));
             })

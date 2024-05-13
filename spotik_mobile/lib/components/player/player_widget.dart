@@ -81,37 +81,37 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                               )
                             ],
                           ),
-                          const Row(
-                            children: [
-                              InkWell(
-                                child: Icon(
-                                  Icons.sync,
-                                  color: CustomColors.whiteColor,
-                                  size: 25,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              InkWell(
-                                child: Icon(
-                                  Icons.shuffle,
-                                  color: CustomColors.whiteColor,
-                                  size: 25,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              InkWell(
-                                child: Icon(
-                                  Icons.favorite_border,
-                                  color: CustomColors.whiteColor,
-                                  size: 25,
-                                ),
-                              ),
-                            ],
-                          )
+                          // const Row(
+                          //   children: [
+                          //     InkWell(
+                          //       child: Icon(
+                          //         Icons.sync,
+                          //         color: CustomColors.whiteColor,
+                          //         size: 25,
+                          //       ),
+                          //     ),
+                          //     SizedBox(
+                          //       width: 5,
+                          //     ),
+                          //     InkWell(
+                          //       child: Icon(
+                          //         Icons.shuffle,
+                          //         color: CustomColors.whiteColor,
+                          //         size: 25,
+                          //       ),
+                          //     ),
+                          //     SizedBox(
+                          //       width: 5,
+                          //     ),
+                          //     InkWell(
+                          //       child: Icon(
+                          //         Icons.favorite_border,
+                          //         color: CustomColors.whiteColor,
+                          //         size: 25,
+                          //       ),
+                          //     ),
+                          //   ],
+                          // )
                         ],
                       ),
                       const SizedBox(
