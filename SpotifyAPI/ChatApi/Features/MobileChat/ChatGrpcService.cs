@@ -1,5 +1,6 @@
 using ChatApi.Chat;
 using ChatApi.Dto;
+using ChatApi.Extensions.Mappings;
 using ChatApi.Features.AddMessageToHistory;
 using DatabaseServices.Repositories;
 using Google.Protobuf.WellKnownTypes;
@@ -31,13 +32,7 @@ public class ChatGrpcService : global::Chat.ChatBase
             {
                 _historyRepository
                     .GetHistoryForUserId(groupName!)
-                    .Select(sm => new ChatMessageResponse
-                    {
-                        Content = sm.Message,
-                        IsOwner = sm.IsOwner,
-                        Timestamp = sm.Timestamp.ToTimestamp(),
-                        User = sm.Sender.Name
-                    })
+                    .Select(sm => sm.MapToChatResponse())
                     .OrderBy(m => m.Timestamp)
             }
         });
@@ -54,7 +49,7 @@ public class ChatGrpcService : global::Chat.ChatBase
         {
             foreach (var message in listener.ReadMessages())
             {
-                await responseStream.WriteAsync(MapToChatResponse(message), context.CancellationToken);
+                await responseStream.WriteAsync(message.MapToChatResponse(), context.CancellationToken);
             }
         }
         
@@ -66,6 +61,13 @@ public class ChatGrpcService : global::Chat.ChatBase
         await SaveToChatHistory(request, context);
         ChatHub.SendGroupMessage(MapToChatMessage(request, context));
         return new Empty();
+    }
+
+    private async Task SaveToChatHistory(ChatMessageRequest request, ServerCallContext context)
+    {
+        var userId = context.GetHttpContext().User.Claims.First(c => c.Type == "Id").Value;
+        var command = new Command(userId, MapToChatMessage(request, context));
+        await _mediator.Send(command);
     }
 
     private static ChatMessage MapToChatMessage(ChatMessageRequest request, ServerCallContext context)
@@ -80,31 +82,5 @@ public class ChatGrpcService : global::Chat.ChatBase
             Timestamp = DateTime.UtcNow,
             User = username!
         };
-    }
-
-    private static ChatMessageResponse MapToChatResponse(ChatMessage message)
-    {
-        return new ChatMessageResponse
-        {
-            User = message.User,
-            Content = message.Message,
-            Timestamp = message.Timestamp.ToTimestamp(),
-            IsOwner = message.IsOwner
-        };
-    }
-
-    private async Task SaveToChatHistory(ChatMessageRequest request, ServerCallContext context)
-    {
-        var userId = context.GetHttpContext().User.Claims.First(c => c.Type == "Id").Value;
-        var username = context.GetHttpContext().User.Identity!.Name;
-        var command = new Command(userId, new ChatMessage
-        {
-            Message = request.Content,
-            Timestamp = DateTime.UtcNow,
-            User = username!,
-            IsOwner = true,
-            GroupName = username!
-        });
-        await _mediator.Send(command);
     }
 }

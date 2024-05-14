@@ -12,7 +12,7 @@ public class ChatHub : Hub
 {
     private static readonly Dictionary<string,string> ActiveAdminConnections = new();
     private static readonly List<string> ConnectedAdminGroups = new();
-    private static readonly Dictionary<string, List<IChatHandler>> Listeners = new();
+    private static readonly Dictionary<string, List<IChatListener>> Listeners = new();
     
     private readonly IMediator _mediator;
 
@@ -21,9 +21,9 @@ public class ChatHub : Hub
         _mediator = mediator;
     }
 
-    public static void RegisterListener(string group, IChatHandler listener)
+    public static void RegisterListener(string group, IChatListener listener)
     {
-        if (!Listeners.ContainsKey(group)) Listeners[group] = new List<IChatHandler>();
+        if (!Listeners.ContainsKey(group)) Listeners[group] = new List<IChatListener>();
         Listeners[group].Add(listener);
     }
 
@@ -42,7 +42,7 @@ public class ChatHub : Hub
         });
     }
 
-    public static void UnsubscribeListener(string group, IChatHandler listener)
+    public static void UnsubscribeListener(string group, IChatListener listener)
     {
         if (!Listeners.ContainsKey(group)) return;
         Listeners[group].Remove(listener);
@@ -57,7 +57,7 @@ public class ChatHub : Hub
         message.GroupName = message.User = groupName;
         message.IsOwner = true;
 
-        var addMessageCommand = new Command(userId,message);
+        var addMessageCommand = new Command(userId, message);
         var res = await _mediator.Send(addMessageCommand);
 
         if (res.IsSuccessful) SendGroupMessage(message);
@@ -104,36 +104,5 @@ public class ChatHub : Hub
         if (groupname is null) return Task.CompletedTask;
         UnsubscribeListener(groupname, new SignalRListener(Clients.Client(Context.ConnectionId), Context.ConnectionId));
         return base.OnDisconnectedAsync(exception);
-    }
-}
-
-public class SignalRListener : IChatHandler
-{
-    public SignalRListener(ISingleClientProxy client, string connectionId)
-    {
-        _client = client;
-        _connectionId = connectionId;
-    }
-
-    private readonly ISingleClientProxy _client;
-    private readonly string _connectionId;
-    
-    public Task ConsumeMessage(ChatMessage message)
-    {
-        _client.SendAsync("ReceiveMessage", message);
-        return Task.CompletedTask;
-    }
-
-    public override bool Equals(object? obj)
-    {
-        if (obj is null) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj is not SignalRListener listener) return false;
-        return _connectionId == listener._connectionId;
-    }
-
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(_client, _connectionId);
     }
 }

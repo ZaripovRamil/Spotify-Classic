@@ -3,7 +3,7 @@ using ChatApi.Dto;
 
 namespace ChatApi.Features.MobileChat;
 
-public class GrpcListener : IChatHandler
+public class GrpcListener : IChatListener
 {
     private readonly ConcurrentQueue<ChatMessage> _queue = new();
     private readonly Guid _connectionId;
