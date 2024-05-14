@@ -68,7 +68,7 @@ public class ChatGrpcService : global::Chat.ChatBase
         return new Empty();
     }
 
-    private ChatMessage MapToChatMessage(ChatMessageRequest request, ServerCallContext context)
+    private static ChatMessage MapToChatMessage(ChatMessageRequest request, ServerCallContext context)
     {
         var username = context.GetHttpContext().User.Identity!.Name;
         
@@ -82,7 +82,7 @@ public class ChatGrpcService : global::Chat.ChatBase
         };
     }
 
-    private ChatMessageResponse MapToChatResponse(ChatMessage message)
+    private static ChatMessageResponse MapToChatResponse(ChatMessage message)
     {
         return new ChatMessageResponse
         {

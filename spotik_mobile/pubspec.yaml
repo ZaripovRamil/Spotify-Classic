@@ -47,6 +47,8 @@ dependencies:
   flutter_bloc: ^8.1.5
   jwt_decode: ^0.3.1
   just_audio: ^0.9.37
+  protobuf: ^3.1.0
+  grpc: ^3.2.4
 
 dev_dependencies:
   flutter_test:
