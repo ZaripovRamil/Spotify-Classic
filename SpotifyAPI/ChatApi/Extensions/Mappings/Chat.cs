@@ -10,9 +10,9 @@ public static class Chat
     {
         return new ChatMessageResponse
         {
-            User = message.User,
+            User = message.GroupName,
             Content = message.Message,
-            Timestamp = message.Timestamp.ToTimestamp(),
+            Timestamp = message.Timestamp.ToUniversalTime().ToTimestamp(),
             IsOwner = message.IsOwner
         };
     }

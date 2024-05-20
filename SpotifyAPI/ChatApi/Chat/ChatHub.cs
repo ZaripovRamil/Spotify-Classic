@@ -55,6 +55,7 @@ public class ChatHub : Hub
         if (userId is null || groupName is null) return;
 
         message.GroupName = message.User = groupName;
+        message.Timestamp = DateTime.UtcNow;
         message.IsOwner = true;
 
         var addMessageCommand = new Command(userId, message);
@@ -70,6 +71,7 @@ public class ChatHub : Hub
         if (userId is null) return;
         
         message.IsOwner = false;
+        message.Timestamp = DateTime.UtcNow;
         message.User = "Admin";
         
         var addMessageCommand = new Command(userId, message);
@@ -98,11 +100,11 @@ public class ChatHub : Hub
         RegisterListener(groupname, new SignalRListener(Clients.Client(Context.ConnectionId), Context.ConnectionId));
     }
     
-    public override Task OnDisconnectedAsync(Exception? exception)
+    public override async Task OnDisconnectedAsync(Exception? exception)
     {
         var groupname = Context.User?.Identity?.Name;
-        if (groupname is null) return Task.CompletedTask;
+        if (groupname is null) return;
         UnsubscribeListener(groupname, new SignalRListener(Clients.Client(Context.ConnectionId), Context.ConnectionId));
-        return base.OnDisconnectedAsync(exception);
+        await base.OnDisconnectedAsync(exception);
     }
 }

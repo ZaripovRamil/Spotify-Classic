@@ -31,7 +31,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthState.error(errorMessage: data.resultMessage));
       }
       
-      var loginRes = await authRepository.login(event.name, event.password);
+      var loginRes = await authRepository.login(event.login, event.password);
       if (!loginRes.isSuccessful) {
         emit(AuthState.error(errorMessage: data.resultMessage));
       }

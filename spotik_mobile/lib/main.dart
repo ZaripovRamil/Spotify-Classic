@@ -1,22 +1,30 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotik_mobile/album_page/album_page.dart';
 import 'package:spotik_mobile/auth_page/auth_page.dart';
+import 'package:spotik_mobile/chat/services/chat_messages.dart';
+import 'package:spotik_mobile/chat/services/chat_service.dart';
 import 'package:spotik_mobile/chat/widgets/chat_page.dart';
 import 'package:spotik_mobile/home_page/home_page.dart';
 import 'package:spotik_mobile/models/player_provider.dart';
 import 'package:spotik_mobile/page_builder/page_builder.dart';
 import 'package:spotik_mobile/profile_page/profile_page.dart';
 import 'package:spotik_mobile/search_page/search_page.dart';
+import 'package:spotik_mobile/utils/constants/resources.dart';
 import 'package:spotik_mobile/utils/navigation_routes.dart';
 import 'package:spotik_mobile/utils/storage.dart';
 import 'package:spotik_mobile/utils/theme.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-      create: (context) => PlayerProvider(), child: const MyApp()));
+  var chatMessages = ChatMessages();
+  var chatService = ChatService(Endpoints.chatApiHost, Endpoints.chatApiPort, chatMessages);
+  runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => PlayerProvider()),
+        ChangeNotifierProvider(create: (context) => chatMessages),
+        ChangeNotifierProvider(create: (context) => chatService),
+  ],
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -45,7 +53,7 @@ class MyApp extends StatelessWidget {
           case NavigationRoutes.profile :
             return MaterialPageRoute(builder: (context) => const PageBuilder(childWidget: ProfilePage()));
           case NavigationRoutes.chat :
-            return MaterialPageRoute(builder: (context) => PageBuilder(childWidget: ChatPage()));
+            return MaterialPageRoute(builder: (context) => const PageBuilder(childWidget: ChatPage()));
         }
         return MaterialPageRoute( builder: (context) => const Text("data"));
       },

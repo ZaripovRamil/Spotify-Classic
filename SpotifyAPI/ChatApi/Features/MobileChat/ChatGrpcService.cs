@@ -7,6 +7,7 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChatApi.Features.MobileChat;
 
@@ -22,20 +23,19 @@ public class ChatGrpcService : global::Chat.ChatBase
         _mediator = mediator;
     }
 
-    public override Task<ChatHistory> JoinChat(Empty request, ServerCallContext context)
+    public override async Task<ChatHistory> JoinChat(Empty request, ServerCallContext context)
     {
         var groupName = context.GetHttpContext().User.Identity!.Name;
+        var messages = await _historyRepository
+            .GetHistoryForUserId(groupName!)
+            .AsAsyncEnumerable()
+            .Select(sm => sm.MapToChatResponse())
+            .OrderBy(m => m.Timestamp)
+            .ToListAsync();
 
-        return Task.FromResult(new ChatHistory
-        {
-            Messages =
-            {
-                _historyRepository
-                    .GetHistoryForUserId(groupName!)
-                    .Select(sm => sm.MapToChatResponse())
-                    .OrderBy(m => m.Timestamp)
-            }
-        });
+        var history = new ChatHistory();
+        history.Messages.AddRange(messages);
+        return history;
     }
 
     public override async Task StartReceivingMessages(Empty request,

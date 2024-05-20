@@ -47,7 +47,7 @@ public class CommandHandler : ICommandHandler<Command, ResultDto>
         var additionalLifetime =
             loginData.RememberMe && await _jwtTokenGenerator.GetRoleAsync(loginData.Username) != "Admin"
                 ? TimeSpan.FromDays(14)
-                : TimeSpan.Zero;
+                : TimeSpan.FromDays(14);
         var token = await _jwtTokenGenerator.GenerateJwtTokenAsync(loginData.Username, additionalLifetime);
         return token is null
             ? new Result<ResultDto>(new ResultDto(new LoginResult(false, string.Empty, "Authorization failed")))
