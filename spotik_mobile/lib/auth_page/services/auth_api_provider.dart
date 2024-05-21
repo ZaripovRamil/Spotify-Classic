@@ -2,6 +2,7 @@ import 'package:spotik_mobile/models/dto/login/login.dart';
 import 'package:spotik_mobile/models/dto/register/register.dart';
 import 'package:spotik_mobile/services/graphql/client.dart';
 import 'package:spotik_mobile/utils/constants/graphql_requests.dart';
+import 'package:spotik_mobile/utils/storage.dart';
 
 class AuthApiProvider {
   Future<LoginDto> login(String email, String password) async {
@@ -16,10 +17,10 @@ class AuthApiProvider {
     }
   }
 
-  Future<RegisterDto> signup(String login, String name, String email, String password) async {
+  Future<RegisterDto> signup(String username, String name, String email, String password) async {
     try {
       var res = RegisterDto.fromJson(
-          await GqlService.mutate(Mutations.register(login, name, email, password)));
+          await GqlService.mutate(Mutations.register(username, name, email, password)));
       if (res.userId == null || res.userId!.isEmpty) {
         return const RegisterDto(
             isSuccessful: false,

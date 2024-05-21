@@ -8,4 +8,7 @@ class Endpoints {
 
   static String getTrackUrl(String trackId) =>
       'http://10.0.2.2:5075/tracks/get/$trackId';
+
+  static String chatApiHost = '10.0.2.2';
+  static int chatApiPort = 5273;
 }

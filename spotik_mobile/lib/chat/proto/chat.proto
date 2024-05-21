@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+message ChatMessageRequest {
+  string content = 1;
+}
+
+message ChatMessageResponse {
+  string user = 1;
+  string content = 2;
+  google.protobuf.Timestamp timestamp = 3;
+  bool isOwner = 4;
+}
+
+message ChatHistory {
+  repeated ChatMessageResponse messages = 1;
+}
+
+service Chat {
+  rpc StartReceivingMessages (google.protobuf.Empty) returns (stream ChatMessageResponse);
+  rpc JoinChat (google.protobuf.Empty) returns (ChatHistory);
+  rpc SendChatMessage (ChatMessageRequest) returns (google.protobuf.Empty);
+}
