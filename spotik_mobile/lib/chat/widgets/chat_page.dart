@@ -13,22 +13,25 @@ class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Scaffold(
+        child: Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
               backgroundColor: Colors.transparent,
-              appBar: AppBar(
-                backgroundColor: Colors.transparent,
-                iconTheme: Theme.of(context).iconTheme,
-                title: const Text('Support Chat',
-                    style: TextStyle(
-                      fontSize: TextSize.mediumTextSize,
-                      fontWeight: FontWeight.bold,
-                      color: CustomColors.goldenColor,
-                    )),
+              iconTheme: Theme.of(context).iconTheme,
+              title: const Text('Support Chat',
+                  style: TextStyle(
+                    fontSize: TextSize.mediumTextSize,
+                    fontWeight: FontWeight.bold,
+                    color: CustomColors.goldenColor,
+                  )
               ),
-              body: const LoadingChat(),
-            )));
+            ),
+            body: const Padding(
+                padding: EdgeInsets.only(left: 20, right: 20),
+                child: LoadingChat()
+            ),
+        )
+    );
   }
 }
 
