@@ -49,7 +49,7 @@ public class AlbumRepository : Repository, IAlbumRepository
                 (tracksMin == null || a.Tracks.Count >= tracksMin.Value) &&
                 (tracksMax == null || a.Tracks.Count <= tracksMax.Value) &&
                 (search == null || a.Name.ToLower().Contains(search.ToLower())))
-            .Take(new Range(0, maxCount ?? ^1));
+            .Take(maxCount ?? 100);
     }
 
     public async Task<Album?> GetByIdAsync(string id) =>
