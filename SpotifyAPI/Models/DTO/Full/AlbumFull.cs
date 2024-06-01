@@ -10,6 +10,7 @@ public class AlbumFull
     public string Name { get; set; } = default!;
     public AuthorLight Author { get; set; } = default!;
     public List<TrackLight> Tracks { get; set; } = default!;
+    public Dictionary<string, int> ListenCounts = default!;
     public string Type { get; set; } = default!;
 
     public AlbumFull()
