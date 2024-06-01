@@ -4,6 +4,7 @@ using DatabaseServices.Repositories;
 using Microsoft.Extensions.Options;
 using Models.Configuration;
 using Models.DTO.Full;
+using Models.Entities;
 using Models.MessagingContracts;
 using Utils.Clickhouse;
 using Utils.CQRS;
@@ -43,6 +44,7 @@ public class QueryHandler : IQueryHandler<Query, Stream>
         if (trackInfo is null)
             return new Result<Stream>("Error");
         await AddTrackToHistory(request.Id, request.User);
+        await _clickHouseService.InsertListenAsync(new TrackListen { TrackId = request.Id, ListenCount = 1 });
         SendListenEvent(request.Id);
         return await StreamTrack(trackInfo.FileId);
     }

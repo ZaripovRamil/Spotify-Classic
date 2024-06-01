@@ -4,8 +4,9 @@ using Utils.Clickhouse;
 using Utils.WebApplicationExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddSingleton<IClickHouseService>(
-    new ClickHouseService("Host=localhost;Port=8123;Database=default;User=default;Password=;"));
+var clickHouseService = new ClickHouseService("Host=localhost;Port=8123;Database=default;User=default;Password=;");
+await clickHouseService.CreateListenTableAsync();
+builder.Services.AddSingleton<IClickHouseService>(clickHouseService);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
