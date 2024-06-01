@@ -56,20 +56,4 @@ public class ClickHouseService : IClickHouseService
         await _connection.CloseAsync();
         return result;
     }
-
-    public async Task<List<T>> SelectAsync<T>(string tableName, string condition)
-    {
-        await _connection.OpenAsync();
-        var command = _connection.CreateCommand();
-        command.CommandText = $"SELECT * FROM {tableName} WHERE {condition}";
-        var reader = await command.ExecuteReaderAsync();
-        var result = new List<T>();
-        while (await reader.ReadAsync())
-        {
-            result.Add(reader.GetFieldValue<T>(0));
-        }
-
-        await _connection.CloseAsync();
-        return result;
-    }
 }
