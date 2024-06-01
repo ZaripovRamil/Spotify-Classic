@@ -1,9 +1,11 @@
 using PlayerAPI.ConfigurationExtensions;
 using PlayerAPI.ServiceCollectionExtensions;
+using Utils.Clickhouse;
 using Utils.WebApplicationExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddSingleton<IClickHouseService>(
+    new ClickHouseService("Host=localhost;Port=8123;Database=default;User=default;Password=;"));
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
