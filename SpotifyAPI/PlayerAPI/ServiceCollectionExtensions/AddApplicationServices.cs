@@ -16,6 +16,7 @@ public static class AddApplicationServicesExtensions
         services.AddSwaggerWithAuthorization();
         services.AddRabbitMqConnectionFactory(configuration);
         services.AddRabbitMqService();
+        services.AddClickhouseService();
         services.AddAllCors();
 
         services.AddMediatorForAssembly(typeof(Program).Assembly);

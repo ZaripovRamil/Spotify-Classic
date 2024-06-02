@@ -42,6 +42,10 @@ query GetAlbum($albumId: String!) {
         }
       }
     },
+    listenCounts {
+      key,
+      value
+    },
     type
   }
 }

@@ -1,12 +1,8 @@
 using PlayerAPI.ConfigurationExtensions;
 using PlayerAPI.ServiceCollectionExtensions;
-using Utils.Clickhouse;
 using Utils.WebApplicationExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
-var clickHouseService = new ClickHouseService("Host=localhost;Port=8123;Database=default;User=default;Password=;");
-await clickHouseService.CreateListenTableAsync();
-builder.Services.AddSingleton<IClickHouseService>(clickHouseService);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
@@ -22,7 +18,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
     app.ApplyMigrations();
-    app.CreateRabbitMqQueues();
+    await app.CreateRabbitMqQueuesAsync();
+    await app.CreateClickhouseTableAsync();
 }
 
 app.UseCors();

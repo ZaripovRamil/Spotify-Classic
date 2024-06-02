@@ -14,6 +14,9 @@ _$AlbumImpl _$$AlbumImplFromJson(Map<String, dynamic> json) => _$AlbumImpl(
       tracks: (json['tracks'] as List<dynamic>)
           .map((e) => Track.fromJson(e as Map<String, dynamic>))
           .toList(),
+      listenCounts: (json['listenCounts'] as List<dynamic>)
+          .map((e) => GraphQlDictionaryItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
       type: json['type'] as String,
     );
 
@@ -24,5 +27,6 @@ Map<String, dynamic> _$$AlbumImplToJson(_$AlbumImpl instance) =>
       'name': instance.name,
       'author': instance.author.toJson(),
       'tracks': instance.tracks.map((e) => e.toJson()).toList(),
+      'listenCounts': instance.listenCounts.map((e) => e.toJson()).toList(),
       'type': instance.type,
     };

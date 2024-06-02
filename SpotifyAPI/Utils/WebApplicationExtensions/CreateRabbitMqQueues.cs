@@ -7,17 +7,19 @@ namespace Utils.WebApplicationExtensions;
 
 public static class CreateRabbitMqQueuesExtension
 {
-    public static void CreateRabbitMqQueues(this WebApplication app)
+    public static async Task CreateRabbitMqQueuesAsync(this WebApplication app)
     {
         using var scope = app.Services.CreateScope();
         var rabbitMqService = scope.ServiceProvider.GetRequiredService<IRabbitMqService>();
-        rabbitMqService.CreateQueue(RabbitMqConstants.GlobalListenQueue);
-        rabbitMqService.CreateExchange(RabbitMqConstants.GlobalListenQueue, "fanout");
-        var repository = app.Services.GetService<IAlbumRepository>();
-        foreach (var album in repository!.GetWithFilters(null, null, null, null, null))
+        var repository = scope.ServiceProvider.GetRequiredService<IAlbumRepository>();
+        var queueArgs = new Dictionary<string, object>
         {
-            rabbitMqService.CreateQueue($"{RabbitMqConstants.AlbumListenQueuePrefix}{album.Id}");
-            rabbitMqService.CreateExchange($"{RabbitMqConstants.AlbumListenQueuePrefix}{album.Id}", "fanout");
+            ["x-message-ttl"] = 10000
+        };
+        await foreach (var album in repository.GetAllAsync())
+        {
+            rabbitMqService.CreateQueue(RabbitMqConstants.GetListenQueue(album.Id), queueArgs);
+            rabbitMqService.CreateExchange(RabbitMqConstants.GetListenQueue(album.Id), "fanout");
         }
     }
 }

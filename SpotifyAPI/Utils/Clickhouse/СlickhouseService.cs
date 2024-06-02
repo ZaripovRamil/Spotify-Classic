@@ -25,7 +25,7 @@ public class ClickHouseService : IClickHouseService
         await _connection.OpenAsync();
         var command = _connection.CreateCommand();
         command.CommandText =
-            $"CREATE TABLE IF NOT EXISTS {TableName} (trackId String, listenCount UInt32) ENGINE = MergeTree() ORDER BY (id)";
+            $"CREATE TABLE IF NOT EXISTS {TableName} (trackId String, listenCount Int32) ENGINE = MergeTree() ORDER BY (trackId)";
         await command.ExecuteNonQueryAsync();
         await _connection.CloseAsync();
     }
@@ -35,7 +35,7 @@ public class ClickHouseService : IClickHouseService
         await _connection.OpenAsync();
         var command = _connection.CreateCommand();
         command.CommandText =
-            $"INSERT INTO {TableName} (trackId, listenCount) VALUES ({listen.TrackId}, {listen.ListenCount})";
+            $"INSERT INTO {TableName} (trackId, listenCount) VALUES ('{listen.TrackId}', {listen.ListenCount})";
 
         await command.ExecuteNonQueryAsync();
         await _connection.CloseAsync();
@@ -45,7 +45,7 @@ public class ClickHouseService : IClickHouseService
     {
         await _connection.OpenAsync();
         var command = _connection.CreateCommand();
-        command.CommandText = $"SELECT * FROM {TableName} WHERE trackId = {trackId}";
+        command.CommandText = $"SELECT * FROM {TableName} WHERE trackId = '{trackId}'";
         var reader = await command.ExecuteReaderAsync();
         var result = 0;
         while (await reader.ReadAsync())

@@ -1,6 +1,14 @@
 ﻿version: '3'
 
-services:
+services:  
+  clickhouse:
+    image: clickhouse/clickhouse-server
+    hostname: clickhouse
+    volumes:
+      - ~/apps/Spotify/clickhouse/data:/var/lib/clickhouse
+    ports:
+      - "8123:8123"
+
   envoy:
     image: spotify-front-proxy
     build:
