@@ -40,7 +40,7 @@ public class QueryHandler: IQueryHandler<Query, Stream>
         if (trackInfo is null)
             return new Result<Stream>("Error");
         await AddTrackToHistory(request.Id, request.User);
-        SendListenEvent(request.Id);
+        SendListenEvent(trackInfo.Album.Id, request.Id);
         return await StreamTrack(trackInfo.FileId);
     }
     
@@ -71,9 +71,9 @@ public class QueryHandler: IQueryHandler<Query, Stream>
         if (user != null && track != null)  await _userRepository.AddTrackToHistoryAsync(user, track);
     }
 
-    private void SendListenEvent(string trackId, int count = 1)
+    private void SendListenEvent(string albumId, string trackId, int count = 1)
     {
         var listenEvent = new ListenEvent(trackId, count);
-        _rabbitMqService.PublishMessage(RabbitMqConstants.GlobalListenQueue, string.Empty, listenEvent);
+        _rabbitMqService.PublishMessage(RabbitMqConstants.GetListenQueue(albumId), albumId, listenEvent);
     }
 }
