@@ -49,7 +49,7 @@ query GetAlbum($albumId: String!) {
     type
   }
 }
-'''), variables: {
+'''), fetchPolicy: FetchPolicy.noCache, variables: {
       'albumId': id
     }), 'album');
   }

@@ -18,8 +18,10 @@ public static class CreateRabbitMqQueuesExtension
         };
         await foreach (var album in repository.GetAllAsync())
         {
-            rabbitMqService.CreateQueue(RabbitMqConstants.GetListenQueue(album.Id), queueArgs);
-            rabbitMqService.CreateExchange(RabbitMqConstants.GetListenQueue(album.Id), "fanout");
+            var queueName = RabbitMqConstants.GetAlbumListenQueue(album.Id);
+            rabbitMqService.CreateQueue(queueName, queueArgs);
+            rabbitMqService.CreateExchange(queueName, "fanout");
+            rabbitMqService.BindQueueToExchange(queueName, queueName, album.Id);
         }
     }
 }

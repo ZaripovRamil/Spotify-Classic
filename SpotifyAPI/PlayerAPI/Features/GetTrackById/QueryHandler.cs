@@ -79,6 +79,6 @@ public class QueryHandler : IQueryHandler<Query, Stream>
     private void SendListenEvent(string albumId, string trackId, int count = 1)
     {
         var listenEvent = new ListenEvent(trackId, count);
-        _rabbitMqService.PublishMessage(RabbitMqConstants.GetListenQueue(albumId), albumId, listenEvent);
+        _rabbitMqService.PublishMessage(RabbitMqConstants.GetAlbumListenQueue(albumId), albumId, listenEvent);
     }
 }

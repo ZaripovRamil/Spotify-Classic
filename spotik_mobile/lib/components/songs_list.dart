@@ -5,9 +5,10 @@ import 'package:spotik_mobile/models/player_provider.dart';
 import 'package:spotik_mobile/utils/constants/resources.dart';
 
 class SongsList extends StatefulWidget {
-  const SongsList({required this.tracks, required this.playlistId, super.key});
+  const SongsList({required this.tracks, required this.playlistId, super.key, required this.listenCounts});
   final List<Track> tracks;
   final String playlistId;
+  final Map<String, int> listenCounts;
 
   @override
   State<SongsList> createState() => _SongsListState();
@@ -48,8 +49,11 @@ class _SongsListState extends State<SongsList> {
                 track.album.author.name,
                 style: const TextStyle(fontSize: 13),
               ),
-              // trailing:
-              //     Text("3:00", style: Theme.of(context).textTheme.displaySmall),
+              trailing:
+                  Text(
+                      (widget.listenCounts[track.id] ?? 0).toString(),
+                      style: Theme.of(context).textTheme.displaySmall
+                  ),
               onTap: () {
                 if (widget.playlistId != value.currentTrackListId) {
                   playerProvider.tracklist = widget.tracks;

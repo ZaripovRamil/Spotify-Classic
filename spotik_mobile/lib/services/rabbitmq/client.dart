@@ -12,23 +12,21 @@ class RabbitMQListener {
       )
   );
 
-  late Channel _channel;
-  late Queue _queue;
-  late Consumer _consumer;
+  Channel? _channel;
+  Consumer? _consumer;
 
   void startListening(String queueName, Function(Map<dynamic, dynamic>) callback) async {
     _channel = await _client.channel();
-    _queue = await _channel.queue(queueName, durable: true, passive: true, declare: false);
-    _consumer = await _queue.consume();
-    _consumer.listen((event) {
-      event.ack();
+    final exchange = await _channel!.exchange(queueName, ExchangeType.FANOUT, declare: false);
+    _consumer = await exchange.bindQueueConsumer(queueName, [queueName], noAck: true, durable: true, passive: true, declare: false);
+    _consumer!.listen((event) {
       final payload = event.payloadAsJson;
       callback(payload);
     });
   }
 
   void closeConnection() {
-    _consumer.cancel();
-    _channel.close();
+    _consumer?.cancel();
+    _channel?.close();
   }
 }

@@ -10,7 +10,7 @@ services:
       - "8080:8080"
       - "9901:9901"
   rabbitmq:
-    image: rabbitmq:3-alpine
+    image: rabbitmq:3-management
     hostname: rabbitmq
     restart: always
     env_file:
