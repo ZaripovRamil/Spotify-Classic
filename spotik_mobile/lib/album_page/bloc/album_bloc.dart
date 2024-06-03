@@ -39,8 +39,7 @@ class AlbumsBloc extends Bloc<AlbumEvent, AlbumsState> {
       if (data.albums.isNotEmpty) {
         emit(AlbumsState.loaded(dto: data));
       } else {
-        emit(const AlbumsState.error(
-            errorMessage: _errorMessage));
+        emit(const AlbumsState.error(errorMessage: _errorMessage));
       }
     });
   }

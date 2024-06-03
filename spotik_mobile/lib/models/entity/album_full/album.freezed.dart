@@ -25,6 +25,8 @@ mixin _$Album {
   String get name => throw _privateConstructorUsedError;
   Author get author => throw _privateConstructorUsedError;
   List<Track> get tracks => throw _privateConstructorUsedError;
+  List<GraphQlDictionaryItem> get listenCounts =>
+      throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -43,6 +45,7 @@ abstract class $AlbumCopyWith<$Res> {
       String name,
       Author author,
       List<Track> tracks,
+      List<GraphQlDictionaryItem> listenCounts,
       String type});
 
   $AuthorCopyWith<$Res> get author;
@@ -66,6 +69,7 @@ class _$AlbumCopyWithImpl<$Res, $Val extends Album>
     Object? name = null,
     Object? author = null,
     Object? tracks = null,
+    Object? listenCounts = null,
     Object? type = null,
   }) {
     return _then(_value.copyWith(
@@ -89,6 +93,10 @@ class _$AlbumCopyWithImpl<$Res, $Val extends Album>
           ? _value.tracks
           : tracks // ignore: cast_nullable_to_non_nullable
               as List<Track>,
+      listenCounts: null == listenCounts
+          ? _value.listenCounts
+          : listenCounts // ignore: cast_nullable_to_non_nullable
+              as List<GraphQlDictionaryItem>,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -118,6 +126,7 @@ abstract class _$$AlbumImplCopyWith<$Res> implements $AlbumCopyWith<$Res> {
       String name,
       Author author,
       List<Track> tracks,
+      List<GraphQlDictionaryItem> listenCounts,
       String type});
 
   @override
@@ -140,6 +149,7 @@ class __$$AlbumImplCopyWithImpl<$Res>
     Object? name = null,
     Object? author = null,
     Object? tracks = null,
+    Object? listenCounts = null,
     Object? type = null,
   }) {
     return _then(_$AlbumImpl(
@@ -163,6 +173,10 @@ class __$$AlbumImplCopyWithImpl<$Res>
           ? _value._tracks
           : tracks // ignore: cast_nullable_to_non_nullable
               as List<Track>,
+      listenCounts: null == listenCounts
+          ? _value._listenCounts
+          : listenCounts // ignore: cast_nullable_to_non_nullable
+              as List<GraphQlDictionaryItem>,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -181,8 +195,10 @@ class _$AlbumImpl implements _Album {
       required this.name,
       required this.author,
       required final List<Track> tracks,
+      required final List<GraphQlDictionaryItem> listenCounts,
       required this.type})
-      : _tracks = tracks;
+      : _tracks = tracks,
+        _listenCounts = listenCounts;
 
   factory _$AlbumImpl.fromJson(Map<String, dynamic> json) =>
       _$$AlbumImplFromJson(json);
@@ -203,12 +219,20 @@ class _$AlbumImpl implements _Album {
     return EqualUnmodifiableListView(_tracks);
   }
 
+  final List<GraphQlDictionaryItem> _listenCounts;
+  @override
+  List<GraphQlDictionaryItem> get listenCounts {
+    if (_listenCounts is EqualUnmodifiableListView) return _listenCounts;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_listenCounts);
+  }
+
   @override
   final String type;
 
   @override
   String toString() {
-    return 'Album(id: $id, previewId: $previewId, name: $name, author: $author, tracks: $tracks, type: $type)';
+    return 'Album(id: $id, previewId: $previewId, name: $name, author: $author, tracks: $tracks, listenCounts: $listenCounts, type: $type)';
   }
 
   @override
@@ -222,13 +246,22 @@ class _$AlbumImpl implements _Album {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.author, author) || other.author == author) &&
             const DeepCollectionEquality().equals(other._tracks, _tracks) &&
+            const DeepCollectionEquality()
+                .equals(other._listenCounts, _listenCounts) &&
             (identical(other.type, type) || other.type == type));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, previewId, name, author,
-      const DeepCollectionEquality().hash(_tracks), type);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      previewId,
+      name,
+      author,
+      const DeepCollectionEquality().hash(_tracks),
+      const DeepCollectionEquality().hash(_listenCounts),
+      type);
 
   @JsonKey(ignore: true)
   @override
@@ -251,6 +284,7 @@ abstract class _Album implements Album {
       required final String name,
       required final Author author,
       required final List<Track> tracks,
+      required final List<GraphQlDictionaryItem> listenCounts,
       required final String type}) = _$AlbumImpl;
 
   factory _Album.fromJson(Map<String, dynamic> json) = _$AlbumImpl.fromJson;
@@ -265,6 +299,8 @@ abstract class _Album implements Album {
   Author get author;
   @override
   List<Track> get tracks;
+  @override
+  List<GraphQlDictionaryItem> get listenCounts;
   @override
   String get type;
   @override

@@ -10,7 +10,7 @@ services:
       - "8080:8080"
       - "9901:9901"
   rabbitmq:
-    image: rabbitmq:3-alpine
+    image: rabbitmq:3-management
     hostname: rabbitmq
     restart: always
     env_file:
@@ -46,6 +46,15 @@ services:
       - ~/apps/Spotify/mongo/data:/data/db
     ports:
       - "27017:27017"
+  
+  clickhouse:
+    image: clickhouse/clickhouse-server:21.3.20.1
+    hostname: clickhouse
+    volumes:
+      - ~/apps/Spotify/clickhouse/data:/var/lib/clickhouse
+    ports:
+      - "8123:8123"
+  
 volumes:
   cache:
     driver: local

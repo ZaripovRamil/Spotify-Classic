@@ -3,7 +3,6 @@ using PlayerAPI.ServiceCollectionExtensions;
 using Utils.WebApplicationExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
@@ -19,6 +18,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
     app.ApplyMigrations();
+    await app.CreateRabbitMqQueuesAsync();
+    await app.CreateClickhouseTableAsync();
 }
 
 app.UseCors();

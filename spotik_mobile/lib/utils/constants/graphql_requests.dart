@@ -42,10 +42,14 @@ query GetAlbum($albumId: String!) {
         }
       }
     },
+    listenCounts {
+      key,
+      value
+    },
     type
   }
 }
-'''), variables: {
+'''), fetchPolicy: FetchPolicy.noCache, variables: {
       'albumId': id
     }), 'album');
   }

@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:spotik_mobile/models/entity/author_light/author.dart';
 import 'package:spotik_mobile/models/entity/track_light/track.dart';
+import 'package:spotik_mobile/models/gql/dict_item/dict_item.dart';
 
 part 'album.freezed.dart';
 part 'album.g.dart';
@@ -16,6 +17,7 @@ class Album with _$Album {
         required String name,
         required Author author,
         required List<Track> tracks,
+        required List<GraphQlDictionaryItem> listenCounts,
         required String type,
       }) = _Album;
 
